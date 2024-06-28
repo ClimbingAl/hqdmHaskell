@@ -1,0 +1,9 @@
+{
+  "name": "Editor",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  "features": {
+    "ghcr.io/devcontainers-contrib/features/haskell:2": {
+      "globalPackages": "hlint stylish-haskell"
+    }
+  }
+}

@@ -25,7 +25,7 @@ source-repository head
 
 library
   exposed-modules:
-      Lib
+      HqdmLib
   other-modules:
       Paths_hqdm
   autogen-modules:

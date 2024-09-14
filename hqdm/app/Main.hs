@@ -4,7 +4,8 @@
 
 module Main (main) where
 
-import HqdmLib
+import HqdmLib (HqdmInput, getSubjects, getPredicates, uniqueIds, stringListSort)
+import HqdmInspection (howmanyNodes)
 
 -- from bytestring
 import qualified Data.ByteString.Lazy as BL
@@ -18,11 +19,13 @@ main = do
     --file_contents <- readFile "hqdmAllAsDataNoParentheses.stmt"
      --putStrLn file_contents
 
-    hqdmTriples <- fmap V.toList . decode @HqdmInput NoHeader <$> BL.readFile "hqdmAllAsData.csv"
-    print hqdmTriples
-    putStr "\n\nLoaded Data\n\n"
+    hqdmTriples <- fmap V.toList . decode @HqdmInput NoHeader <$> BL.readFile "hqdmAllAsDataNoClassName.csv"
 
-    let hqdmRawNodes = either (const ["Err"]) (\r -> getSubjects r) hqdmTriples
+    let hqdmInputModel = either (const []) id hqdmTriples
+    print hqdmInputModel
+    --putStr "\n\nLoaded Data\n\n"
+
+    let hqdmRawNodes = getSubjects hqdmInputModel
     
     -- Generate list of all hqdm:iris    
     let uniqueNodes = uniqueIds hqdmRawNodes
@@ -33,8 +36,13 @@ main = do
     putStr "\nNumber of ids is:\n\n"
     print (length uniqueNodes)
 
-    let hqdmRawPredicates = either (const ["Err"]) (\r -> getPredicates r) hqdmTriples
-    let uniquePredicates = uniqueIds hqdmRawPredicates
+    -- Generate List of Labelled Nodes
+
+
+    ---------------------------------------------
+
+    let hqdmRawPredicates = getPredicates hqdmInputModel
+    let uniquePredicates = stringListSort ( uniqueIds hqdmRawPredicates )
 
     putStr "\n\nList of predicates:\n\n"
     print uniquePredicates
@@ -42,7 +50,11 @@ main = do
     putStr "\nNumber of predicates is:\n\n"
     print (length uniquePredicates)
   
-    -- Generate graph of iris aas vertexes and edges
+    -- Get Top Level Thing
+
+    putStr "\n\nHow many thing nodes:\n\n"
+    let numThings = howmanyNodes (=="hqdm:e5ec5d9e-afea-44f7-93c9-699cd5072d90") uniqueNodes
+    print numThings
 
     -- Compose the structural validations of hqdm
     

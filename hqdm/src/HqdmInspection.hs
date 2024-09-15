@@ -18,6 +18,7 @@ import HqdmLib (HqdmInput, subject )
 -- howmanyNodes a (x:xs)  = if a == (subject x) then 1 + howmanyNodes a xs 
 --                                else howmanyNodes a xs
 
+--howmanyNodes :: (String -> Bool) -> [HqdmInput] -> Int
 howmanyNodes p xs = sum [ 1 | x <- xs, p x ]
 
 

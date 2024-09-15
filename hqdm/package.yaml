@@ -1,10 +1,10 @@
 name:                hqdm
 version:             0.1.0.0
-github:              "githubuser/hqdm"
+github:              "github.com/ClimbingAl/hqdmHaskell/hqdm"
 license:             BSD-3-Clause
-author:              "Author name here"
-maintainer:          "example@example.com"
-copyright:           "2024 Author name here"
+author:              "Al Cook"
+maintainer:          "aristotlestarteditall@gmail.com"
+copyright:           "2024 CIS Ltd"
 
 extra-source-files:
 - README.md

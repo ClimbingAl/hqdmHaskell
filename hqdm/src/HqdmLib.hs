@@ -6,7 +6,8 @@ subject,
 getSubjects,
 getPredicates,
 uniqueIds,
-stringListSort
+stringListSort,
+lookupHqdmOne
 ) where
 
 
@@ -77,8 +78,11 @@ type  Node   = String
 -- | Labeled node
 type LNode a = (Node, a)
 
-lookupOne :: Int -> [(Int,a)] -> [a]
+lookupOne :: String -> [(String,a)] -> [a]
 lookupOne x list = [values | (key,values)<-list, x==key]
+
+lookupHqdmOne :: String -> [HqdmInput] -> [HqdmInput]
+lookupHqdmOne x list = [values | (values)<-list, x==(subject values)]
 
 lookupAll :: [String] -> [(String,a)] -> [a]
 lookupAll xs list = [values | (key,values) <- list, key `elem` xs]

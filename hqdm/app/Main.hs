@@ -4,7 +4,7 @@
 
 module Main (main) where
 
-import HqdmLib (HqdmInput, getSubjects, getPredicates, uniqueIds, stringListSort)
+import HqdmLib (HqdmInput, getSubjects, getPredicates, uniqueIds, stringListSort, lookupHqdmOne)
 import HqdmInspection (howmanyNodes)
 
 -- from bytestring
@@ -37,7 +37,8 @@ main = do
     print (length uniqueNodes)
 
     -- Generate List of Labelled Nodes
-
+    putStr "\nGet the entire Thing object:\n\n"
+    print (lookupHqdmOne "hqdm:e5ec5d9e-afea-44f7-93c9-699cd5072d90" hqdmInputModel)
 
     ---------------------------------------------
 

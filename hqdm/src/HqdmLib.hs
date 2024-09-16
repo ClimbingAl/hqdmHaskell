@@ -10,7 +10,8 @@ stringListSort,
 lookupHqdmOne,
 lookupHqdmType,
 lookupSubtypes,
-lookupSubtypeOf
+lookupSubtypeOf,
+lookupSupertypeOf
 ) where
 
 import GHC.Generics (Generic)
@@ -96,8 +97,8 @@ lookupSubtypes list = [values | (values)<-list, ("hqdm:has_supertype"==(predicat
 lookupSubtypeOf :: String -> [HqdmInput] -> [String]
 lookupSubtypeOf x list = [subject values | (values)<-list, x==(object values)]
 
-
-
+lookupSupertypeOf :: String -> [HqdmInput] -> [String]
+lookupSupertypeOf x list = [object values | (values)<-list, x==(subject values)]
 
 lookupAll :: [String] -> [(String,a)] -> [a]
 lookupAll xs list = [values | (key,values) <- list, key `elem` xs]

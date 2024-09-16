@@ -4,7 +4,7 @@
 
 module Main (main) where
 
-import HqdmLib (HqdmInput, getSubjects, getPredicates, uniqueIds, stringListSort, lookupHqdmOne, lookupHqdmType, lookupSubtypes, lookupSubtypeOf)
+import HqdmLib (HqdmInput, getSubjects, getPredicates, uniqueIds, stringListSort, lookupHqdmOne, lookupHqdmType, lookupSubtypes, lookupSubtypeOf, lookupSupertypeOf)
 import HqdmInspection (howmanyNodes)
 
 -- from bytestring
@@ -48,10 +48,17 @@ main = do
     let subtypes = lookupSubtypes hqdmInputModel
     -- class_of_spatiotemporalextent bb6f6d3f-1ed1-41ab-942c-6b3667c5da37
     -- thing e5ec5d9e-afea-44f7-93c9-699cd5072d90
+    let findHqdmTypesInList = fmap (\x -> head (lookupHqdmType (lookupHqdmOne x hqdmInputModel)))
 
     let thingNodeSubtypes = lookupSubtypeOf "hqdm:bb6f6d3f-1ed1-41ab-942c-6b3667c5da37" subtypes
-    let thingSubtypes = fmap (\x -> head (lookupHqdmType (lookupHqdmOne x hqdmInputModel))) thingNodeSubtypes 
+    let thingSubtypes = findHqdmTypesInList thingNodeSubtypes 
     print (thingSubtypes)
+
+    -- Find the supertypes of a given thing
+    putStr "\nGet the supertypes of given thing:\n\n"
+    let thingNodeSupertypes = lookupSupertypeOf "hqdm:bb6f6d3f-1ed1-41ab-942c-6b3667c5da37" subtypes
+    let thingSupertypes = findHqdmTypesInList thingNodeSupertypes 
+    print (thingSupertypes)
 
     ---------------------------------------------
 
@@ -66,7 +73,7 @@ main = do
   
     -- Get Top Level Thing
 
-    putStr "\n\nHow many thing nodes (not a very clever test as it is really just tseting if the the string is in the unique list):\n\n"
+    putStr "\n\nHow many thing nodes (not a very clever test as it is really just testing if the the string is in the unique list):\n\n"
     let numThings = howmanyNodes (=="hqdm:e5ec5d9e-afea-44f7-93c9-699cd5072d90") uniqueNodes
     print numThings
 

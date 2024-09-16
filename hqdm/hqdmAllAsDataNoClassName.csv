@@ -2321,7 +2321,6 @@ hqdm:ee5bfb21-1a52-4e7a-ac5a-9389353a4c7f,hqdm:member__of,hqdm:4a8cba08-035c-490
 hqdm:ee5bfb21-1a52-4e7a-ac5a-9389353a4c7f,hqdm:has_superclass,hqdm:bb6f6d3f-1ed1-41ab-942c-6b3667c5da37
 hqdm:e5ec5d9e-afea-44f7-93c9-699cd5072d90,rdf:type,hqdm:thing
 hqdm:e5ec5d9e-afea-44f7-93c9-699cd5072d90,hqdm:member__of,hqdm:4a8cba08-035c-4902-935b-26da61ed282c
-hqdm:e5ec5d9e-afea-44f7-93c9-699cd5072d90,hqdm:has_supertype,hqdm:e5ec5d9e-afea-44f7-93c9-699cd5072d90
 hqdm:67b82398-b80b-4ee3-aa2f-4bc33074c7f4,hqdm:temporal__part_of,hqdm:dd8359c4-0a2b-416a-af27-3bcb0551b41a
 hqdm:67b82398-b80b-4ee3-aa2f-4bc33074c7f4,hqdm:part_of_possible_world,hqdm:a5dc8c36-56fc-44c2-909b-7592b1f44fd7
 hqdm:67b82398-b80b-4ee3-aa2f-4bc33074c7f4,hqdm:consists__of,hqdm:dd8359c4-0a2b-416a-af27-3bcb0551b41a

@@ -4,7 +4,7 @@
 
 module Main (main) where
 
-import HqdmLib (HqdmInput, getSubjects, getPredicates, uniqueIds, stringListSort, lookupHqdmOne)
+import HqdmLib (HqdmInput, getSubjects, getPredicates, uniqueIds, stringListSort, lookupHqdmOne, lookupHqdmType, lookupSubtypes, lookupSubtypeOf)
 import HqdmInspection (howmanyNodes)
 
 -- from bytestring
@@ -13,6 +13,7 @@ import qualified Data.ByteString.Lazy as BL
 import Data.Csv (HasHeader( NoHeader ), decode)
 -- import Data.List (sortUniq)
 import qualified Data.Vector as V
+-- import Data.Tree (Tree(subForest))
 
 main :: IO ()
 main = do
@@ -36,9 +37,21 @@ main = do
     putStr "\nNumber of ids is:\n\n"
     print (length uniqueNodes)
 
-    -- Generate List of Labelled Nodes
-    putStr "\nGet the entire Thing object:\n\n"
-    print (lookupHqdmOne "hqdm:e5ec5d9e-afea-44f7-93c9-699cd5072d90" hqdmInputModel)
+    -- Exercise functions to find the thing object's relations (triples) and then the type predicate for thing
+    putStr "\nGet the entire Thing object type:\n\n"
+    let thing = lookupHqdmOne "hqdm:e5ec5d9e-afea-44f7-93c9-699cd5072d90" hqdmInputModel
+    let thingType = lookupHqdmType thing
+    print (head thingType)
+
+    -- Find the subtypes of a given thing
+    putStr "\nGet the subtypes of given thing:\n\n"
+    let subtypes = lookupSubtypes hqdmInputModel
+    -- class_of_spatiotemporalextent bb6f6d3f-1ed1-41ab-942c-6b3667c5da37
+    -- thing e5ec5d9e-afea-44f7-93c9-699cd5072d90
+
+    let thingNodeSubtypes = lookupSubtypeOf "hqdm:bb6f6d3f-1ed1-41ab-942c-6b3667c5da37" subtypes
+    let thingSubtypes = fmap (\x -> head (lookupHqdmType (lookupHqdmOne x hqdmInputModel))) thingNodeSubtypes 
+    print (thingSubtypes)
 
     ---------------------------------------------
 
@@ -53,11 +66,23 @@ main = do
   
     -- Get Top Level Thing
 
-    putStr "\n\nHow many thing nodes:\n\n"
+    putStr "\n\nHow many thing nodes (not a very clever test as it is really just tseting if the the string is in the unique list):\n\n"
     let numThings = howmanyNodes (=="hqdm:e5ec5d9e-afea-44f7-93c9-699cd5072d90") uniqueNodes
     print numThings
 
+    ---------------------------------------------
+    -- Find the supertypes all the way to thing
+
+    -- Take the result and compose a list of the relations inherited down the tree, via all paths
+
+    -- Compare with HDQM triples
+
+    -- Add Cardinalities as type patterns
+    
     -- Compose the structural validations of hqdm
+
+    -- 
+
     
     putStr "\n\nDone\n"
     

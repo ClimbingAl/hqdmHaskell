@@ -1,6 +1,6 @@
 name:                hqdm
 version:             0.1.0.0
-github:              "github.com/ClimbingAl/hqdmHaskell/hqdm"
+github:              "ClimbingAl/hqdmHaskell/hqdm"
 license:             BSD-3-Clause
 author:              "Al Cook"
 maintainer:          "aristotlestarteditall@gmail.com"
@@ -17,7 +17,7 @@ extra-source-files:
 # To avoid duplicated efforts in documentation and dealing with the
 # complications of embedding Haddock markup inside cabal files, it is
 # common to point users to the README.md file.
-description:         Please see the README on GitHub at <https://github.com/githubuser/hqdm#readme>
+description:         Please see the README on GitHub at <https://github.com/ClimbingAl/hqdmHaskell#readme>
 
 dependencies:
 - base >= 4.7 && < 5
@@ -41,7 +41,7 @@ ghc-options:
 
 library:
   source-dirs: src
-  build-depends: array
+  build-dependencies: array
 
 executables:
   hqdm-exe:

@@ -7,9 +7,11 @@ getSubjects,
 getPredicates,
 uniqueIds,
 stringListSort,
-lookupHqdmOne
+lookupHqdmOne,
+lookupHqdmType,
+lookupSubtypes,
+lookupSubtypeOf
 ) where
-
 
 import GHC.Generics (Generic)
 import Data.Csv (FromRecord)
@@ -71,7 +73,7 @@ stringListSort [] = []
 stringListSort (x:xs) = insert (stringListSort xs) x
 
 ----------------------------------------------
--- GRAPH FEATURES BASED ON FGL
+-- GRAPH FUNCTIONS USING THE LIST OF TRIPLES OF HqdmAllAsData
 
 -- | Unlabeled node
 type  Node   = String
@@ -84,47 +86,27 @@ lookupOne x list = [values | (key,values)<-list, x==key]
 lookupHqdmOne :: String -> [HqdmInput] -> [HqdmInput]
 lookupHqdmOne x list = [values | (values)<-list, x==(subject values)]
 
+lookupHqdmType :: [HqdmInput] -> [String]
+lookupHqdmType obj = [object values | (values)<-obj, "rdf:type"==(predicate values)]
+
+lookupSubtypes :: [HqdmInput] -> [HqdmInput]
+lookupSubtypes list = [values | (values)<-list, ("hqdm:has_supertype"==(predicate values))||("hqdm:has_superclass"==(predicate values))]
+
+-- This takes only hqdm:has_supertype statements as [HqdmInput]
+lookupSubtypeOf :: String -> [HqdmInput] -> [String]
+lookupSubtypeOf x list = [subject values | (values)<-list, x==(object values)]
+
+
+
+
 lookupAll :: [String] -> [(String,a)] -> [a]
 lookupAll xs list = [values | (key,values) <- list, key `elem` xs]
 
+-- Find subtypes and subclasses
+
+-- Find top level type
+
+
 --getLNodes :: [HqdmInput] -> [String]
 --getLNodes hi = map (lookupAll "rdf:type")
-
-
-
--- | Labeled edge
-type LEdge b = (Node,Node,b)
-
--- | Labeled links to or from a 'Node'.
-type Adj b        = [(b,Node)]
--- | Links to the 'Node', the 'Node' itself, a label, links from the 'Node'.
---
---   In other words, this captures all information regarding the
---   specified 'Node' within a graph.
-type Context a b  = (Adj b,Node,a,Adj b) -- Context a b "=" Context' a b "+" Node
-type MContext a b = Maybe (Context a b)
-
--- | Minimum implementation: 'empty', 'isEmpty', 'match', 'mkGraph', 'labNodes'
-class Graph gr where
-  {-# MINIMAL empty, isEmpty, mkGraph, labNodes #-}
-
-  -- | An empty 'Graph'.
-  empty     :: gr a b
-
-  -- | True if the given 'Graph' is empty.
-  isEmpty   :: gr a b -> Bool
-
-  -- | Decompose a 'Graph' into the 'MContext' found for the given node and the
-  -- remaining 'Graph'.
-  --match     :: Node -> gr a b -> Decomp gr a b
-
-  -- | Create a 'Graph' from the list of 'LNode's and 'LEdge's.
-  --
-  --   For graphs that are also instances of 'DynGraph', @mkGraph ns
-  --   es@ should be equivalent to @('insEdges' es . 'insNodes' ns)
-  --   'empty'@.
-  mkGraph   :: [LNode a] -> [LEdge b] -> gr a b
-
-  -- | A list of all 'LNode's in the 'Graph'.
-  labNodes  :: gr a b -> [LNode a]
 

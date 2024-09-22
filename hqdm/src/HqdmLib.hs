@@ -13,7 +13,8 @@ lookupSubtypes,
 lookupSubtypeOf,
 lookupSupertypeOf,
 lookupSupertypesOf,
-findSupertypeTree
+findSupertypeTree,
+printableSupertypeTree
 ) where
 
 import GHC.Generics (Generic)
@@ -89,6 +90,12 @@ From the triples with a given node Id (subject), from lookupHqdmOne, find the ob
 lookupHqdmType :: [HqdmInput] -> [String]
 lookupHqdmType obj = [object values | (values)<-obj, "rdf:type"==(predicate values)]
 
+{- | findHqdmTypesInList
+Find the type names of each given node Id (subject).
+-}
+findHqdmTypeNamesInList :: [String] -> [HqdmInput] -> [String]
+findHqdmTypeNamesInList ids hqdmModel = fmap (\x -> head (lookupHqdmType $ lookupHqdmOne x hqdmModel)) ids
+
 {- | lookupSubtypes
 From all the triples that have the hqdm:has_supertype or hqdm:has_superclass predicate.
 -}
@@ -136,10 +143,19 @@ findSupertypeTree ids hqdm = go ids hqdm
     newLayer = lookupSupertypesOf nextLayer hqdm
     
     go ids hqdm
-        | newLayer==[]  = ids
+        | newLayer==[]  = init ids
         | otherwise     = findSupertypeTree (ids ++ newLayer) hqdm
 
 {- | printableSupertypeTree
 Takes the output of findSupertypeTree and renders it in a printable form - rather like ASCII art.
 -}
---printableSupertypeTree
+fmtString = (\x -> replicate (70 - div (length x) 2) ' ' ++ x)
+
+printableSupertypeTree :: [[String]] -> [HqdmInput] -> String -> String
+printableSupertypeTree tree hqdmModel textTree   
+    | (take 1 tree)==[] = textTree 
+    | otherwise         = 
+        printableSupertypeTree 
+            (tail tree) 
+            hqdmModel 
+            ( textTree ++  fmtString (unwords (findHqdmTypeNamesInList (head tree) hqdmModel)) ++ "\n\n" )

@@ -4,7 +4,7 @@
 
 module Main (main) where
 
-import HqdmLib (HqdmInput, getSubjects, getPredicates, uniqueIds, stringListSort, lookupHqdmOne, lookupHqdmType, lookupSubtypes, lookupSubtypeOf, lookupSupertypeOf, lookupSupertypesOf, findSupertypeTree)
+import HqdmLib (HqdmInput, getSubjects, getPredicates, uniqueIds, stringListSort, lookupHqdmOne, lookupHqdmType, lookupSubtypes, lookupSubtypeOf, lookupSupertypeOf, lookupSupertypesOf, findSupertypeTree, printableSupertypeTree)
 import HqdmInspection (howmanyNodes)
 
 -- from bytestring
@@ -105,6 +105,13 @@ main = do
     putStr "\nSupertype tree of event is:\n\n"
     let stTree = findSupertypeTree [[functionalObject]] subtypes
     print (stTree)
+
+    putStr "\nREVERSED TREE\n\n"
+    print (reverse stTree)
+
+    putStr "\nPrintable Supertype tree of event is:\n\n"
+    let printableStTree = printableSupertypeTree (reverse stTree) hqdmInputModel ""
+    putStr (printableStTree)
 
     -- Take the result and compose a list of the relations inherited down the tree, via all paths
 

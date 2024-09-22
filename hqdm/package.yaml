@@ -41,7 +41,7 @@ ghc-options:
 
 library:
   source-dirs: src
-  build-dependencies: array
+  build-dependency: array
 
 executables:
   hqdm-exe:

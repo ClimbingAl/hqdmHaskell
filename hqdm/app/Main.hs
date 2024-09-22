@@ -4,7 +4,7 @@
 
 module Main (main) where
 
-import HqdmLib (HqdmInput, getSubjects, getPredicates, uniqueIds, stringListSort, lookupHqdmOne, lookupHqdmType, lookupSubtypes, lookupSubtypeOf, lookupSupertypeOf)
+import HqdmLib (HqdmInput, getSubjects, getPredicates, uniqueIds, stringListSort, lookupHqdmOne, lookupHqdmType, lookupSubtypes, lookupSubtypeOf, lookupSupertypeOf, lookupSupertypesOf, findSupertypeTree)
 import HqdmInspection (howmanyNodes)
 
 -- from bytestring
@@ -16,8 +16,20 @@ import qualified Data.Vector as V
 import Data.String (String)
 -- import Data.Tree (Tree(subForest))
 
+-- Constants
+hqdmInputFilename::String
 hqdmInputFilename = "hqdmAllAsDataNoClassName.csv"
+
+thing::String
 thing = "hqdm:e5ec5d9e-afea-44f7-93c9-699cd5072d90"
+
+event::String
+event = "hqdm:545b4541-8a34-46b8-8704-2265be0244c3"
+
+functionalObject::String
+functionalObject = "hqdm:130e95f1-ebc4-46f1-90ba-3f9fa21cb77b"
+
+classOfSpatiotemporalextent::String
 classOfSpatiotemporalextent = "hqdm:bb6f6d3f-1ed1-41ab-942c-6b3667c5da37"
 
 main :: IO ()
@@ -63,6 +75,14 @@ main = do
     let thingSupertypes = findHqdmTypesInList $ lookupSupertypeOf classOfSpatiotemporalextent subtypes 
     print (thingSupertypes)
 
+    putStr "\nGet the supertypes ids of given [things]:\n\n"
+    let thingSupertypes = lookupSupertypesOf [classOfSpatiotemporalextent, event] subtypes 
+    print (concat thingSupertypes)
+
+    putStr "\nGet the supertypes of THING (should be []):\n\n"
+    let thingSupertype = findHqdmTypesInList $ lookupSupertypeOf thing subtypes 
+    print (thingSupertype)
+
     ---------------------------------------------
 
     let hqdmRawPredicates = getPredicates hqdmInputModel
@@ -82,6 +102,9 @@ main = do
 
     ---------------------------------------------
     -- Find the supertypes all the way to thing by recursion
+    putStr "\nSupertype tree of event is:\n\n"
+    let stTree = findSupertypeTree [[functionalObject]] subtypes
+    print (stTree)
 
     -- Take the result and compose a list of the relations inherited down the tree, via all paths
 

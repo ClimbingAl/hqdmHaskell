@@ -1,6 +1,6 @@
 {-# LANGUAGE DeriveGeneric #-}
 
-module HqdmLib 
+module HqdmLib
 ( HqdmInput,
 subject,
 getSubjects,
@@ -19,6 +19,7 @@ printableSupertypeTree
 
 import GHC.Generics (Generic)
 import Data.Csv (FromRecord)
+import Data.Int (Int)
 
 data HqdmInput = HqdmInput
     {
@@ -35,6 +36,9 @@ instance FromRecord HqdmInput
 -- type synonyms to handle the CSV contents
 type ErrorMsg = String
 type Id = String
+
+screenCharOffset::Int
+screenCharOffset = 70
 
 getSubjects :: [HqdmInput] -> [String]
 getSubjects xs = map (subject) xs
@@ -140,22 +144,23 @@ findSupertypeTree :: [[Id]] -> [HqdmInput] -> [[String]]
 findSupertypeTree ids hqdm = go ids hqdm
  where
     nextLayer = last ids
-    newLayer = lookupSupertypesOf nextLayer hqdm
-    
+    newLayer = [ concat (take 1 (lookupSupertypesOf nextLayer hqdm)) ]
+
     go ids hqdm
         | newLayer==[]  = init ids
+        | sum [length $ filter (=="hqdm:e5ec5d9e-afea-44f7-93c9-699cd5072d90") yl | yl <- newLayer] > 0  = ids ++ newLayer
         | otherwise     = findSupertypeTree (ids ++ newLayer) hqdm
 
 {- | printableSupertypeTree
 Takes the output of findSupertypeTree and renders it in a printable form - rather like ASCII art.
 -}
-fmtString = (\x -> replicate (70 - div (length x) 2) ' ' ++ x)
+fmtString x = replicate (screenCharOffset - div (length x) 2) ' ' ++ x
 
 printableSupertypeTree :: [[String]] -> [HqdmInput] -> String -> String
-printableSupertypeTree tree hqdmModel textTree   
-    | (take 1 tree)==[] = textTree 
-    | otherwise         = 
-        printableSupertypeTree 
-            (tail tree) 
-            hqdmModel 
+printableSupertypeTree tree hqdmModel textTree
+    | take 1 tree ==[] = textTree
+    | otherwise         =
+        printableSupertypeTree
+            (tail tree)
+            hqdmModel
             ( textTree ++  fmtString (unwords (findHqdmTypeNamesInList (head tree) hqdmModel)) ++ "\n\n" )

@@ -26,7 +26,7 @@ collapseInheritedRels
 import GHC.Generics (Generic)
 import Data.Csv (FromRecord)
 import Data.Int (Int)
-import GHC.IO.FD (release)
+--import GHC.IO.FD (release)
 
 data HqdmInput = HqdmInput
     {
@@ -56,23 +56,25 @@ newtype Relation = Relation
 -- type synonyms to handle the CSV contents
 type ErrorMsg = String
 type Id = String
+type Object = String
+type Predicate = String
 
 screenCharOffset::Int
 screenCharOffset = 200
 
-getSubjects :: [HqdmInput] -> [String]
+getSubjects :: [HqdmInput] -> [Id]
 getSubjects xs = map (subject) xs
 
-getPredicates :: [HqdmInput] -> [String]
+getPredicates :: [HqdmInput] -> [Predicate]
 getPredicates xs = map (predicate) xs
 
-getObjects :: [HqdmInput] -> [String]
+getObjects :: [HqdmInput] -> [Object]
 getObjects xs = map (object) xs
 
 --getEdges :: [HqdmInput] -> [LEdge]
 --getEdges xs = map (LEdge (subject object predicate))
 
-uniqueIds :: [String] -> [String]
+uniqueIds :: [Id] -> [Id]
 uniqueIds xs = [x | (x,y) <- zip xs [0..], x `notElem` (take y xs)]
 
 -- | File IO stuff
@@ -124,7 +126,7 @@ lookupHqdmType obj = [object values | (values)<-obj, "rdf:type"==(predicate valu
 {- | findHqdmTypesInList
 Find the type names of each given node Id (subject).
 -}
-findHqdmTypeNamesInList :: [String] -> [HqdmInput] -> [String]
+findHqdmTypeNamesInList :: [Id] -> [HqdmInput] -> [String]
 findHqdmTypeNamesInList ids hqdmModel = fmap (\x -> head (lookupHqdmType $ lookupHqdmOne x hqdmModel)) ids
 
 {- | lookupSubtypes
@@ -138,13 +140,13 @@ lookupSubtypes list = [values
 From all the triples given by lookupSubtypes find the subtypes of a given node Id.
 This takes only hqdm:has_supertype statements as [HqdmInput]
 -}
-lookupSubtypeOf :: Id -> [HqdmInput] -> [String]
+lookupSubtypeOf :: Id -> [HqdmInput] -> [Id]
 lookupSubtypeOf x list = [subject values | (values)<-list, x==(object values)]
 
 {- | lookupSubtypesOf
 Same as lookupSubtypeOf but takes a list of Ids and finds a list of subtypes for each.
 -}
-lookupSubtypesOf :: [Id] -> [HqdmInput] -> [[String]]
+lookupSubtypesOf :: [Id] -> [HqdmInput] -> [[Id]]
 lookupSubtypesOf [] _ = []
 lookupSubtypesOf _ [] = []
 lookupSubtypesOf (id:ids) list = lookupSubtypeOf id list : lookupSubtypesOf ids list
@@ -171,7 +173,7 @@ From all the triples given by lookupSupertypes find all the supertypes of a give
 The ouput is a list of layers from the supplied subtype to the termination empty layer 
 above hqdm:thing.
 -}
-findSupertypeTree :: [[Id]] -> [HqdmInput] -> [[String]]
+findSupertypeTree :: [[Id]] -> [HqdmInput] -> [[Id]]
 findSupertypeTree ids hqdm = go ids hqdm
  where
     nextLayer = last ids

@@ -136,6 +136,8 @@ main = do
     let collapsedStRels = collapseInheritedRels stRels
     print collapsedStRels
 
+    -- Do this for HQDM Type
+
     -- Compare with HDQM triples
 
 

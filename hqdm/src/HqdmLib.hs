@@ -1,5 +1,23 @@
 {-# LANGUAGE DeriveGeneric #-}
 
+{- |
+Module      :  HqdmLib
+Description :  Module with functions to apply to HQDM AllAsData Triples
+Copyright   :  (c) CIS Ltd
+License     :  <TBDs>
+
+Maintainer  :  aristotlestarteditall@gmail.com
+Stability   :  experimental
+Portability :  portable (albeit for HQDM All As Data applications)
+
+Functions to apply to HQDM AllAsData triples including mapping to data types,
+calculating subtype and supertype trees from given HQDM type Ids and calculating
+inherited relations for given HQDM type Ids.  
+
+Functions also provided to render the outputs as printable text. 
+
+-}
+
 module HqdmLib
 ( HqdmInput,
 RelationPair,
@@ -27,7 +45,6 @@ printableRelationPairs
 import GHC.Generics (Generic)
 import Data.Csv (FromRecord)
 import Data.List (elemIndices)
-import Data.Int (Int)
 
 data HqdmInput = HqdmInput
     {
@@ -52,16 +69,13 @@ newtype Relation = Relation
     }
     deriving (Show, Eq, Generic)
 
--- let emptyHqdmInput = HqdmInput "" "" ""
-
 -- type synonyms to handle the CSV contents
-type ErrorMsg = String
 type Id = String
 type Object = String
 type Predicate = String
 
 screenCharOffset::Int
-screenCharOffset = 200
+screenCharOffset = 100
 
 {- | nodeIdentityTest
 Check that an element (subject or object) is a Node Id.  Done without regex to avoid dependencies.
@@ -85,12 +99,8 @@ getObjects xs = map object xs  -- Can't Eta reduce due to "object" name collisio
 uniqueIds :: [Id] -> [Id]
 uniqueIds xs = [x | (x,y) <- zip xs [0..], x `notElem` take y xs]
 
--- | File IO stuff
-readLines :: FilePath -> IO [String]
-readLines fp = lines <$> readFile fp
-
 -------------------------------------------------
--- Based on an online source:
+-- Based on an online source (not covered by Copyright):
 -- function declaration for function insert
 insert :: [String]->String->[String]
 
@@ -99,17 +109,14 @@ insert :: [String]->String->[String]
 insert [] y = [y]
 insert (x:xs) y = if y < x
                         then [y]++[x]++xs
-                        else [x]++(insert xs y)
+                        else x : insert xs y
 
 -- function declaration for function insert
 stringListSort :: [String]->[String]
-
--- function definition for function insert
--- base case
 stringListSort [] = []
 stringListSort (x:xs) = insert (stringListSort xs) x
 
-----------------------------------------------
+-------------------------------------------------
 -- GRAPH FUNCTIONS USING THE LIST OF TRIPLES OF HqdmAllAsData
 
 {- | lookupHqdmOne

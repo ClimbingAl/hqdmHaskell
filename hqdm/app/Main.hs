@@ -1,20 +1,37 @@
-{-# LANGUAGE DeriveGeneric     #-}
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE TypeApplications #-}
 
 module Main (main) where
 
-import HqdmLib (HqdmInput, RelationPair, Relation, getSubjects, getPredicates, uniqueIds, stringListSort, lookupHqdmOne, lookupHqdmType, lookupSubtypes, lookupSubtypeOf, lookupSubtypesOf, lookupSupertypeOf, lookupSupertypesOf, findSupertypeTree, printableTypeTree, findSubtypeTree, findInheritedRels, collapseInheritedRels, printableRelationPairs)
+import HqdmLib (HqdmInput, 
+    RelationPair, 
+    Relation, 
+    getSubjects, 
+    getPredicates, 
+    uniqueIds, 
+    stringListSort, 
+    lookupHqdmOne, 
+    lookupHqdmType, 
+    lookupSubtypes, 
+    lookupSubtypeOf, 
+    lookupSubtypesOf, 
+    lookupSupertypeOf, 
+    lookupSupertypesOf, 
+    findSupertypeTree, 
+    printableTypeTree, 
+    findSubtypeTree, 
+    findInheritedRels, 
+    collapseInheritedRels, 
+    printableRelationPairs)
+
 import HqdmInspection (howmanyNodes)
 
 -- from bytestring
 import qualified Data.ByteString.Lazy as BL
 -- from cassava
 import Data.Csv (HasHeader( NoHeader ), decode)
--- import Data.List (sortUniq)
 import qualified Data.Vector as V
 import Data.String (String)
--- import Data.Tree (Tree(subForest))
 
 -- Constants
 hqdmInputFilename::String
@@ -40,9 +57,6 @@ requirement = "hqdm:46b71552-11c9-4be1-a118-c879db176c00"
 
 main :: IO ()
 main = do
-    --file_contents <- readFile "hqdmAllAsDataNoParentheses.stmt"
-     --putStrLn file_contents
-
 
     hqdmTriples <- fmap V.toList . decode @HqdmInput NoHeader <$> BL.readFile hqdmInputFilename
 
@@ -51,7 +65,7 @@ main = do
     putStr "\n\nLoaded Data\n\n"
 
     let hqdmRawNodes = getSubjects hqdmInputModel
-    
+
     -- Generate list of all hqdm:iris    
     let uniqueNodes = uniqueIds hqdmRawNodes
 
@@ -74,56 +88,56 @@ main = do
     let findHqdmTypesInList = fmap (\x -> head (lookupHqdmType $ lookupHqdmOne x hqdmInputModel))
 
     let thingSubtypes = findHqdmTypesInList $ lookupSubtypeOf classOfSpatiotemporalextent subtypes
-    print (thingSubtypes)
+    print thingSubtypes
 
     -- Find the supertypes of a given thing
     putStr "\nGet the supertypes of given thing:\n\n"
-    let thingSupertypes = findHqdmTypesInList $ lookupSupertypeOf classOfSpatiotemporalextent subtypes 
-    print (thingSupertypes)
+    let thingSupertypes = findHqdmTypesInList $ lookupSupertypeOf classOfSpatiotemporalextent subtypes
+    print thingSupertypes
 
     putStr "\nGet the supertypes ids of given [things]:\n\n"
-    let thingSupertypes = lookupSupertypesOf [classOfSpatiotemporalextent, event] subtypes 
+    let thingSupertypes = lookupSupertypesOf [classOfSpatiotemporalextent, event] subtypes
     print (concat thingSupertypes)
 
     putStr "\nGet the supertypes of THING (should be []):\n\n"
-    let thingSupertype = findHqdmTypesInList $ lookupSupertypeOf thing subtypes 
-    print (thingSupertype)
+    let thingSupertype = findHqdmTypesInList $ lookupSupertypeOf thing subtypes
+    print thingSupertype
 
     ---------------------------------------------
 
     let hqdmRawPredicates = getPredicates hqdmInputModel
-    let uniquePredicates = stringListSort $ uniqueIds hqdmRawPredicates 
+    let uniquePredicates = stringListSort $ uniqueIds hqdmRawPredicates
 
     putStr "\n\nList of predicates:\n\n"
     print uniquePredicates
 
     putStr "\nNumber of predicates is:\n\n"
     print (length uniquePredicates)
-  
+
     -- Get Top Level Thing
 
     putStr "\n\nHow many thing nodes (not a very clever test as it is really just testing if the the string is in the unique list):\n\n"
     let numThings = howmanyNodes (==thing) uniqueNodes
-    print (numThings)
+    print numThings
 
     ---------------------------------------------
     -- Find the supertypes all the way to thing by recursion
     putStr "\nSupertype tree of stateOfPhysicalObject is:\n\n"
     let stTree = findSupertypeTree [[stateOfPhysicalObject]] subtypes
-    print (stTree)
+    print stTree
 
     putStr "\nPrintable Supertype tree of stateOfPhysicalObject is:\n\n"
     let printableStTree = printableTypeTree (reverse stTree) hqdmInputModel ""
-    putStr (printableStTree)
+    putStr printableStTree
 
     -- Find the subtypes all the way to the lowest accessible node by recursion
     putStr "\nSubtype tree of hqdm:stateOfPhysicalObject is:\n\n"
     let sbtTree = findSubtypeTree [[stateOfPhysicalObject]] subtypes []
-    print (sbtTree)
+    print sbtTree
 
     putStr "\nPrintable Type tree of stateOfPhysicalObject is:\n\n"
     let printableSbtTree = printableTypeTree sbtTree hqdmInputModel ""
-    putStr (printableSbtTree)
+    putStr printableSbtTree
 
     -- Take the result and compose a list of the relations inherited down the tree, via all paths
     ---- Take each hqdm type (by node id), calculate its relations (predicate and object (object aka. range)) and write out in EXPRESS-like format
@@ -134,7 +148,7 @@ main = do
     putStr "\nPrintable relation pairs in supertype tree:\n\n"
     let printableStRels = printableRelationPairs hqdmInputModel (reverse stRels)
     putStr printableStRels
-    
+
     ---- Allow summary that just has predicates collpsed without ranges
     putStr "\nCollapse relation pairs to unique predicate names:\n\n"
     let collapsedStRels = collapseInheritedRels stRels
@@ -146,11 +160,11 @@ main = do
 
 
     -- Add Cardinalities as type patterns
-    
+
     -- Compose the structural validations of hqdm
 
     -- 
 
-    
+
     putStr "\n\nDone\n"
-    
+

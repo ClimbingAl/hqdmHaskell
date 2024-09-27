@@ -4,7 +4,7 @@
 
 module Main (main) where
 
-import HqdmLib (HqdmInput, RelationPair, Relation, getSubjects, getPredicates, uniqueIds, stringListSort, lookupHqdmOne, lookupHqdmType, lookupSubtypes, lookupSubtypeOf, lookupSubtypesOf, lookupSupertypeOf, lookupSupertypesOf, findSupertypeTree, printableTypeTree, findSubtypeTree, findInheritedRels, collapseInheritedRels)
+import HqdmLib (HqdmInput, RelationPair, Relation, getSubjects, getPredicates, uniqueIds, stringListSort, lookupHqdmOne, lookupHqdmType, lookupSubtypes, lookupSubtypeOf, lookupSubtypesOf, lookupSupertypeOf, lookupSupertypesOf, findSupertypeTree, printableTypeTree, findSubtypeTree, findInheritedRels, collapseInheritedRels, printableRelationPairs)
 import HqdmInspection (howmanyNodes)
 
 -- from bytestring
@@ -130,6 +130,10 @@ main = do
     putStr "\nRelation pairs in supertype tree:\n\n"
     let stRels = findInheritedRels (concat stTree) hqdmInputModel []
     print stRels
+
+    putStr "\nPrintable relation pairs in supertype tree:\n\n"
+    let printableStRels = printableRelationPairs hqdmInputModel (reverse stRels)
+    putStr printableStRels
     
     ---- Allow summary that just has predicates collpsed without ranges
     putStr "\nCollapse relation pairs to unique predicate names:\n\n"

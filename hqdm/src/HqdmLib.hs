@@ -20,13 +20,14 @@ findSupertypeTree,
 printableTypeTree,
 findSubtypeTree,
 findInheritedRels,
-collapseInheritedRels
+collapseInheritedRels,
+printableRelationPairs
 ) where
 
 import GHC.Generics (Generic)
 import Data.Csv (FromRecord)
+import Data.List (elemIndices)
 import Data.Int (Int)
---import GHC.IO.FD (release)
 
 data HqdmInput = HqdmInput
     {
@@ -62,20 +63,27 @@ type Predicate = String
 screenCharOffset::Int
 screenCharOffset = 200
 
+{- | nodeIdentityTest
+Check that an element (subject or object) is a Node Id.  Done without regex to avoid dependencies.
+Expects to be True for a String of the form "hqdm:130e95f1-ebc4-46f1-90ba-3f9fa21cb77b"
+-}
+nodeIdentityTest :: String -> Bool
+nodeIdentityTest x = length x == 41 && ('-' `elemIndices` x) == [13, 18, 23, 28]
+
 getSubjects :: [HqdmInput] -> [Id]
-getSubjects xs = map (subject) xs
+getSubjects = map subject
 
 getPredicates :: [HqdmInput] -> [Predicate]
-getPredicates xs = map (predicate) xs
+getPredicates = map predicate
 
 getObjects :: [HqdmInput] -> [Object]
-getObjects xs = map (object) xs
+getObjects xs = map object xs  -- Can't Eta reduce due to "object" name collision
 
 --getEdges :: [HqdmInput] -> [LEdge]
 --getEdges xs = map (LEdge (subject object predicate))
 
 uniqueIds :: [Id] -> [Id]
-uniqueIds xs = [x | (x,y) <- zip xs [0..], x `notElem` (take y xs)]
+uniqueIds xs = [x | (x,y) <- zip xs [0..], x `notElem` take y xs]
 
 -- | File IO stuff
 readLines :: FilePath -> IO [String]
@@ -108,20 +116,25 @@ stringListSort (x:xs) = insert (stringListSort xs) x
 Find all the triples that have the given node Id (subject).
 -}
 lookupHqdmOne :: Id -> [HqdmInput] -> [HqdmInput]
-lookupHqdmOne x list = [values | (values)<-list, x==(subject values)]
+lookupHqdmOne x list = [values | values<-list, x==subject values]
 
 {- | relationPairs
 Take a list of triples (typically with the samed node Id from lookupHqdmOne) and return a list of the relation pairs.
 -}
 relationPairs :: [HqdmInput] -> [RelationPair]
-relationPairs [] = []
-relationPairs (x:xs) =  RelationPair (predicate x) (object x) : relationPairs xs
+relationPairs = map (\ x -> RelationPair (predicate x) (object x))
+
+{- | lookupHqdmTypeFromAll
+From the complete set of HQDM triples with a given node Id (subject), from lookupHqdmOne, find the type name of the given Node Id.
+-}
+lookupHqdmTypeFromAll :: [HqdmInput] -> String -> [String]
+lookupHqdmTypeFromAll hqdmAll nodeId = [object values | values<-hqdmAll, ("rdf:type"==predicate values) && (nodeId==subject values)]
 
 {- | lookupHqdmType
 From the triples with a given node Id (subject), from lookupHqdmOne, find the object with the predicate rdf:type.
 -}
 lookupHqdmType :: [HqdmInput] -> [String]
-lookupHqdmType obj = [object values | (values)<-obj, "rdf:type"==(predicate values)]
+lookupHqdmType obj = [object values | values<-obj, "rdf:type"==predicate values]
 
 {- | findHqdmTypesInList
 Find the type names of each given node Id (subject).
@@ -133,15 +146,15 @@ findHqdmTypeNamesInList ids hqdmModel = fmap (\x -> head (lookupHqdmType $ looku
 From all the triples that have the hqdm:has_supertype or hqdm:has_superclass predicate.
 -}
 lookupSubtypes :: [HqdmInput] -> [HqdmInput]
-lookupSubtypes list = [values 
-    | (values)<-list, ("hqdm:has_supertype"==(predicate values))||("hqdm:has_superclass"==(predicate values))]
+lookupSubtypes list = [values
+    | values<-list, ("hqdm:has_supertype"==predicate values)||("hqdm:has_superclass"==predicate values)]
 
 {- | lookupSubtypeOf
 From all the triples given by lookupSubtypes find the subtypes of a given node Id.
 This takes only hqdm:has_supertype statements as [HqdmInput]
 -}
 lookupSubtypeOf :: Id -> [HqdmInput] -> [Id]
-lookupSubtypeOf x list = [subject values | (values)<-list, x==(object values)]
+lookupSubtypeOf x list = [subject values | values<-list, x==object values]
 
 {- | lookupSubtypesOf
 Same as lookupSubtypeOf but takes a list of Ids and finds a list of subtypes for each.
@@ -156,7 +169,7 @@ From all the triples given by lookupSubtypes find the supertypes of a given node
 This takes only hqdm:has_supertype statements as [HqdmInput]
 -}
 lookupSupertypeOf :: Id -> [HqdmInput] -> [String]
-lookupSupertypeOf x list = [object values | (values)<-list, x==(subject values)]
+lookupSupertypeOf x list = [object values | values<-list, x==subject values]
 
 {- | lookupSupertypesOf
 Same as lookupSupertypeOf but takes a list of Ids and finds a list of supertypes for each.
@@ -180,7 +193,7 @@ findSupertypeTree ids hqdm = go ids hqdm
     newLayer = [ concat (take 1 (lookupSupertypesOf nextLayer hqdm)) ]
 
     go ids hqdm
-        | newLayer==[]  = init ids
+        | null newLayer  = init ids
         | sum [length $ filter (=="hqdm:e5ec5d9e-afea-44f7-93c9-699cd5072d90") yl | yl <- newLayer] > 0  = ids ++ newLayer
         | otherwise     = findSupertypeTree (ids ++ newLayer) hqdm
 
@@ -194,7 +207,7 @@ fmtString x = replicate (screenCharOffset - div (length x) 2) ' ' ++ x
 
 printableTypeTree :: [[String]] -> [HqdmInput] -> String -> String
 printableTypeTree tree hqdmModel textTree
-    | take 1 tree == [] = textTree
+    | null (take 1 tree) = textTree
     | otherwise         =
         printableTypeTree
             (tail tree)
@@ -212,7 +225,7 @@ findSubtypeTree ids hqdm previousIds = go ids hqdm previousIds
         newLayer = [ uniqueIds $ concat (lookupSubtypesOf nextLayer hqdm) ]
 
         go ids hqdm previousIds
-            | (head newLayer)==previousIds  = ids
+            | head newLayer == previousIds  = ids
             | otherwise                     = findSubtypeTree (ids ++ newLayer) hqdm (head newLayer)
 
 -------------------------------------------------
@@ -230,12 +243,36 @@ findInheritedRels tree hqdmModel rels = go tree hqdmModel rels
         newRels = relationPairs $ lookupHqdmOne nextType hqdmModel
 
         go tree hqdmModel rels
-            | take 1 tree == []   = rels
+            | null (take 1 tree)  = rels
             | otherwise           = findInheritedRels (tail tree) hqdmModel (rels ++ [newRels])
 
 
 {- | collapseInheritedRels
+Take a list of lists of RelationPairs and emit a single list of unique predicate names.
 -}
 collapseInheritedRels :: [[RelationPair]] -> [String]
 collapseInheritedRels [] = []
 collapseInheritedRels rp = uniqueIds $ fmap p (concat rp)
+
+{- | printableRelationPair
+Take a RelationPair, find the Type Name from the list of HqdmInput triples and then emit the 
+predicate and type name as a joined String.
+-}
+printableRelationPair :: [HqdmInput] -> RelationPair -> String
+printableRelationPair hqdmAll rp
+    | nodeIdentityTest (o rp) = "\t" ++ p rp ++ " " ++  head (lookupHqdmTypeFromAll hqdmAll (o rp)) ++ "\n"
+    | otherwise               = "\t" ++ p rp ++ " " ++ o rp ++ "\n"
+
+{- | printableRelationPairList
+Take a list of RelationPairs and create a printable, concatenated String of their respective 
+predicate and type name Strings.
+-}
+printableRelationPairList :: [HqdmInput] -> [RelationPair] -> String
+printableRelationPairList hqdmAll rpl = concatMap (printableRelationPair hqdmAll) rpl ++ "\n"
+
+{- | printableRelationPairs
+Take a list of lists of RelationPairs and emit a printable, concatenated String of each of their 
+respective predicate and type name Strings (separating each list of RelationPairs by a rtn.)
+-}
+printableRelationPairs :: [HqdmInput] -> [[RelationPair]] -> String
+printableRelationPairs hqdmAll rpls  = foldl (++) "\n" (fmap (printableRelationPairList hqdmAll) rpls)

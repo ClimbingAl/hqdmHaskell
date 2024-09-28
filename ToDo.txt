@@ -1,0 +1,3 @@
+Re-create triples (using collapsed sets) and compare with original set.
+
+Add cardinalities

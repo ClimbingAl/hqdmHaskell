@@ -17,6 +17,7 @@ import HqdmLib (HqdmInput,
     lookupSubtypesOf, 
     lookupSupertypeOf, 
     lookupSupertypesOf, 
+    findHqdmTypesInList,
     findSupertypeTree, 
     printableTypeTree, 
     findSubtypeTree, 
@@ -39,6 +40,9 @@ hqdmInputFilename = "hqdmAllAsDataNoClassName.csv"
 
 thing::String
 thing = "hqdm:e5ec5d9e-afea-44f7-93c9-699cd5072d90"
+
+hqdmClass::String
+hqdmClass = "hqdm:4a8cba08-035c-4902-935b-26da61ed282c"
 
 event::String
 event = "hqdm:545b4541-8a34-46b8-8704-2265be0244c3"
@@ -85,22 +89,20 @@ main = do
     putStr "\nGet the subtypes of given thing:\n\n"
     let subtypes = lookupSubtypes hqdmInputModel
     -- Use constants above for thing or classOfSpatiotemporalextent
-    let findHqdmTypesInList = fmap (\x -> head (lookupHqdmType $ lookupHqdmOne x hqdmInputModel))
-
-    let thingSubtypes = findHqdmTypesInList $ lookupSubtypeOf classOfSpatiotemporalextent subtypes
+    let thingSubtypes = findHqdmTypesInList (lookupSubtypeOf classOfSpatiotemporalextent subtypes) hqdmInputModel
     print thingSubtypes
 
     -- Find the supertypes of a given thing
-    putStr "\nGet the supertypes of given thing:\n\n"
-    let thingSupertypes = findHqdmTypesInList $ lookupSupertypeOf classOfSpatiotemporalextent subtypes
-    print thingSupertypes
+    putStr "\nGet the names of supertypes of given thing:\n\n"
+    let thingSupertypeNames = findHqdmTypesInList (lookupSupertypeOf classOfSpatiotemporalextent subtypes) hqdmInputModel
+    print thingSupertypeNames
 
     putStr "\nGet the supertypes ids of given [things]:\n\n"
-    let thingSupertypes = lookupSupertypesOf [classOfSpatiotemporalextent, event] subtypes
+    let thingSupertypes = lookupSupertypesOf [hqdmClass] subtypes
     print (concat thingSupertypes)
 
     putStr "\nGet the supertypes of THING (should be []):\n\n"
-    let thingSupertype = findHqdmTypesInList $ lookupSupertypeOf thing subtypes
+    let thingSupertype = findHqdmTypesInList (lookupSupertypeOf thing subtypes) hqdmInputModel
     print thingSupertype
 
     ---------------------------------------------
@@ -122,11 +124,11 @@ main = do
 
     ---------------------------------------------
     -- Find the supertypes all the way to thing by recursion
-    putStr "\nSupertype tree of stateOfPhysicalObject is:\n\n"
-    let stTree = findSupertypeTree [[stateOfPhysicalObject]] subtypes
+    putStr "\nSupertype tree of classOfSpatiotemporalextent is:\n\n"
+    let stTree = findSupertypeTree [[classOfSpatiotemporalextent]] subtypes
     print stTree
 
-    putStr "\nPrintable Supertype tree of stateOfPhysicalObject is:\n\n"
+    putStr "\nPrintable Supertype tree of classOfSpatiotemporalextent is:\n\n"
     let printableStTree = printableTypeTree (reverse stTree) hqdmInputModel ""
     putStr printableStTree
 

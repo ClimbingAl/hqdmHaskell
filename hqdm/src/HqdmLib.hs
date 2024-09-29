@@ -95,9 +95,6 @@ getPredicates = map predicate
 getObjects :: [HqdmInput] -> [Object]
 getObjects xs = map object xs -- Can't Eta reduce due to "object" name collision
 
--- getEdges :: [HqdmInput] -> [LEdge]
--- getEdges xs = map (LEdge (subject object predicate))
-
 uniqueIds :: [Id] -> [Id]
 uniqueIds xs = [x | (x, y) <- zip xs [0 ..], x `notElem` take y xs]
 

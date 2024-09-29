@@ -1,6 +1,19 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE TypeApplications #-}
 
+-- |
+-- Module      :  Inheritance Main
+-- Description :  Computes the inherited relations for each of the given Hqdm Entity
+--                Types present in HQDM AllAsData.
+-- Copyright   :  (c) CIS Ltd
+-- License     :  Apache-2.0
+--
+-- Maintainer  :  aristotlestarteditall@gmail.com
+-- Stability   :  experimental
+-- Portability :  portable (albeit for HQDM All As Data applications)
+--
+-- Output is sent to console but is best piped to a file.
+
 module Main (main) where
 
 import HqdmLib (

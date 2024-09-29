@@ -1,6 +1,21 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE TypeApplications #-}
 
+-- |
+-- Module      :  HQDM Main
+-- Description :  Basic inspection of HQDM AllAsData Triples using HqdmLib functions
+-- Copyright   :  (c) CIS Ltd
+-- License     :  Apache-2.0
+--
+-- Maintainer  :  aristotlestarteditall@gmail.com
+-- Stability   :  experimental
+-- Portability :  portable (albeit for HQDM All As Data applications)
+--
+-- Executable Main that reads in HQDM AllAsData triples and parses them using the
+-- HqdmLib functions.  Includes querying individual HQDM Entity Types by NodeId,
+-- finding subtypes and supertypes of given NodeIds, subtype and supertype Trees
+-- and computing the inheritance of relations given in HQDM AllAsData.
+
 module Main (main) where
 
 import HqdmLib (HqdmInput, 

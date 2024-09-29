@@ -47,6 +47,11 @@ Note: The `hqdm` and `inheritance` folders use different versions of Cabal, whic
 
 ## ToDo
 
+- Regenerate the triples to find any missing ones from the input data (there will be some).
+- Add Cardinalities that are in the original [HQDM EXPRESS file](https://github.com/hqdmTop/hqdmFramework/blob/main/hqdm_framework.txt).
+- Do a test with biding to a Magma Core dataset (perhaps NetworksBasic).  I'm thinking about using `hqdm:instance_of` instead of `rdf:type`, to remove logical ambiguity.
+- Build a Domain Specific Language to enable HQDM operations (initially for query).
+- Add data modification and exception handling.
 
 ## Caveats
 This implementation uses pure Haskell with no Monadic functions (once the data has loaded).  This means that if any errors are introduced in the source data the GHC Executable will fail if an exception is hit.  I am happy with this, as it is intended to be a formal (pure) application.

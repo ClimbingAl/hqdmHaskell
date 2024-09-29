@@ -36,7 +36,7 @@ import Data.String (String)
 
 -- Constants
 hqdmInputFilename::String
-hqdmInputFilename = "hqdmAllAsDataNoClassName.csv"
+hqdmInputFilename = "hqdmAllAsDataFormal1.csv"
 
 thing::String
 thing = "hqdm:e5ec5d9e-afea-44f7-93c9-699cd5072d90"

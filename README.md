@@ -27,6 +27,22 @@ All the functions in HQDMLib are pure Haskell with minimised guards; that is, gu
 
 ## Install and Execute
 
+Install Haskell Glasgow Haskell Compiler with Cabal & Stack: https://www.haskell.org/ghcup/
+
+After cloning the repo first go to the `hqdm` folder and run the following 2 commands:
+
+    `stack build`
+    `stack exec hqdm-exe` (this runs the Haskell executable resulting from building the Main.hs file)
+
+This should result in a number of illustrative results for most of the functions in HqdmLib being written to the console.
+
+The `inheritance` folder contains a Haskell Main.hs file to calculate the inherited relations for each of the HQDM Entity Types.  It is best to pipe the output to a file as the console may not cope with the size of the output.  Run the following 2 commands:
+
+  `stack build`
+  `stack exec inhertiance > HqdmTypesAndInheritedRels.txt`
+
+This text file should match the text file of that name in this repo.  
+Note: The `hqdm` and `inheritance` folders use different versions of Cabal, which explains why the `inheritance` one doesn't need `-exe` to post-fix the folder name when executing it.  I'll clean this up sometime.
 
 ## ToDo
 

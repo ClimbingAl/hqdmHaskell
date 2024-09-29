@@ -7,7 +7,7 @@ RELATIONS:
 	hqdm:temporal__part_of
 	hqdm:part_of_possible_world
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -26,7 +26,7 @@ RELATIONS:
 	hqdm:part_of_by_class
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -39,7 +39,7 @@ RELATIONS:
 	hqdm:temporal__part_of
 	hqdm:part_of_possible_world
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -56,7 +56,7 @@ RELATIONS:
 	hqdm:temporal__part_of
 	hqdm:part_of_possible_world
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -70,7 +70,7 @@ RELATIONS:
 TYPE: hqdm:class_of_class_of_spatio_temporal_extent
 
 RELATIONS: 
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -84,7 +84,7 @@ RELATIONS:
 	hqdm:member_of_kind
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -94,7 +94,7 @@ RELATIONS:
 TYPE: hqdm:relationship
 
 RELATIONS: 
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_supertype
@@ -106,7 +106,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -121,7 +121,7 @@ RELATIONS:
 	hqdm:part_of_by_class
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -139,7 +139,7 @@ RELATIONS:
 	hqdm:member_of_kind
 	hqdm:part_of
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -159,7 +159,7 @@ RELATIONS:
 	hqdm:temporal__part_of
 	hqdm:part_of_possible_world
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -177,7 +177,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -190,7 +190,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -203,7 +203,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -216,7 +216,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ranges_over
 	hqdm:member__of
@@ -227,7 +227,7 @@ RELATIONS:
 TYPE: hqdm:ParticipantAndStateOfPersonImpl
 
 RELATIONS: 
-	rdf:type
+	hqdm:type
 	hqdm:has_supertype
 	hqdm:temporal__part_of
 	hqdm:part_of_possible_world
@@ -245,7 +245,7 @@ RELATIONS:
 TYPE: hqdm:class_of_relationship
 
 RELATIONS: 
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -262,7 +262,7 @@ RELATIONS:
 	hqdm:member_of_kind
 	hqdm:part_of
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -279,7 +279,7 @@ RELATIONS:
 TYPE: hqdm:class_of_physical_quantity
 
 RELATIONS: 
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -289,7 +289,7 @@ RELATIONS:
 TYPE: hqdm:identification_of_physical_quantity
 
 RELATIONS: 
-	rdf:type
+	hqdm:type
 	hqdm:represented
 	hqdm:has_superclass
 	hqdm:uses
@@ -310,7 +310,7 @@ RELATIONS:
 	hqdm:part_of_possible_world
 	hqdm:member_of_kind
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -327,7 +327,7 @@ RELATIONS:
 	hqdm:temporal__part_of
 	hqdm:part_of_possible_world
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -344,7 +344,7 @@ RELATIONS:
 	hqdm:temporal__part_of
 	hqdm:part_of_possible_world
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -361,7 +361,7 @@ RELATIONS:
 	hqdm:part_of_possible_world
 	hqdm:member_of_kind
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -379,7 +379,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -397,7 +397,7 @@ RELATIONS:
 	hqdm:member_of_kind
 	hqdm:part_of
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -414,7 +414,7 @@ RELATIONS:
 TYPE: hqdm:class_of_representation
 
 RELATIONS: 
-	rdf:type
+	hqdm:type
 	hqdm:has_superclass
 	hqdm:member_of_
 	hqdm:consists__of_by_class
@@ -431,7 +431,7 @@ RELATIONS:
 	hqdm:part_of_possible_world
 	hqdm:member_of_kind
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -449,7 +449,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -462,7 +462,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:has_component_by_class
 	hqdm:member__of
@@ -476,7 +476,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -486,7 +486,7 @@ RELATIONS:
 TYPE: hqdm:kind_of_physical_quantity
 
 RELATIONS: 
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -499,7 +499,7 @@ RELATIONS:
 	hqdm:temporal__part_of
 	hqdm:part_of_possible_world
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -516,7 +516,7 @@ RELATIONS:
 	hqdm:temporal__part_of
 	hqdm:part_of_possible_world
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -533,7 +533,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -546,7 +546,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -559,7 +559,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -572,7 +572,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -585,7 +585,7 @@ RELATIONS:
 	hqdm:temporal__part_of
 	hqdm:part_of_possible_world
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -602,7 +602,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -616,7 +616,7 @@ RELATIONS:
 	hqdm:part_of_possible_world
 	hqdm:member_of_kind
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -634,7 +634,7 @@ RELATIONS:
 	hqdm:temporal__part_of
 	hqdm:part_of_possible_world
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -651,7 +651,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -665,7 +665,7 @@ RELATIONS:
 	hqdm:part_of_possible_world
 	hqdm:member_of_kind
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -679,7 +679,7 @@ RELATIONS:
 TYPE: hqdm:KindOfPersonAndRoleImpl
 
 RELATIONS: 
-	rdf:type
+	hqdm:type
 	hqdm:has_superclass
 	hqdm:member_of_
 	hqdm:consists__of_by_class
@@ -698,7 +698,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -711,7 +711,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -724,7 +724,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -742,7 +742,7 @@ RELATIONS:
 	hqdm:member_of_kind
 	hqdm:part_of
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -762,7 +762,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -775,7 +775,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -786,7 +786,7 @@ TYPE: hqdm:temporal_composition
 
 RELATIONS: 
 	hqdm:part
-	rdf:type
+	hqdm:type
 	hqdm:whole
 	hqdm:member_of
 	hqdm:member__of
@@ -801,7 +801,7 @@ RELATIONS:
 	hqdm:part_of_by_class
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -815,7 +815,7 @@ RELATIONS:
 	hqdm:part_of_possible_world
 	hqdm:member_of_kind
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -833,7 +833,7 @@ RELATIONS:
 	hqdm:temporal__part_of
 	hqdm:part_of_possible_world
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -849,7 +849,7 @@ RELATIONS:
 	hqdm:temporal__part_of
 	hqdm:part_of_possible_world
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -864,7 +864,7 @@ TYPE: hqdm:scale
 
 RELATIONS: 
 	hqdm:domain
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:unit
 	hqdm:member__of
@@ -877,7 +877,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -890,7 +890,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -904,7 +904,7 @@ RELATIONS:
 	hqdm:part_of_possible_world
 	hqdm:member_of_kind
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -923,7 +923,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:member_of_kind
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -943,7 +943,7 @@ RELATIONS:
 	hqdm:part_of_by_class
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -956,7 +956,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:has_component_by_class
 	hqdm:member__of
@@ -970,7 +970,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -985,7 +985,7 @@ RELATIONS:
 	hqdm:part_of_possible_world
 	hqdm:member_of_kind
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -1001,7 +1001,7 @@ TYPE: hqdm:defined_relationship
 RELATIONS: 
 	hqdm:involves
 	hqdm:member_of_kind
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_supertype
@@ -1010,7 +1010,7 @@ RELATIONS:
 TYPE: hqdm:class_of_abstract_object
 
 RELATIONS: 
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -1023,7 +1023,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -1033,7 +1033,7 @@ RELATIONS:
 TYPE: hqdm:representation_by_pattern
 
 RELATIONS: 
-	rdf:type
+	hqdm:type
 	hqdm:represented
 	hqdm:has_superclass
 	hqdm:consists_of_by_class
@@ -1052,7 +1052,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -1067,7 +1067,7 @@ RELATIONS:
 	hqdm:part_of_possible_world
 	hqdm:member_of_kind
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -1085,7 +1085,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -1100,7 +1100,7 @@ RELATIONS:
 	hqdm:consists_of_participant_
 	hqdm:member_of_kind
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -1118,7 +1118,7 @@ RELATIONS:
 	hqdm:temporal__part_of
 	hqdm:part_of_possible_world
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -1137,7 +1137,7 @@ RELATIONS:
 	hqdm:part_of_possible_world
 	hqdm:member_of_kind
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -1154,7 +1154,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -1167,7 +1167,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -1180,7 +1180,7 @@ RELATIONS:
 	hqdm:temporal__part_of
 	hqdm:part_of_possible_world
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -1197,7 +1197,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -1216,7 +1216,7 @@ RELATIONS:
 	hqdm:part_of
 	hqdm:consists__of
 	hqdm:consists_of_
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -1241,7 +1241,7 @@ RELATIONS:
 	hqdm:member_of_kind
 	hqdm:part_of
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -1261,7 +1261,7 @@ RELATIONS:
 	hqdm:temporal__part_of
 	hqdm:part_of_possible_world
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -1278,7 +1278,7 @@ RELATIONS:
 	hqdm:temporal__part_of
 	hqdm:part_of_possible_world
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -1295,7 +1295,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -1314,7 +1314,7 @@ RELATIONS:
 	hqdm:part_of
 	hqdm:consists__of
 	hqdm:consists_of_
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -1331,7 +1331,7 @@ RELATIONS:
 TYPE: hqdm:kind_of_physical_property
 
 RELATIONS: 
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -1346,7 +1346,7 @@ RELATIONS:
 	hqdm:part_of_by_class
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -1359,7 +1359,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -1374,7 +1374,7 @@ RELATIONS:
 	hqdm:consists_of_participant_
 	hqdm:member_of_kind
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -1397,7 +1397,7 @@ RELATIONS:
 	hqdm:member_of_kind
 	hqdm:part_of
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -1417,7 +1417,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -1430,7 +1430,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -1449,7 +1449,7 @@ RELATIONS:
 	hqdm:part_of
 	hqdm:consists__of
 	hqdm:consists_of_
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -1469,7 +1469,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -1482,7 +1482,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -1497,7 +1497,7 @@ RELATIONS:
 	hqdm:part_of_possible_world
 	hqdm:part_of_plan
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -1511,7 +1511,7 @@ TYPE: hqdm:kind_of_relationship_with_restriction
 
 RELATIONS: 
 	hqdm:roles
-	rdf:type
+	hqdm:type
 	hqdm:required_role_player
 	hqdm:member_of
 	hqdm:member__of
@@ -1525,7 +1525,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -1539,7 +1539,7 @@ RELATIONS:
 	hqdm:part_of_possible_world
 	hqdm:member_of_kind
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -1556,7 +1556,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -1569,7 +1569,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -1583,7 +1583,7 @@ RELATIONS:
 	hqdm:part_of_possible_world
 	hqdm:member_of_kind
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -1601,7 +1601,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:has_component_by_class
 	hqdm:member__of
@@ -1615,7 +1615,7 @@ RELATIONS:
 	hqdm:temporal__part_of
 	hqdm:part_of_possible_world
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -1632,7 +1632,7 @@ RELATIONS:
 	hqdm:temporal__part_of
 	hqdm:part_of_possible_world
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -1649,7 +1649,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -1662,7 +1662,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -1675,7 +1675,7 @@ RELATIONS:
 	hqdm:temporal__part_of
 	hqdm:part_of_possible_world
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -1693,7 +1693,7 @@ RELATIONS:
 	hqdm:part_of_possible_world
 	hqdm:member_of_kind
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -1712,7 +1712,7 @@ RELATIONS:
 	hqdm:part_of_possible_world
 	hqdm:member_of_kind
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -1730,7 +1730,7 @@ RELATIONS:
 	hqdm:part_of_possible_world
 	hqdm:member_of_kind
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -1748,7 +1748,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -1767,7 +1767,7 @@ RELATIONS:
 	hqdm:part_of
 	hqdm:consists__of
 	hqdm:consists_of_
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -1788,7 +1788,7 @@ RELATIONS:
 	hqdm:intended_role_by_class
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -1802,7 +1802,7 @@ RELATIONS:
 	hqdm:part_of_possible_world
 	hqdm:member_of_kind
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -1822,7 +1822,7 @@ RELATIONS:
 	hqdm:part_of_by_class
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -1835,7 +1835,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -1849,7 +1849,7 @@ RELATIONS:
 	hqdm:part_of_possible_world
 	hqdm:member_of_kind
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -1867,7 +1867,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:successor
@@ -1882,7 +1882,7 @@ RELATIONS:
 	hqdm:temporal__part_of
 	hqdm:part_of_possible_world
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -1899,7 +1899,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -1912,7 +1912,7 @@ RELATIONS:
 	hqdm:temporal__part_of
 	hqdm:part_of_possible_world
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -1935,7 +1935,7 @@ RELATIONS:
 	hqdm:member_of_kind
 	hqdm:part_of
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -1957,7 +1957,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -1970,7 +1970,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -1985,7 +1985,7 @@ RELATIONS:
 	hqdm:part_of_by_class
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -1998,7 +1998,7 @@ RELATIONS:
 	hqdm:temporal__part_of
 	hqdm:part_of_possible_world
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -2015,7 +2015,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -2028,7 +2028,7 @@ RELATIONS:
 	hqdm:temporal__part_of
 	hqdm:part_of_possible_world
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -2045,7 +2045,7 @@ RELATIONS:
 	hqdm:temporal__part_of
 	hqdm:part_of_possible_world
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -2061,7 +2061,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -2074,7 +2074,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -2087,7 +2087,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -2100,7 +2100,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -2113,7 +2113,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -2126,7 +2126,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:sold_under
 	hqdm:member__of
@@ -2141,7 +2141,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -2155,7 +2155,7 @@ RELATIONS:
 	hqdm:part_of_possible_world
 	hqdm:member_of_kind
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -2178,7 +2178,7 @@ RELATIONS:
 	hqdm:member_of_kind
 	hqdm:part_of
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -2198,7 +2198,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -2211,7 +2211,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -2224,7 +2224,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:has_component_by_class
 	hqdm:member__of
@@ -2236,7 +2236,7 @@ RELATIONS:
 TYPE: hqdm:description
 
 RELATIONS: 
-	rdf:type
+	hqdm:type
 	hqdm:represented
 	hqdm:has_superclass
 	hqdm:consists_of_by_class
@@ -2255,7 +2255,7 @@ RELATIONS:
 	hqdm:temporal__part_of
 	hqdm:part_of_possible_world
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -2272,7 +2272,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -2282,7 +2282,7 @@ RELATIONS:
 TYPE: hqdm:abstract_object
 
 RELATIONS: 
-	rdf:type
+	hqdm:type
 	hqdm:member__of
 	hqdm:has_supertype
 
@@ -2290,7 +2290,7 @@ RELATIONS:
 TYPE: hqdm:KindOfOrdinaryFunctionalObjectAndRoleImpl
 
 RELATIONS: 
-	rdf:type
+	hqdm:type
 	hqdm:has_superclass
 	hqdm:member_of_
 	hqdm:intended_role_by_class
@@ -2306,7 +2306,7 @@ RELATIONS:
 TYPE: hqdm:enumerated_class
 
 RELATIONS: 
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -2319,7 +2319,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -2330,7 +2330,7 @@ TYPE: hqdm:kind_of_relationship_with_signature
 
 RELATIONS: 
 	hqdm:roles
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -2344,7 +2344,7 @@ RELATIONS:
 	hqdm:part_of_possible_world
 	hqdm:member_of_kind
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -2361,7 +2361,7 @@ RELATIONS:
 	hqdm:temporal__part_of
 	hqdm:part_of_possible_world
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -2378,7 +2378,7 @@ RELATIONS:
 	hqdm:temporal__part_of
 	hqdm:part_of_possible_world
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -2396,7 +2396,7 @@ RELATIONS:
 	hqdm:part_of_possible_world
 	hqdm:member_of_kind
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -2413,7 +2413,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -2424,7 +2424,7 @@ TYPE: hqdm:specialization
 
 RELATIONS: 
 	hqdm:superclass
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_supertype
@@ -2443,7 +2443,7 @@ RELATIONS:
 	hqdm:part_of
 	hqdm:consists__of
 	hqdm:consists_of_
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -2463,7 +2463,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -2477,7 +2477,7 @@ RELATIONS:
 	hqdm:member_of_kind
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -2494,7 +2494,7 @@ RELATIONS:
 	hqdm:consists__of_by_class
 	hqdm:period_offered
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:consideration_by_class
 	hqdm:member_of
 	hqdm:offeror
@@ -2511,7 +2511,7 @@ RELATIONS:
 	hqdm:member_of_kind
 	hqdm:member_of_currency
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -2525,7 +2525,7 @@ RELATIONS:
 TYPE: hqdm:class
 
 RELATIONS: 
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -2538,7 +2538,7 @@ RELATIONS:
 	hqdm:temporal__part_of
 	hqdm:part_of_possible_world
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -2557,7 +2557,7 @@ RELATIONS:
 	hqdm:part_of_possible_world
 	hqdm:member_of_kind
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -2574,7 +2574,7 @@ RELATIONS:
 	hqdm:temporal__part_of
 	hqdm:part_of_possible_world
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -2591,7 +2591,7 @@ RELATIONS:
 	hqdm:temporal__part_of
 	hqdm:part_of_possible_world
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -2612,7 +2612,7 @@ RELATIONS:
 	hqdm:member_of_kind
 	hqdm:consists__of
 	hqdm:consists_of_
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -2631,7 +2631,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -2646,7 +2646,7 @@ RELATIONS:
 	hqdm:part_of_by_class
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -2659,7 +2659,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -2673,7 +2673,7 @@ RELATIONS:
 	hqdm:part_of_possible_world
 	hqdm:member_of_kind
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -2696,7 +2696,7 @@ RELATIONS:
 	hqdm:part_of
 	hqdm:consists__of
 	hqdm:consists_of_
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -2717,7 +2717,7 @@ RELATIONS:
 	hqdm:part_of_possible_world
 	hqdm:member_of_kind
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -2735,7 +2735,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:has_component_by_class
 	hqdm:member__of
@@ -2754,7 +2754,7 @@ RELATIONS:
 	hqdm:member_of_kind
 	hqdm:part_of
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -2775,7 +2775,7 @@ RELATIONS:
 	hqdm:part_of_possible_world
 	hqdm:member_of_kind
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -2790,7 +2790,7 @@ RELATIONS:
 TYPE: hqdm:unit_of_measure
 
 RELATIONS: 
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_supertype
@@ -2799,7 +2799,7 @@ RELATIONS:
 TYPE: hqdm:KindOfOrganizationAndRoleImpl
 
 RELATIONS: 
-	rdf:type
+	hqdm:type
 	hqdm:has_superclass
 	hqdm:member_of_
 	hqdm:part_of_by_class_
@@ -2818,7 +2818,7 @@ RELATIONS:
 	hqdm:temporal__part_of
 	hqdm:part_of_possible_world
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -2835,7 +2835,7 @@ RELATIONS:
 	hqdm:temporal__part_of
 	hqdm:part_of_possible_world
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -2853,7 +2853,7 @@ RELATIONS:
 	hqdm:part_of_possible_world
 	hqdm:member_of_kind
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -2871,7 +2871,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -2884,7 +2884,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -2894,7 +2894,7 @@ RELATIONS:
 TYPE: hqdm:classification
 
 RELATIONS: 
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:classifier
 	hqdm:member
@@ -2908,7 +2908,7 @@ RELATIONS:
 	hqdm:temporal__part_of
 	hqdm:part_of_possible_world
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -2924,7 +2924,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -2937,7 +2937,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -2950,7 +2950,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:upper_bound
 	hqdm:ranges_over
@@ -2967,7 +2967,7 @@ RELATIONS:
 	hqdm:intended_role_by_class
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -2978,7 +2978,7 @@ TYPE: hqdm:aggregation
 
 RELATIONS: 
 	hqdm:part
-	rdf:type
+	hqdm:type
 	hqdm:whole
 	hqdm:member_of
 	hqdm:member__of
@@ -2992,7 +2992,7 @@ RELATIONS:
 	hqdm:part_of_possible_world
 	hqdm:member_of_kind
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -3007,7 +3007,7 @@ RELATIONS:
 TYPE: hqdm:identification
 
 RELATIONS: 
-	rdf:type
+	hqdm:type
 	hqdm:represented
 	hqdm:has_superclass
 	hqdm:consists_of_by_class
@@ -3026,7 +3026,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -3039,7 +3039,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:has_component_by_class
 	hqdm:member__of
@@ -3053,7 +3053,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -3066,7 +3066,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -3079,7 +3079,7 @@ RELATIONS:
 	hqdm:temporal__part_of
 	hqdm:part_of_possible_world
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -3094,7 +3094,7 @@ TYPE: hqdm:composition
 
 RELATIONS: 
 	hqdm:part
-	rdf:type
+	hqdm:type
 	hqdm:whole
 	hqdm:member_of
 	hqdm:member__of
@@ -3108,7 +3108,7 @@ RELATIONS:
 	hqdm:part_of_possible_world
 	hqdm:member_of_kind
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -3125,7 +3125,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -3135,7 +3135,7 @@ RELATIONS:
 TYPE: hqdm:definition
 
 RELATIONS: 
-	rdf:type
+	hqdm:type
 	hqdm:represented
 	hqdm:has_superclass
 	hqdm:consists_of_by_class
@@ -3154,7 +3154,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -3164,7 +3164,7 @@ RELATIONS:
 TYPE: hqdm:class_of_class
 
 RELATIONS: 
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -3177,7 +3177,7 @@ RELATIONS:
 	hqdm:temporal__part_of
 	hqdm:part_of_possible_world
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -3196,7 +3196,7 @@ RELATIONS:
 	hqdm:part_of_possible_world
 	hqdm:member_of_kind
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -3213,7 +3213,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -3223,7 +3223,7 @@ RELATIONS:
 TYPE: hqdm:function_
 
 RELATIONS: 
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_supertype
@@ -3235,7 +3235,7 @@ RELATIONS:
 	hqdm:temporal__part_of
 	hqdm:part_of_possible_world
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -3258,7 +3258,7 @@ RELATIONS:
 	hqdm:member_of_kind
 	hqdm:part_of
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -3282,7 +3282,7 @@ RELATIONS:
 	hqdm:part_of_possible_world
 	hqdm:member_of_kind
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -3299,7 +3299,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -3317,7 +3317,7 @@ RELATIONS:
 	hqdm:member_of_kind
 	hqdm:part_of
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -3338,7 +3338,7 @@ RELATIONS:
 	hqdm:part_of_possible_world
 	hqdm:member_of_kind
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -3360,7 +3360,7 @@ RELATIONS:
 	hqdm:consists__of_by_class
 	hqdm:period_offered
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:consideration_by_class
 	hqdm:member_of
 	hqdm:offeror
@@ -3375,7 +3375,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -3389,7 +3389,7 @@ RELATIONS:
 	hqdm:part_of_possible_world
 	hqdm:member_of_kind
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -3407,7 +3407,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -3421,7 +3421,7 @@ RELATIONS:
 	hqdm:part_of_possible_world
 	hqdm:member_of_kind
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -3440,7 +3440,7 @@ RELATIONS:
 	hqdm:determines_by_class
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:references_by_class
 	hqdm:member__of
@@ -3455,7 +3455,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:intersection_of
 	hqdm:member_of
 	hqdm:member__of
@@ -3474,7 +3474,7 @@ RELATIONS:
 	hqdm:temporal__part_of
 	hqdm:part_of_possible_world
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -3490,7 +3490,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -3503,7 +3503,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -3517,7 +3517,7 @@ RELATIONS:
 	hqdm:part_of_possible_world
 	hqdm:member_of_kind
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -3534,7 +3534,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -3547,7 +3547,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -3557,7 +3557,7 @@ RELATIONS:
 TYPE: hqdm:ParticipantAndStateOfOrganizationImpl
 
 RELATIONS: 
-	rdf:type
+	hqdm:type
 	hqdm:has_supertype
 	hqdm:temporal__part_of
 	hqdm:part_of_possible_world
@@ -3578,7 +3578,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -3591,7 +3591,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -3604,7 +3604,7 @@ RELATIONS:
 	hqdm:member_of_
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -3619,7 +3619,7 @@ RELATIONS:
 	hqdm:part_of_by_class
 	hqdm:consists__of_by_class
 	hqdm:part__of_by_class
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass
@@ -3633,7 +3633,7 @@ RELATIONS:
 	hqdm:part_of_possible_world
 	hqdm:member_of_kind
 	hqdm:consists__of
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:ending
 	hqdm:beginning
@@ -3648,7 +3648,7 @@ RELATIONS:
 TYPE: hqdm:class_of_physical_property
 
 RELATIONS: 
-	rdf:type
+	hqdm:type
 	hqdm:member_of
 	hqdm:member__of
 	hqdm:has_superclass

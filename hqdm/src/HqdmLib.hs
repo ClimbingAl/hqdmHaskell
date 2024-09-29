@@ -137,12 +137,12 @@ relationPairs = fmap (\x -> RelationPair (predicate x) (object x))
 -- | lookupHqdmTypeFromAll
 -- From the complete set of HQDM triples with a given node Id (subject), from lookupHqdmOne, find the type name of the given Node Id.
 lookupHqdmTypeFromAll :: [HqdmInput] -> String -> [String]
-lookupHqdmTypeFromAll hqdmAll nodeId = [object values | values <- hqdmAll, ("rdf:type" == predicate values) && (nodeId == subject values)]
+lookupHqdmTypeFromAll hqdmAll nodeId = [object values | values <- hqdmAll, ("hqdm:type" == predicate values) && (nodeId == subject values)]
 
 -- | lookupHqdmType
--- From the triples with a given node Id (subject), from lookupHqdmOne, find the object with the predicate rdf:type.
+-- From the triples with a given node Id (subject), from lookupHqdmOne, find the object with the predicate hqdm:type.
 lookupHqdmType :: [HqdmInput] -> [String]
-lookupHqdmType obj = [object values | values <- obj, "rdf:type" == predicate values]
+lookupHqdmType obj = [object values | values <- obj, "hqdm:type" == predicate values]
 
 -- | findHqdmTypesInList
 -- Find the type names of each given node Id (subject).

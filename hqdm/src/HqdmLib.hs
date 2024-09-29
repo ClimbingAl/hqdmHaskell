@@ -39,6 +39,7 @@ module HqdmLib
     findSubtypeTree,
     findInheritedRels,
     collapseInheritedRels,
+    printableCollapsedList,
     printableRelationPairs,
   )
 where
@@ -244,7 +245,7 @@ findSubtypeTree ids hqdm previousIds = go ids hqdm previousIds
 -- | findInheritedRels
 -- Build the list of inherited relations for the given type. Do this from a calculated supertype tree (reversed).
 --
--- Input: A given hqdm node id of the desired type.Applicative
+-- Input: A given hqdm node id of the desired type.
 -- Output: List of accumulated relations down the stack.
 findInheritedRels :: [Id] -> [HqdmInput] -> [[RelationPair]] -> [[RelationPair]]
 findInheritedRels tree hqdmModel rels = go tree hqdmModel rels
@@ -261,6 +262,12 @@ findInheritedRels tree hqdmModel rels = go tree hqdmModel rels
 collapseInheritedRels :: [[RelationPair]] -> [String]
 collapseInheritedRels [] = []
 collapseInheritedRels rp = uniqueIds $ fmap p (concat rp)
+
+-- | printableCollapsedList
+-- Take a list of unique predicate names and replace any empty list with [" "]
+printableCollapsedList :: [String] -> [String]
+printableCollapsedList [] = [" "]
+printableCollapsedList cl = fmap ("\n\t" ++) cl
 
 -- | printableRelationPair
 -- Take a RelationPair, find the Type Name from the list of HqdmInput triples and then emit the

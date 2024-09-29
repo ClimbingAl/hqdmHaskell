@@ -26,6 +26,7 @@ import HqdmLib (
     findSubtypeTree,
     findInheritedRels,
     collapseInheritedRels,
+    printableCollapsedList,
     printableRelationPairs)
 
 import HqdmInspection (howmanyNodes)
@@ -73,64 +74,30 @@ main = do
 
     let hqdmInputModel = either (const []) id hqdmTriples
 
-    let hqdmRawNodes = getSubjects hqdmInputModel
+    let uniqueNodes = uniqueIds $ getSubjects hqdmInputModel
 
-    let uniqueNodes = uniqueIds hqdmRawNodes
-
-    -- Exercise functions to find the thing object's relations (triples) and then the type predicate for thing
-    let thingObj = lookupHqdmOne thing hqdmInputModel
-    let thingType = lookupHqdmType thingObj
-
-    -- Find the subtypes of a given thing
+    -- Find the subtypes in the input model
     let subtypes = lookupSubtypes hqdmInputModel
-    let thingSubtypes = findHqdmTypesInList (lookupSubtypeOf classOfSpatiotemporalextent subtypes) hqdmInputModel
 
-    -- Find the supertypes of a given thing
-    let thingSupertypes = findHqdmTypesInList (lookupSupertypeOf classOfSpatiotemporalextent subtypes) hqdmInputModel
-    let thingSupertypes = lookupSupertypesOf [classOfSpatiotemporalextent, event] subtypes
-    let thingSupertype = findHqdmTypesInList (lookupSupertypeOf thing subtypes) hqdmInputModel
-
-    ---------------------------------------------
-
-    let hqdmRawPredicates = getPredicates hqdmInputModel
-    let uniquePredicates = stringListSort $ uniqueIds hqdmRawPredicates
-
-    ---------------------------------------------
-    -- Find the supertypes all the way to thing by recursion
-    let stTree = findSupertypeTree [[thing]] subtypes
-    let printableStTree = printableTypeTree (reverse stTree) hqdmInputModel ""
-    --putStr printableStTree
-
-    -- Find the subtypes all the way to the lowest accessible node by recursion
-    let sbtTree = findSubtypeTree [[stateOfPhysicalObject]] subtypes []
-    let printableSbtTree = printableTypeTree sbtTree hqdmInputModel ""
-
-    -- Take the result and compose a list of the relations inherited down the tree, via all paths
-    ---- Take each hqdm type (by node id), calculate its relations (predicate and object (object aka. range)) and write out in EXPRESS-like format
-    let stRels = findInheritedRels (concat stTree) hqdmInputModel []
-    let printableStRels = printableRelationPairs hqdmInputModel (reverse stRels)
-
-    ---- Allow summary that just has predicates collpsed without ranges
-    let collapsedStRels = collapseInheritedRels stRels
-
-    -- Do this for all HQDM Types
+    -- Find inherited relations for all the input hqdm nodes
     let allInheritedRels =  fmap (\ x -> findInheritedRels (concat (findSupertypeTree [[x]] subtypes)  ) hqdmInputModel []) uniqueNodes
-    --print allInheritedRels
     let printableAllInheritedRels = fmap (printableRelationPairs hqdmInputModel) allInheritedRels
-    putStr (concatMap ("\n\n\n" ++) printableAllInheritedRels)
 
-    -- Compare with HDQM triples
+    -- Make a collapsed version with the list of relations that the given type should have
+    let allInheritedRelsCollapsed = fmap (printableCollapsedList . collapseInheritedRels) allInheritedRels
+    let namedUniqueNodes = fmap (\ x -> take 1 (lookupHqdmType $ lookupHqdmOne x hqdmInputModel)) uniqueNodes
+    let namedTypesAndRels = zip namedUniqueNodes allInheritedRelsCollapsed
+
+    --print namedTypesAndRels
+
+    -- Note: Possibly compare with HDQM triples
 
     -- Print all supertypes
-    let allTypeSupertypes = fmap (\ x ->  (x ++ "  " ++ (concat (findHqdmTypesInList (lookupSupertypeOf x subtypes) hqdmInputModel)))) uniqueNodes
+    --let allTypeSupertypes = fmap (\ x ->  (x ++ "  " ++ (concat (findHqdmTypesInList (lookupSupertypeOf x subtypes) hqdmInputModel)))) uniqueNodes
     --print allTypeSupertypes
-    -- Add Cardinalities as type patterns
 
-    -- Compose the structural validations of hqdm
+    putStr (concatMap (\ x -> "\n\n\nTYPE: " ++ head (fst x) ++ "\n\nRELATIONS: " ++ concat (snd x)) namedTypesAndRels)
 
-    -- 
-
-
-    putStr "\n\nDone\n"
+    --putStr (concatMap ("\n\n\n" ++) printableAllInheritedRels)
 
 

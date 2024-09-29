@@ -4,20 +4,21 @@ This is an experiment in the functional parsing (and ultimately querying) of the
 
 The first 12 lines of the .csv file are:
 
-```
-hqdm:f5ac9254-2b93-4ed7-b89e-70994842b438,hqdm:temporal__part_of,hqdm:dd8359c4-0a2b-416a-af27-3bcb0551b41a
-hqdm:f5ac9254-2b93-4ed7-b89e-70994842b438,hqdm:part_of_possible_world,hqdm:a5dc8c36-56fc-44c2-909b-7592b1f44fd7
-hqdm:f5ac9254-2b93-4ed7-b89e-70994842b438,hqdm:consists__of,hqdm:dd8359c4-0a2b-416a-af27-3bcb0551b41a
-hqdm:f5ac9254-2b93-4ed7-b89e-70994842b438,hqdm:type,hqdm:state_of_biological_object
-hqdm:f5ac9254-2b93-4ed7-b89e-70994842b438,hqdm:member_of,hqdm:6beb4515-89e8-4bce-9318-77935200f9bb
-hqdm:f5ac9254-2b93-4ed7-b89e-70994842b438,hqdm:ending,hqdm:545b4541-8a34-46b8-8704-2265be0244c3
-hqdm:f5ac9254-2b93-4ed7-b89e-70994842b438,hqdm:beginning,hqdm:545b4541-8a34-46b8-8704-2265be0244c3
-hqdm:f5ac9254-2b93-4ed7-b89e-70994842b438,hqdm:part__of,hqdm:dd8359c4-0a2b-416a-af27-3bcb0551b41a
-hqdm:f5ac9254-2b93-4ed7-b89e-70994842b438,hqdm:member__of,hqdm:4a8cba08-035c-4902-935b-26da61ed282c
-hqdm:f5ac9254-2b93-4ed7-b89e-70994842b438,hqdm:temporal_part_of,hqdm:21c1fe82-1b48-46b3-8df8-6bddcbb2d92e
-hqdm:f5ac9254-2b93-4ed7-b89e-70994842b438,hqdm:aggregated_into,hqdm:dd8359c4-0a2b-416a-af27-3bcb0551b41a
-hqdm:f5ac9254-2b93-4ed7-b89e-70994842b438,hqdm:has_supertype,hqdm:f9cb048d-a2f7-4ff6-b824-c59b44e2aabe
-```
+| subject | predicate | object|
+| --- | --- | --- |
+|hqdm:f5ac9254-2b93-4ed7-b89e-70994842b438|hqdm:temporal__part_of|hqdm:dd8359c4-0a2b-416a-af27-3bcb0551b41a|
+|hqdm:f5ac9254-2b93-4ed7-b89e-70994842b438|hqdm:part_of_possible_world|hqdm:a5dc8c36-56fc-44c2-909b-7592b1f44fd7|
+|hqdm:f5ac9254-2b93-4ed7-b89e-70994842b438|hqdm:consists__of|hqdm:dd8359c4-0a2b-416a-af27-3bcb0551b41a|
+|hqdm:f5ac9254-2b93-4ed7-b89e-70994842b438|hqdm:type|hqdm:state_of_biological_object|
+|hqdm:f5ac9254-2b93-4ed7-b89e-70994842b438|hqdm:member_of|hqdm:6beb4515-89e8-4bce-9318-77935200f9bb|
+|hqdm:f5ac9254-2b93-4ed7-b89e-70994842b438|hqdm:ending|hqdm:545b4541-8a34-46b8-8704-2265be0244c3|
+|hqdm:f5ac9254-2b93-4ed7-b89e-70994842b438|hqdm:beginning|hqdm:545b4541-8a34-46b8-8704-2265be0244c3|
+|hqdm:f5ac9254-2b93-4ed7-b89e-70994842b438|hqdm:part__of|hqdm:dd8359c4-0a2b-416a-af27-3bcb0551b41a|
+|hqdm:f5ac9254-2b93-4ed7-b89e-70994842b438|hqdm:member__of|hqdm:4a8cba08-035c-4902-935b-26da61ed282c|
+|hqdm:f5ac9254-2b93-4ed7-b89e-70994842b438|hqdm:temporal_part_of|hqdm:21c1fe82-1b48-46b3-8df8-6bddcbb2d92e|
+|hqdm:f5ac9254-2b93-4ed7-b89e-70994842b438|hqdm:aggregated_into|hqdm:dd8359c4-0a2b-416a-af27-3bcb0551b41a|
+|hqdm:f5ac9254-2b93-4ed7-b89e-70994842b438|hqdm:has_supertype|hqdm:f9cb048d-a2f7-4ff6-b824-c59b44e2aabe|
+
 
 All the NodeIds are preserved, with prefixes applied, and with all the predicate names and HQDM Entity Types as-per HQDM as documented (and as in Magma Core).
 

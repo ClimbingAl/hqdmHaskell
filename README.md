@@ -49,7 +49,8 @@ Note: The `hqdm` and `inheritance` folders use different versions of Cabal, whic
 
 - Regenerate the triples to find any missing ones from the input data (there will be some).
 - Add Cardinalities that are in the original [HQDM EXPRESS file](https://github.com/hqdmTop/hqdmFramework/blob/main/hqdm_framework.txt).
-- Do a test with biding to a Magma Core dataset (perhaps NetworksBasic).  I'm thinking about using `hqdm:instance_of` instead of `rdf:type`, to remove logical ambiguity.
+- Add relation specialisation (i.e. implement functions to apply the specialisation of one predicate being a specialisation of another).
+- Do a test with binding to a Magma Core dataset (perhaps NetworksBasic).  I'm thinking about using `hqdm:instance_of` instead of `rdf:type`, to remove logical ambiguity.
 - Build a Domain Specific Language to enable HQDM operations (initially for query).
 - Add data modification and exception handling.
 

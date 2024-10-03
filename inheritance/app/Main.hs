@@ -75,13 +75,16 @@ main = do
     --print namedTypesAndRels
 
     -- Note: Possibly compare with HDQM triples
-
+    let hqdmThings = fmap (`lookupHqdmOne` hqdmInputModel) uniqueNodes
+    let originalThingRels = concat $ fmap (\ x ->  "\n\n\nTYPE: " ++ head (lookupHqdmType x) ++ "\n\nRELATIONS: " ++ concatMap ("\n\t" ++) (getPredicates x)) hqdmThings
+    putStr originalThingRels
     -- Print all supertypes
     --let allTypeSupertypes = fmap (\ x ->  (x ++ "  " ++ (concat (findHqdmTypesInList (lookupSupertypeOf x subtypes) hqdmInputModel)))) uniqueNodes
     --print allTypeSupertypes
 
     -- Write namedTypesAndRels to the console
-    putStr (concatMap (\ x -> "\n\n\nTYPE: " ++ head (fst x) ++ "\n\nRELATIONS: " ++ concat (snd x)) namedTypesAndRels)
+    -- MAIN OUTPUT 
+    -- putStr (concatMap (\ x -> "\n\n\nTYPE: " ++ head (fst x) ++ "\n\nRELATIONS: " ++ concat (snd x)) namedTypesAndRels)
 
     --putStr (concatMap ("\n\n\n" ++) printableAllInheritedRels)
 

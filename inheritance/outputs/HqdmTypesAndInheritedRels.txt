@@ -1,0 +1,3657 @@
+
+
+
+TYPE: hqdm:state_of_biological_object
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:class_of_contract_process
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:part_of_by_class_
+    hqdm:part_of_by_class
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:state_of_sign
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:state_of_sales_product_instance
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:class_of_class_of_spatio_temporal_extent
+
+RELATIONS: 
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:physical_property
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:member_of_kind
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:relationship
+
+RELATIONS: 
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_supertype
+
+
+TYPE: hqdm:kind_of_functional_system_component
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:class_of_agreement_process
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:part_of_by_class_
+    hqdm:part_of_by_class
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:reaching_agreement
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:determines
+    hqdm:part_of_possible_world
+    hqdm:part_of_
+    hqdm:references
+    hqdm:member_of_kind
+    hqdm:part_of
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:consists_of_participant
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+    hqdm:consists_of
+    hqdm:causes
+
+
+TYPE: hqdm:period_of_time
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:temporal_part_of_
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:class_of_functional_system
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:class_of_position
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:class_of_person
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:physical_property_range
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:ranges_over
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:ParticipantAndStateOfPersonImpl
+
+RELATIONS: 
+    hqdm:type
+    hqdm:has_supertype
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:member_of_kind
+    hqdm:consists__of
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+
+
+TYPE: hqdm:class_of_relationship
+
+RELATIONS: 
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:activity
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:determines
+    hqdm:part_of_possible_world
+    hqdm:references
+    hqdm:member_of_kind
+    hqdm:part_of
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:consists_of_participant
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+    hqdm:consists_of
+    hqdm:causes
+
+
+TYPE: hqdm:class_of_physical_quantity
+
+RELATIONS: 
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:identification_of_physical_quantity
+
+RELATIONS: 
+    hqdm:type
+    hqdm:represented
+    hqdm:has_superclass
+    hqdm:uses
+    hqdm:consists_of_in_members
+    hqdm:consists_of_by_class
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_supertype
+
+
+TYPE: hqdm:participant
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:member_of_kind
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:state_of_language_community
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:point_in_time
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:biological_system
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:member_of_kind
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+    hqdm:natural_role
+
+
+TYPE: hqdm:kind_of_biological_object
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:socially_constructed_activity
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:determines
+    hqdm:part_of_possible_world
+    hqdm:part_of_
+    hqdm:references
+    hqdm:member_of_kind
+    hqdm:part_of
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:consists_of_participant
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+    hqdm:consists_of
+    hqdm:causes
+
+
+TYPE: hqdm:class_of_representation
+
+RELATIONS: 
+    hqdm:type
+    hqdm:has_superclass
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_supertype
+
+
+TYPE: hqdm:transferor
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:member_of_kind
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:participant_in
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:class_of_state_of_association
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:kind_of_functional_system
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:has_component_by_class
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:class_of_state_of_organization
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:kind_of_physical_quantity
+
+RELATIONS: 
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:state_of_activity
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:state_of_association
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:class_of_state_of_functional_system
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:class_of_party
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:kind_of_organization_component
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:class_of_state_of_ordinary_functional_object
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:state_of_ordinary_physical_object
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:kind_of_system_component
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:money_asset
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:member_of_kind
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:participant_in
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:state_of_position
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:class_of_activity
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:intentionally_constructed_object
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:member_of_kind
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:KindOfPersonAndRoleImpl
+
+RELATIONS: 
+    hqdm:type
+    hqdm:has_superclass
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:member_of
+    hqdm:has_component_by_class
+    hqdm:member__of
+    hqdm:part_of_by_class_
+    hqdm:part_of_by_class
+    hqdm:has_supertype
+
+
+TYPE: hqdm:class_of_state_of_person
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:kind_of_biological_system_component
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:class_of_period_of_time
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:offer
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:determines
+    hqdm:part_of_possible_world
+    hqdm:part_of_
+    hqdm:references
+    hqdm:member_of_kind
+    hqdm:part_of
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:consists_of_participant
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+    hqdm:consists_of
+    hqdm:causes
+
+
+TYPE: hqdm:kind_of_intentionally_constructed_object
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:class_of_state_of_system_component
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:temporal_composition
+
+RELATIONS: 
+    hqdm:part
+    hqdm:type
+    hqdm:whole
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_supertype
+
+
+TYPE: hqdm:class_of_agreement_execution
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:part_of_by_class_
+    hqdm:part_of_by_class
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:transferee
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:member_of_kind
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:participant_in
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:event
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:state_of_biological_system
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:scale
+
+RELATIONS: 
+    hqdm:domain
+    hqdm:type
+    hqdm:member_of
+    hqdm:unit
+    hqdm:member__of
+    hqdm:has_supertype
+
+
+TYPE: hqdm:class_of_amount_of_money
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:class_of_possible_world
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:ordinary_biological_object
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:member_of_kind
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:sign
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:member_of_
+    hqdm:member_of_kind
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:participant_in
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:class_of_socially_constructed_activity
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:part_of_by_class_
+    hqdm:part_of_by_class
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:kind_of_system
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:has_component_by_class
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:kind_of_association
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:consists_of_by_class
+    hqdm:has_supertype
+
+
+TYPE: hqdm:individual
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:member_of_kind
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:defined_relationship
+
+RELATIONS: 
+    hqdm:involves
+    hqdm:member_of_kind
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_supertype
+
+
+TYPE: hqdm:class_of_abstract_object
+
+RELATIONS: 
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:kind_of_position
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:representation_by_pattern
+
+RELATIONS: 
+    hqdm:type
+    hqdm:represented
+    hqdm:has_superclass
+    hqdm:consists_of_by_class
+    hqdm:consists_of_in_members
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_supertype
+
+
+TYPE: hqdm:class_of_ordinary_functional_object
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:functional_system_component
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:component_of
+    hqdm:part_of_possible_world
+    hqdm:member_of_kind
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:intended_role
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:class_of_state_of_activity
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:ownership
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:consists_of_participant_
+    hqdm:member_of_kind
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:consists_of_participant
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:person_in_position
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:biological_system_component
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:component_of
+    hqdm:part_of_possible_world
+    hqdm:member_of_kind
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:class_of_event
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:class_of_state_of_functional_system_component
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:state_of_party
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:class_of_functional_object
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:sale_of_goods
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:determines
+    hqdm:part_of_possible_world
+    hqdm:part_of_
+    hqdm:references
+    hqdm:member_of_kind
+    hqdm:part_of
+    hqdm:consists__of
+    hqdm:consists_of_
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:consists_of_participant
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+    hqdm:consists_of
+    hqdm:causes
+
+
+TYPE: hqdm:contract_execution
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:determines
+    hqdm:part_of_possible_world
+    hqdm:part_of_
+    hqdm:references
+    hqdm:member_of_kind
+    hqdm:part_of
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:consists_of_participant
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+    hqdm:consists_of
+    hqdm:causes
+
+
+TYPE: hqdm:state_of_organization
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:state_of_socially_constructed_object
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:class_of_state_of_intentionally_constructed_object
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:agree_contract
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:determines
+    hqdm:part_of_possible_world
+    hqdm:part_of_
+    hqdm:references
+    hqdm:member_of_kind
+    hqdm:part_of
+    hqdm:consists__of
+    hqdm:consists_of_
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:consists_of_participant
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+    hqdm:consists_of
+    hqdm:causes
+
+
+TYPE: hqdm:kind_of_physical_property
+
+RELATIONS: 
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:class_of_reaching_agreement
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:part_of_by_class_
+    hqdm:part_of_by_class
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:class_of_state_of_socially_constructed_object
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:employment
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:consists_of_participant_
+    hqdm:member_of_kind
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:consists_of_participant
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:acceptance_of_offer_for_goods
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:determines
+    hqdm:part_of_possible_world
+    hqdm:part_of_
+    hqdm:references
+    hqdm:member_of_kind
+    hqdm:part_of
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:consists_of_participant
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+    hqdm:consists_of
+    hqdm:causes
+
+
+TYPE: hqdm:class_of_installed_functional_system_component
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:class_of_state_of_biological_object
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:offer_and_acceptance_for_goods
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:determines
+    hqdm:part_of_possible_world
+    hqdm:part_of_
+    hqdm:references
+    hqdm:member_of_kind
+    hqdm:part_of
+    hqdm:consists__of
+    hqdm:consists_of_
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:consists_of_participant
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+    hqdm:consists_of
+    hqdm:causes
+
+
+TYPE: hqdm:class_of_ordinary_biological_object
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:class_of_state_of_position
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:requirement
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:defined_by
+    hqdm:part_of_possible_world
+    hqdm:part_of_plan
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:kind_of_relationship_with_restriction
+
+RELATIONS: 
+    hqdm:roles
+    hqdm:type
+    hqdm:required_role_player
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:class_of_organization
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:ordinary_physical_object
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:member_of_kind
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:class_of_state
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:class_of_state_of_biological_system
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:possible_world
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:member_of_kind
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:temporal_part_of_
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:kind_of_person
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:has_component_by_class
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:state_of_functional_system
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:state_of_socially_constructed_activity
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:pattern
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:class_of_biological_system
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:installed_object
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:ordinary_functional_object
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:member_of_kind
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:intended_role
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:physical_object
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:member_of_kind
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:person
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:member_of_kind
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+    hqdm:natural_role
+
+
+TYPE: hqdm:kind_of_socially_constructed_object
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:contract_process
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:determines
+    hqdm:part_of_possible_world
+    hqdm:part_of_
+    hqdm:references
+    hqdm:member_of_kind
+    hqdm:part_of
+    hqdm:consists__of
+    hqdm:consists_of_
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:consists_of_participant
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+    hqdm:consists_of
+    hqdm:causes
+
+
+TYPE: hqdm:kind_of_ordinary_functional_object
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:intended_role_by_class
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:employer
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:member_of_kind
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:participant_in
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:class_of_agree_contract
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:part_of_by_class_
+    hqdm:part_of_by_class
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:class_of_system_component
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:functional_object
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:member_of_kind
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:intended_role
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:sales_product_version
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:successor
+    hqdm:sold_as
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:in_place_biological_component
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:kind_of_ordinary_biological_object
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:state_of_intentionally_constructed_object
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:transfer_of_ownership
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:determines
+    hqdm:part_of_possible_world
+    hqdm:part_of_
+    hqdm:consists_of_participant_
+    hqdm:references
+    hqdm:member_of_kind
+    hqdm:part_of
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:consists_of_participant
+    hqdm:part__of
+    hqdm:causes_beginning
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+    hqdm:causes_ending
+    hqdm:consists_of
+    hqdm:causes
+
+
+TYPE: hqdm:class_of_sales_product_instance
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:class_of_physical_object
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:class_of_contract_execution
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:part_of_by_class_
+    hqdm:part_of_by_class
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:state
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:class_of_point_in_time
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:state_of_person
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:spatio_temporal_extent
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:class_of_state_of_party
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:class_of_state_of_ordinary_physical_object
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:class_of_spatio_temporal_extent
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:currency
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:product_brand
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:sales_product
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:sold_under
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:meets_specification
+    hqdm:has_supertype
+
+
+TYPE: hqdm:kind_of_individual
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:asset
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:member_of_kind
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:participant_in
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:agreement_execution
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:determines
+    hqdm:part_of_possible_world
+    hqdm:part_of_
+    hqdm:references
+    hqdm:member_of_kind
+    hqdm:part_of
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:consists_of_participant
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+    hqdm:consists_of
+    hqdm:causes
+
+
+TYPE: hqdm:class_of_socially_constructed_object
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:class_of_state_of_sales_product_instance
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:kind_of_biological_system
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:has_component_by_class
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:natural_role_by_class
+    hqdm:has_supertype
+
+
+TYPE: hqdm:description
+
+RELATIONS: 
+    hqdm:type
+    hqdm:represented
+    hqdm:has_superclass
+    hqdm:consists_of_by_class
+    hqdm:consists_of_in_members
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_supertype
+
+
+TYPE: hqdm:state_of_organization_component
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:class_of_sign
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:abstract_object
+
+RELATIONS: 
+    hqdm:type
+    hqdm:member__of
+    hqdm:has_supertype
+
+
+TYPE: hqdm:KindOfOrdinaryFunctionalObjectAndRoleImpl
+
+RELATIONS: 
+    hqdm:type
+    hqdm:has_superclass
+    hqdm:member_of_
+    hqdm:intended_role_by_class
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:part_of_by_class_
+    hqdm:part_of_by_class
+    hqdm:has_supertype
+
+
+TYPE: hqdm:enumerated_class
+
+RELATIONS: 
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:class_of_association
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:kind_of_relationship_with_signature
+
+RELATIONS: 
+    hqdm:roles
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:biological_object
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:member_of_kind
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:state_of_functional_object
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:state_of_physical_object
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:system
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:member_of_kind
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:class_of_functional_system_component
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:specialization
+
+RELATIONS: 
+    hqdm:superclass
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_supertype
+    hqdm:subclass
+
+
+TYPE: hqdm:agreement_process
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:determines
+    hqdm:part_of_possible_world
+    hqdm:part_of_
+    hqdm:references
+    hqdm:member_of_kind
+    hqdm:part_of
+    hqdm:consists__of
+    hqdm:consists_of_
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:consists_of_participant
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+    hqdm:consists_of
+    hqdm:causes
+
+
+TYPE: hqdm:class_of_organization_component
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:physical_quantity
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:member_of_kind
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:product_offering
+
+RELATIONS: 
+    hqdm:class_of_offered
+    hqdm:member_of_
+    hqdm:part_of_by_class_
+    hqdm:part_of_by_class
+    hqdm:consists__of_by_class
+    hqdm:period_offered
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:consideration_by_class
+    hqdm:member_of
+    hqdm:offeror
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:amount_of_money
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:member_of_kind
+    hqdm:member_of_currency
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:class
+
+RELATIONS: 
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:state_of_ordinary_functional_object
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:system_component
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:component_of
+    hqdm:part_of_possible_world
+    hqdm:member_of_kind
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:state_of_system_component
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:state_of_system
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:representation_by_sign
+
+RELATIONS: 
+    hqdm:represents
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:member_of_
+    hqdm:member_of_kind
+    hqdm:consists__of
+    hqdm:consists_of_
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:consists_of_participant
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+    hqdm:consists_of
+
+
+TYPE: hqdm:class_of_state_of_physical_object
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:role
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:part_of_by_class_
+    hqdm:part_of_by_class
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:class_of_in_place_biological_component
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:socially_constructed_object
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:member_of_kind
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:exchange_of_goods_and_money
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:determines
+    hqdm:part_of_possible_world
+    hqdm:part_of_
+    hqdm:references
+    hqdm:member_of_kind
+    hqdm:part_of
+    hqdm:consists__of
+    hqdm:consists_of_
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:consists_of_participant
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+    hqdm:consists_of
+    hqdm:causes
+
+
+TYPE: hqdm:functional_system
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:member_of_kind
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:intended_role
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:kind_of_party
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:has_component_by_class
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:acceptance_of_offer
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:determines
+    hqdm:part_of_possible_world
+    hqdm:part_of_
+    hqdm:references
+    hqdm:member_of_kind
+    hqdm:part_of
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:consists_of_participant
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+    hqdm:consists_of
+    hqdm:causes
+
+
+TYPE: hqdm:association
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:member_of_kind
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:consists_of_participant
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:unit_of_measure
+
+RELATIONS: 
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_supertype
+
+
+TYPE: hqdm:KindOfOrganizationAndRoleImpl
+
+RELATIONS: 
+    hqdm:type
+    hqdm:has_superclass
+    hqdm:member_of_
+    hqdm:part_of_by_class_
+    hqdm:part_of_by_class
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_component_by_class
+    hqdm:has_supertype
+
+
+TYPE: hqdm:installed_functional_system_component
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:state_of_functional_system_component
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:recognizing_language_community
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:member_of_kind
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:participant_in
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:class_of_ordinary_physical_object
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:class_of_state_of_sign
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:classification
+
+RELATIONS: 
+    hqdm:type
+    hqdm:member_of
+    hqdm:classifier
+    hqdm:member
+    hqdm:member__of
+    hqdm:has_supertype
+
+
+TYPE: hqdm:beginning_of_ownership
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:class_of_state_of_amount_of_money
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:class_of_biological_object
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:physical_quantity_range
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:upper_bound
+    hqdm:ranges_over
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:lower_bound
+    hqdm:has_supertype
+
+
+TYPE: hqdm:kind_of_functional_object
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:intended_role_by_class
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:aggregation
+
+RELATIONS: 
+    hqdm:part
+    hqdm:type
+    hqdm:whole
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_supertype
+
+
+TYPE: hqdm:sales_product_instance
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:member_of_kind
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:intended_role
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:identification
+
+RELATIONS: 
+    hqdm:type
+    hqdm:represented
+    hqdm:has_superclass
+    hqdm:consists_of_by_class
+    hqdm:consists_of_in_members
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_supertype
+
+
+TYPE: hqdm:class_of_biological_system_component
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:kind_of_organization
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:has_component_by_class
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:class_of_state_of_system
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:class_of_installed_object
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:state_of_amount_of_money
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:composition
+
+RELATIONS: 
+    hqdm:part
+    hqdm:type
+    hqdm:whole
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_supertype
+
+
+TYPE: hqdm:party
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:member_of_kind
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:price
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:definition
+
+RELATIONS: 
+    hqdm:type
+    hqdm:represented
+    hqdm:has_superclass
+    hqdm:consists_of_by_class
+    hqdm:consists_of_in_members
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_supertype
+
+
+TYPE: hqdm:kind_of_physical_object
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:class_of_class
+
+RELATIONS: 
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:state_of_biological_system_component
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:position
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:component_of
+    hqdm:part_of_possible_world
+    hqdm:member_of_kind
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:class_of_intentionally_constructed_object
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:function_
+
+RELATIONS: 
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_supertype
+
+
+TYPE: hqdm:state_of_ordinary_biological_object
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:transfer_of_ownership_of_money
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:determines
+    hqdm:part_of_possible_world
+    hqdm:part_of_
+    hqdm:consists_of_participant_
+    hqdm:references
+    hqdm:member_of_kind
+    hqdm:part_of
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:consists_of_participant
+    hqdm:part__of
+    hqdm:causes_beginning
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+    hqdm:causes_ending
+    hqdm:consists_of
+    hqdm:causes
+
+
+TYPE: hqdm:organization_component
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:component_of
+    hqdm:part_of_possible_world
+    hqdm:member_of_kind
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:class_of_state_of_ordinary_biological_object
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:offer_for_goods
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:determines
+    hqdm:part_of_possible_world
+    hqdm:part_of_
+    hqdm:references
+    hqdm:member_of_kind
+    hqdm:part_of
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:consists_of_participant
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+    hqdm:consists_of
+    hqdm:causes
+
+
+TYPE: hqdm:owner
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:member_of_kind
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:participant_in
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:offering
+
+RELATIONS: 
+    hqdm:class_of_offered
+    hqdm:member_of_
+    hqdm:part_of_by_class_
+    hqdm:part_of_by_class
+    hqdm:consists__of_by_class
+    hqdm:period_offered
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:consideration_by_class
+    hqdm:member_of
+    hqdm:offeror
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:class_of_system
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:employee
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:member_of_kind
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:participant_in
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:class_of_person_in_position
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:organization
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:member_of_kind
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:kind_of_activity
+
+RELATIONS: 
+    hqdm:causes_by_class
+    hqdm:member_of_
+    hqdm:determines_by_class
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:references_by_class
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:consists_of_by_class
+    hqdm:has_supertype
+
+
+TYPE: hqdm:requirement_specification
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:intersection_of
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:thing
+
+RELATIONS: 
+    hqdm:type
+    hqdm:member__of
+
+
+TYPE: hqdm:ending_of_ownership
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:class_of_state_of_functional_object
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:class_of_individual
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:language_community
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:member_of_kind
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:class_of_state_of_biological_system_component
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:kind_of_ordinary_physical_object
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:ParticipantAndStateOfOrganizationImpl
+
+RELATIONS: 
+    hqdm:type
+    hqdm:has_supertype
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:member_of_kind
+    hqdm:consists__of
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+
+
+TYPE: hqdm:class_of_state_of_organization_component
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:class_of_participant
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:class_of_state_of_socially_constructed_activity
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:class_of_offer
+
+RELATIONS: 
+    hqdm:member_of_
+    hqdm:part_of_by_class_
+    hqdm:part_of_by_class
+    hqdm:consists__of_by_class
+    hqdm:part__of_by_class
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype
+
+
+TYPE: hqdm:plan
+
+RELATIONS: 
+    hqdm:temporal__part_of
+    hqdm:part_of_possible_world
+    hqdm:member_of_kind
+    hqdm:consists__of
+    hqdm:type
+    hqdm:member_of
+    hqdm:ending
+    hqdm:beginning
+    hqdm:temporal_part_of_
+    hqdm:part__of
+    hqdm:member__of
+    hqdm:temporal_part_of
+    hqdm:aggregated_into
+    hqdm:has_supertype
+
+
+TYPE: hqdm:class_of_physical_property
+
+RELATIONS: 
+    hqdm:type
+    hqdm:member_of
+    hqdm:member__of
+    hqdm:has_superclass
+    hqdm:has_supertype

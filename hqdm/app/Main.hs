@@ -51,7 +51,7 @@ import Data.String (String)
 
 -- Constants
 hqdmInputFilename::String
-hqdmInputFilename = "hqdmAllAsDataFormal1.csv"
+hqdmInputFilename = "hqdmAllAsDataFormal1_NoExtensions.csv"  -- hqdmAllAsDataFormal1_NoExtensions or hqdmAllAsDataFormal1
 
 thing::String
 thing = "hqdm:e5ec5d9e-afea-44f7-93c9-699cd5072d90"
@@ -139,11 +139,11 @@ main = do
 
     ---------------------------------------------
     -- Find the supertypes all the way to thing by recursion
-    putStr "\nSupertype tree of classOfSpatiotemporalextent is:\n\n"
-    let stTree = findSupertypeTree [[classOfSpatiotemporalextent]] subtypes
+    putStr "\nSupertype tree of thing is:\n\n"
+    let stTree = findSupertypeTree [[thing]] subtypes
     print stTree
 
-    putStr "\nPrintable Supertype tree of classOfSpatiotemporalextent is:\n\n"
+    putStr "\nPrintable Supertype tree of thing is:\n\n"
     let printableStTree = printableTypeTree (reverse stTree) hqdmInputModel ""
     putStr printableStTree
 
@@ -171,16 +171,9 @@ main = do
     let collapsedStRels = collapseInheritedRels stRels
     print collapsedStRels
 
-    -- Do this for HQDM Type
-
-    -- Compare with HDQM triples
-
-
     -- Add Cardinalities as type patterns
 
     -- Compose the structural validations of hqdm
-
-    -- 
 
 
     putStr "\n\nDone\n"

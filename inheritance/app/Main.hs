@@ -50,7 +50,7 @@ import qualified Data.Vector as V
 
 -- Constants
 hqdmInputFilename::String
-hqdmInputFilename = "../hqdm/hqdmAllAsDataFormal1.csv"
+hqdmInputFilename = "../hqdm/hqdmAllAsDataFormal1_NoExtensions.csv" -- hqdmAllAsDataFormal1_NoExtensions or hqdmAllAsDataFormal1
 
 main :: IO ()
 main = do
@@ -74,18 +74,20 @@ main = do
     let namedTypesAndRels = zip namedUniqueNodes allInheritedRelsCollapsed
     --print namedTypesAndRels
 
-    -- Note: Possibly compare with HDQM triples
-    let hqdmThings = fmap (`lookupHqdmOne` hqdmInputModel) uniqueNodes
-    let originalThingRels = concat $ fmap (\ x ->  "\n\n\nTYPE: " ++ head (lookupHqdmType x) ++ "\n\nRELATIONS: " ++ concatMap ("\n\t" ++) (getPredicates x)) hqdmThings
-    putStr originalThingRels
+    -- Generate printable list of original HQDM Types and their rels
+    --let hqdmThings = fmap (`lookupHqdmOne` hqdmInputModel) uniqueNodes
+    --let originalThingRels = concatMap (\ x ->  "\n\n\nTYPE: " ++ head (lookupHqdmType x) ++ "\n\nRELATIONS: " ++ concatMap ("\n    " ++) (uniqueIds $ getPredicates x)) hqdmThings
+    --putStr originalThingRels
+
     -- Print all supertypes
     --let allTypeSupertypes = fmap (\ x ->  (x ++ "  " ++ (concat (findHqdmTypesInList (lookupSupertypeOf x subtypes) hqdmInputModel)))) uniqueNodes
     --print allTypeSupertypes
 
     -- Write namedTypesAndRels to the console
     -- MAIN OUTPUT 
-    -- putStr (concatMap (\ x -> "\n\n\nTYPE: " ++ head (fst x) ++ "\n\nRELATIONS: " ++ concat (snd x)) namedTypesAndRels)
+    putStr (concatMap (\ x -> "\n\n\nTYPE: " ++ head (fst x) ++ "\n\nRELATIONS: " ++ concat (snd x)) namedTypesAndRels)
 
-    --putStr (concatMap ("\n\n\n" ++) printableAllInheritedRels)
+    -- putStr (concatMap ("\n\n\n" ++) printableAllInheritedRels)
+    --print namedTypesAndRels
 
 

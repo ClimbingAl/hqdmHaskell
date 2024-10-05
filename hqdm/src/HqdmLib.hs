@@ -202,7 +202,7 @@ findSupertypeTree ids hqdm = go ids hqdm
 
     go ids hqdm
       | null newLayer = init ids
-      | newLayer == [[]] = init ids
+      | newLayer == [[]] = ids
       | sum [length $ filter (== "hqdm:e5ec5d9e-afea-44f7-93c9-699cd5072d90") yl | yl <- newLayer] > 0 = ids ++ newLayer
       | otherwise = findSupertypeTree (ids ++ newLayer) hqdm
 
@@ -264,15 +264,15 @@ collapseInheritedRels rp = uniqueIds $ fmap p (concat rp)
 -- Take a list of unique predicate names and replace any empty list with [" "]
 printableCollapsedList :: [String] -> [String]
 printableCollapsedList [] = [" "]
-printableCollapsedList cl = fmap ("\n\t" ++) cl
+printableCollapsedList cl = fmap ("\n    " ++) cl
 
 -- | printableRelationPair
 -- Take a RelationPair, find the Type Name from the list of HqdmInput triples and then emit the
 -- predicate and type name as a joined String.
 printableRelationPair :: [HqdmInput] -> RelationPair -> String
 printableRelationPair hqdmAll rp
-  | nodeIdentityTest (o rp) = "\t" ++ p rp ++ " " ++ head (lookupHqdmTypeFromAll hqdmAll (o rp)) ++ "\n"
-  | otherwise = "\t" ++ p rp ++ " " ++ o rp ++ "\n"
+  | nodeIdentityTest (o rp) = "    " ++ p rp ++ " " ++ head (lookupHqdmTypeFromAll hqdmAll (o rp)) ++ "\n"
+  | otherwise = "    " ++ p rp ++ " " ++ o rp ++ "\n"
 
 -- | printableRelationPairList
 -- Take a list of RelationPairs and create a printable, concatenated String of their respective

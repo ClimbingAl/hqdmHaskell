@@ -18,13 +18,14 @@ module Main (main) where
 
 import HqdmLib (
     Id,
-    HqdmInput,
+    HqdmTriple,
     RelationPair,
     Relation,
     HqdmHasSupertype,
     getSubjects,
     getPredicates,
     uniqueIds,
+    uniqueTriples ,
     stringListSort,
     lookupHqdmOne,
     lookupHqdmType,
@@ -40,7 +41,10 @@ import HqdmLib (
     findInheritedRels,
     collapseInheritedRels,
     printableCollapsedList,
-    printableRelationPairs)
+    printableRelationPairs,
+    exportAsTriples,
+    csvTriplesFromHqdmTriples
+    )
 
 -- from bytestring
 import qualified Data.ByteString.Lazy as BL
@@ -55,7 +59,7 @@ hqdmInputFilename = "../hqdm/hqdmAllAsDataFormal1_NoExtensions.csv" -- hqdmAllAs
 main :: IO ()
 main = do
 
-    hqdmTriples <- fmap V.toList . decode @HqdmInput NoHeader <$> BL.readFile hqdmInputFilename
+    hqdmTriples <- fmap V.toList . decode @HqdmTriple NoHeader <$> BL.readFile hqdmInputFilename
 
     let hqdmInputModel = either (const []) id hqdmTriples
 
@@ -84,10 +88,11 @@ main = do
     --print allTypeSupertypes
 
     -- Write namedTypesAndRels to the console
-    -- MAIN OUTPUT 
-    putStr (concatMap (\ x -> "\n\n\nTYPE: " ++ head (fst x) ++ "\n\nRELATIONS: " ++ concat (snd x)) namedTypesAndRels)
+    -- MAIN PRINTABLE OUTPUT 
+    -- putStr (concatMap (\ x -> "\n\n\nTYPE: " ++ head (fst x) ++ "\n\nRELATIONS: " ++ concat (snd x)) namedTypesAndRels)
 
-    -- putStr (concatMap ("\n\n\n" ++) printableAllInheritedRels)
-    --print namedTypesAndRels
-
-
+    -- Write the newly generated allInheritedRels as triples to the console
+    let hqdmNodesAndRels = zip uniqueNodes (fmap concat allInheritedRels)
+    -- Note: filter out hqdm:type for all but the lowest level type
+    let fullHqdmTriples = concat (csvTriplesFromHqdmTriples (uniqueTriples (concat (exportAsTriples hqdmNodesAndRels)))) 
+    putStr fullHqdmTriples

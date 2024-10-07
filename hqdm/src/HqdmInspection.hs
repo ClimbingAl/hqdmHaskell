@@ -4,9 +4,9 @@ module HqdmInspection
     howmanyNodes
 ) where
 
-import HqdmLib (HqdmInput, subject )
+import HqdmLib (HqdmTriple, subject )
 
--- getIndexOfThing :: [HqdmInput] -> Int
+-- getIndexOfThing :: [HqdmTriple] -> Int
 -- getIndexOfThing x = findIndex ((subject "https://hqdmtop.github.io/hqdm#e5ec5d9e-afea-44f7-93c9-699cd5072d90") `elem`)
 
 howmanyNodes :: (String -> Bool) -> [String] -> Int

@@ -18,7 +18,8 @@
 
 module Main (main) where
 
-import HqdmLib (HqdmInput, 
+import HqdmLib (
+    HqdmTriple, 
     RelationPair, 
     Relation, 
     getSubjects, 
@@ -77,7 +78,7 @@ requirement = "hqdm:46b71552-11c9-4be1-a118-c879db176c00"
 main :: IO ()
 main = do
 
-    hqdmTriples <- fmap V.toList . decode @HqdmInput NoHeader <$> BL.readFile hqdmInputFilename
+    hqdmTriples <- fmap V.toList . decode @HqdmTriple NoHeader <$> BL.readFile hqdmInputFilename
 
     let hqdmInputModel = either (const []) id hqdmTriples
     --print hqdmInputModel

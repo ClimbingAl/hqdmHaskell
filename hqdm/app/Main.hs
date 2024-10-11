@@ -19,61 +19,49 @@
 module Main (main) where
 
 import HqdmLib (
-    HqdmTriple, 
-    RelationPair, 
-    Relation, 
-    getSubjects, 
-    getPredicates, 
-    uniqueIds, 
-    stringListSort, 
-    lookupHqdmOne, 
-    lookupHqdmType, 
-    lookupSubtypes, 
-    lookupSubtypeOf, 
-    lookupSubtypesOf, 
-    lookupSupertypeOf, 
-    lookupSupertypesOf, 
+    Id,
+    HqdmTriple,
+    RelationPair,
+    Relation,
+    getSubjects,
+    getPredicates,
+    uniqueIds,
+    stringListSort,
+    lookupHqdmOne,
+    lookupHqdmType,
+    lookupSubtypes,
+    lookupSubtypeOf,
+    lookupSubtypesOf,
+    lookupSupertypeOf,
+    lookupSupertypesOf,
     findHqdmTypesInList,
-    findSupertypeTree, 
-    printableTypeTree, 
-    findSubtypeTree, 
-    findInheritedRels, 
-    collapseInheritedRels, 
+    findSupertypeTree,
+    printableTypeTree,
+    findSubtypeTree,
+    findInheritedRels,
+    collapseInheritedRels,
     printableRelationPairs)
-
 import HqdmInspection (howmanyNodes)
+import HqdmIds
 
 -- from bytestring
 import qualified Data.ByteString.Lazy as BL
 -- from cassava
 import Data.Csv (HasHeader( NoHeader ), decode)
 import qualified Data.Vector as V
-import Data.String (String)
+import Text.Read (Lexeme(String))
+--import qualified Data.Text as Text (take, drop)
 
 -- Constants
 hqdmInputFilename::String
 hqdmInputFilename = "hqdmAllAsDataFormal1_NoExtensions.csv"  -- hqdmAllAsDataFormal1_NoExtensions or hqdmAllAsDataFormal1
 
-thing::String
-thing = "hqdm:e5ec5d9e-afea-44f7-93c9-699cd5072d90"
+slice::Int -> Int -> String -> String
+slice a b = take (b-a) . drop a
 
-hqdmClass::String
-hqdmClass = "hqdm:4a8cba08-035c-4902-935b-26da61ed282c"
+exportHqdmConstants :: [(Id, String)] -> String
+exportHqdmConstants tpls = concatMap (\ x -> (snd x) ++ "::String\n" ++ (snd x) ++ " = \"" ++ (fst x) ++ "\"\n\n") tpls
 
-event::String
-event = "hqdm:545b4541-8a34-46b8-8704-2265be0244c3"
-
-functionalObject::String
-functionalObject = "hqdm:130e95f1-ebc4-46f1-90ba-3f9fa21cb77b"
-
-classOfSpatiotemporalextent::String
-classOfSpatiotemporalextent = "hqdm:bb6f6d3f-1ed1-41ab-942c-6b3667c5da37"
-
-stateOfPhysicalObject::String
-stateOfPhysicalObject = "hqdm:f9cb048d-a2f7-4ff6-b824-c59b44e2aabe"
-
-requirement::String
-requirement = "hqdm:46b71552-11c9-4be1-a118-c879db176c00"
 
 main :: IO ()
 main = do
@@ -105,12 +93,12 @@ main = do
     putStr "\nGet the subtypes of given thing:\n\n"
     let subtypes = lookupSubtypes hqdmInputModel
     -- Use constants above for thing or classOfSpatiotemporalextent
-    let thingSubtypes = findHqdmTypesInList (lookupSubtypeOf classOfSpatiotemporalextent subtypes) hqdmInputModel
+    let thingSubtypes = findHqdmTypesInList (lookupSubtypeOf class_of_spatio_temporal_extent subtypes) hqdmInputModel
     print thingSubtypes
 
     -- Find the supertypes of a given thing
     putStr "\nGet the names of supertypes of given thing:\n\n"
-    let thingSupertypeNames = findHqdmTypesInList (lookupSupertypeOf classOfSpatiotemporalextent subtypes) hqdmInputModel
+    let thingSupertypeNames = findHqdmTypesInList (lookupSupertypeOf class_of_spatio_temporal_extent subtypes) hqdmInputModel
     print thingSupertypeNames
 
     putStr "\nGet the supertypes ids of given [things]:\n\n"
@@ -150,7 +138,7 @@ main = do
 
     -- Find the subtypes all the way to the lowest accessible node by recursion
     putStr "\nSubtype tree of hqdm:stateOfPhysicalObject is:\n\n"
-    let sbtTree = findSubtypeTree [[stateOfPhysicalObject]] subtypes []
+    let sbtTree = findSubtypeTree [[state_of_physical_object]] subtypes []
     print sbtTree
 
     putStr "\nPrintable Type tree of stateOfPhysicalObject is:\n\n"
@@ -174,8 +162,16 @@ main = do
 
     -- Add Cardinalities as type patterns
 
-    -- Compose the structural validations of hqdm
+    -- Generate Haskell constants from input data for HqdmIds Module
+    -- Make list of pairs... [[UniqueNodes], [nodeTypeNames]]
+    let namedUniqueNodes = fmap (\ x -> take 1 (lookupHqdmType $ lookupHqdmOne x hqdmInputModel)) uniqueNodes
+    let unlistedNamedUniqueNodes = fmap concat namedUniqueNodes
+    let slicedNamedNodes = fmap (\ x -> slice 5 (length x) x) unlistedNamedUniqueNodes
+    let hqdmTypeIdsAndNames = zip uniqueNodes slicedNamedNodes
+    let hqdmConstants = exportHqdmConstants hqdmTypeIdsAndNames
 
+    -- Use this to output HQDM Constants for use in HqdmIds.hs.  Beware class::String.  Must change to something else like hqdmClass.
+    -- putStr hqdmConstants
 
     putStr "\n\nDone\n"
 

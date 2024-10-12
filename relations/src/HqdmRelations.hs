@@ -64,17 +64,18 @@ data HqdmRelationPairSet = HqdmRelationPairSet
 data RelationPair = RelationPair
   { relationId :: !RelationId,
     binaryRelationId :: !RelationId,
-    object :: !Id
+    object :: !Id             -- The Id of the end of the relation (object of subject-predicate-object)
   }
   deriving (Show, Eq, Generic)
 
 newtype BinaryRelation = Relation
-  { relationId :: !RelationId,
-    relationName :: String,
-    hasSuperBR :: Id,
-    rangeSet :: [Id],
-    cardinalityMin :: Int,
-    cardinalityMax :: Int
+  { relationId :: !RelationId,-- Relation unique Id (hqdmRel:uuid)
+    relationName :: String,   -- Name of Binary Relation Set (doesn't need to be unique?)
+    hasSuperBR :: Id,         -- SuperBR Set Id (empty if none?)
+    rangeSet :: [Id],         -- Range Set ids.  Does this need to be a list?
+    cardinalityMin :: Int,    -- 0,1,...
+    cardinalityMax :: Int,    -- -1 (no max!),0,1,2,...
+    redeclaredBR :: Bool      -- True means supertypes are abstract?
   }
   deriving (Show, Eq, Generic)
 

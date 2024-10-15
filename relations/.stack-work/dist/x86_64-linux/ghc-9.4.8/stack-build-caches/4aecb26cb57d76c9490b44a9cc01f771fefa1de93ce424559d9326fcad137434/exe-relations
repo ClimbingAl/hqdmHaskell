@@ -1,4 +1,10 @@
+/workspaces/hqdmHaskell/hqdm/src/HqdmInspection.hs:
+  hash: 3b7a8b747dc6ff2157dd680fe1bee14eb2e59e82975eb979b8b59bdef9d90556
+/workspaces/hqdmHaskell/hqdm/src/HqdmLib.hs:
+  hash: 94a50295c383ce8189b52180f9d324f23a398ff3e486b84befed316fe62140e7
 /workspaces/hqdmHaskell/relations/app/Main.hs:
-  hash: 0792be798f2ed411fefbc432b37fa184808a6ba31464627cbb22f7c4230d435a
+  hash: 502d184e237152eb7d498ea01cce9e9c5a933fb7d2f936b6591e661c1be8c2fb
 /workspaces/hqdmHaskell/relations/relations.cabal:
-  hash: edd29ecff7babd199eeca9704f2363fda7f9af433f375b825e42f4377270a084
+  hash: 4dca81b55925ec86966da90099caae9c8581f25665334e1cb811df9233126094
+/workspaces/hqdmHaskell/relations/src/HqdmRelations.hs:
+  hash: 86dfc222aff3406ce7534d1945e7c227228ca76b08c7a2c8d54b7125d75cb54e

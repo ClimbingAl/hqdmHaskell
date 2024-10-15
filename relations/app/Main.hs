@@ -13,7 +13,14 @@
 --
 -- Executable Main that generates the relation SETs for HQDM AllAsData.
 
-module Main where
+module Main (main) where
+
+-- from bytestring
+import qualified Data.ByteString.Lazy as BL
+-- from cassava
+import Data.Csv (HasHeader( NoHeader ), decode)
+import qualified Data.Vector as V
 
 main :: IO ()
-main = putStrLn "Start, generate relations"
+main = do
+    putStrLn "Start, construct relations from relations_xxx.csv"

@@ -21,7 +21,7 @@ module HqdmRelations
   )
 where
 
-import HqdmLib
+import qualified HqdmLib
   ( Id,
     HqdmTriple,
     RelationPair,
@@ -51,37 +51,64 @@ import HqdmLib
     exportAsTriples,
     csvTriplesFromHqdmTriples
   )
+import GHC.Generics (Generic)
 
 -- | In a RelationPairSet xR'y the  is a list of [R'y] for x, where R' can be any allowed 
---   number of isntances of permitted Relations
-data HqdmRelationPairSet = HqdmRelationPairSet
-  { id :: !Id,
-    relationPairs :: [RelationPair]
+--   number of instances of permitted Relations
+data HqdmRelationSet = HqdmRelationSet
+  { relationshipId :: !HqdmLib.Id,
+    relationPairs :: ![RelationPair]
   }
   deriving (Show, Eq, Generic)
 
--- | A 
+-- | A RelationPair is strictly an instance of a relationship R'y
+--   (as a first class object; an element of a Binary Relation SET).
+--   This is the 'right-hand' part of an ordered pair, with the 'left-hand'
+--   part being the NodeId (i.e. the x in xR'y, and subject, in s-p-o parlance) 
+--   of the relationship.
 data RelationPair = RelationPair
   { relationId :: !RelationId,
-    binaryRelationId :: !RelationId,
-    object :: !Id             -- The Id of the end of the relation (object of subject-predicate-object)
+    binaryRelationSetId :: !RelationId,
+    object :: !HqdmLib.Id             -- The Id of the end of the relation (object of subject-predicate-object)
   }
   deriving (Show, Eq, Generic)
 
-newtype BinaryRelation = Relation
-  { relationId :: !RelationId,-- Relation unique Id (hqdmRel:uuid)
-    relationName :: String,   -- Name of Binary Relation Set (doesn't need to be unique?)
-    hasSuperBR :: Id,         -- SuperBR Set Id (empty if none?)
-    rangeSet :: [Id],         -- Range Set ids.  Does this need to be a list?
-    cardinalityMin :: Int,    -- 0,1,...
-    cardinalityMax :: Int,    -- -1 (no max!),0,1,2,...
-    redeclaredBR :: Bool      -- True means supertypes are abstract?
+-- | BinaryRelation is structured to be compatable with the original HQDM EXPRESS 
+--   documentation (hqdm.exp) and the python extractor created to extract the following
+--   properties of each relation specified in the EXPRESS data file.  A uuid is applied
+--   to each specification for a binary relation in HQDM EXPRESS.  This should remain
+--   fixed in the source hqdmRelations.csv.
+--
+-- Note: The has_supertype relations are not covered by this but can be added by hand.
+--       This is because the EXPRESS notation handles super/su-types as a separate 
+--       keyword (e.g. "SUBTYPE OF")
+--
+--  class Relation:
+--        self.domain = ""            # Name of node that is the x in xR'y Binary Relation
+--
+--        self.relationId = ""        # !RelationId,-- Relation unique Id (hqdmRel:uuid)
+--        self.relationName = ""      # Name of Binary Relation Set (doesn't need to be unique?)
+--        self.rangeSet = ""          # Range Set id that is the y in xR'y ()
+--        self.hasSuperBR = ""        # SuperBR Set Id (empty if none?)
+--        self.cardinalityMin = 0     # 0,1,...
+--        self.cardinalityMax = -1    # -1 (no max!),0,1,2,...
+--        self.redeclaredBR = False   # True means superBRtypes are abstract?
+--        self.inverseOf = ""         # Inverse of named relation
+
+data BinaryRelation = BinaryRelation
+  { binaryRelationId :: !RelationId,  -- Relation unique Id (hqdmRel:uuid)
+    binaryRelationName :: String,     -- Name of Binary Relation Set (doesn't need to be unique?)
+    range:: !HqdmLib.Id,              -- Range Set ids.  Does this need to be a list?
+    hasSuperBR :: HqdmLib.Id,        -- SuperBR Set Id (empty if none?)
+    cardinalityMin :: Int,            -- 0,1,...
+    cardinalityMax :: Int,            -- -1 (no max!),0,1,2,...
+    redeclaredBR :: Bool              -- True means superBRtypes are abstract?
   }
   deriving (Show, Eq, Generic)
 
 data HqdmBinaryRelationSet = HqdmBinaryRelationSet
-  { id :: !Id,
-    relationPairs :: [BinaryRelation]
+  { nodeId :: !HqdmLib.Id,
+    binaryRelationPairs :: [BinaryRelation]
   }
   deriving (Show, Eq, Generic)
 

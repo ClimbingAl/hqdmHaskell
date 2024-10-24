@@ -42,12 +42,12 @@ getBinDir, getLibDir, getDynLibDir, getDataDir, getLibexecDir, getSysconfDir :: 
 
 
 bindir, libdir, dynlibdir, datadir, libexecdir, sysconfdir :: FilePath
-bindir     = "/workspaces/hqdmHaskell/relations/.stack-work/install/x86_64-linux/4aecb26cb57d76c9490b44a9cc01f771fefa1de93ce424559d9326fcad137434/9.4.8/bin"
-libdir     = "/workspaces/hqdmHaskell/relations/.stack-work/install/x86_64-linux/4aecb26cb57d76c9490b44a9cc01f771fefa1de93ce424559d9326fcad137434/9.4.8/lib/x86_64-linux-ghc-9.4.8/relations-0.1.0.0-65wPvAX6lYJHGTs6i8wv0O-relations"
-dynlibdir  = "/workspaces/hqdmHaskell/relations/.stack-work/install/x86_64-linux/4aecb26cb57d76c9490b44a9cc01f771fefa1de93ce424559d9326fcad137434/9.4.8/lib/x86_64-linux-ghc-9.4.8"
-datadir    = "/workspaces/hqdmHaskell/relations/.stack-work/install/x86_64-linux/4aecb26cb57d76c9490b44a9cc01f771fefa1de93ce424559d9326fcad137434/9.4.8/share/x86_64-linux-ghc-9.4.8/relations-0.1.0.0"
-libexecdir = "/workspaces/hqdmHaskell/relations/.stack-work/install/x86_64-linux/4aecb26cb57d76c9490b44a9cc01f771fefa1de93ce424559d9326fcad137434/9.4.8/libexec/x86_64-linux-ghc-9.4.8/relations-0.1.0.0"
-sysconfdir = "/workspaces/hqdmHaskell/relations/.stack-work/install/x86_64-linux/4aecb26cb57d76c9490b44a9cc01f771fefa1de93ce424559d9326fcad137434/9.4.8/etc"
+bindir     = "/workspaces/hqdmHaskell/.stack-work/install/x86_64-linux/4aecb26cb57d76c9490b44a9cc01f771fefa1de93ce424559d9326fcad137434/9.4.8/bin"
+libdir     = "/workspaces/hqdmHaskell/.stack-work/install/x86_64-linux/4aecb26cb57d76c9490b44a9cc01f771fefa1de93ce424559d9326fcad137434/9.4.8/lib/x86_64-linux-ghc-9.4.8/relations-0.1.0.0-65wPvAX6lYJHGTs6i8wv0O-relations"
+dynlibdir  = "/workspaces/hqdmHaskell/.stack-work/install/x86_64-linux/4aecb26cb57d76c9490b44a9cc01f771fefa1de93ce424559d9326fcad137434/9.4.8/lib/x86_64-linux-ghc-9.4.8"
+datadir    = "/workspaces/hqdmHaskell/.stack-work/install/x86_64-linux/4aecb26cb57d76c9490b44a9cc01f771fefa1de93ce424559d9326fcad137434/9.4.8/share/x86_64-linux-ghc-9.4.8/relations-0.1.0.0"
+libexecdir = "/workspaces/hqdmHaskell/.stack-work/install/x86_64-linux/4aecb26cb57d76c9490b44a9cc01f771fefa1de93ce424559d9326fcad137434/9.4.8/libexec/x86_64-linux-ghc-9.4.8/relations-0.1.0.0"
+sysconfdir = "/workspaces/hqdmHaskell/.stack-work/install/x86_64-linux/4aecb26cb57d76c9490b44a9cc01f771fefa1de93ce424559d9326fcad137434/9.4.8/etc"
 
 getBinDir     = catchIO (getEnv "relations_bindir")     (\_ -> return bindir)
 getLibDir     = catchIO (getEnv "relations_libdir")     (\_ -> return libdir)

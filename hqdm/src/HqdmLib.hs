@@ -30,6 +30,7 @@ module HqdmLib
     stringListSort,
     lookupHqdmOne,
     lookupHqdmType,
+    lookupHqdmIdFromType,
     lookupSubtypes,
     lookupSubtypeOf,
     lookupSubtypesOf,
@@ -148,6 +149,11 @@ lookupHqdmTypeFromAll hqdmAll nodeId = [object values | values <- hqdmAll, ("hqd
 lookupHqdmType :: [HqdmTriple] -> [String]
 lookupHqdmType obj = [object values | values <- obj, "hqdm:type" == predicate values]
 
+-- | lookupHqdmIdFromType
+-- From the triples with a given node Id (subject), from lookupHqdmOne, find the object with the predicate hqdm:type.
+lookupHqdmIdFromType :: [HqdmTriple] -> String -> [Id]
+lookupHqdmIdFromType objs typeName = [subject values | values <- objs, ("hqdm:type" == predicate values) && (typeName == object values)]
+
 -- | findHqdmTypesInList
 -- Find the type names of each given node Id (subject).
 findHqdmTypeNamesInList :: [Id] -> [HqdmTriple] -> [String]
@@ -178,12 +184,12 @@ lookupSubtypesOf (id : ids) list = lookupSubtypeOf id list : lookupSubtypesOf id
 -- | lookupSupertypOf
 -- From all the triples given by lookupSubtypes find the supertypes of a given node Id.
 -- This takes only hqdm:has_supertype statements as [HqdmTriple]
-lookupSupertypeOf :: Id -> [HqdmTriple] -> [String]
+lookupSupertypeOf :: Id -> [HqdmTriple] -> [Id]
 lookupSupertypeOf x list = [object values | values <- list, x == subject values]
 
 -- | lookupSupertypesOf
 -- Same as lookupSupertypeOf but takes a list of Ids and finds a list of supertypes for each.
-lookupSupertypesOf :: [Id] -> [HqdmTriple] -> [[String]]
+lookupSupertypesOf :: [Id] -> [HqdmTriple] -> [[Id]]
 lookupSupertypesOf [] _ = []
 lookupSupertypesOf _ [] = []
 lookupSupertypesOf (id : ids) list = lookupSupertypeOf id list : lookupSupertypesOf ids list
@@ -191,7 +197,7 @@ lookupSupertypesOf (id : ids) list = lookupSupertypeOf id list : lookupSupertype
 -------------------------------------------------
 -- | findHqdmTypesInList
 -- Find the type names of the Node Ids supplied as a list of Strings.  Takes HQDM AllAsData as input.
-findHqdmTypesInList :: [String] -> [HqdmTriple] -> [String]
+findHqdmTypesInList :: [Id] -> [HqdmTriple] -> [String]
 findHqdmTypesInList xs hqdmIn = fmap (\ x -> head (lookupHqdmType $ lookupHqdmOne x hqdmIn)) xs
 
 -- | findSupertypeTree
@@ -218,9 +224,10 @@ findSupertypeTree ids hqdm = go ids hqdm
 --
 -- Inputs are a list of layers (tree) from findSupertypeTree and the HQDM all as data triples to query.
 -- Output is a list of layers as a single printable string centred on an offset set by fmtString.
+fmtString :: [Char] -> [Char]
 fmtString x = replicate (screenCharOffset - div (length x) 2) ' ' ++ x
 
-printableTypeTree :: [[String]] -> [HqdmTriple] -> String -> String
+printableTypeTree :: [[Id]] -> [HqdmTriple] -> String -> String
 printableTypeTree tree hqdmModel textTree
   | null (take 1 tree) = textTree
   | otherwise =

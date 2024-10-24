@@ -1,3 +1,21 @@
-Re-create triples (using collapsed sets) and compare with original set.
+Done:   Re-create triples (using collapsed sets) and compare with original set.
 
-Add cardinalities
+Add relations, cardinalities, etc
+    - compute/identify the missing relations from the pre-constructed hqdmRelations
+H   - compute all relations and their relation-supersubset relationships
+H   - test mc datasets to see that they conform to cardinalities
+    - calculate the inverse relations
+    - perform predicate searches that include inverse relations
+    - calculate all allowed relations (based on inheritance, not the sets of all possible relations)
+    - introduce the powerset?... probably best to miss this out, but could be useful to think it through
+
+    - Pre-set/compute hqdm patterns:
+        - set & parts (inc. specializations of them)
+        - temporal parts and their cardinalities (as optional test)
+        - activity and association
+        - system and component
+        - representation_by_sign
+        - possible worlds
+        - specialization of associations
+
+        Aspire to make this a DSL

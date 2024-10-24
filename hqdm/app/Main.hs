@@ -29,6 +29,7 @@ import HqdmLib (
     stringListSort,
     lookupHqdmOne,
     lookupHqdmType,
+    lookupHqdmIdFromType,
     lookupSubtypes,
     lookupSubtypeOf,
     lookupSubtypesOf,
@@ -49,7 +50,6 @@ import qualified Data.ByteString.Lazy as BL
 -- from cassava
 import Data.Csv (HasHeader( NoHeader ), decode)
 import qualified Data.Vector as V
-import Text.Read (Lexeme(String))
 --import qualified Data.Text as Text (take, drop)
 
 -- Constants
@@ -61,7 +61,6 @@ slice a b = take (b-a) . drop a
 
 exportHqdmConstants :: [(Id, String)] -> String
 exportHqdmConstants tpls = concatMap (\ x -> (snd x) ++ "::String\n" ++ (snd x) ++ " = \"" ++ (fst x) ++ "\"\n\n") tpls
-
 
 main :: IO ()
 main = do
@@ -172,6 +171,11 @@ main = do
 
     -- Use this to output HQDM Constants for use in HqdmIds.hs.  Beware class::String.  Must change to something else like hqdmClass.
     -- putStr hqdmConstants
+
+    -- Test the lookupHqdmIdFromType :: [HqdmTriple] -> String -> [Id] function
+    let idOfThing = lookupHqdmIdFromType hqdmInputModel "hqdm:thing"
+    putStr "\n\nId of hqdm:thing is:\n"
+    print (head idOfThing)
 
     putStr "\n\nDone\n"
 

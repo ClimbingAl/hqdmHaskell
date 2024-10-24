@@ -70,6 +70,7 @@ executable relations
         HqdmRelations
         HqdmInspection
         HqdmLib
+        HqdmIds
 
     -- LANGUAGE extensions used by modules in this package.
     -- other-extensions:

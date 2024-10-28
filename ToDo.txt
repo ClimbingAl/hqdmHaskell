@@ -2,6 +2,7 @@ Done:   Re-create triples (using collapsed sets) and compare with original set.
 
 Add relations, cardinalities, etc
     - compute/identify the missing relations from the pre-constructed hqdmRelations
+        -- Add handling of pureRedeclaredFromRange
 H   - compute all relations and their relation-supersubset relationships
 H   - test mc datasets to see that they conform to cardinalities
     - calculate the inverse relations

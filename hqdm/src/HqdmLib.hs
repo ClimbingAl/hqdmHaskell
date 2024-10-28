@@ -310,8 +310,9 @@ printableRelationPairs hqdmAll rpls = foldl (++) "\n" (fmap (printableRelationPa
 --         -> fmap (\ x -> HqdmTriple (fst tpl) (p x) (o x)) (snd tpl))
 --      tpls
 exportAsTriples :: [(Id, [RelationPair])] -> [[HqdmTriple]]
-exportAsTriples [] = []
-exportAsTriples (tpl:tpls) = fmap (\ x -> (HqdmTriple (fst tpl) (p x) (o x)))  (snd tpl): exportAsTriples tpls
+exportAsTriples = map
+      (\ tpl
+         -> fmap (\ x -> HqdmTriple (fst tpl) (p x) (o x)) (snd tpl))
 
 csvTriplesFromHqdmTriples :: [HqdmTriple] -> [String]
 csvTriplesFromHqdmTriples = fmap (\ x -> subject x ++ "," ++ predicate x ++ "," ++ object x ++ "\n")

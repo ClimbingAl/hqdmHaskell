@@ -72,7 +72,7 @@ state_of_organization,hqdmRelation:cb11bca4-4782-4ee9-a3bf-534768f4188b,temporal
 state_of_organization,hqdmRelation:384d1b71-b94b-4af0-b942-c5096f38fd97,member_of,class_of_state_of_organization,state_of_party,0,-1,True,
 state_of_socially_constructed_object,hqdmRelation:181add84-8df5-4ca4-b172-e0cc02b8a787,member_of,class_of_state_of_socially_constructed_object,state_of_intentionally_constructed_object,0,-1,True,
 state_of_socially_constructed_object,hqdmRelation:5cf46dbe-a620-4beb-aa42-6b28efa1634a,temporal_part_of,socially_constructed_object,state_of_intentionally_constructed_object,0,-1,True,
-socially_constructed_object,hqdmRelation:7fd107e8-216e-4628-969f-1b08f58a702f,member_of,class_of_socially_contructed_object,intentionally_constructed_object,0,-1,True,
+socially_constructed_object,hqdmRelation:7fd107e8-216e-4628-969f-1b08f58a702f,member_of,class_of_socially_constructed_object,intentionally_constructed_object,0,-1,True,
 socially_constructed_object,hqdmRelation:f69c42b5-f1a1-4425-a37d-50b8ff89260e,member_of_kind,kind_of_socially_constructed_object,intentionally_constructed_object,0,-1,True,
 amount_of_money,hqdmRelation:e221c816-b994-4cb0-8d39-8c9d987ef64b,member_of,class_of_amount_of_money,state_of_amount_of_money,0,-1,True,
 amount_of_money,hqdmRelation:09169dcc-db24-410b-8788-7e2a3aa37d9a,member_of_currency,currency,,0,1,False,

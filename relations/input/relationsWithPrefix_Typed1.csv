@@ -76,7 +76,7 @@ hqdm:state_of_organization,hqdmRelation:ed47bf86-2206-419a-89eb-0934736f31be,hqd
 hqdm:state_of_organization,hqdmRelation:d8d8993a-92bf-49fc-b5db-ac35cfdfb9ba,hqdm:member_of,hqdm:class_of_state_of_organization,hqdm:state_of_party,0,-1,True,
 hqdm:state_of_socially_constructed_object,hqdmRelation:cf4fd4fe-a4c2-4cfe-8e76-f79901d02dd4,hqdm:member_of,hqdm:class_of_state_of_socially_constructed_object,hqdm:state_of_intentionally_constructed_object,0,-1,True,
 hqdm:state_of_socially_constructed_object,hqdmRelation:dfcbe928-c654-455a-91ba-92a36394c03f,hqdm:temporal_part_of,hqdm:socially_constructed_object,hqdm:state_of_intentionally_constructed_object,0,-1,True,
-hqdm:socially_constructed_object,hqdmRelation:03ecf9fc-945d-43a6-85b8-c8e131214833,hqdm:member_of,hqdm:class_of_socially_contructed_object,hqdm:intentionally_constructed_object,0,-1,True,
+hqdm:socially_constructed_object,hqdmRelation:03ecf9fc-945d-43a6-85b8-c8e131214833,hqdm:member_of,hqdm:class_of_socially_constructed_object,hqdm:intentionally_constructed_object,0,-1,True,
 hqdm:socially_constructed_object,hqdmRelation:180cd739-b8cd-4ccb-83d4-e095e3501c68,hqdm:member_of_kind,hqdm:kind_of_socially_constructed_object,hqdm:intentionally_constructed_object,0,-1,True,
 hqdm:amount_of_money,hqdmRelation:ba950dae-21c2-4d52-a302-00d1f295db82,hqdm:member_of,hqdm:class_of_amount_of_money,hqdm:state_of_amount_of_money,0,-1,True,
 hqdm:amount_of_money,hqdmRelation:a240dcab-713f-4703-99e7-528b99207007,hqdm:member_of_currency,hqdm:currency,,0,1,False,

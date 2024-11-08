@@ -26,6 +26,14 @@ All the NodeIds are preserved, with prefixes applied, and with all the predicate
 
 All the functions in HQDMLib are pure Haskell with minimised guards; that is, guards tend to be employed solely to terminate a recursive function (or list comprehension) on an Empty List (e.g. [] or [[]]) or when the root Entity Type Thing is found.  The functions each have a short description in the comments above it.  The functions have not been written for efficiency, with the focus being on purity.  Variable names and function names have been chosen to indicate the purpose or role.  This should make them fairly readable as long as you are familiar with (or tolerant to) the Haskell function notations (e.g. `.`, `$`, `<-`, `\` lambda expressions, and built-in functions).
 
+## Quick Links
+ADD LINKS!!
+- Basic processing of the hqdmAllAsData triples - subtype and supertype hierarchies, node id <-> entity type name queries, etc
+- Functional re-calculation of the inherited relations
+- Representation of Relations adopting the cardinalities and other restrictions from `hqdm.exp`
+- Joining of MagmaCore data with the functional core of hqdmAllAsData
+- Functional queries over joined MagmaCore datasets
+
 ## Install and Execute
 
 Install Haskell Glasgow Haskell Compiler with Cabal & Stack: https://www.haskell.org/ghcup/
@@ -48,8 +56,8 @@ Note: The `hqdm` and `inheritance` folders use different versions of Cabal, whic
 ## ToDo
 
 - [x] Regenerate the triples to find any missing ones from the input data (there will be some).
-- [ ] Add Cardinalities that are in the original [HQDM EXPRESS file](https://github.com/hqdmTop/hqdmFramework/blob/main/hqdm_framework.txt).
-- [ ] Add relation specialisation (i.e. implement functions to apply the specialisation of one predicate being a specialisation of another).
+- [*] Add Cardinalities that are in the original [HQDM EXPRESS file](https://github.com/hqdmTop/hqdmFramework/blob/main/hqdm_framework.txt).
+- [*] Add relation specialisation (i.e. implement functions to apply the specialisation of one predicate being a specialisation of another).
 - [ ] Do a test with binding to a Magma Core dataset (perhaps NetworksBasic).  I'm thinking about using `hqdm:instance_of` instead of `rdf:type`, to remove logical ambiguity.
 - [ ] Build a Domain Specific Language to enable HQDM operations (initially for query).
 - [ ] Add data modification and exception handling.

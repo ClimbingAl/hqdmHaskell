@@ -22,10 +22,19 @@ import HqdmRelations (
     HqdmBinaryRelation,
     HqdmBinaryRelationSet,
     HqdmBinaryRelationPure,
-    getPureRelationId,
-    getRelationName,
+    getRelationNameFromRels,
     hqdmRelationsToPure,
-    getBrelDomain,
+    csvRelationsToPure,
+    getPureDomain,
+    getPureRelationId,
+    getPureRelationName,
+    getPureRange,
+    getPureSuperRelation,
+    getPureCardinalityMin,
+    getPureCardinalityMax,
+    getPureReclared,
+    getPureRedeclaredFromRange,
+    getBrelDomainFromRels,
     findBrelDomainSupertypes,
     findBrelsWithDomains,
     findBrelsAndNamesWithDomains,
@@ -33,7 +42,8 @@ import HqdmRelations (
     findSuperBinaryRelation',
     addStRelationToPure,
     printablePureRelation,
-    csvRelationsFromPure
+    csvRelationsFromPure,
+    lookupSuperBinaryRelOf
     )
 
 import HqdmLib (
@@ -76,7 +86,7 @@ hqdmRelationsInputFilename::String
 hqdmRelationsInputFilename = "./input/relationsWithPrefix_TypedIds2.csv"
 
 hqdmInputFilename::String
-hqdmInputFilename = "../hqdm/hqdmAllAsDataFormal1_NoExtensions.csv"  -- hqdmAllAsDataFormal1_NoExtensions or hqdmAllAsDataFormal1
+hqdmInputFilename = "../hqdm/hqdmAllAsDataFormal1_NoExtensions.csv"  -- hqdmAllAsDataFormal1_NoExtensions or hqdmAllAsDataFormal1 or hqdmAllAsDataFormal2_AllRels
 
 exampleBrelId::String
 exampleBrelId = "hqdmRelation:c037270e-801f-4957-ad79-239954cedc37" -- hqdm:individual hqdmel:member_of hqdm:class_of_individual
@@ -109,8 +119,8 @@ main = do
 
     -- Compute relation supersets?? Leave the rigorous version of this for now. 
 
-    let domainOfRel = getBrelDomain exampleBrelId pureHqdmRelations
-    let nameOfRel = ( exampleBrelId, getRelationName exampleBrelId pureHqdmRelations)
+    let domainOfRel = getBrelDomainFromRels exampleBrelId pureHqdmRelations
+    let nameOfRel = ( exampleBrelId, getRelationNameFromRels exampleBrelId pureHqdmRelations)
     {-putStr "\n\nName and then Domain of a particular Relation:\n\n"
     print nameOfRel
     print domainOfRel-}
@@ -125,7 +135,7 @@ main = do
     {-putStr "\n\nIds and Names of supertype relations:\n\n"
     print namesOfBrelsOfDomain-}
 
-    let closestNameMatches = [x | x <- namesOfBrelsOfDomain, snd x `isPrefixOf` getRelationName exampleBrelId pureHqdmRelations]
+    let closestNameMatches = [x | x <- namesOfBrelsOfDomain, snd x `isPrefixOf` getRelationNameFromRels exampleBrelId pureHqdmRelations]
     {-putStr "\n\nClosest relations:\n\n"
     print closestNameMatches-}
     

@@ -18,11 +18,11 @@
 
 module HqdmLib
   ( Id,
-    HqdmTriple,
+    HqdmTriple(..),
+    HqdmTriple(subject, predicate, object),
     RelationPair,
     Relation,
     HqdmHasSupertype,
-    subject,
     getSubjects,
     getPredicates,
     uniqueIds,
@@ -45,13 +45,16 @@ module HqdmLib
     printableCollapsedList,
     printableRelationPairs,
     exportAsTriples,
-    csvTriplesFromHqdmTriples
+    csvTriplesFromHqdmTriples,
+    screenCharOffset,
+    fmtString
   )
 where
 
 import Data.Csv (FromRecord)
 import Data.List (elemIndices)
 import GHC.Generics (Generic)
+import HqdmIds (thing)
 
 data HqdmTriple = HqdmTriple
   { subject :: !String,
@@ -216,7 +219,7 @@ findSupertypeTree ids hqdm = go ids hqdm
     go ids hqdm
       | null newLayer = init ids
       | newLayer == [[]] = ids
-      | sum [length $ filter (== "hqdm:e5ec5d9e-afea-44f7-93c9-699cd5072d90") yl | yl <- newLayer] > 0 = ids ++ newLayer
+      | sum [length $ filter (== thing) yl | yl <- newLayer] > 0 = ids ++ newLayer
       | otherwise = findSupertypeTree (ids ++ newLayer) hqdm
 
 -- | printableTypeTree

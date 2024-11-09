@@ -52,8 +52,9 @@ module HqdmRelations
     csvRelationsFromPure,
     lookupSuperBinaryRelOf,
     hqdmSwapRelationNamesForIds,
-    convertRelationByDomainRangeAndName,
-    headListIfPresent
+    convertRelationByDomainAndRange,
+    headListIfPresent,
+    addNewCardinalitiesToPure
   )
 where
 
@@ -145,6 +146,15 @@ data HqdmBinaryRelationPure = HqdmBinaryRelationPure
 universalRelationSet::String
 universalRelationSet = "hqdmRelation:85e78ac0-ec72-478f-9aac-cacb520290a0"
 
+hqdmType::String
+hqdmType = "hqdm:type"
+
+hqdmHasSupertype::String
+hqdmHasSupertype = "hqdm:has_supertype"
+
+hqdmHasSuperclass::String
+hqdmHasSuperclass = "hqdm:has_superclass"
+
 getPureDomain :: HqdmBinaryRelationPure -> RelationId
 getPureDomain = pureDomain
 
@@ -235,13 +245,26 @@ printablePathFromTuples tpls = concatMap (\ x -> HqdmLib.fmtString (snd x ) ++ "
 
 hqdmSwapRelationNamesForIds :: [HqdmLib.HqdmTriple] -> [HqdmBinaryRelationPure] -> [HqdmLib.HqdmTriple]
 hqdmSwapRelationNamesForIds hqdmTpls brels =
-  fmap (`convertRelationByDomainRangeAndName` brels) hqdmTpls
+  fmap (`convertRelationByDomainAndRange` brels) hqdmTpls
 
-convertRelationByDomainRangeAndName :: HqdmLib.HqdmTriple -> [HqdmBinaryRelationPure] -> HqdmLib.HqdmTriple
-convertRelationByDomainRangeAndName tpl brels = HqdmLib.HqdmTriple
+convertRelationByDomainAndRange :: HqdmLib.HqdmTriple -> [HqdmBinaryRelationPure] -> HqdmLib.HqdmTriple
+convertRelationByDomainAndRange tpl brels = go tpl
+  where
+    pureRelMatch = headIfStringPresent [ pureBinaryRelationId values | values <- brels, (HqdmLib.subject tpl == pureDomain values) && (HqdmLib.predicate tpl ==  pureBinaryRelationName values) ]
+    hqdmTypeBR = headIfStringPresent [ pureBinaryRelationId values | values <- brels, hqdmType == pureBinaryRelationName values ]
+    hqdmHasSupertypeBR = headIfStringPresent [ pureBinaryRelationId values | values <- brels, hqdmHasSupertype == pureBinaryRelationName values ]
+    hqdmHasSuperclassBR = headIfStringPresent [ pureBinaryRelationId values | values <- brels, hqdmHasSuperclass == pureBinaryRelationName values ]
+
+    go tpl
+      | HqdmLib.predicate tpl==hqdmType = HqdmLib.HqdmTriple (HqdmLib.subject tpl) hqdmTypeBR (HqdmLib.object tpl)
+      | HqdmLib.predicate tpl==hqdmHasSupertype = HqdmLib.HqdmTriple (HqdmLib.subject tpl)  hqdmHasSupertypeBR (HqdmLib.object tpl)
+      | HqdmLib.predicate tpl==hqdmHasSuperclass  = HqdmLib.HqdmTriple (HqdmLib.subject tpl) hqdmHasSuperclassBR (HqdmLib.object tpl)
+      | otherwise = HqdmLib.HqdmTriple (HqdmLib.subject tpl) pureRelMatch (HqdmLib.object tpl)
+
+{-convertRelationByDomainRangeAndName tpl brels = HqdmLib.HqdmTriple
   (HqdmLib.subject tpl)
-  (headIfStringPresent [ pureBinaryRelationId values | values <- brels, (HqdmLib.predicate tpl ==  pureBinaryRelationName values) && (HqdmLib.subject tpl == pureDomain values) && (HqdmLib.object tpl == pureRange values)])
-  (HqdmLib.object tpl)
+  (headIfStringPresent [ pureBinaryRelationId values | values <- brels, (HqdmLib.subject tpl == pureDomain values) && (HqdmLib.predicate tpl ==  pureBinaryRelationName values) ])
+  (HqdmLib.object tpl)-}
 
 --------------------------------- MESSY RELATION ASSEMBLY FUNCTIONS FROM SOURE HqdmAllAsData TRIPLES --------------------------------------------
 -- | findBrelsWithDomains
@@ -293,6 +316,18 @@ addStRelationToPure stRel x = HqdmBinaryRelationPure
   ( getRelationIdFromMonadTuple stRel )
   ( pureCardinalityMin x)
   ( pureCardinalityMax x)
+  ( pureRedeclaredBR x)
+  ( pureRedeclaredFromRange x)
+
+addNewCardinalitiesToPure :: Int -> Int -> HqdmBinaryRelationPure -> HqdmBinaryRelationPure
+addNewCardinalitiesToPure cardMin cardMax x = HqdmBinaryRelationPure
+  ( pureDomain x)
+  ( pureBinaryRelationId x)
+  ( pureBinaryRelationName x)
+  ( pureRange x)
+  ( pureHasSuperBR x )
+    cardMin
+    cardMax
   ( pureRedeclaredBR x)
   ( pureRedeclaredFromRange x)
 

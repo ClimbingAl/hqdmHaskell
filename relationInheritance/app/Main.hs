@@ -51,7 +51,12 @@ import HqdmRelations (
     lookupSuperBinaryRelOf,
     hqdmSwapRelationNamesForIds,
     convertRelationByDomainAndRange,
-    headListIfPresent
+    headListIfPresent,
+    addNewCardinalitiesToPure,
+    correctCardinalities,
+    correctAllCardinalities,
+    findMaxMaxCardinality,
+    findMaxMinCardinality
     )
 
 import HqdmLib (
@@ -100,13 +105,13 @@ import Data.Maybe
 
 -- Constants
 hqdmRelationsInputFilename::String
-hqdmRelationsInputFilename = "./input/PureHqdmRelations_v0.csv" -- allHqdmRels or exportedPureBinaryRelationsModded2 or PureHqdmRelations_v0
+hqdmRelationsInputFilename = "./input/PureHqdmRelations_v2.csv" -- allHqdmRels or exportedPureBinaryRelationsModded2 or PureHqdmRelations_v0
 
 hqdmInputFilename::String
 hqdmInputFilename = "./input/HqdmAllAsDataFormal2.csv"  -- hqdmAllAsDataFormal1_NoExtensions or hqdmAllAsDataFormal1 or hqdmAllAsDataFormal2
 
 exampleBrelId::String
-exampleBrelId = "hqdmRelation:f7c8c901-6147-4a58-bf88-0fdd32dc9faa" -- hqdm:individual hqdmel:member_of hqdm:class_of_individual
+exampleBrelId = "hqdmRelation:f7c8c901-6147-4a58-bf88-0fdd32dc9faa" -- hqdm:individual hqdm:temporal_part_of hqdm:class_of_individual
 
 maybePrint :: Show a => Maybe a -> IO ()
 maybePrint (Just x) = print x
@@ -167,12 +172,23 @@ main = do
     let completedRels = completeSuperBRels zippedRelList 
     -- print completedRels
 
+    let maxC = findMaxMinCardinality superBRPathToUniversal completedRels (-1)
+    --print (maxC)
+
+    let correctedExample = correctCardinalities (head $ findBrelFromId exampleBrelId completedRels) completedRels
+    --print correctedExample
+
+    let supeerBRPaths = fmap (\ x -> superRelationPathToUniversalRelation (getPureRelationId x) completedRels []) completedRels
+    --print supeerBRPaths
+
     -- Correct inherited cardinalities
     -- for each BR, from the bottom-up, find the superBRPathToUniversal, go down each path - if the next item down the path has a less restricted cardinality than the current one then replace it with the current one
     -- Also add check that the superBR is always the universal one?
+    let improvedCardinalities =  correctAllCardinalities completedRels
+    let csvRelations = csvRelationsFromPure improvedCardinalities
+    -- putStr csvRelations
 
     -- Convert the hqdmInputModel to use relationIds
-    --let testtriple = 
     let allIdTriples =  hqdmSwapRelationNamesForIds hqdmInputModel completedRels 
     putStr "\nExport All Id Triples:\n\n"
     putStr (concat $ HqdmLib.csvTriplesFromHqdmTriples allIdTriples )

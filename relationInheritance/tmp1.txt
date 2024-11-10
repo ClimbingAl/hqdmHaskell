@@ -1,0 +1,141 @@
+Start, construct relations from ./input/PureHqdmRelations_v0.csv
+
+Loaded Relation SET Data from ./input/HqdmAllAsDataFormal2.csv
+Loaded HqdmAllAsData
+
+
+Get the superRelation id of given Binary Relation id:
+
+                                                                                       hqdm:universal_relation_set,
+                                                                            hqdmRelation:85e78ac0-ec72-478f-9aac-cacb520290a0
+                                                                                                   ^
+                                                                                                   |
+                                                                                    hqdm:universal_part_relation_set,
+                                                                            hqdmRelation:7b3caec7-7e9d-47cd-bb19-19d2872c326f
+                                                                                                   ^
+                                                                                                   |
+                                                                                              hqdm:part__of,
+                                                                            hqdmRelation:ac3fd9bd-a64d-4e87-8da6-1ce76451fde5
+                                                                                                   ^
+                                                                                                   |
+                                                                                          hqdm:temporal_part_of,
+                                                                            hqdmRelation:87bd55fd-4cc7-423d-90ab-a237cd759fb0
+                                                                                                   ^
+                                                                                                   |
+                                                                                          hqdm:temporal_part_of,
+                                                                            hqdmRelation:a7735b64-d0f4-4f35-870d-d28eff6f7c3f
+                                                                                                   ^
+                                                                                                   |
+                                                                                          hqdm:temporal_part_of,
+                                                                            hqdmRelation:a4326e10-a747-449a-9435-87a04a21ada9
+                                                                                                   ^
+                                                                                                   |
+0
+HqdmBinaryRelationPure {pureDomain = "hqdm:7be2a6bd-cdd1-4730-a1a5-3540aae7f139", pureBinaryRelationId = "hqdmRelation:f7c8c901-6147-4a58-bf88-0fdd32dc9faa", pureBinaryRelationName = "hqdm:temporal_part_of", pureRange = "hqdm:a980b931-9769-4975-847a-5d81405b213b", pureHasSuperBR = "hqdmRelation:a4326e10-a747-449a-9435-87a04a21ada9", pureCardinalityMin = 0, pureCardinalityMax = -1, pureRedeclaredBR = True, pureRedeclaredFromRange = ""}
+hqdm:e5ec5d9e-afea-44f7-93c9-699cd5072d90,hqdmRelation:85e78ac0-ec72-478f-9aac-cacb520290a0,hqdm:universal_relation_set,hqdm:e5ec5d9e-afea-44f7-93c9-699cd5072d90,,0,-1,False,
+hqdm:e5ec5d9e-afea-44f7-93c9-699cd5072d90,hqdmRelation:58d8936d-5887-4cf1-9f15-e96fa07f430e,hqdm:member__of,hqdm:4a8cba08-035c-4902-935b-26da61ed282c,hqdmRelation:2db5490e-01d0-491e-bd64-67ac616f65a0,0,-1,False,
+hqdm:e5ec5d9e-afea-44f7-93c9-699cd5072d90,hqdmRelation:69b0e5b9-3be2-4ec3-a9a6-bb5b523d4b32,hqdm:universal_attribute_relation_set,,hqdmRelation:85e78ac0-ec72-478f-9aac-cacb520290a0,0,-1,False,
+hqdm:e5ec5d9e-afea-44f7-93c9-699cd5072d90,hqdmRelation:7e249a64-9f13-47d3-a232-562a3d080198,hqdm:type,,hqdmRelation:69b0e5b9-3be2-4ec3-a9a6-bb5b523d4b32,0,-1,False,
+hqdm:e5ec5d9e-afea-44f7-93c9-699cd5072d90,hqdmRelation:fe987366-a8ad-48fa-8821-73f54f6df180,hqdm:data_EntityName,,hqdmRelation:69b0e5b9-3be2-4ec3-a9a6-bb5b523d4b32,0,1,False,
+hqdm:e5ec5d9e-afea-44f7-93c9-699cd5072d90,hqdmRelation:919a3f90-b681-422c-8481-fe313daa0044,hqdm:record_created,,hqdmRelation:69b0e5b9-3be2-4ec3-a9a6-bb5b523d4b32,1,1,False,
+hqdm:e5ec5d9e-afea-44f7-93c9-699cd5072d90,hqdmRelation:972bdd5f-5f8c-42d1-a47f-1ac08d1da48e,hqdm:record_creator,,hqdmRelation:69b0e5b9-3be2-4ec3-a9a6-bb5b523d4b32,1,1,False,
+hqdm:e5ec5d9e-afea-44f7-93c9-699cd5072d90,hqdmRelation:7b3caec7-7e9d-47cd-bb19-19d2872c326f,hqdm:universal_part_relation_set,hqdm:e5ec5d9e-afea-44f7-93c9-699cd5072d90,hqdmRelation:85e78ac0-ec72-478f-9aac-cacb520290a0,0,-1,False,
+hqdm:e5ec5d9e-afea-44f7-93c9-699cd5072d90,hqdmRelation:2db5490e-01d0-491e-bd64-67ac616f65a0,hqdm:universal_set_relation_set,hqdm:e5ec5d9e-afea-44f7-93c9-699cd5072d90,hqdmRelation:85e78ac0-ec72-478f-9aac-cacb520290a0,0,-1,False,
+hqdm:e5ec5d9e-afea-44f7-93c9-699cd5072d90,hqdmRelation:cfb37186-d2d6-48de-a418-6197bdf0a7b0,hqdm:universal_order_relation_set,hqdm:e5ec5d9e-afea-44f7-93c9-699cd5072d90,hqdmRelation:85e78ac0-ec72-478f-9aac-cacb520290a0,0,-1,False,
+hqdm:e5ec5d9e-afea-44f7-93c9-699cd5072d90,hqdmRelation:37584690-bff0-493f-80bc-f007af0217fc,hqdm:universal_reified_relation_set,hqdm:e5ec5d9e-afea-44f7-93c9-699cd5072d90,hqdmRelation:85e78ac0-ec72-478f-9aac-cacb520290a0,0,-1,False,
+hqdm:e5ec5d9e-afea-44f7-93c9-699cd5072d90,hqdmRelation:1f983e8a-7db1-4374-8fb1-7e8a432a967e,hqdm:has_supertype,hqdm:e5ec5d9e-afea-44f7-93c9-699cd5072d90,hqdmRelation:2db5490e-01d0-491e-bd64-67ac616f65a0,0,-1,False,
+hqdm:dd8359c4-0a2b-416a-af27-3bcb0551b41a,hqdmRelation:ac3fd9bd-a64d-4e87-8da6-1ce76451fde5,hqdm:part__of,hqdm:dd8359c4-0a2b-416a-af27-3bcb0551b41a,hqdmRelation:7b3caec7-7e9d-47cd-bb19-19d2872c326f,0,-1,False,
+hqdm:dd8359c4-0a2b-416a-af27-3bcb0551b41a,hqdmRelation:96c965a9-ec3e-47f2-b18e-b67147bc0873,hqdm:beginning,hqdm:545b4541-8a34-46b8-8704-2265be0244c3,hqdmRelation:cfb37186-d2d6-48de-a418-6197bdf0a7b0,0,-1,False,
+hqdm:dd8359c4-0a2b-416a-af27-3bcb0551b41a,hqdmRelation:aee002be-0529-4b80-82b0-0a6bcca34e48,hqdm:ending,hqdm:545b4541-8a34-46b8-8704-2265be0244c3,hqdmRelation:cfb37186-d2d6-48de-a418-6197bdf0a7b0,0,-1,False,
+hqdm:dd8359c4-0a2b-416a-af27-3bcb0551b41a,hqdmRelation:d2bd9e45-948f-4570-91c2-b0693cd81363,hqdm:part_of_possible_world,hqdm:a5dc8c36-56fc-44c2-909b-7592b1f44fd7,hqdmRelation:7b3caec7-7e9d-47cd-bb19-19d2872c326f,1,-1,False,
+hqdm:dd8359c4-0a2b-416a-af27-3bcb0551b41a,hqdmRelation:e052b90c-13c3-4fea-8289-0c995656ed8f,hqdm:member_of,hqdm:bb6f6d3f-1ed1-41ab-942c-6b3667c5da37,hqdmRelation:2db5490e-01d0-491e-bd64-67ac616f65a0,0,-1,False,
+hqdm:dd8359c4-0a2b-416a-af27-3bcb0551b41a,hqdmRelation:2fe747d1-a196-41a2-baf5-7b603aed9c57,hqdm:temporal__part_of,hqdm:dd8359c4-0a2b-416a-af27-3bcb0551b41a,hqdmRelation:7b3caec7-7e9d-47cd-bb19-19d2872c326f,0,-1,False,
+hqdm:dd8359c4-0a2b-416a-af27-3bcb0551b41a,hqdmRelation:45718dab-3b33-4d47-ba46-ddaeef3cdf4c,hqdm:aggregated_into,hqdm:dd8359c4-0a2b-416a-af27-3bcb0551b41a,hqdmRelation:7b3caec7-7e9d-47cd-bb19-19d2872c326f,0,-1,False,
+hqdm:dd8359c4-0a2b-416a-af27-3bcb0551b41a,hqdmRelation:fa7b1f1a-1e9f-42b9-8513-ddb7a2e74c90,hqdm:consists__of,hqdm:dd8359c4-0a2b-416a-af27-3bcb0551b41a,hqdmRelation:7b3caec7-7e9d-47cd-bb19-19d2872c326f,0,1,False,
+hqdm:13bebbab-ce5c-4c3b-ac77-66713f303a0a,hqdmRelation:87bd55fd-4cc7-423d-90ab-a237cd759fb0,hqdm:temporal_part_of,hqdm:58107227-267a-4f2e-a44a-25bb61c6a455,hqdmRelation:ac3fd9bd-a64d-4e87-8da6-1ce76451fde5,0,-1,False,
+hqdm:13bebbab-ce5c-4c3b-ac77-66713f303a0a,hqdmRelation:65553ab0-e43d-4f6c-8f1d-76dad4610a54,hqdm:member_of,hqdm:fabc65fd-5fe0-4f68-87bb-b4eb93eb2f1b,hqdmRelation:e052b90c-13c3-4fea-8289-0c995656ed8f,0,-1,True,
+hqdm:58107227-267a-4f2e-a44a-25bb61c6a455,hqdmRelation:c037270e-801f-4957-ad79-239954cedc37,hqdm:member_of,hqdm:b0432482-12dc-432c-ac56-828da404fb14,hqdmRelation:65553ab0-e43d-4f6c-8f1d-76dad4610a54,0,-1,True,
+hqdm:58107227-267a-4f2e-a44a-25bb61c6a455,hqdmRelation:6e23c714-9241-4132-aa7b-82391c6a60b7,hqdm:member_of_kind,hqdm:872000dc-f6b0-41db-a564-eb8f82f7a97c,hqdmRelation:65553ab0-e43d-4f6c-8f1d-76dad4610a54,0,-1,False,
+hqdm:db723822-93f7-4c1d-8f17-fb094a5c10d9,hqdmRelation:9b3d0e37-c23c-48f7-8e43-d70061a22a5f,hqdm:member_of,hqdm:3bb531a7-acb6-4096-b44f-6a0024ec090c,hqdmRelation:c037270e-801f-4957-ad79-239954cedc37,0,-1,True,
+hqdm:db723822-93f7-4c1d-8f17-fb094a5c10d9,hqdmRelation:b473c2ce-903a-4169-96dc-430855cf97ed,hqdm:member_of_kind,hqdm:27cca0db-6a93-4720-881c-1a27a08e8275,hqdmRelation:c037270e-801f-4957-ad79-239954cedc37,0,-1,True,
+hqdm:f9cb048d-a2f7-4ff6-b824-c59b44e2aabe,hqdmRelation:4096218c-eac7-44a6-90f8-e7ac21599c85,hqdm:temporal_part_of,hqdm:db723822-93f7-4c1d-8f17-fb094a5c10d9,hqdmRelation:87bd55fd-4cc7-423d-90ab-a237cd759fb0,0,-1,True,
+hqdm:f9cb048d-a2f7-4ff6-b824-c59b44e2aabe,hqdmRelation:96a99f0a-1e95-48a1-976e-2d50a0610d64,hqdm:member_of,hqdm:09ff1076-4557-48d3-b4eb-e4db4e8824ca,hqdmRelation:65553ab0-e43d-4f6c-8f1d-76dad4610a54,0,-1,True,
+hqdm:1d81fb63-17e1-4f37-a2f6-3fb0c11b36c2,hqdmRelation:4da82cf9-b653-48be-bf96-1f73ffac5453,hqdm:temporal_part_of,hqdm:2d025173-f36f-46d5-a0fe-93e9c27ea08d,hqdmRelation:4096218c-eac7-44a6-90f8-e7ac21599c85,0,-1,True,
+hqdm:1d81fb63-17e1-4f37-a2f6-3fb0c11b36c2,hqdmRelation:b2259b35-a177-41e8-83bd-129a55537871,hqdm:member_of,hqdm:0b2bf9d2-ded9-498d-b2c4-3131af57b4bf,hqdmRelation:96a99f0a-1e95-48a1-976e-2d50a0610d64,0,-1,True,
+hqdm:2d025173-f36f-46d5-a0fe-93e9c27ea08d,hqdmRelation:0c2cbf60-72fe-40db-aa23-d4088358cea6,hqdm:member_of,hqdm:a3950bdd-ee55-4ef1-82f5-432181902751,hqdmRelation:b2259b35-a177-41e8-83bd-129a55537871,0,-1,True,
+hqdm:2d025173-f36f-46d5-a0fe-93e9c27ea08d,hqdmRelation:8889d86e-7978-4c26-91c7-b3bc950bf573,hqdm:member_of_kind,hqdm:27a3a178-836a-4b42-94b9-6dbb0031a1c0,hqdmRelation:b2259b35-a177-41e8-83bd-129a55537871,0,-1,True,
+hqdm:dddc968c-e4e3-4776-b227-6ec6f82160c9,hqdmRelation:1347cb1e-d53e-4986-918d-fe41feec961c,hqdm:member_of,hqdm:c904af87-8122-4e94-a39a-ca9ca79b0ca1,hqdmRelation:0c2cbf60-72fe-40db-aa23-d4088358cea6,0,-1,True,
+hqdm:dddc968c-e4e3-4776-b227-6ec6f82160c9,hqdmRelation:4454bc3d-5ad1-4101-b40e-07e187975ebc,hqdm:member_of_kind,hqdm:ff161f9f-ba65-4a71-9728-9bda738e7371,hqdmRelation:0c2cbf60-72fe-40db-aa23-d4088358cea6,0,-1,True,
+hqdm:4e4a8a47-3a4c-44b9-83cc-96a11041172a,hqdmRelation:fcbfd748-958e-4e83-a49d-985075188e9e,hqdm:temporal_part_of,hqdm:dddc968c-e4e3-4776-b227-6ec6f82160c9,hqdmRelation:4da82cf9-b653-48be-bf96-1f73ffac5453,0,-1,True,
+hqdm:4e4a8a47-3a4c-44b9-83cc-96a11041172a,hqdmRelation:0401697a-3537-4ef7-bba8-11d19292678d,hqdm:member_of,hqdm:81ab8276-e2e3-41f9-9123-59e202cd70f6,hqdmRelation:b2259b35-a177-41e8-83bd-129a55537871,0,-1,True,
+hqdm:5c790afa-c116-4721-8e7c-83624d1dd4bc,hqdmRelation:c61d7746-0177-4e93-9e5e-c3d0053e9082,hqdm:temporal_part_of,hqdm:dabf85cb-c1e7-489b-aa66-0572dd1bd1dd,hqdmRelation:9983fff9-72b0-43e1-9d77-0fd810e2ac0a,0,-1,True,
+hqdm:5c790afa-c116-4721-8e7c-83624d1dd4bc,hqdmRelation:542f8aa4-ab24-4a48-9fe2-2adda03e2632,hqdm:member_of,hqdm:b3b33e0d-bdb4-42f6-a39a-2b99e8e7163c,hqdmRelation:f04f668e-5a43-41af-82e0-5806e3ca3118,0,-1,True,
+hqdm:3e972910-5f22-4cd0-9de1-7c7af0925660,hqdmRelation:9983fff9-72b0-43e1-9d77-0fd810e2ac0a,hqdm:temporal_part_of,hqdm:22ff3254-a3d2-401e-bc2c-d8290558e708,hqdmRelation:4da82cf9-b653-48be-bf96-1f73ffac5453,0,-1,True,
+hqdm:3e972910-5f22-4cd0-9de1-7c7af0925660,hqdmRelation:f04f668e-5a43-41af-82e0-5806e3ca3118,hqdm:member_of,hqdm:a3deeac0-8add-4ca6-a761-4e0255706cb0,hqdmRelation:b2259b35-a177-41e8-83bd-129a55537871,0,-1,True,
+hqdm:486caeee-40d6-487d-ba45-67539e8c37b5,hqdmRelation:a4326e10-a747-449a-9435-87a04a21ada9,hqdm:temporal_part_of,hqdm:130e95f1-ebc4-46f1-90ba-3f9fa21cb77b,hqdmRelation:a7735b64-d0f4-4f35-870d-d28eff6f7c3f,0,-1,True,
+hqdm:486caeee-40d6-487d-ba45-67539e8c37b5,hqdmRelation:88f601d8-575f-4316-8c75-1bb4635cf4e8,hqdm:member_of,hqdm:828b8a81-f980-4c91-b1bd-07228f20c524,hqdmRelation:ef1316a4-8a47-440c-a3d5-a0133765852b,0,-1,True,
+hqdm:2878273d-20f6-434e-8aa9-99764432fd03,hqdmRelation:a7735b64-d0f4-4f35-870d-d28eff6f7c3f,hqdm:temporal_part_of,hqdm:eb620bb7-652e-45ef-bc04-31f7d7c5ee10,hqdmRelation:87bd55fd-4cc7-423d-90ab-a237cd759fb0,0,-1,True,
+hqdm:2878273d-20f6-434e-8aa9-99764432fd03,hqdmRelation:ef1316a4-8a47-440c-a3d5-a0133765852b,hqdm:member_of,hqdm:befbebe7-5d03-4788-b6d5-f3ec513f0df4,hqdmRelation:65553ab0-e43d-4f6c-8f1d-76dad4610a54,0,-1,True,
+hqdm:eb620bb7-652e-45ef-bc04-31f7d7c5ee10,hqdmRelation:ae6fa8e3-66d9-4931-be9d-c6a4e1a99618,hqdm:member_of,hqdm:c0ca71fd-5151-421a-9458-c7cd6125746a,hqdmRelation:c037270e-801f-4957-ad79-239954cedc37,0,-1,True,
+hqdm:eb620bb7-652e-45ef-bc04-31f7d7c5ee10,hqdmRelation:853c9329-1274-4543-ac7c-9f570937a83a,hqdm:member_of_kind,hqdm:55a846ab-d7c0-4b94-86f2-1a17ed3c59e0,hqdmRelation:c037270e-801f-4957-ad79-239954cedc37,0,-1,True,
+hqdm:130e95f1-ebc4-46f1-90ba-3f9fa21cb77b,hqdmRelation:3a82f569-fb12-4fd6-b893-80c272071a94,hqdm:member_of,hqdm:483944bf-ec3b-4daf-a838-a9e0eaf67b75,hqdmRelation:ae6fa8e3-66d9-4931-be9d-c6a4e1a99618,0,-1,True,
+hqdm:130e95f1-ebc4-46f1-90ba-3f9fa21cb77b,hqdmRelation:bcd15b28-4d3e-41de-966c-fac27b7ff54c,hqdm:intended_role,hqdm:bbdadac6-65c2-4a03-9f74-9784b916378e,hqdmRelation:2db5490e-01d0-491e-bd64-67ac616f65a0,1,-1,False,
+hqdm:130e95f1-ebc4-46f1-90ba-3f9fa21cb77b,hqdmRelation:e9efea4b-cdcd-4a2d-ae1d-7e3e08655a71,hqdm:member_of_kind,hqdm:cc965f1b-26da-4230-b653-752e764add9e,hqdmRelation:ae6fa8e3-66d9-4931-be9d-c6a4e1a99618,0,-1,True,
+hqdm:a980b931-9769-4975-847a-5d81405b213b,hqdmRelation:163a237b-c25f-4062-84ee-695f217d6bec,hqdm:component_of,hqdm:dabf85cb-c1e7-489b-aa66-0572dd1bd1dd,hqdmRelation:5df20202-283c-4273-9551-456cc182dd0d,1,1,True,
+hqdm:a980b931-9769-4975-847a-5d81405b213b,hqdmRelation:4b8d5fdc-6694-4c58-998e-8d227d399a2d,hqdm:member_of,hqdm:08eef096-5390-4aba-a648-470aba6e3d4e,hqdmRelation:3a82f569-fb12-4fd6-b893-80c272071a94,0,-1,True,
+hqdm:a980b931-9769-4975-847a-5d81405b213b,hqdmRelation:8ea62706-fa07-40d7-8586-a8768403c01e,hqdm:member_of_kind,hqdm:5ccc13dd-c63c-4502-aa0d-786410b138cd,hqdmRelation:3a82f569-fb12-4fd6-b893-80c272071a94,1,-1,True,
+hqdm:7be2a6bd-cdd1-4730-a1a5-3540aae7f139,hqdmRelation:f7c8c901-6147-4a58-bf88-0fdd32dc9faa,hqdm:temporal_part_of,hqdm:a980b931-9769-4975-847a-5d81405b213b,hqdmRelation:a4326e10-a747-449a-9435-87a04a21ada9,0,-1,True,
+hqdm:7be2a6bd-cdd1-4730-a1a5-3540aae7f139,hqdmRelation:2b009fed-c8fd-451a-b60a-f4b65104dae6,hqdm:member_of,hqdm:65c798a6-a51f-4bba-872a-a60d49594ec4,hqdmRelation:88f601d8-575f-4316-8c75-1bb4635cf4e8,0,-1,True,
+hqdm:45c5b53c-7178-451f-a3f6-ad100daa2d8e,hqdmRelation:eb99aaa2-c16c-4d57-9716-409062cf4c00,hqdm:temporal_part_of,hqdm:2c20a948-5bc4-4da3-9b6e-a87027fe1026,hqdmRelation:4096218c-eac7-44a6-90f8-e7ac21599c85,0,-1,True,
+hqdm:45c5b53c-7178-451f-a3f6-ad100daa2d8e,hqdmRelation:c4ad298b-f535-4f70-bfc8-7e3a8f9d9de4,hqdm:member_of,hqdm:a3dd76af-0812-4317-bb76-a568d9eee416,hqdmRelation:96a99f0a-1e95-48a1-976e-2d50a0610d64,0,-1,True,
+hqdm:2c20a948-5bc4-4da3-9b6e-a87027fe1026,hqdmRelation:5df20202-283c-4273-9551-456cc182dd0d,hqdm:component_of,hqdm:dddc968c-e4e3-4776-b227-6ec6f82160c9,hqdmRelation:7b3caec7-7e9d-47cd-bb19-19d2872c326f,1,1,False,
+hqdm:2c20a948-5bc4-4da3-9b6e-a87027fe1026,hqdmRelation:3497e45e-e5d4-4966-80b7-b4ce16d1938e,hqdm:member_of,hqdm:66f9dfd3-2af7-44ce-8d01-6dbce8558a47,hqdmRelation:9b3d0e37-c23c-48f7-8e43-d70061a22a5f,0,-1,True,
+hqdm:a6970168-65c7-49aa-8429-c2230ec69003,hqdmRelation:319ac105-0d66-4a1e-bc26-21b57dd1102f,hqdm:component_of,hqdm:51614e28-d493-4d36-a3d1-4d92cae43b5f,hqdmRelation:5df20202-283c-4273-9551-456cc182dd0d,1,1,True,
+hqdm:a6970168-65c7-49aa-8429-c2230ec69003,hqdmRelation:f311a9d7-a651-4142-bc75-d34895426811,hqdm:member_of,hqdm:e7e9e543-5ec8-4325-9c14-f861930ee401,hqdmRelation:95bd611c-a9f8-42a5-a929-f29e6be47b50,0,-1,True,
+hqdm:21c1fe82-1b48-46b3-8df8-6bddcbb2d92e,hqdmRelation:95bd611c-a9f8-42a5-a929-f29e6be47b50,hqdm:member_of,hqdm:174249f8-33f8-4998-b81a-bda093659982,hqdmRelation:ce789976-153f-45da-81cf-70f6665c0853,0,-1,True,
+hqdm:21c1fe82-1b48-46b3-8df8-6bddcbb2d92e,hqdmRelation:bd614e94-57ad-4133-9c55-839546c79522,hqdm:member_of_kind,hqdm:04c18886-d1fc-4cc8-8f58-228b2b6686dc,hqdmRelation:ce789976-153f-45da-81cf-70f6665c0853,0,-1,True,
+hqdm:f5ac9254-2b93-4ed7-b89e-70994842b438,hqdmRelation:d6865f69-4c0c-4a3d-9d95-803ddce86b82,hqdm:temporal_part_of,hqdm:21c1fe82-1b48-46b3-8df8-6bddcbb2d92e,hqdmRelation:4096218c-eac7-44a6-90f8-e7ac21599c85,0,-1,True,
+hqdm:f5ac9254-2b93-4ed7-b89e-70994842b438,hqdmRelation:ce789976-153f-45da-81cf-70f6665c0853,hqdm:member_of,hqdm:6beb4515-89e8-4bce-9318-77935200f9bb,hqdmRelation:96a99f0a-1e95-48a1-976e-2d50a0610d64,0,-1,True,
+hqdm:80ff5ac6-d73a-465c-a3eb-e133b7f3d9a4,hqdmRelation:3ce58389-5adb-4a54-914c-ad03d629ea1f,hqdm:temporal_part_of,hqdm:4b4c601d-5ec9-44f4-b6b0-836fc7933830,hqdmRelation:d6865f69-4c0c-4a3d-9d95-803ddce86b82,0,-1,True,
+hqdm:80ff5ac6-d73a-465c-a3eb-e133b7f3d9a4,hqdmRelation:2a22cfce-0ebd-43b4-91ea-a5ab5320740c,hqdm:member_of,hqdm:f8a515a7-1237-4a11-9915-a075da750105,hqdmRelation:ce789976-153f-45da-81cf-70f6665c0853,0,-1,True,
+hqdm:4b4c601d-5ec9-44f4-b6b0-836fc7933830,hqdmRelation:b70cc1b5-3171-4f5a-831c-df16ede6c885,hqdm:member_of,hqdm:46a78f8d-5470-41e3-ac04-ae68a1d55dda,hqdmRelation:0c2cbf60-72fe-40db-aa23-d4088358cea6,0,-1,True,
+hqdm:4b4c601d-5ec9-44f4-b6b0-836fc7933830,hqdmRelation:910bb600-a54f-4527-8927-0a335df8cc39,hqdm:member_of_kind,hqdm:d1da2671-094a-4640-9fd6-0c663b7d982b,hqdmRelation:0c2cbf60-72fe-40db-aa23-d4088358cea6,0,-1,True,
+hqdm:51614e28-d493-4d36-a3d1-4d92cae43b5f,hqdmRelation:81589659-b10c-446e-95f1-4c38b919ae59,hqdm:member_of,hqdm:fc91cd5a-97f5-4748-8329-aeed9d1c7966,hqdmRelation:84626bdf-aa48-4277-8bf6-4f5f79b87b73,0,-1,True,
+hqdm:51614e28-d493-4d36-a3d1-4d92cae43b5f,hqdmRelation:371e36c7-a1c5-4f10-8d88-d47b99da2710,hqdm:natural_role,hqdm:bbdadac6-65c2-4a03-9f74-9784b916378e,hqdmRelation:2db5490e-01d0-491e-bd64-67ac616f65a0,0,-1,False,
+hqdm:51614e28-d493-4d36-a3d1-4d92cae43b5f,hqdmRelation:cf7d7986-b6b1-42ea-8b1a-0cd6fb34f8c1,hqdm:member_of_kind,hqdm:3f1174ee-c8eb-4760-8176-828204a06fa8,hqdmRelation:84626bdf-aa48-4277-8bf6-4f5f79b87b73,0,-1,True,
+hqdm:95a2da43-3cd9-4d33-aa4e-d670b5405b4e,hqdmRelation:fbdcccb7-d061-44fd-b0d0-8d5547489184,hqdm:temporal_part_of,hqdm:51614e28-d493-4d36-a3d1-4d92cae43b5f,hqdmRelation:fcbfd748-958e-4e83-a49d-985075188e9e,0,-1,True,
+hqdm:95a2da43-3cd9-4d33-aa4e-d670b5405b4e,hqdmRelation:84626bdf-aa48-4277-8bf6-4f5f79b87b73,hqdm:member_of,hqdm:634771cd-ca38-47e5-807d-fef99f8ee5d5,hqdmRelation:0401697a-3537-4ef7-bba8-11d19292678d,0,-1,True,
+hqdm:5d725880-4682-4cba-bc88-e5dde5ba3647,hqdmRelation:6d93d187-ab2e-4ca8-b7bb-2b3ba4737b5f,hqdm:temporal_part_of,hqdm:a49dde2f-b3f8-4d51-8fc3-12d0f185d5f3,hqdmRelation:fbdcccb7-d061-44fd-b0d0-8d5547489184,0,-1,True,
+hqdm:5d725880-4682-4cba-bc88-e5dde5ba3647,hqdmRelation:dcc51ec1-22d6-4182-b647-dee81294cebc,hqdm:member_of,hqdm:03b7b761-5761-480c-ad6e-caa0948539a3,hqdmRelation:84626bdf-aa48-4277-8bf6-4f5f79b87b73,0,-1,True,
+hqdm:248aec75-126f-4a2a-ac31-b3ad2415bb69,hqdmRelation:b8ea01ad-d535-4502-94be-e68d05118c12,hqdm:temporal_part_of,hqdm:d9ab8110-1437-4ac2-82b8-f6820cfa6dc4,hqdmRelation:fcbfd748-958e-4e83-a49d-985075188e9e,0,-1,True,
+hqdm:248aec75-126f-4a2a-ac31-b3ad2415bb69,hqdmRelation:cd7ab7a0-8e04-4c42-a450-05190696fe11,hqdm:member_of,hqdm:484c2d9b-be76-4d3d-83d6-2b630c125ef3,hqdmRelation:0401697a-3537-4ef7-bba8-11d19292678d,0,-1,True,
+hqdm:d9ab8110-1437-4ac2-82b8-f6820cfa6dc4,hqdmRelation:60b7a2b2-591d-466b-826a-bc6298937925,hqdm:member_of,hqdm:1f256de1-3bde-48de-862d-4be2025ec214,hqdmRelation:cd7ab7a0-8e04-4c42-a450-05190696fe11,0,-1,True,
+hqdm:d9ab8110-1437-4ac2-82b8-f6820cfa6dc4,hqdmRelation:ed7e7016-2975-4184-aa89-af85b707e147,hqdm:member_of_kind,hqdm:62c4e791-099b-49b3-a665-a74731e49d78,hqdmRelation:cd7ab7a0-8e04-4c42-a450-05190696fe11,0,-1,True,
+hqdm:f19c97e0-861a-40e9-94f4-04ef71d49bdd,hqdmRelation:41e1df78-0677-4942-9818-61afb28cdb40,hqdm:member_of,hqdm:6ab409ca-57a7-4daa-8da4-8d68945c4460,hqdmRelation:d8d8993a-92bf-49fc-b5db-ac35cfdfb9ba,0,-1,True,
+hqdm:f19c97e0-861a-40e9-94f4-04ef71d49bdd,hqdmRelation:6916283c-9ee4-446e-b5dd-6b6f1e6f101b,hqdm:member_of_kind,hqdm:b5b606ea-c1a9-4cc0-9217-63979c082f5b,hqdmRelation:d8d8993a-92bf-49fc-b5db-ac35cfdfb9ba,0,-1,True,
+hqdm:515a7453-0189-4147-8b4b-5b419e651adb,hqdmRelation:ed47bf86-2206-419a-89eb-0934736f31be,hqdm:temporal_part_of,hqdm:f19c97e0-861a-40e9-94f4-04ef71d49bdd,hqdmRelation:b8ea01ad-d535-4502-94be-e68d05118c12,0,-1,True,
+hqdm:515a7453-0189-4147-8b4b-5b419e651adb,hqdmRelation:d8d8993a-92bf-49fc-b5db-ac35cfdfb9ba,hqdm:member_of,hqdm:652d9a7e-4310-43ff-8572-2f7e963499ae,hqdmRelation:cd7ab7a0-8e04-4c42-a450-05190696fe11,0,-1,True,
+hqdm:024708e6-3fd4-438c-8585-b74637b9dd06,hqdmRelation:cf4fd4fe-a4c2-4cfe-8e76-f79901d02dd4,hqdm:member_of,hqdm:4b400cd1-224d-4358-9239-d060dcc8ffb2,hqdmRelation:ef1316a4-8a47-440c-a3d5-a0133765852b,0,-1,True,
+hqdm:024708e6-3fd4-438c-8585-b74637b9dd06,hqdmRelation:dfcbe928-c654-455a-91ba-92a36394c03f,hqdm:temporal_part_of,hqdm:3603c6e0-605b-48a0-ad84-47c17d98bf6b,hqdmRelation:a7735b64-d0f4-4f35-870d-d28eff6f7c3f,0,-1,True,
+hqdm:3603c6e0-605b-48a0-ad84-47c17d98bf6b,hqdmRelation:03ecf9fc-945d-43a6-85b8-c8e131214833,hqdm:member_of,hqdm:e9597740-d4f6-4a71-a820-054eea06547e,hqdmRelation:ae6fa8e3-66d9-4931-be9d-c6a4e1a99618,0,-1,True,
+hqdm:3603c6e0-605b-48a0-ad84-47c17d98bf6b,hqdmRelation:180cd739-b8cd-4ccb-83d4-e095e3501c68,hqdm:member_of_kind,hqdm:cd887fc6-ed0f-418f-b209-8a20d04f2d16,hqdmRelation:ae6fa8e3-66d9-4931-be9d-c6a4e1a99618,0,-1,True,
+hqdm:623f3067-db46-40c1-9cf0-b1682fd41ed6,hqdmRelation:ba950dae-21c2-4d52-a302-00d1f295db82,hqdm:member_of,hqdm:998230cf-1822-4000-bd58-9790845f12da,hqdmRelation:9b3d0e37-c23c-48f7-8e43-d70061a22a5f,0,-1,True,
+hqdm:623f3067-db46-40c1-9cf0-b1682fd41ed6,hqdmRelation:a240dcab-713f-4703-99e7-528b99207007,hqdm:member_of_currency,hqdm:f916a5ea-6de0-4b3d-bd0a-5215421d10a8,hqdmRelation:9b3d0e37-c23c-48f7-8e43-d70061a22a5f,0,1,False,
+hqdm:5c20e872-fea5-439f-835e-d76e8c8fa356,hqdmRelation:e944281d-866a-4c67-b7b6-f062d13d2526,hqdm:temporal_part_of,hqdm:623f3067-db46-40c1-9cf0-b1682fd41ed6,hqdmRelation:dfcbe928-c654-455a-91ba-92a36394c03f,0,1,True,
+hqdm:5c20e872-fea5-439f-835e-d76e8c8fa356,hqdmRelation:7df0d741-d7c3-4fd5-8085-c8dc1ca56a81,hqdm:member_of,hqdm:6f9af373-1be4-4938-9f4a-b7eee8fa3bf8,hqdmRelation:cf4fd4fe-a4c2-4cfe-8e76-f79901d02dd4,0,-1,True,
+hqdm:f235e2b3-d6d8-4f89-93b3-d13121872563,hqdmRelation:e6594b28-c326-4e84-b74e-a1b64b4a07b8,hqdm:participant_in,hqdm:822e4ff2-5e3a-46dd-837f-6bf1d1ad8962,hqdmRelation:3a3ccd18-3705-44b9-a248-614e8a9d720d,1,1,True,
+hqdm:f9d69eb8-9ab7-44da-b9d0-8256de2b4497,hqdmRelation:f5868caa-7b57-43d8-bb30-8bfcea5542ae,hqdm:member_of,hqdm:93d2b473-f654-448f-a0ce-2bc1d6a3aec5,hqdmRelation:96a99f0a-1e95-48a1-976e-2d50a0610d64,0,-1,True,
+hqdm:f9d69eb8-9ab7-44da-b9d0-8256de2b4497,hqdmRelation:47f75e62-f12d-4aa2-84a6-c42b0534a554,hqdm:member_of_kind,hqdm:bbdadac6-65c2-4a03-9f74-9784b916378e,hqdmRelation:96a99f0a-1e95-48a1-976e-2d50a0610d64,1,-1,False,
+hqdm:f9d69eb8-9ab7-44da-b9d0-8256de2b4497,hqdmRelation:3a3ccd18-3705-44b9-a248-614e8a9d720d,hqdm:participant_in,hqdm:7fd5d2ab-a4f2-443b-bdf9-6695fa55c01f,hqdmRelation:ac3fd9bd-a64d-4e87-8da6-1ce76451fde5,0,-1,False,
+hqdm:f9d69eb8-9ab7-44da-b9d0-8256de2b4497,hqdmRelation:5a5c0f42-84e9-45b4-a84a-a0853d35d9dd,hqdm:participant_in,hqdm:07d5cfb9-1dc5-41ca-bd9c-a298a16e6767,hqdmRelation:ac3fd9bd-a64d-4e87-8da6-1ce76451fde5,0,-1,False,
+hqdm:3182e918-f5db-4b23-8c37-dbe73af104f5,hqdmRelation:4d18dffd-239e-4033-93dc-7baff75f6716,hqdm:participant_in,hqdm:822e4ff2-5e3a-46dd-837f-6bf1d1ad8962,hqdmRelation:3a3ccd18-3705-44b9-a248-614e8a9d720d,1,1,True,
+hqdm:7fd5d2ab-a4f2-443b-bdf9-6695fa55c01f,hqdmRelation:d4c308f0-9ae3-4b7d-937b-5f10e38c0ae1,hqdm:references,hqdm:e5ec5d9e-afea-44f7-93c9-699cd5072d90,hqdmRelation:85e78ac0-ec72-478f-9aac-cacb520290a0,0,-1,False,
+hqdm:7fd5d2ab-a4f2-443b-bdf9-6695fa55c01f,hqdmRelation:9aa0dd62-f513-4176-ac59-ef147864b65d,hqdm:determines,hqdm:e5ec5d9e-afea-44f7-93c9-699cd5072d90,hqdmRelation:85e78ac0-ec72-478f-9aac-cacb520290a0,0,-1,False,
+hqdm:7fd5d2ab-a4f2-443b-bdf9-6695fa55c01f,hqdmRelation:e3e09fc8-b1b9-4f46-961f-3db83c42ca8b,hqdm:causes,hqdm:545b4541-8a34-46b8-8704-2265be0244c3,hqdmRelation:cfb37186-d2d6-48de-a418-6197bdf0a7b0,1,-1,False,
+hqdm:7fd5d2ab-a4f2-443b-bdf9-6695fa55c01f,hqdmRelation:97e1bc20-033c-4f96-8001-a062f54376b0,hqdm:member_of,hqdm:16b464c6-7a71-4734-88af-9e224b70784b,hqdmRelation:cbe321a9-9800-46e1-8a1e-b7924e0ccc72,0,-1,True,
+hqdm:7fd5d2ab-a4f2-443b-bdf9-6695fa55c01f,hqdmRelation:9048b7e9-51fb-429d-b070-90b30ab44e8f,hqdm:part_of,hqdm:7fd5d2ab-a4f2-443b-bdf9-6695fa55c01f,hqdmRelation:ac3fd9bd-a64d-4e87-8da6-1ce76451fde5,0,-1,False,
+hqdm:7fd5d2ab-a4f2-443b-bdf9-6695fa55c01f,hqdmRelation:552b3358-a463-4e66-9cd6-1987c269d4ea,hqdm:member_of_kind,hqdm:d41c1675-8998-4796-b858-f07f1a32c520,hqdmRelation:cbe321a9-9800-46e1-8a1e-b7924e0ccc72,1,-1,True,
+hqdm:7fd5d2ab-a4f2-443b-bdf9-6695fa55c01f,hqdmRelation:d03b73d7-7c2b-4cc7-b086-ddc0d930e0ed,hqdm:consists_of,hqdm:7fd5d2ab-a4f2-443b-bdf9-6695fa55c01f,hqdmRelation:7b3caec7-7e9d-47cd-bb19-19d2872c326f,0,1,False,
+hqdm:7fd5d2ab-a4f2-443b-bdf9-6695fa55c01f,hqdmRelation:79cbb2a3-c1b1-4996-b47f-22510688bac1,hqdm:consists_of_participant,hqdm:f9d69eb8-9ab7-44da-b9d0-8256de2b4497,hqdmRelation:7b3caec7-7e9d-47cd-bb19-19d2872c326f,1,-1,False,
+hqdm:2a7e347e-870a-40ef-974d-5f7d2565fb33,hqdmRelation:ede58361-973c-4b75-b563-8b771be9a09b,hqdm:temporal_part_of,hqdm:7fd5d2ab-a4f2-443b-bdf9-6695fa55c01f,hqdmRelation:87bd55fd-4cc7-423d-90ab-a237cd759fb0,0,-1,True,
+hqdm:2a7e347e-870a-40ef-974d-5f7d2565fb33,hqdmRelation:cbe321a9-9800-

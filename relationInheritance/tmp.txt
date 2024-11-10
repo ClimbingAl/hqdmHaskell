@@ -1,0 +1,32 @@
+Start, construct relations from ./input/PureHqdmRelations_v0.csv
+
+Loaded Relation SET Data from ./input/HqdmAllAsDataFormal2.csv
+Loaded HqdmAllAsData
+
+
+Get the superRelation id of given Binary Relation id:
+
+                                                                                       hqdm:universal_relation_set,
+                                                                            hqdmRelation:85e78ac0-ec72-478f-9aac-cacb520290a0
+                                                                                                   ^
+                                                                                                   |
+                                                                                    hqdm:universal_part_relation_set,
+                                                                            hqdmRelation:7b3caec7-7e9d-47cd-bb19-19d2872c326f
+                                                                                                   ^
+                                                                                                   |
+                                                                                              hqdm:part__of,
+                                                                            hqdmRelation:ac3fd9bd-a64d-4e87-8da6-1ce76451fde5
+                                                                                                   ^
+                                                                                                   |
+                                                                                          hqdm:temporal_part_of,
+                                                                            hqdmRelation:87bd55fd-4cc7-423d-90ab-a237cd759fb0
+                                                                                                   ^
+                                                                                                   |
+                                                                                          hqdm:temporal_part_of,
+                                                                            hqdmRelation:a7735b64-d0f4-4f35-870d-d28eff6f7c3f
+                                                                                                   ^
+                                                                                                   |
+                                                                                          hqdm:temporal_part_of,
+                                                                            hqdmRelation:a4326e10-a747-449a-9435-87a04a21ada9
+                                                                                                   ^
+                                                                                                   |

@@ -54,7 +54,11 @@ module HqdmRelations
     hqdmSwapRelationNamesForIds,
     convertRelationByDomainAndRange,
     headListIfPresent,
-    addNewCardinalitiesToPure
+    addNewCardinalitiesToPure,
+    correctCardinalities,
+    correctAllCardinalities,
+    findMaxMaxCardinality,
+    findMaxMinCardinality
   )
 where
 
@@ -359,3 +363,44 @@ csvRelationsFromPure = concatMap printablePureRelation
 -- From all the Pure Binary Relations given find the super Binary Relation of a given RelationId.
 lookupSuperBinaryRelOf :: RelationId -> [HqdmBinaryRelationPure] -> Maybe RelationId
 lookupSuperBinaryRelOf x brList = headListIfPresent [pureHasSuperBR values | values <- brList, x == pureBinaryRelationId values]
+
+-- Go through a list of Binary Relations (typically a path to the universal Binary Relation) and find the maximum Minimum Cardinality value
+findMaxMinCardinality :: [RelationId] -> [HqdmBinaryRelationPure] -> Int -> Int
+findMaxMinCardinality _ [] cardVal = cardVal
+findMaxMinCardinality [] _ cardVal = cardVal
+findMaxMinCardinality (brelId:brelIds) brels cardVal = go brelIds brels cardVal
+  where
+    nextCardVal = pureCardinalityMin (head $ findBrelFromId brelId brels)
+
+    go brelIds brels cardVal
+      | null brelIds = cardVal
+      | nextCardVal > cardVal = findMaxMinCardinality brelIds brels nextCardVal
+      | nextCardVal <= cardVal = findMaxMinCardinality brelIds brels cardVal
+      | otherwise = -1
+
+-- Go through a list of Binary Relations (typically a path to the universal Binary Relation) and find the maximum Maximum Cardinality value
+findMaxMaxCardinality :: [RelationId] -> [HqdmBinaryRelationPure] -> Int -> Int
+findMaxMaxCardinality _ [] cardVal = cardVal
+findMaxMaxCardinality [] _ cardVal = cardVal
+findMaxMaxCardinality (brelId:brelIds) brels cardVal = go brelIds brels cardVal
+  where
+    nextCardVal = pureCardinalityMax (head $ findBrelFromId brelId brels)
+
+    go brelIds brels cardVal
+      | null brelIds = cardVal
+      | nextCardVal > cardVal = findMaxMaxCardinality brelIds brels nextCardVal
+      | nextCardVal <= cardVal = findMaxMaxCardinality brelIds brels cardVal
+      | otherwise = -1
+
+-- correctCardinalities
+correctCardinalities :: HqdmBinaryRelationPure -> [HqdmBinaryRelationPure] -> HqdmBinaryRelationPure
+correctCardinalities rel brels = newRel
+  where
+    superBRPathToUniversal = superRelationPathToUniversalRelation (pureBinaryRelationId rel) brels []
+    maxMinCardinality = findMaxMinCardinality superBRPathToUniversal brels (pureCardinalityMin rel)
+    maxMaxCardinality = findMaxMaxCardinality superBRPathToUniversal brels (pureCardinalityMax rel)
+
+    newRel = addNewCardinalitiesToPure maxMinCardinality maxMaxCardinality rel
+
+correctAllCardinalities :: [HqdmBinaryRelationPure] -> [HqdmBinaryRelationPure]
+correctAllCardinalities brels = fmap (`correctCardinalities` brels) brels

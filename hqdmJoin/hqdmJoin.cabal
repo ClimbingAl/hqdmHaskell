@@ -43,7 +43,7 @@ maintainer:         aristotlestarteditall@gmail.com
 
 -- A copyright notice.
 -- copyright:
-category:           4D Logic
+category:           4DLogic
 build-type:         Simple
 
 -- Extra doc files to be distributed with the package, such as a CHANGELOG or a README.
@@ -85,18 +85,27 @@ executable hqdmJoin
     main-is:          Main.hs
 
     -- Modules included in this executable, other than Main.
-    -- other-modules:
+    other-modules:
+        HqdmRelations
+        HqdmInspection
+        HqdmLib
+        HqdmIds
 
     -- LANGUAGE extensions used by modules in this package.
     -- other-extensions:
 
     -- Other library packages from which modules are imported.
     build-depends:
-        base ^>=4.17.2.1,
-        hqdmJoin
+        base ^>=4.17.2.1
+        , bytestring
+        , cassava
+        , directory
+        , text
+        , unique
+        , vector
 
     -- Directories containing source files.
-    hs-source-dirs:   app
+    hs-source-dirs:   app, src, ../hqdm/src, ../relations/src
 
     -- Base language which the package is written in.
     default-language: Haskell2010
@@ -125,5 +134,4 @@ test-suite hqdmJoin-test
 
     -- Test dependencies.
     build-depends:
-        base ^>=4.17.2.1,
-        hqdmJoin
+        base ^>=4.17.2.1

@@ -1,8 +1,163 @@
-module Main where
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE TypeApplications #-}
 
-import qualified MyLib (someFunc)
+-- |
+-- Module      :  HqdmJoin Main
+-- Description :  Join MagmaCore datasets with Pure Hqdm
+-- Copyright   :  (c) CIS Ltd
+-- License     :  Apache-2.0
+--
+-- Maintainer  :  aristotlestarteditall@gmail.com
+-- Stability   :  experimental
+-- Portability :  portable (albeit for HQDM All As Data applications)
+--
+-- Executable Main that joins a MagmaCore generated dataset with the prepared pure HQDM binary 
+-- relation SETs and HQDM AllAsData.
+
+module Main (main) where
+
+import HqdmRelations (
+    RelationId,
+    HqdmRelationSet,
+    RelationPair,
+    HqdmBinaryRelation,
+    HqdmBinaryRelationSet,
+    HqdmBinaryRelationPure,
+    universalRelationSet,
+    getRelationNameFromRels,
+    hqdmRelationsToPure,
+    csvRelationsToPure,
+    getPureDomain,
+    getPureRelationId,
+    getPureRelationName,
+    getPureRange,
+    getPureSuperRelation,
+    getPureCardinalityMin,
+    getPureCardinalityMax,
+    getPureReclared,
+    getPureRedeclaredFromRange,
+    getBrelDomainFromRels,
+    findBrelDomainSupertypes,
+    findBrelFromId,
+    superRelationPathToUniversalRelation,
+    relIdNameTuples,
+    printablePathFromTuples,
+    findBrelsWithDomains,
+    findBrelsAndNamesWithDomains,
+    findSuperBinaryRelation,
+    findSuperBinaryRelation',
+    addStRelationToPure,
+    printablePureRelation,
+    csvRelationsFromPure,
+    lookupSuperBinaryRelOf,
+    hqdmSwapRelationNamesForIds,
+    convertRelationByDomainAndRange,
+    headListIfPresent,
+    addNewCardinalitiesToPure,
+    correctCardinalities,
+    correctAllCardinalities,
+    findMaxMaxCardinality,
+    findMaxMinCardinality
+    )
+
+import HqdmLib (
+    Id,
+    HqdmTriple(..),
+    HqdmTriple(subject, predicate, object),
+    RelationPair,
+    Relation,
+    HqdmHasSupertype,
+    getSubjects,
+    getPredicates,
+    uniqueIds,
+    uniqueTriples,
+    stringListSort,
+    lookupHqdmOne,
+    lookupHqdmType,
+    lookupHqdmIdFromType,
+    lookupSubtypes,
+    lookupSubtypeOf,
+    lookupSubtypesOf,
+    lookupSupertypeOf,
+    lookupSupertypesOf,
+    findHqdmTypesInList,
+    findSupertypeTree,
+    printableTypeTree,
+    findSubtypeTree,
+    findInheritedRels,
+    collapseInheritedRels,
+    printableCollapsedList,
+    printableRelationPairs,
+    exportAsTriples,
+    csvTriplesFromHqdmTriples,
+    screenCharOffset,
+    fmtString)
+
+import HqdmInspection (howmanyNodes)
+import HqdmIds
+
+-- from bytestring
+import qualified Data.ByteString.Lazy as BL
+-- from cassava
+import Data.Csv (HasHeader( NoHeader ), decode)
+import qualified Data.Vector as V
+import Data.List (isPrefixOf)
+import Data.Maybe
+
+-- Constants
+hqdmRelationsInputFilename::String
+hqdmRelationsInputFilename = "./input/PureHqdmRelations_v2.csv" -- allHqdmRels or exportedPureBinaryRelationsModded2 or PureHqdmRelations_v2
+
+hqdmInputFilename::String
+hqdmInputFilename = "./input/hqdmAllAsDataFormal1_NoExtensions.csv"  -- hqdmAllAsDataFormal1_NoExtensions or hqdmAllAsDataFormal1 or hqdmAllAsDataFormal2
+
+joinModelFilename::String 
+joinModelFilename = "./input/networksBasic1converted.csv"
+
+elementOfType::String 
+elementOfType = "hqdmRelation:8130458f-ae96-4ab3-89b9-21f06a2aac78"
 
 main :: IO ()
 main = do
-  putStrLn "Hello, Haskell!"
-  MyLib.someFunc
+    putStrLn ("Start HqdmJoin, load relations from " ++ hqdmRelationsInputFilename)
+
+    hqdmRelationSets <- fmap V.toList . decode @HqdmBinaryRelation NoHeader <$> BL.readFile hqdmRelationsInputFilename
+
+    let relationsInputModel =  csvRelationsToPure $ either (const []) id hqdmRelationSets
+    -- print relationsInputModel
+
+    putStr ("\nLoaded Relation SET Data.  Now load HQDM types and their relations all as data from " ++ hqdmInputFilename)
+
+    -- Load HqdmAllAsData
+    hqdmTriples <- fmap V.toList . decode @HqdmTriple NoHeader <$> BL.readFile hqdmInputFilename
+
+    let hqdmInputModel = either (const []) id hqdmTriples
+    --print hqdmInputModel
+    putStr "\n\nLoaded HqdmAllAsData\n\n"
+
+    joinModelTriples <- fmap V.toList . decode @HqdmTriple NoHeader <$> BL.readFile joinModelFilename
+    let joinInputModel = either (const []) id joinModelTriples
+    putStr ("\n\nLoaded Model to Join: " ++ joinModelFilename)
+
+    -- Get the unique node ids of the input model
+    let uniqueJoinNodes = uniqueIds $ getSubjects joinInputModel
+    putStr "\nNumber of ids is:\n\n"
+    print (length uniqueJoinNodes)
+
+    putStr "\nGet the entire object and find its type (assumes ordered list of types):\n\n"
+    let nodeTypeStatements = fmap (\ x -> head $ lookupHqdmOne x joinInputModel) uniqueJoinNodes
+    --print nodeTypeStatements
+
+    -- Get the hqdmInputModel node ids of the types that are in the join Model
+    let subtypes = lookupSubtypes hqdmInputModel
+
+    let typeIdsOfJoinObjects = zip uniqueJoinNodes (fmap (head . lookupHqdmIdFromType hqdmInputModel . object)  nodeTypeStatements)
+    let elementOfTypeName = getRelationNameFromRels elementOfType relationsInputModel
+    let elementOfTypeTriples = fmap (\ x -> HqdmTriple (fst x) elementOfTypeName (snd x)) typeIdsOfJoinObjects
+
+    putStr "\nNew triples\n\n"
+    print elementOfTypeTriples
+
+
+
+

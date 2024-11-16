@@ -8,6 +8,9 @@
 -- Stability   :  experimental
 -- Portability :  portable (albeit for HQDM All As Data applications)
 --
+-- Although Haskell code style recommends Camel Case the constants
+-- here use Snake Case as that matches the names given in the original
+-- HQDM documentation.
 --
 
 module HqdmIds (module HqdmIds) where
@@ -321,8 +324,8 @@ state_of_functional_system = "hqdm:5c790afa-c116-4721-8e7c-83624d1dd4bc"
 state_of_socially_constructed_activity::String
 state_of_socially_constructed_activity = "hqdm:ff452b29-06ab-49fd-9eab-0dd822be48fe"
 
-pattern::String
-pattern = "hqdm:efbfe0f6-376d-4461-9f47-f4823d8a426b"
+pattern'::String
+pattern' = "hqdm:efbfe0f6-376d-4461-9f47-f4823d8a426b"
 
 class_of_biological_system::String
 class_of_biological_system = "hqdm:fc91cd5a-97f5-4748-8329-aeed9d1c7966"

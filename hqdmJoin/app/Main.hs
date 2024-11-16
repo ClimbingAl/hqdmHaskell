@@ -117,6 +117,15 @@ joinModelFilename = "./input/networksBasic1converted.csv"
 elementOfType::String 
 elementOfType = "hqdmRelation:8130458f-ae96-4ab3-89b9-21f06a2aac78"
 
+hasSuperclass::String 
+hasSuperclass = "hqdmRelation:7d11b956-0014-43be-9a3e-f89e2b31ec4f"
+
+isSubtype:: Id -> Id -> [HqdmTriple] -> Bool
+isSubtype id superTypeId tpls = id `elem` concat (HqdmLib.findSubtypeTree [[superTypeId]] tpls [])
+
+subtypesOfFilter:: [(Id,Id)] -> Id -> [HqdmTriple] -> [(Id,Id)]
+subtypesOfFilter ids superTypeId tpls = filter (\ x -> isSubtype (snd x) superTypeId tpls) ids
+
 main :: IO ()
 main = do
     putStrLn ("Start HqdmJoin, load relations from " ++ hqdmRelationsInputFilename)
@@ -152,12 +161,37 @@ main = do
     let subtypes = lookupSubtypes hqdmInputModel
 
     let typeIdsOfJoinObjects = zip uniqueJoinNodes (fmap (head . lookupHqdmIdFromType hqdmInputModel . object)  nodeTypeStatements)
-    let elementOfTypeName = getRelationNameFromRels elementOfType relationsInputModel
-    let elementOfTypeTriples = fmap (\ x -> HqdmTriple (fst x) elementOfTypeName (snd x)) typeIdsOfJoinObjects
+    -- Now filter the objects to join to be only those that are subtypes of ste
+    let onlySubtypesOfSte = subtypesOfFilter typeIdsOfJoinObjects spatio_temporal_extent subtypes
+    --print(isSubtype (snd $ head typeIdsOfJoinObjects) spatio_temporal_extent subtypes )
 
-    putStr "\nNew triples\n\n"
+    let elementOfTypeName = getRelationNameFromRels elementOfType relationsInputModel
+    let elementOfTypeTriples = fmap (\ x -> HqdmTriple (fst x) elementOfTypeName (snd x)) onlySubtypesOfSte
+
+    putStr "\nNew element_of_type triples\n\n"
     print elementOfTypeTriples
 
+    putStr "\nNumber of element_of_type predicates is:\n\n"
+    print (length elementOfTypeTriples)
 
+    let onlySubtypesOfClass = subtypesOfFilter typeIdsOfJoinObjects hqdmClass subtypes
+    let hasSuperClassName = getRelationNameFromRels hasSuperclass relationsInputModel
+    let hasSuperclassTriples = fmap (\ x -> HqdmTriple (fst x) hasSuperClassName (snd x)) onlySubtypesOfClass
 
+    putStr "\nNew class triples\n\n"
+    print hasSuperclassTriples
 
+    putStr "\nNumber of new class predicates is:\n\n"
+    print (length hasSuperclassTriples)
+
+    -- Join the triples
+    putStr "\nDo resulting list lengths sum to the input length?\n\n"
+    print ((length hasSuperclassTriples + length elementOfTypeTriples) == length uniqueJoinNodes)
+
+    putStr "\nNow do the join and show the results:\n\n"
+
+    let joinedResults = joinInputModel ++ hasSuperclassTriples ++ elementOfTypeTriples
+    putStr (concat $ HqdmLib.csvTriplesFromHqdmTriples joinedResults)
+
+    putStr "\nResults length:"
+    print (length joinedResults)

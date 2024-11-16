@@ -242,7 +242,7 @@ printableTypeTree tree hqdmModel textTree
 -- | findSubtypeTree
 -- From all the triples given by lookupSubtypes find the subtypes (and sub-classes) of a given node Id.
 -- This takes only hqdm:has_supertype statements as [HqdmTriple]
-findSubtypeTree :: [[Id]] -> [HqdmTriple] -> [Id] -> [[String]]
+findSubtypeTree :: [[Id]] -> [HqdmTriple] -> [Id] -> [[Id]]
 findSubtypeTree ids hqdm previousIds = go ids hqdm previousIds
   where
     nextLayer = last ids

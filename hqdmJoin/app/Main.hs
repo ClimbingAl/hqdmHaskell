@@ -42,6 +42,9 @@ import HqdmRelations (
     superRelationPathToUniversalRelation,
     relIdNameTuples,
     printablePathFromTuples,
+    isSubtype,
+    subtypesOfFilter,
+    sortOnUuid,
     findBrelsWithDomains,
     findBrelsAndNamesWithDomains,
     findSuperBinaryRelation,
@@ -50,14 +53,15 @@ import HqdmRelations (
     printablePureRelation,
     csvRelationsFromPure,
     lookupSuperBinaryRelOf,
-    hqdmSwapRelationNamesForIds,
-    convertRelationByDomainAndRange,
+    hqdmSwapTopRelationNamesForIds,
+    convertTopRelationByDomainAndName,
     headListIfPresent,
     addNewCardinalitiesToPure,
     correctCardinalities,
     correctAllCardinalities,
     findMaxMaxCardinality,
-    findMaxMinCardinality
+    findMaxMinCardinality,
+    hqdmSwapAnyRelationNamesForIds
     )
 
 import HqdmLib (
@@ -101,12 +105,12 @@ import qualified Data.ByteString.Lazy as BL
 -- from cassava
 import Data.Csv (HasHeader( NoHeader ), decode)
 import qualified Data.Vector as V
-import Data.List (isPrefixOf)
+import Data.List (isPrefixOf, sortOn)
 import Data.Maybe
 
 -- Constants
 hqdmRelationsInputFilename::String
-hqdmRelationsInputFilename = "./input/PureHqdmRelations_v2.csv" -- allHqdmRels or exportedPureBinaryRelationsModded2 or PureHqdmRelations_v2
+hqdmRelationsInputFilename = "./input/PureHqdmRelations_v2.1.csv" -- allHqdmRels or exportedPureBinaryRelationsModded2 or PureHqdmRelations_v2
 
 hqdmInputFilename::String
 hqdmInputFilename = "./input/hqdmAllAsDataFormal1_NoExtensions.csv"  -- hqdmAllAsDataFormal1_NoExtensions or hqdmAllAsDataFormal1 or hqdmAllAsDataFormal2
@@ -115,16 +119,10 @@ joinModelFilename::String
 joinModelFilename = "./input/networksBasic1converted.csv"
 
 elementOfType::String 
-elementOfType = "hqdmRelation:8130458f-ae96-4ab3-89b9-21f06a2aac78"
+elementOfType = "8130458f-ae96-4ab3-89b9-21f06a2aac78"
 
 hasSuperclass::String 
-hasSuperclass = "hqdmRelation:7d11b956-0014-43be-9a3e-f89e2b31ec4f"
-
-isSubtype:: Id -> Id -> [HqdmTriple] -> Bool
-isSubtype id superTypeId tpls = id `elem` concat (HqdmLib.findSubtypeTree [[superTypeId]] tpls [])
-
-subtypesOfFilter:: [(Id,Id)] -> Id -> [HqdmTriple] -> [(Id,Id)]
-subtypesOfFilter ids superTypeId tpls = filter (\ x -> isSubtype (snd x) superTypeId tpls) ids
+hasSuperclass = "7d11b956-0014-43be-9a3e-f89e2b31ec4f"
 
 main :: IO ()
 main = do
@@ -195,3 +193,9 @@ main = do
 
     putStr "\nResults length:"
     print (length joinedResults)
+
+    let allRelationIdTriples =  sortOnUuid $ hqdmSwapAnyRelationNamesForIds joinedResults hqdmInputModel relationsInputModel 
+
+    putStr "\nExport the joined model all with predicates as Relation Ids:\n\n"
+    putStr (concat $ HqdmLib.csvTriplesFromHqdmTriples allRelationIdTriples )
+    

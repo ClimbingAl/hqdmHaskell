@@ -89,7 +89,7 @@ hqdmInputFilename::String
 hqdmInputFilename = "../hqdm/hqdmAllAsDataFormal1_NoExtensions.csv"  -- hqdmAllAsDataFormal1_NoExtensions or hqdmAllAsDataFormal1 or hqdmAllAsDataFormal2_AllRels
 
 exampleBrelId::String
-exampleBrelId = "hqdmRelation:c037270e-801f-4957-ad79-239954cedc37" -- hqdm:individual hqdmel:member_of hqdm:class_of_individual
+exampleBrelId = "c037270e-801f-4957-ad79-239954cedc37" -- individual hqdmel:member_of class_of_individual
 
 allSupertypeRels:: [HqdmLib.HqdmTriple] -> [HqdmBinaryRelationPure] -> [Maybe (RelationId, String)]
 allSupertypeRels hqdmTriples pureBrels = fmap (\ x -> findSuperBinaryRelation' (getPureRelationId x) hqdmTriples pureBrels) pureBrels

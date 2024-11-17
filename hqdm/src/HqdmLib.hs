@@ -85,12 +85,22 @@ type Predicate = String
 
 type HqdmHasSupertype = HqdmTriple
 
+-- Names of relations relevant to importing triples
+hqdmType::String
+hqdmType = "type"
+
+hqdmHasSupertype::String
+hqdmHasSupertype = "has_supertype"
+
+hqdmHasSuperclass::String
+hqdmHasSuperclass = "has_superclass"
+
 screenCharOffset :: Int
 screenCharOffset = 100
 
 -- | nodeIdentityTest
 -- Check that an element (subject or object) is a Node Id.  Done without regex to avoid dependencies.
--- Expects to be True for a String of the form "hqdm:130e95f1-ebc4-46f1-90ba-3f9fa21cb77b"
+-- Expects to be True for a String of the form "130e95f1-ebc4-46f1-90ba-3f9fa21cb77b"
 nodeIdentityTest :: String -> Bool
 nodeIdentityTest x = length x == 41 && ('-' `elemIndices` x) == [13, 18, 23, 28]
 
@@ -145,17 +155,17 @@ relationPairs = fmap (\x -> RelationPair (predicate x) (object x))
 -- | lookupHqdmTypeFromAll
 -- From the complete set of HQDM triples with a given node Id (subject), from lookupHqdmOne, find the type name of the given Node Id.
 lookupHqdmTypeFromAll :: [HqdmTriple] -> String -> [String]
-lookupHqdmTypeFromAll hqdmAll nodeId = [object values | values <- hqdmAll, ("hqdm:type" == predicate values) && (nodeId == subject values)]
+lookupHqdmTypeFromAll hqdmAll nodeId = [object values | values <- hqdmAll, (hqdmType == predicate values) && (nodeId == subject values)]
 
 -- | lookupHqdmType
--- From the triples with a given node Id (subject), from lookupHqdmOne, find the object with the predicate hqdm:type.
+-- From the triples with a given node Id (subject), from lookupHqdmOne, find the object with the predicate type.
 lookupHqdmType :: [HqdmTriple] -> [String]
-lookupHqdmType obj = [object values | values <- obj, "hqdm:type" == predicate values]
+lookupHqdmType obj = [object values | values <- obj, hqdmType == predicate values]
 
 -- | lookupHqdmIdFromType
--- From the triples with a given node Id (subject), from lookupHqdmOne, find the object with the predicate hqdm:type.
+-- From the triples with a given node Id (subject), from lookupHqdmOne, find the object with the predicate type.
 lookupHqdmIdFromType :: [HqdmTriple] -> String -> [Id]
-lookupHqdmIdFromType objs typeName = [subject values | values <- objs, ("hqdm:type" == predicate values) && (typeName == object values)]
+lookupHqdmIdFromType objs typeName = [subject values | values <- objs, (hqdmType == predicate values) && (typeName == object values)]
 
 -- | findHqdmTypesInList
 -- Find the type names of each given node Id (subject).
@@ -163,17 +173,17 @@ findHqdmTypeNamesInList :: [Id] -> [HqdmTriple] -> [String]
 findHqdmTypeNamesInList ids hqdmModel = fmap (\ x -> head (lookupHqdmType $ lookupHqdmOne x hqdmModel)) ids
 
 -- | lookupSubtypes
--- From all the triples that have the hqdm:has_supertype or hqdm:has_superclass predicate.
+-- From all the triples that have the has_supertype or has_superclass predicate.
 lookupSubtypes :: [HqdmTriple] -> [HqdmTriple]
 lookupSubtypes list =
   [ values
     | values <- list,
-      ("hqdm:has_supertype" == predicate values) || ("hqdm:has_superclass" == predicate values)
+      ("has_supertype" == predicate values) || ("has_superclass" == predicate values)
   ]
 
 -- | lookupSubtypeOf
 -- From all the triples given by lookupSubtypes find the subtypes of a given node Id.
--- This takes only hqdm:has_supertype statements as [HqdmTriple]
+-- This takes only has_supertype statements as [HqdmTriple]
 lookupSubtypeOf :: Id -> [HqdmTriple] -> [Id]
 lookupSubtypeOf x list = [subject values | values <- list, x == object values]
 
@@ -186,7 +196,7 @@ lookupSubtypesOf (id : ids) list = lookupSubtypeOf id list : lookupSubtypesOf id
 
 -- | lookupSupertypOf
 -- From all the triples given by lookupSubtypes find the supertypes of a given node Id.
--- This takes only hqdm:has_supertype statements as [HqdmTriple]
+-- This takes only has_supertype statements as [HqdmTriple]
 lookupSupertypeOf :: Id -> [HqdmTriple] -> [Id]
 lookupSupertypeOf x list = [object values | values <- list, x == subject values]
 
@@ -205,9 +215,9 @@ findHqdmTypesInList xs hqdmIn = fmap (\ x -> head (lookupHqdmType $ lookupHqdmOn
 
 -- | findSupertypeTree
 -- From all the triples given by lookupSupertypes find all the supertypes of a given node Id
--- (supplied as a [[id]]). This takes only hqdm:has_supertype statements as [HqdmTriple].
+-- (supplied as a [[id]]). This takes only has_supertype statements as [HqdmTriple].
 -- The ouput is a list of layers from the supplied subtype to the termination empty layer
--- above hqdm:thing.
+-- above thing.
 findSupertypeTree :: [[Id]] -> [HqdmHasSupertype] -> [[Id]]
 findSupertypeTree ids hqdm = go ids hqdm
   where
@@ -241,7 +251,7 @@ printableTypeTree tree hqdmModel textTree
 
 -- | findSubtypeTree
 -- From all the triples given by lookupSubtypes find the subtypes (and sub-classes) of a given node Id.
--- This takes only hqdm:has_supertype statements as [HqdmTriple]
+-- This takes only has_supertype statements as [HqdmTriple]
 findSubtypeTree :: [[Id]] -> [HqdmTriple] -> [Id] -> [[Id]]
 findSubtypeTree ids hqdm previousIds = go ids hqdm previousIds
   where

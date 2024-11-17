@@ -73,7 +73,7 @@ main = do
 
     let hqdmRawNodes = getSubjects hqdmInputModel
 
-    -- Generate list of all hqdm:iris    
+    -- Generate list of all iris    
     let uniqueNodes = uniqueIds hqdmRawNodes
 
     --putStr "\n\nList of ids:\n\n"
@@ -136,7 +136,7 @@ main = do
     putStr printableStTree
 
     -- Find the subtypes all the way to the lowest accessible node by recursion
-    putStr "\nSubtype tree of hqdm:stateOfPhysicalObject is:\n\n"
+    putStr "\nSubtype tree of stateOfPhysicalObject is:\n\n"
     let sbtTree = findSubtypeTree [[state_of_physical_object]] subtypes []
     print sbtTree
 
@@ -173,8 +173,8 @@ main = do
     -- putStr hqdmConstants
 
     -- Test the lookupHqdmIdFromType :: [HqdmTriple] -> String -> [Id] function
-    let idOfThing = lookupHqdmIdFromType hqdmInputModel "hqdm:thing"
-    putStr "\n\nId of hqdm:thing is:\n"
+    let idOfThing = lookupHqdmIdFromType hqdmInputModel "thing"
+    putStr "\n\nId of thing is:\n"
     print (head idOfThing)
 
     putStr "\n\nDone\n"

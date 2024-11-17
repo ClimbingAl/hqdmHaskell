@@ -43,6 +43,9 @@ module HqdmRelations
     superRelationPathToUniversalRelation,
     relIdNameTuples,
     printablePathFromTuples,
+    isSubtype,
+    subtypesOfFilter,
+    sortOnUuid,
     findBrelsWithDomains,
     findBrelsAndNamesWithDomains,
     findSuperBinaryRelation,
@@ -51,21 +54,54 @@ module HqdmRelations
     printablePureRelation,
     csvRelationsFromPure,
     lookupSuperBinaryRelOf,
-    hqdmSwapRelationNamesForIds,
-    convertRelationByDomainAndRange,
+    hqdmSwapTopRelationNamesForIds,
+    convertTopRelationByDomainAndName,
     headListIfPresent,
     addNewCardinalitiesToPure,
     correctCardinalities,
     correctAllCardinalities,
     findMaxMaxCardinality,
-    findMaxMinCardinality
+    findMaxMinCardinality,
+    hqdmSwapAnyRelationNamesForIds
   )
 where
 
-import qualified HqdmLib
+import qualified HqdmLib (
+    Id,
+    HqdmTriple(..),
+    HqdmTriple(subject, predicate, object),
+    RelationPair,
+    Relation,
+    HqdmHasSupertype,
+    getSubjects,
+    getPredicates,
+    uniqueIds,
+    uniqueTriples,
+    stringListSort,
+    lookupHqdmOne,
+    lookupHqdmType,
+    lookupHqdmIdFromType,
+    lookupSubtypes,
+    lookupSubtypeOf,
+    lookupSubtypesOf,
+    lookupSupertypeOf,
+    lookupSupertypesOf,
+    findHqdmTypesInList,
+    findSupertypeTree,
+    printableTypeTree,
+    findSubtypeTree,
+    findInheritedRels,
+    collapseInheritedRels,
+    printableCollapsedList,
+    printableRelationPairs,
+    exportAsTriples,
+    csvTriplesFromHqdmTriples,
+    screenCharOffset,
+    fmtString)
+
 import GHC.Generics (Generic)
 import Data.Csv (FromRecord)
-import Data.List (isPrefixOf)
+import Data.List (isPrefixOf, sortOn)
 
 -- | In a RelationPairSet xR'y the  is a list of [R'y] for x, where R' can be any allowed 
 --   number of instances of permitted Relations
@@ -148,16 +184,31 @@ data HqdmBinaryRelationPure = HqdmBinaryRelationPure
   deriving (Show, Eq, Generic)
 
 universalRelationSet::String
-universalRelationSet = "hqdmRelation:85e78ac0-ec72-478f-9aac-cacb520290a0"
+universalRelationSet = "85e78ac0-ec72-478f-9aac-cacb520290a0"
+
+hqdmAttributeBR::String
+hqdmAttributeBR = "69b0e5b9-3be2-4ec3-a9a6-bb5b523d4b32"
 
 hqdmType::String
-hqdmType = "hqdm:type"
+hqdmType = "type"
 
 hqdmHasSupertype::String
-hqdmHasSupertype = "hqdm:has_supertype"
+hqdmHasSupertype = "has_supertype"
 
 hqdmHasSuperclass::String
-hqdmHasSuperclass = "hqdm:has_superclass"
+hqdmHasSuperclass = "has_superclass"
+
+hqdmElementOfType::String
+hqdmElementOfType = "element_of_type"
+
+hqdmEntityName::String
+hqdmEntityName = "data_EntityName"
+
+hqdmRecordCreated::String
+hqdmRecordCreated = "record_created"
+
+hqdmRecordCreator::String
+hqdmRecordCreator = "record_creator"
 
 getPureDomain :: HqdmBinaryRelationPure -> RelationId
 getPureDomain = pureDomain
@@ -241,18 +292,24 @@ superRelationPathToUniversalRelation relId brels relPath = go brels relPath
       | null superBR = relPath
       | otherwise = superRelationPathToUniversalRelation superBR brels (relPath ++ [superBR])
 
+-- | relIdNameTuples
+-- Take a list of Relation Ids, find their names and generate a list of Tuples of the Id and Name pairs
 relIdNameTuples :: [RelationId] -> [HqdmBinaryRelationPure] -> [(RelationId, String)]
 relIdNameTuples relIds brels = fmap (\ x -> (x, head [pureBinaryRelationName values | values <- brels, x == pureBinaryRelationId values])) relIds
 
+-- | printablePathFromTuples
+-- Renders a layered path list of Tuples from the source to the destination as printable text.
 printablePathFromTuples :: [(RelationId, String)] -> String
 printablePathFromTuples tpls = concatMap (\ x -> HqdmLib.fmtString (snd x ) ++ ",\n" ++ HqdmLib.fmtString (fst x) ++ "\n" ++ HqdmLib.fmtString "^\n" ++ HqdmLib.fmtString "|\n")  (reverse tpls)
 
-hqdmSwapRelationNamesForIds :: [HqdmLib.HqdmTriple] -> [HqdmBinaryRelationPure] -> [HqdmLib.HqdmTriple]
-hqdmSwapRelationNamesForIds hqdmTpls brels =
-  fmap (`convertRelationByDomainAndRange` brels) hqdmTpls
+-- | This swaps the relation names in a HqdmAllAsData dataset (it doesn't handle instance and extended subclasses)
+hqdmSwapTopRelationNamesForIds :: [HqdmLib.HqdmTriple] -> [HqdmBinaryRelationPure] -> [HqdmLib.HqdmTriple]
+hqdmSwapTopRelationNamesForIds hqdmTpls brels =
+  fmap (`convertTopRelationByDomainAndName` brels) hqdmTpls
 
-convertRelationByDomainAndRange :: HqdmLib.HqdmTriple -> [HqdmBinaryRelationPure] -> HqdmLib.HqdmTriple
-convertRelationByDomainAndRange tpl brels = go tpl
+-- | This swaps the relation name in a HqdmAllAsData triple (it doesn't handle instance and extended subclass triples)
+convertTopRelationByDomainAndName :: HqdmLib.HqdmTriple -> [HqdmBinaryRelationPure] -> HqdmLib.HqdmTriple
+convertTopRelationByDomainAndName tpl brels = go tpl
   where
     pureRelMatch = headIfStringPresent [ pureBinaryRelationId values | values <- brels, (HqdmLib.subject tpl == pureDomain values) && (HqdmLib.predicate tpl ==  pureBinaryRelationName values) ]
     hqdmTypeBR = headIfStringPresent [ pureBinaryRelationId values | values <- brels, hqdmType == pureBinaryRelationName values ]
@@ -269,6 +326,60 @@ convertRelationByDomainAndRange tpl brels = go tpl
   (HqdmLib.subject tpl)
   (headIfStringPresent [ pureBinaryRelationId values | values <- brels, (HqdmLib.subject tpl == pureDomain values) && (HqdmLib.predicate tpl ==  pureBinaryRelationName values) ])
   (HqdmLib.object tpl)-}
+
+-- | This finds the domain Id from an object Id and List of accopmanying triples
+hqdmDomainTypeFromIdInList :: HqdmLib.HqdmTriple -> [HqdmLib.HqdmTriple] -> [HqdmLib.HqdmTriple] -> HqdmLib.Id
+hqdmDomainTypeFromIdInList tpl datasetTpls topTpls = go tpl
+  where
+    typeOfSubject = headIfStringPresent [ HqdmLib.object values | values <- datasetTpls, (hqdmType == HqdmLib.predicate values) && (HqdmLib.subject tpl ==  HqdmLib.subject values) ]
+
+    go tpl = headIfStringPresent [ HqdmLib.subject values | values <- topTpls, (hqdmType == HqdmLib.predicate values) && (typeOfSubject ==  HqdmLib.object values) ]
+
+-- | This swaps the relation names in a HqdmAllAsData dataset (it doesn't handle instance and extended subclasses)
+-- The first two lists should be the same input dataset(!?!?!)
+hqdmSwapAnyRelationNamesForIds :: [HqdmLib.HqdmTriple] -> [HqdmLib.HqdmTriple]-> [HqdmBinaryRelationPure] -> [HqdmLib.HqdmTriple]
+hqdmSwapAnyRelationNamesForIds hqdmTpls topTpls brels = fmap (\ x -> convertAnyHqdmRelationByDomainAndName x (hqdmDomainTypeFromIdInList x hqdmTpls topTpls) brels) hqdmTpls
+
+-- | This swaps the relation name in a HqdmAllAsData triple (it doesn't handle instance and extended subclass triples)
+-- Takes the triple and the Top Type from which it inherits its relations
+convertAnyHqdmRelationByDomainAndName :: HqdmLib.HqdmTriple -> HqdmLib.Id -> [HqdmBinaryRelationPure] -> HqdmLib.HqdmTriple
+convertAnyHqdmRelationByDomainAndName tpl typeId brels = go tpl
+  where
+    pureRelMatch = headIfStringPresent [ pureBinaryRelationId values | values <- brels, (typeId == pureDomain values) && (HqdmLib.predicate tpl ==  pureBinaryRelationName values) ]
+    -- THESE PROPERTIES AND GUARDS SHOULD BE CONSIDERED TEMPORARY.  THEY CAN BE QUERIED FROM THE DATA BUT AN EXTRA GENERIC FUNCTION IS NEEDED FOR THIS
+    hqdmTypeBR = headIfStringPresent [ pureBinaryRelationId values | values <- brels, hqdmType == pureBinaryRelationName values ]
+    hqdmHasSupertypeBR = headIfStringPresent [ pureBinaryRelationId values | values <- brels, hqdmHasSupertype == pureBinaryRelationName values ]
+    hqdmHasSuperclassBR = headIfStringPresent [ pureBinaryRelationId values | values <- brels, hqdmHasSuperclass == pureBinaryRelationName values ]
+    hqdmHasElementOfTypeBR = headIfStringPresent [ pureBinaryRelationId values | values <- brels, hqdmElementOfType == pureBinaryRelationName values ]
+    hqdmHasEntityNameBR = headIfStringPresent [ pureBinaryRelationId values | values <- brels, hqdmEntityName == pureBinaryRelationName values ]
+    hqdmHasRecordCreatedBR = headIfStringPresent [ pureBinaryRelationId values | values <- brels, hqdmRecordCreated == pureBinaryRelationName values ]
+    hqdmHasRecordCreatorBR = headIfStringPresent [ pureBinaryRelationId values | values <- brels, hqdmRecordCreator == pureBinaryRelationName values ]
+    
+    go tpl
+      | HqdmLib.predicate tpl==hqdmType = HqdmLib.HqdmTriple (HqdmLib.subject tpl) hqdmTypeBR (HqdmLib.object tpl)
+      | HqdmLib.predicate tpl==hqdmHasSupertype = HqdmLib.HqdmTriple (HqdmLib.subject tpl)  hqdmHasSupertypeBR (HqdmLib.object tpl)
+      | HqdmLib.predicate tpl==hqdmHasSuperclass  = HqdmLib.HqdmTriple (HqdmLib.subject tpl) hqdmHasSuperclassBR (HqdmLib.object tpl)
+      | HqdmLib.predicate tpl==hqdmElementOfType  = HqdmLib.HqdmTriple (HqdmLib.subject tpl) hqdmHasElementOfTypeBR (HqdmLib.object tpl)
+      | HqdmLib.predicate tpl==hqdmEntityName  = HqdmLib.HqdmTriple (HqdmLib.subject tpl) hqdmHasEntityNameBR (HqdmLib.object tpl)
+      | HqdmLib.predicate tpl==hqdmRecordCreated  = HqdmLib.HqdmTriple (HqdmLib.subject tpl) hqdmHasRecordCreatedBR (HqdmLib.object tpl)
+      | HqdmLib.predicate tpl==hqdmRecordCreator  = HqdmLib.HqdmTriple (HqdmLib.subject tpl) hqdmHasRecordCreatorBR (HqdmLib.object tpl)
+      | pureRelMatch == "" = HqdmLib.HqdmTriple (HqdmLib.subject tpl) hqdmAttributeBR (HqdmLib.object tpl)
+      | otherwise = HqdmLib.HqdmTriple (HqdmLib.subject tpl) pureRelMatch (HqdmLib.object tpl)
+
+-- | isSubtype
+-- Boolean test to see if the first Type Id is a Subtype of the supplied second Type Id.  True if so.
+isSubtype :: HqdmLib.Id -> HqdmLib.Id -> [HqdmLib.HqdmTriple] -> Bool
+isSubtype id superTypeId tpls = id `elem` concat (HqdmLib.findSubtypeTree [[superTypeId]] tpls [])
+
+-- | subtypesOfFilter
+-- Filter a list of given Type tuples to select onlt those that are subtypes of the given type Id
+subtypesOfFilter :: [(HqdmLib.Id,HqdmLib.Id)] -> HqdmLib.Id -> [HqdmLib.HqdmTriple] -> [(HqdmLib.Id,HqdmLib.Id)]
+subtypesOfFilter ids superTypeId tpls = filter (\ x -> isSubtype (snd x) superTypeId tpls) ids
+
+-- | sortOnUuid
+-- Sort a list of triples by the subject (uuid) field.
+sortOnUuid :: [HqdmLib.HqdmTriple] -> [HqdmLib.HqdmTriple]
+sortOnUuid = sortOn HqdmLib.subject
 
 --------------------------------- MESSY RELATION ASSEMBLY FUNCTIONS FROM SOURE HqdmAllAsData TRIPLES --------------------------------------------
 -- | findBrelsWithDomains

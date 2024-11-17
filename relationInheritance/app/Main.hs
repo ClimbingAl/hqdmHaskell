@@ -41,6 +41,9 @@ import HqdmRelations (
     superRelationPathToUniversalRelation,
     relIdNameTuples,
     printablePathFromTuples,
+    isSubtype,
+    subtypesOfFilter,
+    sortOnUuid,
     findBrelsWithDomains,
     findBrelsAndNamesWithDomains,
     findSuperBinaryRelation,
@@ -49,14 +52,15 @@ import HqdmRelations (
     printablePureRelation,
     csvRelationsFromPure,
     lookupSuperBinaryRelOf,
-    hqdmSwapRelationNamesForIds,
-    convertRelationByDomainAndRange,
+    hqdmSwapTopRelationNamesForIds,
+    convertTopRelationByDomainAndName,
     headListIfPresent,
     addNewCardinalitiesToPure,
     correctCardinalities,
     correctAllCardinalities,
     findMaxMaxCardinality,
-    findMaxMinCardinality
+    findMaxMinCardinality,
+    hqdmSwapAnyRelationNamesForIds
     )
 
 import HqdmLib (
@@ -111,7 +115,7 @@ hqdmInputFilename::String
 hqdmInputFilename = "./input/HqdmAllAsDataFormal2.csv"  -- hqdmAllAsDataFormal1_NoExtensions or hqdmAllAsDataFormal1 or hqdmAllAsDataFormal2
 
 exampleBrelId::String
-exampleBrelId = "hqdmRelation:f7c8c901-6147-4a58-bf88-0fdd32dc9faa" -- hqdm:individual hqdm:temporal_part_of hqdm:class_of_individual
+exampleBrelId = "f7c8c901-6147-4a58-bf88-0fdd32dc9faa" -- individual temporal_part_of class_of_individual
 
 maybePrint :: Show a => Maybe a -> IO ()
 maybePrint (Just x) = print x
@@ -189,7 +193,7 @@ main = do
     -- putStr csvRelations
 
     -- Convert the hqdmInputModel to use relationIds
-    let allIdTriples =  hqdmSwapRelationNamesForIds hqdmInputModel completedRels 
+    let allIdTriples =  hqdmSwapTopRelationNamesForIds hqdmInputModel completedRels 
     putStr "\nExport All Id Triples:\n\n"
     putStr (concat $ HqdmLib.csvTriplesFromHqdmTriples allIdTriples )
 

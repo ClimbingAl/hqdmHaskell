@@ -93,6 +93,6 @@ main = do
 
     -- Write the newly generated allInheritedRels as triples to the console
     let hqdmNodesAndRels = zip uniqueNodes (fmap concat allInheritedRels)
-    -- Note: filter out hqdm:type for all but the lowest level type
+    -- Note: filter out type for all but the lowest level type
     let fullHqdmTriples = concat (csvTriplesFromHqdmTriples (uniqueTriples (concat (exportAsTriples hqdmNodesAndRels)))) 
     putStr fullHqdmTriples

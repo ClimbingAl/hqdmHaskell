@@ -109,13 +109,13 @@ import Data.Maybe
 
 -- Constants
 hqdmRelationsInputFilename::String
-hqdmRelationsInputFilename = "./input/PureHqdmRelations_v2.csv" -- allHqdmRels or exportedPureBinaryRelationsModded2 or PureHqdmRelations_v0
+hqdmRelationsInputFilename = "./input/PureHqdmRelations_v2.1.csv" -- allHqdmRels or exportedPureBinaryRelationsModded2 or PureHqdmRelations_v0
 
 hqdmInputFilename::String
 hqdmInputFilename = "./input/HqdmAllAsDataFormal2.csv"  -- hqdmAllAsDataFormal1_NoExtensions or hqdmAllAsDataFormal1 or hqdmAllAsDataFormal2
 
 exampleBrelId::String
-exampleBrelId = "f7c8c901-6147-4a58-bf88-0fdd32dc9faa" -- individual temporal_part_of class_of_individual
+exampleBrelId = "e83901a5-f684-4f0c-9ca8-a27c86ff41a2" -- activity part_of_possible_world
 
 maybePrint :: Show a => Maybe a -> IO ()
 maybePrint (Just x) = print x
@@ -161,12 +161,14 @@ main = do
     -- Find the subtypes in the input model
     let subtypes = lookupSubtypes hqdmInputModel
 
-    putStr "\nGet the superRelation id of given Binary Relation id:\n\n"
+    putStr ("\nGet the superRelation id of given Binary Relation id: " ++ exampleBrelId ++  "\n\n")
     let exampleSuperBR = lookupSuperBinaryRelOf exampleBrelId relationsInputModel
     --maybePrint exampleSuperBR
 
-    let superBRPathToUniversal = superRelationPathToUniversalRelation exampleBrelId relationsInputModel []
-    putStr ( printablePathFromTuples $ relIdNameTuples superBRPathToUniversal relationsInputModel)
+    let superBRPathToUniversal = superRelationPathToUniversalRelation exampleBrelId relationsInputModel [exampleBrelId]
+    -- putStr ( printablePathFromTuples $ relIdNameTuples superBRPathToUniversal relationsInputModel)
+    let givenRelation = head $ relIdNameTuples [exampleBrelId] relationsInputModel
+    --putStr ("\t\tThe superRelation path from given Binary Relation name & id: " ++ snd givenRelation ++ " , " ++ fst givenRelation ++ " to the Top Relation\n\n")
 
     -- Re-calculate the missing inherited relations & export
     let allStRels = allSupertypeRels hqdmInputModel relationsInputModel
@@ -182,8 +184,10 @@ main = do
     let correctedExample = correctCardinalities (head $ findBrelFromId exampleBrelId completedRels) completedRels
     --print correctedExample
 
-    let supeerBRPaths = fmap (\ x -> superRelationPathToUniversalRelation (getPureRelationId x) completedRels []) completedRels
-    --print supeerBRPaths
+    let superBRPaths = fmap (\ x -> superRelationPathToUniversalRelation (getPureRelationId x) completedRels [getPureRelationId x]) completedRels
+    --print superBRPaths
+    let printableSuperBRPaths = concatMap (\ x -> "\n\n" ++ (printablePathFromTuples $ relIdNameTuples x relationsInputModel)) superBRPaths
+    putStr printableSuperBRPaths
 
     -- Correct inherited cardinalities
     -- for each BR, from the bottom-up, find the superBRPathToUniversal, go down each path - if the next item down the path has a less restricted cardinality than the current one then replace it with the current one
@@ -194,7 +198,7 @@ main = do
 
     -- Convert the hqdmInputModel to use relationIds
     let allIdTriples =  hqdmSwapTopRelationNamesForIds hqdmInputModel completedRels 
-    putStr "\nExport All Id Triples:\n\n"
-    putStr (concat $ HqdmLib.csvTriplesFromHqdmTriples allIdTriples )
+    --putStr "\nExport All Id Triples:\n\n"
+    --putStr (concat $ HqdmLib.csvTriplesFromHqdmTriples allIdTriples )
 
-    putStr "END"
+    putStr "\n\nEND\n"

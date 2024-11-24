@@ -83,10 +83,10 @@ import Data.List (isPrefixOf)
 
 -- Constants
 hqdmRelationsInputFilename::String
-hqdmRelationsInputFilename = "./input/relationsWithPrefix_TypedIds2.csv"
+hqdmRelationsInputFilename = "./input/PureHqdmRelations_v4a.csv"
 
 hqdmInputFilename::String
-hqdmInputFilename = "../hqdm/hqdmAllAsDataFormal1_NoExtensions.csv"  -- hqdmAllAsDataFormal1_NoExtensions or hqdmAllAsDataFormal1 or hqdmAllAsDataFormal2_AllRels
+hqdmInputFilename = "./input/hqdmAllAsDataFormal2_AllRels.csv"  -- hqdmAllAsDataFormal1_NoExtensions or hqdmAllAsDataFormal1 or hqdmAllAsDataFormal2_AllRels
 
 exampleBrelId::String
 exampleBrelId = "c037270e-801f-4957-ad79-239954cedc37" -- individual hqdmel:member_of class_of_individual
@@ -127,13 +127,13 @@ main = do
 
     let subtypes = lookupSubtypes hqdmInputModel
     let domainSupertypesOfRel = findBrelDomainSupertypes exampleBrelId pureHqdmRelations subtypes
-    {-putStr "\n\nDomain Supertypes of a particular Relation:\n\n"
-    print domainSupertypesOfRel-}
+    putStr "\n\nDomain Supertypes of a particular Relation:\n\n"
+    print domainSupertypesOfRel
 
     -- Find the likely superBR-set by finding supertype(s) until a match is found.
     let namesOfBrelsOfDomain = findBrelsAndNamesWithDomains domainSupertypesOfRel pureHqdmRelations
-    {-putStr "\n\nIds and Names of supertype relations:\n\n"
-    print namesOfBrelsOfDomain-}
+    putStr "\n\nIds and Names of supertype relations:\n\n"
+    print namesOfBrelsOfDomain
 
     let closestNameMatches = [x | x <- namesOfBrelsOfDomain, snd x `isPrefixOf` getRelationNameFromRels exampleBrelId pureHqdmRelations]
     {-putStr "\n\nClosest relations:\n\n"
@@ -152,6 +152,6 @@ main = do
 
     let printableStRels = csvRelationsFromPure addedStRelsPure
     putStr "\n\nPrintable binary relations:\n\n"
-    putStr printableStRels
+    --putStr printableStRels
 
     putStr "\n\nRelations All Done!\n\n"

@@ -47,7 +47,8 @@ module HqdmLib
     exportAsTriples,
     csvTriplesFromHqdmTriples,
     screenCharOffset,
-    fmtString
+    fmtString,
+    deleteItemsFromList
   )
 where
 
@@ -207,11 +208,16 @@ lookupSupertypesOf [] _ = []
 lookupSupertypesOf _ [] = []
 lookupSupertypesOf (id : ids) list = lookupSupertypeOf id list : lookupSupertypesOf ids list
 
+headIfStringPresent :: [String] -> String
+headIfStringPresent x
+  | not (null x)   = head x
+  | otherwise      = ""
+
 -------------------------------------------------
 -- | findHqdmTypesInList
 -- Find the type names of the Node Ids supplied as a list of Strings.  Takes HQDM AllAsData as input.
 findHqdmTypesInList :: [Id] -> [HqdmTriple] -> [String]
-findHqdmTypesInList xs hqdmIn = fmap (\ x -> head (lookupHqdmType $ lookupHqdmOne x hqdmIn)) xs
+findHqdmTypesInList xs hqdmIn = fmap (\ x -> headIfStringPresent (lookupHqdmType $ lookupHqdmOne x hqdmIn)) xs
 
 -- | findSupertypeTree
 -- From all the triples given by lookupSupertypes find all the supertypes of a given node Id

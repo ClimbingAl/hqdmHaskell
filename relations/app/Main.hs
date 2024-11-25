@@ -16,12 +16,13 @@
 module Main (main) where
 
 import HqdmRelations (
-    RelationId,
+        RelationId,
     HqdmRelationSet,
     RelationPair,
     HqdmBinaryRelation,
     HqdmBinaryRelationSet,
     HqdmBinaryRelationPure,
+    universalRelationSet,
     getRelationNameFromRels,
     hqdmRelationsToPure,
     csvRelationsToPure,
@@ -36,14 +37,30 @@ import HqdmRelations (
     getPureRedeclaredFromRange,
     getBrelDomainFromRels,
     findBrelDomainSupertypes,
+    findBrelFromId,
+    superRelationPathsToUniversalRelation,
+    relIdNameTuples,
+    printablePathFromTuples,
+    isSubtype,
+    subtypesOfFilter,
+    sortOnUuid,
     findBrelsWithDomains,
     findBrelsAndNamesWithDomains,
     findSuperBinaryRelation,
     findSuperBinaryRelation',
-    addStRelationToPure,
+    --addStRelationToPure,
     printablePureRelation,
     csvRelationsFromPure,
-    lookupSuperBinaryRelOf
+    --lookupSuperBinaryRelOf,
+    hqdmSwapTopRelationNamesForIds,
+    convertTopRelationByDomainAndName,
+    headListIfPresent,
+    addNewCardinalitiesToPure,
+    --correctCardinalities,
+    --correctAllCardinalities,
+    findMaxMaxCardinality,
+    findMaxMinCardinality,
+    hqdmSwapAnyRelationNamesForIds
     )
 
 import HqdmLib (
@@ -96,7 +113,7 @@ allSupertypeRels hqdmTriples pureBrels = fmap (\ x -> findSuperBinaryRelation' (
 
 main :: IO ()
 main = do
-    putStrLn "Start, construct relations from relations_xxx.csv"
+    putStrLn ("Start, construct relations from " ++ hqdmRelationsInputFilename)
 
     hqdmRelationSets <- fmap V.toList . decode @HqdmBinaryRelation NoHeader <$> BL.readFile hqdmRelationsInputFilename
 
@@ -135,23 +152,23 @@ main = do
     putStr "\n\nIds and Names of supertype relations:\n\n"
     print namesOfBrelsOfDomain
 
-    let closestNameMatches = [x | x <- namesOfBrelsOfDomain, snd x `isPrefixOf` getRelationNameFromRels exampleBrelId pureHqdmRelations]
+    --let closestNameMatches = [x | x <- namesOfBrelsOfDomain, snd x `isPrefixOf` getRelationNameFromRels exampleBrelId pureHqdmRelations]
     {-putStr "\n\nClosest relations:\n\n"
     print closestNameMatches-}
     
-    let supertypeBinaryRel = findSuperBinaryRelation' exampleBrelId hqdmInputModel pureHqdmRelations
+    --let supertypeBinaryRel = findSuperBinaryRelation' exampleBrelId hqdmInputModel pureHqdmRelations
     {-putStr "\n\nAll wrapped up in findSuperBinaryRelation' function (returns a Maybe):\n\n"
     print supertypeBinaryRel-}
 
     -- Now find the supertype relation for all the relations
-    let allStRels = allSupertypeRels hqdmInputModel pureHqdmRelations--fmap (\ x -> findSuperBinaryRelation' (getPureRelationId x) hqdmInputModel pureHqdmRelations)
-    let zippedRels = zip pureHqdmRelations allStRels
-    let addedStRelsPure = fmap (\ x -> addStRelationToPure (snd x) (fst x)) zippedRels
+    --let allStRels = allSupertypeRels hqdmInputModel pureHqdmRelations--fmap (\ x -> findSuperBinaryRelation' (getPureRelationId x) hqdmInputModel pureHqdmRelations)
+    --let zippedRels = zip pureHqdmRelations allStRels
+    --let addedStRelsPure = fmap (\ x -> addStRelationToPure (snd x) (fst x)) zippedRels
     {-putStr "\n\nAll super-relations:\n\n"
     print addedStRelsPure-}
 
-    let printableStRels = csvRelationsFromPure addedStRelsPure
-    putStr "\n\nPrintable binary relations:\n\n"
+    --let printableStRels = csvRelationsFromPure addedStRelsPure
+    --putStr "\n\nPrintable binary relations:\n\n"
     --putStr printableStRels
 
     putStr "\n\nRelations All Done!\n\n"

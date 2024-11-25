@@ -16,7 +16,7 @@
 module Main (main) where
 
 import HqdmRelations (
-    RelationId,
+            RelationId,
     HqdmRelationSet,
     RelationPair,
     HqdmBinaryRelation,
@@ -38,7 +38,8 @@ import HqdmRelations (
     getBrelDomainFromRels,
     findBrelDomainSupertypes,
     findBrelFromId,
-    superRelationPathToUniversalRelation,
+    superRelationPathsToUniversalRelation,
+    relIdNameTupleLayers,
     relIdNameTuples,
     printablePathFromTuples,
     isSubtype,
@@ -48,19 +49,21 @@ import HqdmRelations (
     findBrelsAndNamesWithDomains,
     findSuperBinaryRelation,
     findSuperBinaryRelation',
-    addStRelationToPure,
+    --addStRelationToPure,
     printablePureRelation,
     csvRelationsFromPure,
-    lookupSuperBinaryRelOf,
+    lookupSuperBinaryRelsOf,
     hqdmSwapTopRelationNamesForIds,
     convertTopRelationByDomainAndName,
     headListIfPresent,
     addNewCardinalitiesToPure,
-    correctCardinalities,
-    correctAllCardinalities,
+    --correctCardinalities,
+    --correctAllCardinalities,
     findMaxMaxCardinality,
     findMaxMinCardinality,
-    hqdmSwapAnyRelationNamesForIds
+    hqdmSwapAnyRelationNamesForIds,
+    printableLayerWithDomainAndRange,
+    printablePathFromTuplesWithDomainAndRange
     )
 
 import HqdmLib (
@@ -109,68 +112,70 @@ import Data.Maybe
 
 -- Constants
 hqdmRelationsInputFilename::String
-hqdmRelationsInputFilename = "./input/PureHqdmRelations_v2.1.csv" -- allHqdmRels or exportedPureBinaryRelationsModded2 or PureHqdmRelations_v0
+hqdmRelationsInputFilename = "./input/PureHqdmRelations_v4a.csv" -- allHqdmRels or exportedPureBinaryRelationsModded2 or PureHqdmRelations_v0
 
 hqdmInputFilename::String
 hqdmInputFilename = "./input/HqdmAllAsDataFormal2.csv"  -- hqdmAllAsDataFormal1_NoExtensions or hqdmAllAsDataFormal1 or hqdmAllAsDataFormal2
 
 exampleBrelId::String
-exampleBrelId = "e83901a5-f684-4f0c-9ca8-a27c86ff41a2" -- activity part_of_possible_world
+exampleBrelId = "de211443-0836-42ec-b7ef-4060d9b299fe" -- activity part_of_possible_world
 
 maybePrint :: Show a => Maybe a -> IO ()
 maybePrint (Just x) = print x
 maybePrint x        = print x
 
-findStRelIfNotPresent:: HqdmBinaryRelationPure -> [HqdmLib.HqdmTriple] -> [HqdmBinaryRelationPure] -> Maybe (RelationId, String)
+{-findStRelIfNotPresent:: HqdmBinaryRelationPure -> [HqdmLib.HqdmTriple] -> [HqdmBinaryRelationPure] -> Maybe (RelationId, String)
 findStRelIfNotPresent rel hqdmTriples pureBrels
     | getPureSuperRelation rel /= "" = Just (getPureSuperRelation rel, getPureRelationName rel)
     | otherwise = findSuperBinaryRelation' (getPureRelationId rel) hqdmTriples pureBrels
 
 allSupertypeRels:: [HqdmLib.HqdmTriple] -> [HqdmBinaryRelationPure] -> [Maybe (RelationId, String)]
-allSupertypeRels hqdmTriples pureBrels = fmap (\ x -> findStRelIfNotPresent x hqdmTriples pureBrels) pureBrels
+allSupertypeRels hqdmTriples pureBrels = fmap (\ x -> findStRelIfNotPresent x hqdmTriples pureBrels) pureBrels-}
 
-completeSuperBRel:: (Maybe (RelationId, String), HqdmBinaryRelationPure) -> HqdmBinaryRelationPure
+{-completeSuperBRel:: (Maybe (RelationId, String), HqdmBinaryRelationPure) -> HqdmBinaryRelationPure
 completeSuperBRel zippedRel
     | isNothing (fst zippedRel) = snd zippedRel
     | otherwise = uncurry addStRelationToPure zippedRel
 
 completeSuperBRels:: [(Maybe (RelationId, String), HqdmBinaryRelationPure)] -> [HqdmBinaryRelationPure]
-completeSuperBRels = fmap completeSuperBRel
+completeSuperBRels = fmap completeSuperBRel-}
 
 main :: IO ()
 main = do
     
-    putStrLn ("Start, construct relations from " ++ hqdmRelationsInputFilename)
+    --putStrLn ("Start, construct relations from " ++ hqdmRelationsInputFilename)
 
     hqdmRelationSets <- fmap V.toList . decode @HqdmBinaryRelation NoHeader <$> BL.readFile hqdmRelationsInputFilename
 
     let relationsInputModel =  csvRelationsToPure $ either (const []) id hqdmRelationSets
-    -- print relationsInputModel
+    --print relationsInputModel
 
-    putStr ("\nLoaded Relation SET Data from " ++ hqdmInputFilename)
+    --putStr ("\nLoaded Relation SET Data from " ++ hqdmInputFilename)
 
     -- Load HqdmAllAsData
     hqdmTriples <- fmap V.toList . decode @HqdmTriple NoHeader <$> BL.readFile hqdmInputFilename
 
     let hqdmInputModel = either (const []) id hqdmTriples
     --print hqdmInputModel
-    putStr "\nLoaded HqdmAllAsData\n\n"
+    --putStr "\nLoaded HqdmAllAsData\n\n"
 
     -- Now replicate the inheritance queries but over the pure Relations
     
     -- Find the subtypes in the input model
     let subtypes = lookupSubtypes hqdmInputModel
 
-    putStr ("\nGet the superRelation id of given Binary Relation id: " ++ exampleBrelId ++  "\n\n")
-    let exampleSuperBR = lookupSuperBinaryRelOf exampleBrelId relationsInputModel
+    --putStr ("\nGet the superRelation ids of given Binary Relation id: " ++ exampleBrelId ++  "\n\n")
+    let exampleSuperBRs = lookupSuperBinaryRelsOf exampleBrelId relationsInputModel
     --maybePrint exampleSuperBR
+    --print exampleSuperBRs
 
-    let superBRPathToUniversal = superRelationPathToUniversalRelation exampleBrelId relationsInputModel [exampleBrelId]
-    -- putStr ( printablePathFromTuples $ relIdNameTuples superBRPathToUniversal relationsInputModel)
+    putStr "\n\n"
+    let superBRPathToUniversal = superRelationPathsToUniversalRelation [[exampleBrelId]] relationsInputModel
+    --putStr ( printablePathFromTuples $ relIdNameTupleLayers (tail superBRPathToUniversal) relationsInputModel)
     let givenRelation = head $ relIdNameTuples [exampleBrelId] relationsInputModel
     --putStr ("\t\tThe superRelation path from given Binary Relation name & id: " ++ snd givenRelation ++ " , " ++ fst givenRelation ++ " to the Top Relation\n\n")
 
-    -- Re-calculate the missing inherited relations & export
+    {--- Re-calculate the missing inherited relations & export
     let allStRels = allSupertypeRels hqdmInputModel relationsInputModel
     -- print allStRels
 
@@ -182,22 +187,22 @@ main = do
     --print (maxC)
 
     let correctedExample = correctCardinalities (head $ findBrelFromId exampleBrelId completedRels) completedRels
-    --print correctedExample
+    --print correctedExample-}
 
-    let superBRPaths = fmap (\ x -> superRelationPathToUniversalRelation (getPureRelationId x) completedRels [getPureRelationId x]) completedRels
+    let superBRPaths = fmap (\ x -> superRelationPathsToUniversalRelation [[getPureRelationId x]] relationsInputModel ) relationsInputModel
     --print superBRPaths
-    let printableSuperBRPaths = concatMap (\ x -> "\n\n" ++ (printablePathFromTuples $ relIdNameTuples x relationsInputModel)) superBRPaths
+    let printableSuperBRPaths = concatMap (\ x -> "\n\n\n\n" ++ printablePathFromTuplesWithDomainAndRange (relIdNameTupleLayers x relationsInputModel) relationsInputModel hqdmInputModel) superBRPaths
     putStr printableSuperBRPaths
 
     -- Correct inherited cardinalities
     -- for each BR, from the bottom-up, find the superBRPathToUniversal, go down each path - if the next item down the path has a less restricted cardinality than the current one then replace it with the current one
     -- Also add check that the superBR is always the universal one?
-    let improvedCardinalities =  correctAllCardinalities completedRels
-    let csvRelations = csvRelationsFromPure improvedCardinalities
+    --let improvedCardinalities =  correctAllCardinalities completedRels
+    --let csvRelations = csvRelationsFromPure improvedCardinalities
     -- putStr csvRelations
 
     -- Convert the hqdmInputModel to use relationIds
-    let allIdTriples =  hqdmSwapTopRelationNamesForIds hqdmInputModel completedRels 
+    --let allIdTriples =  hqdmSwapTopRelationNamesForIds hqdmInputModel completedRels 
     --putStr "\nExport All Id Triples:\n\n"
     --putStr (concat $ HqdmLib.csvTriplesFromHqdmTriples allIdTriples )
 

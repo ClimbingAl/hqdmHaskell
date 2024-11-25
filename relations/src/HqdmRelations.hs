@@ -1,4 +1,5 @@
 {-# LANGUAGE DeriveGeneric #-}
+{-# OPTIONS_GHC -Wno-incomplete-patterns #-}
 
 -- |
 -- Module      :  HqdmRelations
@@ -40,7 +41,8 @@ module HqdmRelations
     getBrelDomainFromRels,
     findBrelDomainSupertypes,
     findBrelFromId,
-    superRelationPathToUniversalRelation,
+    superRelationPathsToUniversalRelation,
+    relIdNameTupleLayers,
     relIdNameTuples,
     printablePathFromTuples,
     isSubtype,
@@ -50,19 +52,21 @@ module HqdmRelations
     findBrelsAndNamesWithDomains,
     findSuperBinaryRelation,
     findSuperBinaryRelation',
-    addStRelationToPure,
+    --addStRelationToPure,
     printablePureRelation,
     csvRelationsFromPure,
-    lookupSuperBinaryRelOf,
+    lookupSuperBinaryRelsOf,
     hqdmSwapTopRelationNamesForIds,
     convertTopRelationByDomainAndName,
     headListIfPresent,
     addNewCardinalitiesToPure,
-    correctCardinalities,
-    correctAllCardinalities,
+    --correctCardinalities,
+    --correctAllCardinalities,
     findMaxMaxCardinality,
     findMaxMinCardinality,
-    hqdmSwapAnyRelationNamesForIds
+    hqdmSwapAnyRelationNamesForIds,
+    printableLayerWithDomainAndRange,
+    printablePathFromTuplesWithDomainAndRange
   )
 where
 
@@ -97,7 +101,9 @@ import qualified HqdmLib (
     exportAsTriples,
     csvTriplesFromHqdmTriples,
     screenCharOffset,
-    fmtString)
+    fmtString,
+    deleteItemsFromList
+    )
 
 import GHC.Generics (Generic)
 import Data.Csv (FromRecord)
@@ -175,10 +181,10 @@ data HqdmBinaryRelationPure = HqdmBinaryRelationPure
     pureBinaryRelationId :: !RelationId,  -- Relation unique Id (hqdmRel:uuid)
     pureBinaryRelationName :: String,     -- Name of Binary Relation Set (doesn't need to be unique?)
     pureRange:: !HqdmLib.Id,              -- Range Set ids.  Does this need to be a list?
-    pureHasSuperBR :: HqdmLib.Id,         -- SuperBR Set Id (empty if none?)... Should be HqdmLib.Id
+    pureHasSuperBR :: [RelationId],       -- SuperBR Set Id (empty if none?)... Should be HqdmLib.Id
     pureCardinalityMin :: Int,            -- 0,1,...
     pureCardinalityMax :: Int,            -- -1 (indicates no max!),0,1,2,...
-    pureRedeclaredBR :: Bool,              -- True means superBRtypes are abstract?
+    pureRedeclaredBR :: Bool,             -- True means superBRtypes are abstract?
     pureRedeclaredFromRange :: HqdmLib.Id
   }
   deriving (Show, Eq, Generic)
@@ -222,8 +228,11 @@ getPureRelationName = pureBinaryRelationName
 getPureRange :: HqdmBinaryRelationPure -> RelationId
 getPureRange = pureRange
 
-getPureSuperRelation :: HqdmBinaryRelationPure -> RelationId
+getPureSuperRelation :: HqdmBinaryRelationPure -> [RelationId]
 getPureSuperRelation = pureHasSuperBR
+
+getPureSuperRelations :: [HqdmBinaryRelationPure] -> [RelationId]
+getPureSuperRelations = concatMap pureHasSuperBR
 
 getPureCardinalityMin :: HqdmBinaryRelationPure -> Int
 getPureCardinalityMin = pureCardinalityMin
@@ -247,13 +256,19 @@ headIfStringPresent x
   | not (null x)   = head x
   | otherwise      = ""
 
+idListFromString :: String -> [String] -> [String]
+idListFromString x lst
+  | null x = lst
+  | length x == 36 = lst ++ [x]
+  | length x >= 37 = idListFromString (drop 37 x) (lst ++ [take 36 x])
+
 hqdmRelationsToPure :: [HqdmBinaryRelation] -> [HqdmLib.HqdmTriple] -> [HqdmBinaryRelationPure]
 hqdmRelationsToPure brels tpls = fmap ( \ x -> HqdmBinaryRelationPure
   ( headIfStringPresent (HqdmLib.lookupHqdmIdFromType tpls (domain x) ) )
   ( binaryRelationId x)
   ( binaryRelationName x)
-  ( headIfStringPresent (HqdmLib.lookupHqdmIdFromType tpls (range x) ) )
-  ( headIfStringPresent (HqdmLib.lookupHqdmIdFromType tpls (hasSuperBR x) ) )
+  ( range x  )
+  ( idListFromString (hasSuperBR x) [] )
   ( cardinalityMin x)
   ( cardinalityMax x)
   ( stringToBool (redeclaredBR x))
@@ -265,7 +280,7 @@ csvRelationsToPure = fmap ( \ x -> HqdmBinaryRelationPure
   ( binaryRelationId x)
   ( binaryRelationName x)
   ( range x )
-  ( hasSuperBR x )
+  ( idListFromString (hasSuperBR x) []  )
   ( cardinalityMin x)
   ( cardinalityMax x)
   ( stringToBool (redeclaredBR x))
@@ -283,14 +298,32 @@ findBrelDomainSupertypes relId brels = HqdmLib.lookupSupertypeOf (getBrelDomainF
 findBrelFromId :: RelationId -> [HqdmBinaryRelationPure] -> [HqdmBinaryRelationPure]
 findBrelFromId relId brels = take 1 [values | values <- brels, relId == pureBinaryRelationId values]
 
-superRelationPathToUniversalRelation :: RelationId -> [HqdmBinaryRelationPure] -> [RelationId] -> [RelationId]
-superRelationPathToUniversalRelation relId brels relPath = go brels relPath
-  where
-    superBR = getPureSuperRelation $ head (findBrelFromId relId brels)
+findBrelsFromIds :: [RelationId] -> [HqdmBinaryRelationPure] -> [HqdmBinaryRelationPure]
+findBrelsFromIds relIds brels = concatMap ( \ x -> take 1 [values | values <- brels, x == pureBinaryRelationId values] ) relIds
 
-    go brels relPath
-      | null superBR = relPath
-      | otherwise = superRelationPathToUniversalRelation superBR brels (relPath ++ [superBR])
+-- | superRelationPathsToUniversalRelation
+-- From all the Binary Relations given find all the BR supertypes of a given RelationId
+-- (supplied as a [[RelationId]]). This takes only has_supertype statements as [HqdmTriple].
+-- The ouput is a list of layers from the supplied subtype to the termination empty layer
+-- above thing.
+superRelationPathsToUniversalRelation :: [[RelationId]] -> [HqdmBinaryRelationPure] -> [[RelationId]]
+superRelationPathsToUniversalRelation relIds brels = go relIds brels
+  where
+    nextLayer = last relIds
+    superBRs = getPureSuperRelations $ findBrelsFromIds nextLayer brels
+    newLayer = [ HqdmLib.uniqueIds $ HqdmLib.deleteItemsFromList superBRs nextLayer]
+    -- newLayer is formed from a defence against circularity.  Remove elements of newLayer that are in nextLayer.
+
+    go relIds brels
+      | null newLayer = init relIds
+      | newLayer == [[]] = relIds
+      | sum [length $ filter (== universalRelationSet) yl | yl <- newLayer] > 0 = relIds ++ newLayer
+      | otherwise = superRelationPathsToUniversalRelation (relIds ++ newLayer) brels
+
+-- | relIdNameTupleLayers
+-- Take a list of lists of Relation Ids, find their names and generate an equivalent list of Tuples of the Id and Name pairs
+relIdNameTupleLayers :: [[RelationId]] -> [HqdmBinaryRelationPure] -> [[(RelationId, String)]]
+relIdNameTupleLayers relIds brels = fmap (`relIdNameTuples` brels) relIds
 
 -- | relIdNameTuples
 -- Take a list of Relation Ids, find their names and generate a list of Tuples of the Id and Name pairs
@@ -299,8 +332,26 @@ relIdNameTuples relIds brels = fmap (\ x -> (x, head [pureBinaryRelationName val
 
 -- | printablePathFromTuples
 -- Renders a layered path list of Tuples from the source to the destination as printable text.
-printablePathFromTuples :: [(RelationId, String)] -> String
-printablePathFromTuples tpls = concatMap (\ x -> HqdmLib.fmtString (snd x ) ++ ",\n" ++ HqdmLib.fmtString (fst x) ++ "\n" ++ HqdmLib.fmtString "^\n" ++ HqdmLib.fmtString "|\n")  (reverse tpls)
+printablePathFromTuples :: [[(RelationId, String)]] -> String
+printablePathFromTuples tpls = concatMap (\ x -> printableLayer x ++ HqdmLib.fmtString "^\n" ++ HqdmLib.fmtString "/|\\\n" ++ HqdmLib.fmtString "|\n")  (reverse tpls)
+
+-- | printablePathFromTuplesWithDomainAndRange
+-- Renders a layered path list of Tuples from the source to the destination as printable text.
+printablePathFromTuplesWithDomainAndRange :: [[(RelationId, String)]] -> [HqdmBinaryRelationPure] -> [HqdmLib.HqdmTriple] -> String
+printablePathFromTuplesWithDomainAndRange tuples brels tpls  = reverse $ drop 303 (reverse $ concatMap (\ x -> printableLayerWithDomainAndRange x brels tpls ++ HqdmLib.fmtString "^\n" ++ HqdmLib.fmtString "/|\\\n" ++ HqdmLib.fmtString "|\n")  (reverse tuples))
+
+getDomainName :: RelationId -> [HqdmBinaryRelationPure] -> [HqdmLib.HqdmTriple] -> String
+getDomainName rid brels tpls = headIfStringPresent $ HqdmLib.findHqdmTypesInList [pureDomain $ head (findBrelFromId rid brels)] tpls
+
+getRangeName :: RelationId -> [HqdmBinaryRelationPure] -> [HqdmLib.HqdmTriple] -> String
+getRangeName rid brels tpls = headIfStringPresent $ HqdmLib.findHqdmTypesInList [pureRange $ head (findBrelFromId rid brels)] tpls
+
+printableLayerWithDomainAndRange :: [(RelationId, String)] -> [HqdmBinaryRelationPure] -> [HqdmLib.HqdmTriple] -> String
+printableLayerWithDomainAndRange tuples brels tpls =
+  concatMap (\ x -> HqdmLib.fmtString ("[" ++ getDomainName (fst x) brels tpls ++ "] " ++ snd x ++ "(" ++ fst x ++ ") [" ++ getRangeName (fst x) brels tpls ++ "]\n" )) tuples
+
+printableLayer :: [(RelationId, String)] -> String
+printableLayer = concatMap (\ x -> HqdmLib.fmtString (snd x ++ "," ++ fst x) ++ "\n")
 
 -- | This swaps the relation names in a HqdmAllAsData dataset (it doesn't handle instance and extended subclasses)
 hqdmSwapTopRelationNamesForIds :: [HqdmLib.HqdmTriple] -> [HqdmBinaryRelationPure] -> [HqdmLib.HqdmTriple]
@@ -354,7 +405,7 @@ convertAnyHqdmRelationByDomainAndName tpl typeId brels = go tpl
     hqdmHasEntityNameBR = headIfStringPresent [ pureBinaryRelationId values | values <- brels, hqdmEntityName == pureBinaryRelationName values ]
     hqdmHasRecordCreatedBR = headIfStringPresent [ pureBinaryRelationId values | values <- brels, hqdmRecordCreated == pureBinaryRelationName values ]
     hqdmHasRecordCreatorBR = headIfStringPresent [ pureBinaryRelationId values | values <- brels, hqdmRecordCreator == pureBinaryRelationName values ]
-    
+
     go tpl
       | HqdmLib.predicate tpl==hqdmType = HqdmLib.HqdmTriple (HqdmLib.subject tpl) hqdmTypeBR (HqdmLib.object tpl)
       | HqdmLib.predicate tpl==hqdmHasSupertype = HqdmLib.HqdmTriple (HqdmLib.subject tpl)  hqdmHasSupertypeBR (HqdmLib.object tpl)
@@ -422,7 +473,7 @@ findSuperBinaryRelation' relId tpls brels =
       (findBrelDomainSupertypes relId brels (HqdmLib.lookupSubtypes tpls)) brels,
         snd x `isPrefixOf` getRelationNameFromRels relId brels]
 
-addStRelationToPure :: Maybe (RelationId, String) -> HqdmBinaryRelationPure -> HqdmBinaryRelationPure
+{-addStRelationToPure :: Maybe (RelationId, String) -> HqdmBinaryRelationPure -> HqdmBinaryRelationPure
 addStRelationToPure stRel x = HqdmBinaryRelationPure
   ( pureDomain x)
   ( pureBinaryRelationId x)
@@ -432,7 +483,7 @@ addStRelationToPure stRel x = HqdmBinaryRelationPure
   ( pureCardinalityMin x)
   ( pureCardinalityMax x)
   ( pureRedeclaredBR x)
-  ( pureRedeclaredFromRange x)
+  ( pureRedeclaredFromRange x)-}
 
 addNewCardinalitiesToPure :: Int -> Int -> HqdmBinaryRelationPure -> HqdmBinaryRelationPure
 addNewCardinalitiesToPure cardMin cardMax x = HqdmBinaryRelationPure
@@ -461,7 +512,7 @@ printablePureRelation x =
   pureBinaryRelationId x ++ comma ++
   pureBinaryRelationName x ++ comma ++
   pureRange x ++ comma ++
-  pureHasSuperBR x ++ comma ++
+  concatMap (++ " ") (pureHasSuperBR x) ++ comma ++
   show (pureCardinalityMin x) ++ comma ++
   show (pureCardinalityMax x) ++ comma ++
   boolToString (pureRedeclaredBR x) ++ comma ++
@@ -470,10 +521,10 @@ printablePureRelation x =
 csvRelationsFromPure :: [HqdmBinaryRelationPure] -> String
 csvRelationsFromPure = concatMap printablePureRelation
 
--- | lookupSuperBinaryRelOf
+-- | lookupSuperBinaryRelsOf
 -- From all the Pure Binary Relations given find the super Binary Relation of a given RelationId.
-lookupSuperBinaryRelOf :: RelationId -> [HqdmBinaryRelationPure] -> Maybe RelationId
-lookupSuperBinaryRelOf x brList = headListIfPresent [pureHasSuperBR values | values <- brList, x == pureBinaryRelationId values]
+lookupSuperBinaryRelsOf :: RelationId -> [HqdmBinaryRelationPure] -> [RelationId]
+lookupSuperBinaryRelsOf x brList = concat $ [ pureHasSuperBR values | values <- brList, x == pureBinaryRelationId values]
 
 -- Go through a list of Binary Relations (typically a path to the universal Binary Relation) and find the maximum Minimum Cardinality value
 findMaxMinCardinality :: [RelationId] -> [HqdmBinaryRelationPure] -> Int -> Int
@@ -504,14 +555,14 @@ findMaxMaxCardinality (brelId:brelIds) brels cardVal = go brelIds brels cardVal
       | otherwise = -1
 
 -- correctCardinalities
-correctCardinalities :: HqdmBinaryRelationPure -> [HqdmBinaryRelationPure] -> HqdmBinaryRelationPure
+{-correctCardinalities :: HqdmBinaryRelationPure -> [HqdmBinaryRelationPure] -> HqdmBinaryRelationPure
 correctCardinalities rel brels = newRel
   where
-    superBRPathToUniversal = superRelationPathToUniversalRelation (pureBinaryRelationId rel) brels []
+    superBRPathToUniversal = superRelationPathsToUniversalRelation (pureBinaryRelationId rel) brels []
     maxMinCardinality = findMaxMinCardinality superBRPathToUniversal brels (pureCardinalityMin rel)
     maxMaxCardinality = findMaxMaxCardinality superBRPathToUniversal brels (pureCardinalityMax rel)
 
     newRel = addNewCardinalitiesToPure maxMinCardinality maxMaxCardinality rel
 
 correctAllCardinalities :: [HqdmBinaryRelationPure] -> [HqdmBinaryRelationPure]
-correctAllCardinalities brels = fmap (`correctCardinalities` brels) brels
+correctAllCardinalities brels = fmap (`correctCardinalities` brels) brels-}

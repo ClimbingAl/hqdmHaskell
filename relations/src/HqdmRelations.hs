@@ -60,8 +60,8 @@ module HqdmRelations
     convertTopRelationByDomainAndName,
     headListIfPresent,
     addNewCardinalitiesToPure,
-    --correctCardinalities,
-    --correctAllCardinalities,
+    correctCardinalities,
+    correctAllCardinalities,
     findMaxMaxCardinality,
     findMaxMinCardinality,
     hqdmSwapAnyRelationNamesForIds,
@@ -555,14 +555,14 @@ findMaxMaxCardinality (brelId:brelIds) brels cardVal = go brelIds brels cardVal
       | otherwise = -1
 
 -- correctCardinalities
-{-correctCardinalities :: HqdmBinaryRelationPure -> [HqdmBinaryRelationPure] -> HqdmBinaryRelationPure
+correctCardinalities :: HqdmBinaryRelationPure -> [HqdmBinaryRelationPure] -> HqdmBinaryRelationPure
 correctCardinalities rel brels = newRel
   where
-    superBRPathToUniversal = superRelationPathsToUniversalRelation (pureBinaryRelationId rel) brels []
-    maxMinCardinality = findMaxMinCardinality superBRPathToUniversal brels (pureCardinalityMin rel)
-    maxMaxCardinality = findMaxMaxCardinality superBRPathToUniversal brels (pureCardinalityMax rel)
+    superBRPathToUniversal = superRelationPathsToUniversalRelation [[pureBinaryRelationId rel]] brels
+    maxMinCardinality = findMaxMinCardinality (concat superBRPathToUniversal) brels (pureCardinalityMin rel)
+    maxMaxCardinality = findMaxMaxCardinality (concat superBRPathToUniversal) brels (pureCardinalityMax rel)
 
     newRel = addNewCardinalitiesToPure maxMinCardinality maxMaxCardinality rel
 
 correctAllCardinalities :: [HqdmBinaryRelationPure] -> [HqdmBinaryRelationPure]
-correctAllCardinalities brels = fmap (`correctCardinalities` brels) brels-}
+correctAllCardinalities brels = fmap (`correctCardinalities` brels) brels

@@ -108,7 +108,7 @@ main = do
     let thingSupertype = findHqdmTypesInList (lookupSupertypeOf thing subtypes) hqdmInputModel
     print thingSupertype
 
-    ---------------------------------------------
+    ----------------------------------------------
 
     let hqdmRawPredicates = getPredicates hqdmInputModel
     let uniquePredicates = stringListSort $ uniqueIds hqdmRawPredicates

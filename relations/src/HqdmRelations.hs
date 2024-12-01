@@ -36,11 +36,13 @@ module HqdmRelations
     getPureSuperRelation,
     getPureCardinalityMin,
     getPureCardinalityMax,
-    getPureReclared,
+    getPureRedeclared,
     getPureRedeclaredFromRange,
+    printRelation,
     getBrelDomainFromRels,
     findBrelDomainSupertypes,
     findBrelFromId,
+    findBrelsFromDomain,
     superRelationPathsToUniversalRelation,
     relIdNameTupleLayers,
     relIdNameTuples,
@@ -240,11 +242,19 @@ getPureCardinalityMin = pureCardinalityMin
 getPureCardinalityMax :: HqdmBinaryRelationPure -> Int
 getPureCardinalityMax = pureCardinalityMax
 
-getPureReclared :: HqdmBinaryRelationPure -> Bool
-getPureReclared = pureRedeclaredBR
+getPureRedeclared :: HqdmBinaryRelationPure -> Bool
+getPureRedeclared = pureRedeclaredBR
 
 getPureRedeclaredFromRange :: HqdmBinaryRelationPure -> RelationId
 getPureRedeclaredFromRange = pureRedeclaredFromRange
+
+printRelation :: HqdmBinaryRelationPure -> String
+printRelation rel = "RELATION SPECIFICATION:\n\tDomain: " ++ getPureDomain rel ++ 
+  "\n\tRelation UUID: " ++ getPureRelationId rel ++ 
+  "\n\tOriginal Relation Name: " ++ getPureRelationName rel ++ 
+  "\n\tRange: " ++ getPureRange rel ++
+  "\n\tMin Cardinality: " ++ show (getPureCardinalityMin rel) ++
+  "\n\tMax Cardinality: " ++ show (getPureCardinalityMax rel) ++ "\n"
 
 stringToBool :: String -> Bool
 stringToBool x
@@ -297,6 +307,9 @@ findBrelDomainSupertypes relId brels = HqdmLib.lookupSupertypeOf (getBrelDomainF
 
 findBrelFromId :: RelationId -> [HqdmBinaryRelationPure] -> [HqdmBinaryRelationPure]
 findBrelFromId relId brels = take 1 [values | values <- brels, relId == pureBinaryRelationId values]
+
+findBrelsFromDomain :: RelationId -> [HqdmBinaryRelationPure] -> [HqdmBinaryRelationPure]
+findBrelsFromDomain domId brels = [values | values <- brels, domId == pureDomain values]
 
 findBrelsFromIds :: [RelationId] -> [HqdmBinaryRelationPure] -> [HqdmBinaryRelationPure]
 findBrelsFromIds relIds brels = concatMap ( \ x -> take 1 [values | values <- brels, x == pureBinaryRelationId values] ) relIds

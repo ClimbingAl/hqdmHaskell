@@ -1,3 +1,5 @@
+./entityTypeSpec/.stack-work/*
+./relationPathUp/.stack-work/*
 ./relationInheritance/.stack-work/*
 ./relations/.stack-work/*
 ./inheritance/.stack-work/*

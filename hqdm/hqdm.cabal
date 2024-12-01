@@ -29,6 +29,7 @@ library
       HqdmIds
       HqdmInspection
       HqdmLib
+      HqdmMermaid
   other-modules:
       Paths_hqdm
   autogen-modules:

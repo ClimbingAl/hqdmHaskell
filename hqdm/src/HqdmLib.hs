@@ -29,6 +29,7 @@ module HqdmLib
     uniqueTriples,
     stringListSort,
     lookupHqdmOne,
+    relationPairs,
     lookupHqdmType,
     lookupHqdmIdFromType,
     lookupSubtypes,
@@ -44,6 +45,7 @@ module HqdmLib
     collapseInheritedRels,
     printableCollapsedList,
     printableRelationPairs,
+    printableRelationPairList,
     exportAsTriples,
     csvTriplesFromHqdmTriples,
     screenCharOffset,
@@ -103,7 +105,7 @@ screenCharOffset = 100
 -- Check that an element (subject or object) is a Node Id.  Done without regex to avoid dependencies.
 -- Expects to be True for a String of the form "130e95f1-ebc4-46f1-90ba-3f9fa21cb77b"
 nodeIdentityTest :: String -> Bool
-nodeIdentityTest x = length x == 41 && ('-' `elemIndices` x) == [13, 18, 23, 28]
+nodeIdentityTest x = length x == 36 && ('-' `elemIndices` x) == [8, 13, 18, 23]
 
 getSubjects :: [HqdmTriple] -> [Id]
 getSubjects = map subject
@@ -253,7 +255,7 @@ printableTypeTree tree hqdmModel textTree
       printableTypeTree
         (tail tree)
         hqdmModel
-        (textTree ++ fmtString (unwords (findHqdmTypeNamesInList (head tree) hqdmModel)) ++ "\n\n")
+        (textTree ++ fmtString (concatMap (\ x -> "[" ++ x ++ "] ") (findHqdmTypeNamesInList (head tree) hqdmModel)) ++ "\n" ++ HqdmLib.fmtString "^\n" ++ HqdmLib.fmtString "/|\\\n" ++ HqdmLib.fmtString "|\n")
 
 -- | findSubtypeTree
 -- From all the triples given by lookupSubtypes find the subtypes (and sub-classes) of a given node Id.
@@ -304,7 +306,7 @@ printableCollapsedList cl = fmap ("\n    " ++) cl
 -- predicate and type name as a joined String.
 printableRelationPair :: [HqdmTriple] -> RelationPair -> String
 printableRelationPair hqdmAll rp
-  | nodeIdentityTest (o rp) = "    " ++ p rp ++ " " ++ head (lookupHqdmTypeFromAll hqdmAll (o rp)) ++ "\n"
+  | nodeIdentityTest (o rp) = "    " ++ p rp ++ " [" ++ head (lookupHqdmTypeFromAll hqdmAll (o rp)) ++ "]\n"
   | otherwise = "    " ++ p rp ++ " " ++ o rp ++ "\n"
 
 -- | printableRelationPairList

@@ -39,7 +39,7 @@ The original generation of hqdmAllAsData was done using MaggmaCore and RDF, the 
 
 When processed these triples are loaded using the following new data type:
 
-```
+```haskell
     data HqdmTriple = HqdmTriple
       { subject :: !String,
         predicate :: !String,
@@ -50,7 +50,7 @@ When processed these triples are loaded using the following new data type:
 
 It turns out that relations (Binary Relations) are more complex.
 
-```
+```haskell
     -- | HqdmBinaryRelationPure
     -- A data type that uses only identities to specify the xR'y of a HQDM Binary 
     data HqdmBinaryRelationPure = HqdmBinaryRelationPure
@@ -67,9 +67,11 @@ It turns out that relations (Binary Relations) are more complex.
       deriving (Show, Eq, Generic)
 ```
 
-``` Domain, Relation Id, Relation Original Name, Range, Super Binary Relation(s), Min Cardinality, Max Cardinality, Redeclared from Super Binary Relation, RESERVED ```
-
+```csv
+Domain, Relation Id, Relation Original Name, Range, Super Binary Relation(s), Min Cardinality, Max Cardinality, Redeclared from Super Binary Relation, RESERVED
 ```
+
+```csv
 f5ac9254-2b93-4ed7-b89e-70994842b438,d6865f69-4c0c-4a3d-9d95-803ddce86b82,temporal_part_of,21c1fe82-1b48-46b3-8df8-6bddcbb2d92e,4096218c-eac7-44a6-90f8-e7ac21599c85,0,-1,True,
 f5ac9254-2b93-4ed7-b89e-70994842b438,ce789976-153f-45da-81cf-70f6665c0853,member_of,6beb4515-89e8-4bce-9318-77935200f9bb,96a99f0a-1e95-48a1-976e-2d50a0610d64,0,-1,True,
 f5ac9254-2b93-4ed7-b89e-70994842b438,94d5cc9f-677f-4b4a-a822-4a9c13efcb8d,temporal__part_of,dd8359c4-0a2b-416a-af27-3bcb0551b41a,e1345cdd-b768-4c6a-a5e5-2931ffe5d337,0,-1,False,

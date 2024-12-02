@@ -50,7 +50,8 @@ module HqdmLib
     csvTriplesFromHqdmTriples,
     screenCharOffset,
     fmtString,
-    deleteItemsFromList
+    deleteItemsFromList,
+    nodeIdentityTest
   )
 where
 

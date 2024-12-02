@@ -56,7 +56,6 @@ main = do
 
     let inputRelationsFile = head fileList
     let inputEntityTypeFile = fileList!!1
-    let entityId = fileList!!2
 
     hqdmRelationSets <- fmap V.toList . decode @HqdmBinaryRelation NoHeader <$> BL.readFile inputRelationsFile
     let relationsInputModel =  csvRelationsToPure $ fromRight [] hqdmRelationSets
@@ -64,12 +63,15 @@ main = do
     hqdmTriples <- fmap V.toList . decode @HqdmTriple NoHeader <$> BL.readFile inputEntityTypeFile
     let hqdmInputModel = fromRight [] hqdmTriples
 
+    let entityId = uuidOrEntityName (fileList!!2) hqdmInputModel
+
     let entityObj = lookupHqdmOne entityId  hqdmInputModel
     let entityType = head $ lookupHqdmType entityObj
     let rList = zip [1 .. ] (findBrelsFromDomain entityId relationsInputModel)
     
     let subtypes = lookupSubtypes hqdmInputModel
     let stTree = findSupertypeTree [[entityId]] subtypes
+    let subTree = findSubtypeTree [[entityId]] subtypes []
 
     let specifiedEntityTypeNotPresent = null entityObj
 
@@ -82,30 +84,40 @@ main = do
 
     if Ascii `elem` fst args && not specifiedEntityTypeNotPresent
         then do 
-            putStr ("\n\nASCII Entity Type Inheritance Path To Thing from '" ++ entityType ++ "' (" ++ entityId ++ "):\n\n\n")
+            putStr ("\n\nASCII Entity Type Inheritance Supertype Path To Thing from '" ++ entityType ++ "' (" ++ entityId ++ "):\n\n\n")
             putStr ( reverse $ drop 303 (reverse $ printableTypeTree (reverse stTree) hqdmInputModel ""))
+            putStr ("\n\nASCII Entity Type Inheritance Subtype Path from '" ++ entityType ++ "' (" ++ entityId ++ "):\n\n\n")
+            putStr ( reverse $ drop 303 (reverse $ printableTypeTree (init subTree) hqdmInputModel ""))
             putStr "\n\nHQDM Relations expressed as Binary Relation Sets:\n\n"
             putStr  (concatMap (\ x -> show (fst x) ++ " " ++ printRelation (snd x) ++ "\n\n") rList)
-        else putStr "\n\n"
+        else putStr ""
     
     if Raw `elem` fst args && not specifiedEntityTypeNotPresent
         then do 
             putStr "\n\nHQDM Relations expressed as Raw Pure Binary Relation Sets:\n\n"
             print rList
             putStr "\n\n"
-        else putStr "\n\n"
+        else putStr ""
     
     if Csv `elem` fst args && not specifiedEntityTypeNotPresent
         then do 
             putStr "\n\nHQDM Relations expressed in CSV form:\n\n"
             putStr (concatMap (\ x -> "\t" ++ printablePureRelation (snd x)) rList)
             putStr "\n\n"
-        else putStr "\n\n"
+        else putStr ""
 
     if Mermaid `elem` fst args && not specifiedEntityTypeNotPresent
         then do 
             putStr "\n\nMermaid not yet implemented.\n\n"
-        else putStr "\n\n"
+        else putStr ""
+    
+    putStr ("Read about it here: https://github.com/hqdmTop/hqdmFramework/wiki/" ++ entityType ++ "\n\n")
+
+-- | uuidOrEntityName 
+uuidOrEntityName :: String -> [HqdmTriple] -> String
+uuidOrEntityName ip tpls
+    | nodeIdentityTest ip = ip
+    | otherwise = head $ lookupHqdmIdFromType tpls ip
 
 ------------------------------------------------------------------------------------
 -- Argument handling functions

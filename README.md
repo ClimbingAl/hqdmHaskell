@@ -1,10 +1,13 @@
 # Haskell parser for HQDM notated in a functionally-compatible form
 
-This is an experiment in the functional parsing (and ultimately querying) of the HQDM data model.  This project started with another experiment to represent HQDM as RDF triples - _subject_ <- _predicate_ -> _object_ statements.  The source data for that orgininal experiment model itself is the master HQDM AllAsData used in some of my other projects, such as [HQDM Patterns](https://climbingal.github.io/HqdmPatterns/).  That dataset has been used as the input to the representation of HQDM for functional parsing.  One of the goals of the work has been to see if compatability with other uses of HQDM can be achieved.  Any project that uses Magma Core is likely compatible with what I have done although my fork of it is the best place to look for some tweaks that help [Magma Core](https://github.com/ClimbingAl/MagmaCore/).  All that Magma Core-based datasets need is a binding to the [HqdmAllAsData](https://github.com/ClimbingAl/code-for-hqdm-patterns/blob/main/source-files/hqdmAllAsData.ttl) dataset that represents the model used for this functional parser.  This binding can be done with the `hqdmJoin` package in this repo.
+:new: :star:
+Command line tools for querying the functionally-compatible specification information of HQDM using the functions from this project: [`entityTypeSpec`](https://github.com/ClimbingAl/hqdmHaskell/tree/main/entityTypeSpec) and [`relationPathUp`](https://github.com/ClimbingAl/hqdmHaskell/tree/main/relationPathUp). :star:
+
+This is an experiment in the functional parsing (and ultimately querying) of the HQDM data model.  This project started with another experiment to represent HQDM as RDF triples - _subject_ <- _predicate_ -> _object_ statements.  The source data for that orgininal experiment model itself is the master HQDM AllAsData used in some of my other projects, such as [HQDM Patterns](https://climbingal.github.io/HqdmPatterns/).  That dataset has been used as the input to the representation of HQDM for functional parsing.  One of the goals of the work has been to see if compatability with other uses of HQDM can be achieved while removing any dependencies on them.  Any project that uses Magma Core is likely compatible with what I have done although my fork of it is the best place to look for some tweaks that help [Magma Core](https://github.com/ClimbingAl/MagmaCore/).  All that Magma Core-based datasets need is a binding to the [HqdmAllAsData](https://github.com/ClimbingAl/code-for-hqdm-patterns/blob/main/source-files/hqdmAllAsData.ttl) dataset that represents the model used for this functional parser.  This binding can be done with the `hqdmJoin` package in this repo.
 
 ## Repo purpose
 
-The aim of this repo is to provide basic but accessible commands to provide specification information on the HQDM Entity Types and do it in a way that is compatible with publicly available implementations of HQDM.  HQDM was originally documented in [a book]() with the specification being [notated in EXPRESS]().  This has presented some challenges for data modellers and software developers alike, due to the number of entity types and the aparent complexity of the relationships between them.  After a failed attempt to reproduce the EXPRESS specification in OWL, it was clear that the logical comittments of the model were not compatible with OWL*.  Other Linked Data specifications, like RDFS*, don't have the expressive features to capture the comittments of the model so something else seemed necessary.  This repo is intended to take a fresh look at representing HQDM in a form that is netural to actual implementations for Enterprise Applications but can be used to:
+The aim of this repo is to provide basic but accessible commands to provide specification information on the HQDM Entity Types and do it in a way that is compatible with publicly available implementations of HQDM.  HQDM was originally documented in [a book](https://www.oreilly.com/library/view/developing-high-quality/9780123751065/) with the specification being [notated in EXPRESS](https://github.com/hqdmTop/hqdmFramework/blob/main/hqdm_framework.txt).  This has presented some challenges for data modellers and software developers alike, due to the number of entity types and the aparent complexity of the relationships between them.  After a failed attempt to reproduce the EXPRESS specification in OWL, it was clear that the logical comittments of the model were not compatible with OWL*.  Other Linked Data specifications, like RDFS*, don't have the expressive features to capture the comittments of the model so something else seemed necessary.  This repo is intended to take a fresh look at representing HQDM in a form that is netural to actual implementations for Enterprise Applications but can be used to:
 
 1. Be a stable master for HQDM as a model, allowing version control and supporting documentation efforts.
 2. Validate other implementations of HQDM.
@@ -18,10 +21,11 @@ A few principles were adopted to enable this consistent approach:
 - HQDM Entity Types are the unique collections (or groups) that can, at least conceptually, be divided into sub-collections.  Some can also have instances (or elements).
 - Entity Types and instances of them have unique identity.  The identity is universally unique and doesn't change over time.
 - Formal features of HQDM, such as material things being comprised of _parts_ and being members of _sets_, are structural features within the model (they don't sit outside it)
+- Relationships have identity and are handled as Binary Relation Sets (elements of those sets are the actual instances of these relations... the ordered pairs.. in the HQDM user data).
 
 ## Specification files
 
-The actual file used to apply the [HqdmLib](https://github.com/ClimbingAl/hqdmHaskell/blob/main/hqdm/src/HqdmLib.hs) functions to is a filtered version of the hqdmAllAsData.ttl file (linked in the last sentence), listed as triple statements in a CSV file and with `rdf:type` replaced by `hqdm:type` (to remove any suggestion that an external spevcification may be needed to interpret the model.  This source data is stored in [hqdmAllAsDataFormal1.csv](https://github.com/ClimbingAl/hqdmHaskell/blob/main/hqdm/hqdmAllAsDataFormal1.csv).
+The actual HQDM entity type specification file used to apply the [HqdmLib](https://github.com/ClimbingAl/hqdmHaskell/blob/main/hqdm/src/HqdmLib.hs) functions to is a filtered version of the hqdmAllAsData.ttl file (linked in the last sentence), listed as triple statements in a CSV file and with `rdf:type` replaced by `hqdm:type` (to remove any suggestion that an external spevcification may be needed to interpret the model.  This source data is stored in [hqdmAllAsDataFormal1.csv](https://github.com/ClimbingAl/hqdmHaskell/blob/main/hqdm/hqdmAllAsDataFormal1.csv).  For the more advanced features a stripped down version of this file is used, [HqdmAllAsDataFormal3Short.csv](https://github.com/ClimbingAl/hqdmHaskell/blob/main/relationPathUp/HqdmAllAsDataFormal3Short.csv), as the original predicates are incomplete and are rplaced entirely by Binary Relation Sets (see below)
 
 The first 2 lines of the hqdmAllAsData triples relevant to having a record of the HQDM Entity Types and their subtype-supertype relationships are:
 
@@ -48,7 +52,11 @@ When processed these triples are loaded using the following new data type:
       deriving (Show, Eq, Generic)
 ```
 
-It turns out that relations (Binary Relations) are more complex.
+It turns out that relations (Binary Relations) are more complex than Entity Types.  Entity Types are taken to be collections of records that are all of a common 'type' (we'll avoid calling them sets because sets and their elements have a place within the Entity Type model itself).  The _relationship_ lines between the Entity Type boxes in the original EXPRESS-G version of [HQDM](https://github.com/hqdmTop/hqdmFramework/wiki/) are under-specified as the EXPRESS standard does not accommodate relationships between.... other relationships.  This means that these sets of relationships (we are not violating anything here by calling them sets because we are talking about [Binary Relation](https://en.wikipedia.org/wiki/Binary_relation) Sets and not the 2-sorted sets that are introduced within the HQDM Entity Type hierarchy.  Matthew West used a naming convention to notate correspondence between relationships in the EXPRESS version of HQDM.  This approach was not easy to use, was incomplete and required analysis (and debate) to work out what some of them likely meant.  Attempts to represent these relationships in other languages (e.g. RDFS & SHACL) had to work round these issues, adopt the ambiguous representation of relationships or avoid them altogether.  This project takes a ground-up approach to Binary Relations as Binary Relation Sets, all of which are sub-binaryRelationSets of a top level Binary Relation Set called:
+
+_`universal_relation_set`_
+
+Further documentation will be provided on the top level structure of Binary Relation Sets but all other Binary Relation Sets are a sub-BinaryRelation Set of this universal relation set.  The relation sets have been recomputed for the whole of HQDM and the sub- and super- set relations between them, domains, ranges, Cardinality information and original name specified by Matthew are stored in a Haskell New Data Type called `HqdmBinaryRelationPure` specified as:
 
 ```haskell
     -- | HqdmBinaryRelationPure
@@ -67,9 +75,12 @@ It turns out that relations (Binary Relations) are more complex.
       deriving (Show, Eq, Generic)
 ```
 
+The data is kept separate from the functions used to parse it, with the CSV data corresponding to the `HqdmBinaryRelationPure` data type being stored as follows:
+
 ```csv
 Domain, Relation Id, Relation Original Name, Range, Super Binary Relation(s), Min Cardinality, Max Cardinality, Redeclared from Super Binary Relation, RESERVED
 ```
+The resulting file looks like this:
 
 ```csv
 f5ac9254-2b93-4ed7-b89e-70994842b438,d6865f69-4c0c-4a3d-9d95-803ddce86b82,temporal_part_of,21c1fe82-1b48-46b3-8df8-6bddcbb2d92e,4096218c-eac7-44a6-90f8-e7ac21599c85,0,-1,True,
@@ -95,8 +106,7 @@ All the NodeIds are preserved from the hqdmAllAsData experiment, with all the pr
 HqdmBinaryRelationPure {pureDomain = "hqdm:f5ac9254-2b93-4ed7-b89e-70994842b438", pureBinaryRelationId = "hqdmRelation:2adc222f-927f-41f6-8497-74567bd6e49b", pureBinaryRelationName = "hqdm:temporal_part_of", pureRange = "hqdm:db723822-93f7-4c1d-8f17-fb094a5c10d9", pureHasSuperBR = "hqdmRelation:4096218c-eac7-44a6-90f8-e7ac21599c85", pureCardinalityMin = 0, pureCardinalityMax = -1, pureRedeclaredBR = False, pureRedeclaredFromRange = ""},
 ```
 
-
-### Functions in HqdmLib
+### Functions in HqdmLib (TBC)
 
 All the functions in HQDMLib are pure Haskell with minimised guards; that is, guards tend to be employed solely to terminate a recursive function (or list comprehension) on an Empty List (e.g. [] or [[]]) or when the root Entity Type Thing is found.  The functions each have a short description in the comments above it.  The functions have not been written for efficiency, with the focus being on purity.  Variable names and function names have been chosen to indicate the purpose or role.  This should make them fairly readable as long as you are familiar with (or tolerant to) the Haskell function notations (e.g. `.`, `$`, `<-`, `\` lambda expressions, and built-in functions).
 

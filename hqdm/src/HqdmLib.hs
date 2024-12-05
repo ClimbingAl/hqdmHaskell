@@ -231,7 +231,7 @@ findSupertypeTree :: [[Id]] -> [HqdmHasSupertype] -> [[Id]]
 findSupertypeTree ids hqdm = go ids hqdm
   where
     nextLayer = last ids
-    possibleNewLayer = concat (take 1 (lookupSupertypesOf nextLayer hqdm))
+    possibleNewLayer = uniqueIds $ concat (lookupSupertypesOf nextLayer hqdm)
     newLayer = [deleteItemsFromList possibleNewLayer (take 1 nextLayer)]
     -- newLayer is formed from a defence against circularity.  Remove elements of newLayer that are in nextLayer.
 

@@ -136,5 +136,29 @@ Note: The `hqdm` and `inheritance` folders use different versions of Cabal, whic
 - [ ] Build a Domain Specific Language to enable HQDM operations (initially for query).
 - [ ] Add data modification and exception handling.
 
+Done but not documented:   Re-create triples (using collapsed sets) and compare with original set.
+
+Notes on relations, cardinalities, etc
+    - [x] compute/identify the missing relations from the pre-constructed hqdmRelations
+        -- Add handling of pureRedeclaredFromRange
+    - [x] compute all relations and their relation-supersubset relationships
+H   - [ ] test mc datasets to see that they conform to cardinalities
+    - [ ] calculate the inverse relations
+    - [ ] perform predicate searches that include inverse relations
+    - [x] calculate all allowed relations (based on inheritance, not the sets of all possible relations)
+    - [ ] introduce the powerset?... probably best to miss this out, but could be useful to think it through
+
+    - Functions to parse hqdm patterns on mapped user data:
+        - set & parts (inc. specializations of them)
+        - temporal parts and their cardinalities (as optional test)
+        - activity and association
+        - system and component
+        - representation_by_sign
+        - possible worlds
+        - specialization of associations
+
+    - [ ] Aspire to make this a DSL
+
+
 ## Caveats
-This implementation uses pure Haskell with no Monadic functions (once the data has loaded).  This means that if any errors are introduced in the source data the GHC Executable will fail if an exception is hit.  I am happy with this, as it is intended to be a formal (pure) application.
+This implementation uses pure Haskell with no Monadic functions (once the data has loaded).  This means that if any errors are introduced in the source data the GHC Executable will fail if an exception is hit.  I am happy with this, as it is intended to be a formal (pure) application.  For some of the IO aspects I have done some exception handling, particularly for the command line utilities.

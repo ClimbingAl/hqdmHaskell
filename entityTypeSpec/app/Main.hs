@@ -45,7 +45,6 @@ main = do
     args <- getArgs >>= parse
 
     let fileList = snd args
-    print fileList
     
     if length fileList == 3
         then do

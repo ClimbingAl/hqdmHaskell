@@ -34,12 +34,15 @@ import HqdmRelations (
     getPureSuperRelation,
     getPureCardinalityMin,
     getPureCardinalityMax,
-    getPureReclared,
+    getPureRedeclared,
     getPureRedeclaredFromRange,
+    printRelation,
     getBrelDomainFromRels,
     findBrelDomainSupertypes,
     findBrelFromId,
-    superRelationPathToUniversalRelation,
+    findBrelsFromDomain,
+    superRelationPathsToUniversalRelation,
+    relIdNameTupleLayers,
     relIdNameTuples,
     printablePathFromTuples,
     isSubtype,
@@ -49,10 +52,10 @@ import HqdmRelations (
     findBrelsAndNamesWithDomains,
     findSuperBinaryRelation,
     findSuperBinaryRelation',
-    addStRelationToPure,
+    --addStRelationToPure,
     printablePureRelation,
     csvRelationsFromPure,
-    lookupSuperBinaryRelOf,
+    lookupSuperBinaryRelsOf,
     hqdmSwapTopRelationNamesForIds,
     convertTopRelationByDomainAndName,
     headListIfPresent,
@@ -61,7 +64,9 @@ import HqdmRelations (
     correctAllCardinalities,
     findMaxMaxCardinality,
     findMaxMinCardinality,
-    hqdmSwapAnyRelationNamesForIds
+    hqdmSwapAnyRelationNamesForIds,
+    printableLayerWithDomainAndRange,
+    printablePathFromTuplesWithDomainAndRange
     )
 
 import HqdmLib (
@@ -110,10 +115,10 @@ import Data.Maybe
 
 -- Constants
 hqdmRelationsInputFilename::String
-hqdmRelationsInputFilename = "./input/PureHqdmRelations_v2.1.csv" -- allHqdmRels or exportedPureBinaryRelationsModded2 or PureHqdmRelations_v2
+hqdmRelationsInputFilename = "./input/PureHqdmRelations_v5.csv"
 
 hqdmInputFilename::String
-hqdmInputFilename = "./input/hqdmAllAsDataFormal1_NoExtensions.csv"  -- hqdmAllAsDataFormal1_NoExtensions or hqdmAllAsDataFormal1 or hqdmAllAsDataFormal2
+hqdmInputFilename = "./input/HqdmAllAsDataFormal3Short.csv"  
 
 joinModelFilename::String 
 joinModelFilename = "./input/networksBasic1converted.csv"
@@ -188,7 +193,7 @@ main = do
 
     putStr "\nNow do the join and show the results:\n\n"
 
-    let joinedResults = joinInputModel ++ hasSuperclassTriples ++ elementOfTypeTriples
+    let joinedResults = sortOnUuid $ joinInputModel ++ hasSuperclassTriples ++ elementOfTypeTriples
     putStr (concat $ HqdmLib.csvTriplesFromHqdmTriples joinedResults)
 
     putStr "\nResults length:"

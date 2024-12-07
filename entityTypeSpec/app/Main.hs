@@ -70,7 +70,7 @@ main = do
     
     let subtypes = lookupSubtypes hqdmInputModel
     let stTree = findSupertypeTree [[entityId]] subtypes
-    let subTree = findSubtypeTree [[entityId]] subtypes []
+    let subTree = findSubtypeTree [[entityId]] subtypes
 
     let specifiedEntityTypeNotPresent = null entityObj
 

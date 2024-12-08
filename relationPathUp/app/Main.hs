@@ -23,7 +23,8 @@ import HqdmRelations (
     superRelationPathsToUniversalRelation,
     relIdNameTupleLayers,
     csvRelationsToPure,
-    printablePathFromTuplesWithDomainAndRange
+    printablePathFromTuplesWithDomainAndRange,
+    findSubBinaryRelationTree
     )
 
 import HqdmLib (HqdmTriple(..))
@@ -64,6 +65,7 @@ main = do
     let hqdmInputModel = fromRight [] hqdmTriples
 
     let superBRPathToUniversal = superRelationPathsToUniversalRelation [[relId]] relationsInputModel
+    let subBRTree = findSubBinaryRelationTree [[relId]] relationsInputModel
     let speifiedRelationNotPresent = null (findBrelFromId relId relationsInputModel)
 
     if speifiedRelationNotPresent
@@ -75,9 +77,13 @@ main = do
 
     if Ascii `elem` fst args && not speifiedRelationNotPresent
         then do 
-            putStr ("\n\nASCII Relation Inheritance Path To Universal Binary Relation Set (" ++ relId ++ "):\n\n\n")
+            putStr ("\n\nASCII Relation Inheritance Path To Universal Binary Relation Set from (" ++ relId ++ "):\n\n\n")
             putStr ( printablePathFromTuplesWithDomainAndRange (relIdNameTupleLayers superBRPathToUniversal relationsInputModel) relationsInputModel hqdmInputModel)
-            putStr ( "\n" ++ printRelation (head $ findBrelFromId (head $ head superBRPathToUniversal) relationsInputModel) )
+            putStr ("\n\nNumber of super-Binary Relation Sets (including the specified the specified entity type): " ++ show (length (concat superBRPathToUniversal)))
+            putStr ("\n\nASCII (non-Strict) sub-Relation Inheritance Path From Specified Binary Relation Set (" ++ relId ++ "):\n\n\n")
+            putStr ( printablePathFromTuplesWithDomainAndRange (relIdNameTupleLayers (reverse subBRTree) relationsInputModel) relationsInputModel hqdmInputModel)
+            putStr ("\n\nNumber of sub-Binary Relation Sets (including the specified the specified entity type): " ++ show (length (concat subBRTree)))
+            putStr ( "\n\n\n" ++ printRelation (head $ findBrelFromId (head $ head superBRPathToUniversal) relationsInputModel) )
         else putStr "\n\n"
 
     if Mermaid `elem` fst args && not speifiedRelationNotPresent

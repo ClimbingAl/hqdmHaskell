@@ -96,8 +96,14 @@ hqdmType = "type"
 hqdmHasSupertype::String
 hqdmHasSupertype = "has_supertype"
 
+hqdmHasSupertypeId::String
+hqdmHasSupertypeId = "1f983e8a-7db1-4374-8fb1-7e8a432a967e"
+
 hqdmHasSuperclass::String
 hqdmHasSuperclass = "has_superclass"
+
+hqdmHasSuperclassId::String
+hqdmHasSuperclassId = "7d11b956-0014-43be-9a3e-f89e2b31ec4f"
 
 screenCharOffset :: Int
 screenCharOffset = 100
@@ -182,7 +188,11 @@ lookupSubtypes :: [HqdmTriple] -> [HqdmTriple]
 lookupSubtypes list =
   [ values
     | values <- list,
-      ("has_supertype" == predicate values) || ("has_superclass" == predicate values)
+      (hqdmHasSupertype == predicate values) || (hqdmHasSuperclass == predicate values)
+  ] ++ [
+    values
+    | values <- list,
+      (hqdmHasSupertypeId == predicate values) || (hqdmHasSuperclassId == predicate values)
   ]
 
 -- | lookupSubtypeOf
@@ -261,16 +271,17 @@ printableTypeTree tree hqdmModel textTree
 -- | findSubtypeTree
 -- From all the triples given by lookupSubtypes find the subtypes (and sub-classes) of a given node Id.
 -- This takes only has_supertype statements as [HqdmTriple]
-findSubtypeTree :: [[Id]] -> [HqdmTriple] -> [Id] -> [[Id]]
-findSubtypeTree ids hqdm previousIds = go ids hqdm previousIds
+findSubtypeTree :: [[Id]] -> [HqdmHasSupertype] -> [[Id]]
+findSubtypeTree ids hqdmStl = go ids hqdmStl
   where
     nextLayer = last ids
-    newLayer = [uniqueIds $ concat (lookupSubtypesOf nextLayer hqdm)]
-    --- Add defence against circularity.  Remove elements of newLayer that are in nextLayer.
+    possibleNewLayer = uniqueIds $ concat (lookupSubtypesOf nextLayer hqdmStl)
+    newLayer = [deleteItemsFromList possibleNewLayer (concat ids)]
+    --- Defence against circularity.  Remove elements of newLayer that are already in subtype tree.
 
-    go ids hqdm previousIds
-      | head newLayer == previousIds = ids
-      | otherwise = findSubtypeTree (ids ++ newLayer) hqdm (head newLayer)
+    go ids hqdmStl
+      | null (head newLayer) = ids
+      | otherwise = findSubtypeTree (ids ++ newLayer) hqdmStl
 
 -------------------------------------------------
 -- Take the result and compose a list of the relations inherited down the tree, via all paths

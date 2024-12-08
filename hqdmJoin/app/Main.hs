@@ -135,7 +135,7 @@ main = do
 
     hqdmRelationSets <- fmap V.toList . decode @HqdmBinaryRelation NoHeader <$> BL.readFile hqdmRelationsInputFilename
 
-    let relationsInputModel =  csvRelationsToPure $ either (const []) id hqdmRelationSets
+    let relationsInputModel =  csvRelationsToPure $ fromRight [] hqdmRelationSets
     -- print relationsInputModel
 
     putStr ("\nLoaded Relation SET Data.  Now load HQDM types and their relations all as data from " ++ hqdmInputFilename)
@@ -148,7 +148,7 @@ main = do
     putStr "\n\nLoaded HqdmAllAsData\n\n"
 
     joinModelTriples <- fmap V.toList . decode @HqdmTriple NoHeader <$> BL.readFile joinModelFilename
-    let joinInputModel = either (const []) id joinModelTriples
+    let joinInputModel = fromRight [] joinModelTriples
     putStr ("\n\nLoaded Model to Join: " ++ joinModelFilename)
 
     -- Get the unique node ids of the input model

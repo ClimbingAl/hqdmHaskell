@@ -68,7 +68,10 @@ module HqdmRelations
     findMaxMinCardinality,
     hqdmSwapAnyRelationNamesForIds,
     printableLayerWithDomainAndRange,
-    printablePathFromTuplesWithDomainAndRange
+    printablePathFromTuplesWithDomainAndRange,
+    findSubBinaryRelationTree,
+    lookupSubBRelsOf,
+    lookupSubBRelOf
   )
 where
 
@@ -203,8 +206,14 @@ hqdmType = "type"
 hqdmHasSupertype::String
 hqdmHasSupertype = "has_supertype"
 
+hqdmHasSupertypeId::String
+hqdmHasSupertypeId = "1f983e8a-7db1-4374-8fb1-7e8a432a967e"
+
 hqdmHasSuperclass::String
 hqdmHasSuperclass = "has_superclass"
+
+hqdmHasSuperclassId::String
+hqdmHasSuperclassId = "7d11b956-0014-43be-9a3e-f89e2b31ec4f"
 
 hqdmElementOfType::String
 hqdmElementOfType = "element_of_type"
@@ -433,7 +442,7 @@ convertAnyHqdmRelationByDomainAndName tpl typeId brels = go tpl
 -- | isSubtype
 -- Boolean test to see if the first Type Id is a Subtype of the supplied second Type Id.  True if so.
 isSubtype :: HqdmLib.Id -> HqdmLib.Id -> [HqdmLib.HqdmTriple] -> Bool
-isSubtype id superTypeId tpls = id `elem` concat (HqdmLib.findSubtypeTree [[superTypeId]] tpls [])
+isSubtype id superTypeId tpls = id `elem` concat (HqdmLib.findSubtypeTree [[superTypeId]] tpls)
 
 -- | subtypesOfFilter
 -- Filter a list of given Type tuples to select onlt those that are subtypes of the given type Id
@@ -579,3 +588,29 @@ correctCardinalities rel brels = newRel
 
 correctAllCardinalities :: [HqdmBinaryRelationPure] -> [HqdmBinaryRelationPure]
 correctAllCardinalities brels = fmap (`correctCardinalities` brels) brels
+
+----------------------------------------------------------------------------------------
+-- | lookupSubBRelOf
+-- From all the Binary Relation Sets that have the supplied relation id as a SuperBR
+lookupSubBRelOf :: RelationId -> [HqdmBinaryRelationPure] -> [RelationId]
+lookupSubBRelOf x list = [pureBinaryRelationId values | values <- list, x `elem` pureHasSuperBR values]
+
+-- | lookupSubBRelsOf
+-- Same as lookupSubBRelOf but takes a list of Ids and finds a list of Sub-Brels for each.
+lookupSubBRelsOf :: [RelationId] -> [HqdmBinaryRelationPure] -> [[RelationId]]
+lookupSubBRelsOf [] _ = []
+lookupSubBRelsOf _ [] = []
+lookupSubBRelsOf (id : ids) list = lookupSubBRelOf id list : lookupSubBRelsOf ids list
+
+-- | findSubBinaryRelationTree
+-- From all the BinaryRelations given by lookupSubBRels, find the subBrels of a given RelationId
+findSubBinaryRelationTree :: [[RelationId]] -> [HqdmBinaryRelationPure] -> [[RelationId]]
+findSubBinaryRelationTree ids hqdmBrel = go ids hqdmBrel
+  where
+    nextLayer = last ids
+    possibleNewLayer = HqdmLib.uniqueIds $ concat (lookupSubBRelsOf nextLayer hqdmBrel)
+    newLayer = [HqdmLib.deleteItemsFromList possibleNewLayer (concat ids)]
+
+    go ids hqdmBrel
+      | null (head newLayer) = ids
+      | otherwise = findSubBinaryRelationTree (ids ++ newLayer) hqdmBrel

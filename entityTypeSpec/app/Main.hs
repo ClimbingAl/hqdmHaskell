@@ -71,7 +71,6 @@ main = do
     let subtypes = lookupSubtypes hqdmInputModel
     let stTree = findSupertypeTree [[entityId]] subtypes
     let subTree = findSubtypeTree [[entityId]] subtypes
-
     let specifiedEntityTypeNotPresent = null entityObj
 
     if specifiedEntityTypeNotPresent
@@ -85,8 +84,10 @@ main = do
         then do 
             putStr ("\n\nASCII Entity Type Inheritance Supertype Path To Thing from '" ++ entityType ++ "' (" ++ entityId ++ "):\n\n\n")
             putStr ( reverse $ drop 303 (reverse $ printableTypeTree (reverse stTree) hqdmInputModel ""))
+            putStr ("\n\nNumber of supertypes (including the specified the specified entity type): " ++ show (length (concat stTree)))
             putStr ("\n\nASCII Entity Type Inheritance Subtype Path from '" ++ entityType ++ "' (" ++ entityId ++ "):\n\n\n")
             putStr ( reverse $ drop 303 (reverse $ printableTypeTree (init subTree) hqdmInputModel ""))
+            putStr ("\n\nNumber of subtypes (including the specified the specified entity type): " ++ show (length (concat subTree)))
             putStr "\n\nHQDM Relations expressed as Binary Relation Sets:\n\n"
             putStr  (concatMap (\ x -> show (fst x) ++ " " ++ printRelation (snd x) ++ "\n\n") rList)
         else putStr ""

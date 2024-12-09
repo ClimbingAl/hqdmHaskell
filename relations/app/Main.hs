@@ -33,7 +33,7 @@ import HqdmRelations (
     getPureSuperRelation,
     getPureCardinalityMin,
     getPureCardinalityMax,
-    getPureReclared,
+    getPureRedeclared,
     getPureRedeclaredFromRange,
     getBrelDomainFromRels,
     findBrelDomainSupertypes,

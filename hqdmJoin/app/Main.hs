@@ -100,7 +100,18 @@ import HqdmLib (
     exportAsTriples,
     csvTriplesFromHqdmTriples,
     screenCharOffset,
-    fmtString)
+    fmtString
+    )
+
+import HqdmQueries (
+    part,
+    set,
+    order,
+    emergent,
+    filterRelsBy,
+    filterRelsByPart,
+    filterRelsBySet
+    )
 
 import HqdmInspection (howmanyNodes)
 import HqdmIds
@@ -112,6 +123,7 @@ import Data.Csv (HasHeader( NoHeader ), decode)
 import qualified Data.Vector as V
 import Data.List (isPrefixOf, sortOn)
 import Data.Maybe
+import Data.Either
 
 -- Constants
 hqdmRelationsInputFilename::String
@@ -134,7 +146,6 @@ main = do
     putStrLn ("Start HqdmJoin, load relations from " ++ hqdmRelationsInputFilename)
 
     hqdmRelationSets <- fmap V.toList . decode @HqdmBinaryRelation NoHeader <$> BL.readFile hqdmRelationsInputFilename
-
     let relationsInputModel =  csvRelationsToPure $ fromRight [] hqdmRelationSets
     -- print relationsInputModel
 
@@ -191,16 +202,35 @@ main = do
     putStr "\nDo resulting list lengths sum to the input length?\n\n"
     print ((length hasSuperclassTriples + length elementOfTypeTriples) == length uniqueJoinNodes)
 
-    putStr "\nNow do the join and show the results:\n\n"
+    --putStr "\nNow do the join and show the results:\n\n"
 
     let joinedResults = sortOnUuid $ joinInputModel ++ hasSuperclassTriples ++ elementOfTypeTriples
-    putStr (concat $ HqdmLib.csvTriplesFromHqdmTriples joinedResults)
+    --putStr (concat $ HqdmLib.csvTriplesFromHqdmTriples joinedResults)
 
     putStr "\nResults length:"
     print (length joinedResults)
 
     let allRelationIdTriples =  sortOnUuid $ hqdmSwapAnyRelationNamesForIds joinedResults hqdmInputModel relationsInputModel 
 
-    putStr "\nExport the joined model all with predicates as Relation Ids:\n\n"
-    putStr (concat $ HqdmLib.csvTriplesFromHqdmTriples allRelationIdTriples )
+    --putStr "\nExport the joined model all with predicates as Relation Ids:\n\n"
+    --putStr (concat $ HqdmLib.csvTriplesFromHqdmTriples allRelationIdTriples )
+
+    let exampleObjectId = "7e181b8d-0aed-46ee-928e-b08d60d0ed58"
+    let exampleObjectTriples = lookupHqdmOne exampleObjectId allRelationIdTriples
+
+    -- Query for members of a set
+    putStr "\n\nSet membership predicates:\n\n"
+    let setMemberships = filterRelsBySet exampleObjectTriples relationsInputModel
+    print setMemberships
+
+    -- Query for set membership of an element
+    putStr "\n\nPart predicates:\n\n"
+    let partPredicates = filterRelsByPart exampleObjectTriples relationsInputModel
+    print partPredicates
+
+    --- Now find things that are part of it...
+
+    -- Query for part-hood relations of an element
+
+    putStr "\n\nDONE\n\n"
     

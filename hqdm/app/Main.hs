@@ -50,6 +50,7 @@ import qualified Data.ByteString.Lazy as BL
 -- from cassava
 import Data.Csv (HasHeader( NoHeader ), decode)
 import qualified Data.Vector as V
+import Data.Either
 --import qualified Data.Text as Text (take, drop)
 
 -- Constants
@@ -67,7 +68,7 @@ main = do
 
     hqdmTriples <- fmap V.toList . decode @HqdmTriple NoHeader <$> BL.readFile hqdmInputFilename
 
-    let hqdmInputModel = either (const []) id hqdmTriples
+    let hqdmInputModel = fromRight [] hqdmTriples
     --print hqdmInputModel
     putStr "\n\nLoaded Data\n\n"
 
@@ -137,7 +138,7 @@ main = do
 
     -- Find the subtypes all the way to the lowest accessible node by recursion
     putStr "\nSubtype tree of stateOfPhysicalObject is:\n\n"
-    let sbtTree = findSubtypeTree [[state_of_physical_object]] subtypes []
+    let sbtTree = findSubtypeTree [[state_of_physical_object]] subtypes
     print sbtTree
 
     putStr "\nPrintable Type tree of stateOfPhysicalObject is:\n\n"
@@ -154,7 +155,7 @@ main = do
     let printableStRels = printableRelationPairs hqdmInputModel (reverse stRels)
     putStr printableStRels
 
-    ---- Allow summary that just has predicates collpsed without ranges
+    ---- Allow summary that just has predicates collapsed without ranges
     putStr "\nCollapse relation pairs to unique predicate names:\n\n"
     let collapsedStRels = collapseInheritedRels stRels
     print collapsedStRels

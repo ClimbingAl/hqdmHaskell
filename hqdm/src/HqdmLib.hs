@@ -175,7 +175,9 @@ lookupHqdmType obj = [object values | values <- obj, hqdmType == predicate value
 -- | lookupHqdmIdFromType
 -- From the triples with a given node Id (subject), from lookupHqdmOne, find the object with the predicate type.
 lookupHqdmIdFromType :: [HqdmTriple] -> String -> [Id]
-lookupHqdmIdFromType objs typeName = [subject values | values <- objs, (hqdmType == predicate values) && (typeName == object values)]
+lookupHqdmIdFromType objs typeName 
+  | nodeIdentityTest typeName = [typeName]
+  | otherwise = [subject values | values <- objs, (hqdmType == predicate values) && (typeName == object values)]
 
 -- | findHqdmTypesInList
 -- Find the type names of each given node Id (subject).

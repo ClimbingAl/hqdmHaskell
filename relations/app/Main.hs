@@ -97,16 +97,17 @@ import qualified Data.ByteString.Lazy as BL
 import Data.Csv (HasHeader( NoHeader ), decode)
 import qualified Data.Vector as V
 import Data.List (isPrefixOf)
+import Data.Either
 
 -- Constants
 hqdmRelationsInputFilename::String
-hqdmRelationsInputFilename = "./input/PureHqdmRelations_v4a.csv"
+hqdmRelationsInputFilename = "./input/PureHqdmRelations_v5.csv"
 
 hqdmInputFilename::String
 hqdmInputFilename = "./input/hqdmAllAsDataFormal2_AllRels.csv"  -- hqdmAllAsDataFormal1_NoExtensions or hqdmAllAsDataFormal1 or hqdmAllAsDataFormal2_AllRels
 
 exampleBrelId::String
-exampleBrelId = "c037270e-801f-4957-ad79-239954cedc37" -- individual hqdmel:member_of class_of_individual
+exampleBrelId = "c037270e-801f-4957-ad79-239954cedc37" -- individual hqdm:member_of class_of_individual
 
 allSupertypeRels:: [HqdmLib.HqdmTriple] -> [HqdmBinaryRelationPure] -> [Maybe (RelationId, String)]
 allSupertypeRels hqdmTriples pureBrels = fmap (\ x -> findSuperBinaryRelation' (getPureRelationId x) hqdmTriples pureBrels) pureBrels
@@ -117,7 +118,7 @@ main = do
 
     hqdmRelationSets <- fmap V.toList . decode @HqdmBinaryRelation NoHeader <$> BL.readFile hqdmRelationsInputFilename
 
-    let relationsInputModel = either (const []) id hqdmRelationSets
+    let relationsInputModel = fromRight [] hqdmRelationSets
     -- print relationsInputModel
 
     putStr "\n\nLoaded Relation SET Data\n\n"
@@ -125,14 +126,14 @@ main = do
     -- Load HqdmAllAsData
     hqdmTriples <- fmap V.toList . decode @HqdmTriple NoHeader <$> BL.readFile hqdmInputFilename
 
-    let hqdmInputModel = either (const []) id hqdmTriples
+    let hqdmInputModel = fromRight [] hqdmTriples
     --print hqdmInputModel
     putStr "\n\nLoaded HqdmAllAsData\n\n"
 
     -- Convert hqdmRelationInputSets to use ids from hqdmAllAsData instead of names
     putStr "\n\nCalc pure Hqdm Relations!\n\n"
     let pureHqdmRelations = hqdmRelationsToPure relationsInputModel hqdmInputModel
-    -- print pureHqdmRelations
+    print pureHqdmRelations
 
     -- Compute relation supersets?? Leave the rigorous version of this for now. 
 

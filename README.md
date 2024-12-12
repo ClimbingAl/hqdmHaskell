@@ -132,7 +132,7 @@ This should result in a number of illustrative results for most of the functions
 The `inheritance` folder contains a Haskell Main.hs file to calculate the inherited relations for each of the HQDM Entity Types.  It is best to pipe the output to a file as the console may not cope with the size of the output.  Run the following 2 commands:
 
   `stack build`
-  `stack exec inhertiance > HqdmTypesAndInheritedRels.txt`
+  `stack exec inheritance > HqdmTypesAndInheritedRels.txt`
 
 This text file should match the text file of that name in this repo.  
 Note: The `hqdm` and `inheritance` folders use different versions of Cabal, which explains why the `inheritance` one doesn't need `-exe` to post-fix the folder name when executing it.  I'll clean this up sometime.

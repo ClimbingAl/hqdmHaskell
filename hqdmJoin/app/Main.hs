@@ -224,13 +224,15 @@ main = do
     print setMemberships
 
     -- Query for set membership of an element
+    
+    -- Query for part-hood relations of an element
     putStr "\n\nPart predicates:\n\n"
     let partPredicates = filterRelsByPart exampleObjectTriples relationsInputModel
     print partPredicates
 
-    --- Now find things that are part of it...
+    --- Now find things that are part of it... and then trasitively
 
-    -- Query for part-hood relations of an element
+    
 
     putStr "\n\nDONE\n\n"
     

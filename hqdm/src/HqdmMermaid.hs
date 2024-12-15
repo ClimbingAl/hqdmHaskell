@@ -18,7 +18,8 @@ module HqdmMermaid (
   mermaidSuperRelationPathsToUniversalRelation,
   mermaidTDTopAndTail,
   mermaidAddTitle,
-  insertNodeDefinition
+  insertEntityNodeName,
+  insertBRNodeName
 ) where
 
 import HqdmLib 
@@ -95,8 +96,11 @@ mermaidTDTopAndTail body = "%%{init: { \"flowchart\": { \"htmlLabels\": true, \"
 insertBRsinString :: String -> String
 insertBRsinString str = concatMap (++ " <br> ") (splitOn "_" str)
 
-insertNodeDefinition :: HqdmLib.Id -> [HqdmLib.HqdmTriple] -> String
-insertNodeDefinition id hqdm = "\t" ++ id ++ "[" ++ insertBRsinString ( HqdmLib.headIfStringPresent (HqdmLib.lookupHqdmTypeFromAll hqdm id)) ++ "]" ++ mermaidNodePaddingClassName ++ ";\n"
+insertEntityNodeName :: HqdmLib.Id -> [HqdmLib.HqdmTriple] -> String
+insertEntityNodeName id hqdm = "\t" ++ id ++ "[" ++ insertBRsinString ( HqdmLib.headIfStringPresent (HqdmLib.lookupHqdmTypeFromAll hqdm id)) ++ "]" ++ mermaidNodePaddingClassName ++ ";\n"
+
+insertBRNodeName :: HqdmRelations.RelationId -> [HqdmRelations.HqdmBinaryRelationPure] -> String
+insertBRNodeName id brels = "\t" ++ id ++ "[" ++ id ++ " <BR> " ++ HqdmRelations.getPureRelationName (head $ HqdmRelations.findBrelFromId id brels) ++ "]" ++ mermaidNodePaddingClassName ++ ";\n"
 
 -- | mermaidEntitySupertypeTree
 -- From all the triples given by lookupSupertypes find all the supertypes of a given node Id
@@ -134,7 +138,7 @@ mermaidSuperRelationPathsToUniversalRelation relIds brels mmNodes = go relIds br
     newLayer = [ HqdmLib.uniqueIds $ HqdmLib.deleteItemsFromList superBRs nextLayer]
     nextMmNodes = concat $ concatMap (\ x -> 
         fmap (\ y -> 
-            "\t" ++ y ++ "[" ++ insertBRsinString y ++ "]" ++ mermaidNodePaddingClassName ++ ";\n" 
+            "\t" ++ y ++ "[" ++ y ++ " <BR> " ++ HqdmRelations.getPureRelationName (head $ HqdmRelations.findBrelFromId y brels) ++ "]" ++ mermaidNodePaddingClassName ++ ";\n" 
                 ++ "\t" ++ y ++ "-->|superBinaryRel_of|" ++ x ++ ";\n"
             ) (HqdmRelations.getPureSuperRelation (head $ HqdmRelations.findBrelFromId x brels))) nextLayer
     -- newLayer is formed from a defence against circularity.  Remove elements of newLayer that are in nextLayer.

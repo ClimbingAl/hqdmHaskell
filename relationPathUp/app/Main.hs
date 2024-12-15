@@ -31,7 +31,7 @@ import HqdmMermaid (
     mermaidAddTitle,
     mermaidSuperRelationPathsToUniversalRelation,
     mermaidTDTopAndTail,
-    insertNodeDefinition
+    insertBRNodeName
     )
 
 import HqdmLib (HqdmTriple(..))
@@ -96,8 +96,9 @@ main = do
     if Mermaid `elem` fst args && not speifiedRelationNotPresent
         then do 
             putStr "\n\nMermaid TD graph of the supertypes:\n\n"
-            let mmGraph = mermaidAddTitle (mermaidTDTopAndTail ( mermaidSuperRelationPathsToUniversalRelation [[relId]] relationsInputModel "")) ("Supertype graph for " ++ relId)
+            let mmGraph = mermaidAddTitle (mermaidTDTopAndTail (insertBRNodeName relId relationsInputModel ++ mermaidSuperRelationPathsToUniversalRelation [[relId]] relationsInputModel "")) ("Supertype graph for " ++ relId)
             putStr mmGraph
+            putStr "\nMermaid graph can be rendered using this online tool: https://mermaid.live/edit\n\n"
         else putStr "\n\n"
 
 ------------------------------------------------------------------------------------

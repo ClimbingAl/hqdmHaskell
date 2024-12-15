@@ -33,7 +33,7 @@ import HqdmMermaid (
     mermaidAddTitle,
     mermaidEntitySupertypeTree,
     mermaidTDTopAndTail,
-    insertNodeDefinition
+    insertEntityNodeName
     )
 
 import qualified Data.ByteString.Lazy as BL
@@ -116,7 +116,7 @@ main = do
     if Mermaid `elem` fst args && not specifiedEntityTypeNotPresent
         then do 
             putStr "\n\nMermaid TD graph of the supertypes:\n\n"
-            let mmGraph = mermaidAddTitle (mermaidTDTopAndTail (insertNodeDefinition entityId hqdmInputModel ++ mermaidEntitySupertypeTree [[entityId]] hqdmInputModel "")) ("Supertype graph for " ++ entityType)
+            let mmGraph = mermaidAddTitle (mermaidTDTopAndTail (insertEntityNodeName entityId hqdmInputModel ++ mermaidEntitySupertypeTree [[entityId]] hqdmInputModel "")) ("Supertype graph for " ++ entityType)
             putStr mmGraph
         else putStr ""
     

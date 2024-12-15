@@ -67,6 +67,7 @@ executable relationPathUp
         HqdmInspection
         HqdmLib
         HqdmIds
+        HqdmMermaid
 
     -- LANGUAGE extensions used by modules in this package.
     -- other-extensions:
@@ -80,6 +81,7 @@ executable relationPathUp
         , text
         , unique
         , vector
+        , split
 
     -- Directories containing source files.
     hs-source-dirs:   app, ../hqdm/src, ../relations/src

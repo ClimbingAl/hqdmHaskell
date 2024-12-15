@@ -27,6 +27,13 @@ import HqdmRelations (
     findSubBinaryRelationTree
     )
 
+import HqdmMermaid (
+    mermaidAddTitle,
+    mermaidSuperRelationPathsToUniversalRelation,
+    mermaidTDTopAndTail,
+    insertNodeDefinition
+    )
+
 import HqdmLib (HqdmTriple(..))
 
 import qualified Data.ByteString.Lazy as BL
@@ -88,7 +95,9 @@ main = do
 
     if Mermaid `elem` fst args && not speifiedRelationNotPresent
         then do 
-            putStr "\n\nMermaid not yet implemented.\n\n"
+            putStr "\n\nMermaid TD graph of the supertypes:\n\n"
+            let mmGraph = mermaidAddTitle (mermaidTDTopAndTail ( mermaidSuperRelationPathsToUniversalRelation [[relId]] relationsInputModel "")) ("Supertype graph for " ++ relId)
+            putStr mmGraph
         else putStr "\n\n"
 
 ------------------------------------------------------------------------------------

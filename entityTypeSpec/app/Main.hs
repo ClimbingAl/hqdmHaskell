@@ -1,4 +1,4 @@
-{-# LANGUAGE OverloadedStrings #-}
+--{-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE TypeApplications #-}
 
 -- |
@@ -28,6 +28,13 @@ import HqdmRelations (
     )
 
 import HqdmLib
+
+import HqdmMermaid (
+    mermaidAddTitle,
+    mermaidEntitySupertypeTree,
+    mermaidTDTopAndTail,
+    insertNodeDefinition
+    )
 
 import qualified Data.ByteString.Lazy as BL
 import Data.Csv (HasHeader( NoHeader ), decode)
@@ -108,7 +115,9 @@ main = do
 
     if Mermaid `elem` fst args && not specifiedEntityTypeNotPresent
         then do 
-            putStr "\n\nMermaid not yet implemented.\n\n"
+            putStr "\n\nMermaid TD graph of the supertypes:\n\n"
+            let mmGraph = mermaidAddTitle (mermaidTDTopAndTail (insertNodeDefinition entityId hqdmInputModel ++ mermaidEntitySupertypeTree [[entityId]] hqdmInputModel "")) ("Supertype graph for " ++ entityType)
+            putStr mmGraph
         else putStr ""
     
     putStr ("Read about it here: https://github.com/hqdmTop/hqdmFramework/wiki/" ++ entityType ++ "\n\n")

@@ -41,7 +41,10 @@ import HqdmLib (
     findSubtypeTree,
     findInheritedRels,
     collapseInheritedRels,
-    printableRelationPairs)
+    printableRelationPairs,
+    lookupHqdmTypeFromAll,
+    headIfStringPresent
+    )
 import HqdmInspection (howmanyNodes)
 import HqdmIds
 
@@ -89,8 +92,11 @@ main = do
     let thingType = lookupHqdmType thingObj
     print (head thingType)
 
+    putStr ("\nTry another function to get an Object (" ++ biological_object ++ "):\n\n")
+    putStr (headIfStringPresent $ lookupHqdmTypeFromAll hqdmInputModel biological_object)
+
     -- Find the subtypes of a given thing
-    putStr "\nGet the subtypes of given thing:\n\n"
+    putStr "\n\nGet the subtypes of given thing:\n\n"
     let subtypes = lookupSubtypes hqdmInputModel
     -- Use constants above for thing or classOfSpatiotemporalextent
     let thingSubtypes = findHqdmTypesInList (lookupSubtypeOf class_of_spatio_temporal_extent subtypes) hqdmInputModel
@@ -128,11 +134,11 @@ main = do
 
     ---------------------------------------------
     -- Find the supertypes all the way to thing by recursion
-    putStr "\nSupertype tree of thing is:\n\n"
-    let stTree = findSupertypeTree [[thing]] subtypes
+    putStr "\nSupertype tree of individual is:\n\n"
+    let stTree = findSupertypeTree [[individual]] subtypes
     print stTree
 
-    putStr "\nPrintable Supertype tree of thing is:\n\n"
+    putStr "\nPrintable Supertype tree of individual is:\n\n"
     let printableStTree = printableTypeTree (reverse stTree) hqdmInputModel ""
     putStr printableStTree
 

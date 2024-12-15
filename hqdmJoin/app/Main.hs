@@ -218,12 +218,13 @@ main = do
     let exampleObjectId = "7e181b8d-0aed-46ee-928e-b08d60d0ed58"
     let exampleObjectTriples = lookupHqdmOne exampleObjectId allRelationIdTriples
 
-    -- Query for members of a set
+
+    -- Query for set membership of an element
     putStr "\n\nSet membership predicates:\n\n"
     let setMemberships = filterRelsBySet exampleObjectTriples relationsInputModel
     print setMemberships
 
-    -- Query for set membership of an element
+    -- Query for members of a set   
     
     -- Query for part-hood relations of an element
     putStr "\n\nPart predicates:\n\n"

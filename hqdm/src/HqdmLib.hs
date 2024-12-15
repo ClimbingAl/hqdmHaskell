@@ -32,6 +32,7 @@ module HqdmLib
     relationPairs,
     lookupHqdmType,
     lookupHqdmIdFromType,
+    lookupHqdmTypeFromAll,
     lookupSubtypes,
     lookupSubtypeOf,
     lookupSubtypesOf,
@@ -51,7 +52,8 @@ module HqdmLib
     screenCharOffset,
     fmtString,
     deleteItemsFromList,
-    nodeIdentityTest
+    nodeIdentityTest,
+    headIfStringPresent
   )
 where
 
@@ -214,7 +216,7 @@ lookupSubtypesOf (id : ids) list = lookupSubtypeOf id list : lookupSubtypesOf id
 -- From all the triples given by lookupSubtypes find the supertypes of a given node Id.
 -- This takes only has_supertype statements as [HqdmTriple]
 lookupSupertypeOf :: Id -> [HqdmTriple] -> [Id]
-lookupSupertypeOf x list = [object values | values <- list, x == subject values]
+lookupSupertypeOf x list = [object values | values <- list, x == subject values && ((hqdmHasSupertype == predicate values) || (hqdmHasSuperclass == predicate values) || (hqdmHasSupertypeId == predicate values) || (hqdmHasSuperclassId == predicate values))]
 
 -- | lookupSupertypesOf
 -- Same as lookupSupertypeOf but takes a list of Ids and finds a list of supertypes for each.

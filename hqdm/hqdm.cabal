@@ -32,10 +32,11 @@ library
       HqdmMermaid
   other-modules:
       Paths_hqdm
+      HqdmRelations
   autogen-modules:
       Paths_hqdm
   hs-source-dirs:
-      src
+      src, ../relations/src
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints
   build-depends:
       base >=4.7 && <5
@@ -45,6 +46,7 @@ library
     , text
     , unique
     , vector
+    , split
   default-language: Haskell2010
 
 executable hqdm-exe

@@ -1,5 +1,5 @@
 {-# LANGUAGE DeriveGeneric #-}
-{-# OPTIONS_GHC -Wno-incomplete-patterns #-}
+--{-# OPTIONS_GHC -Wno-incomplete-patterns #-}
 
 -- |
 -- Module      :  HqdmRelations
@@ -34,6 +34,7 @@ module HqdmRelations
     getPureRelationName,
     getPureRange,
     getPureSuperRelation,
+    getPureSuperRelations,
     getPureCardinalityMin,
     getPureCardinalityMax,
     getPureRedeclared,
@@ -42,6 +43,7 @@ module HqdmRelations
     getBrelDomainFromRels,
     findBrelDomainSupertypes,
     findBrelFromId,
+    findBrelsFromIds,
     findBrelsFromDomain,
     superRelationPathsToUniversalRelation,
     relIdNameTupleLayers,

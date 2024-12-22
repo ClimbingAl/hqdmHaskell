@@ -23,6 +23,8 @@ import HqdmRelations (
     HqdmBinaryRelation,
     HqdmBinaryRelationSet,
     HqdmBinaryRelationPure,
+    CardinalityCheck (Valid, Invalid),
+    RelationSetCheck,
     universalRelationSet,
     getRelationNameFromRels,
     hqdmRelationsToPure,
@@ -127,18 +129,18 @@ import Data.Either
 
 -- Constants
 hqdmRelationsInputFilename::String
-hqdmRelationsInputFilename = "./input/PureHqdmRelations_v5.csv"
+hqdmRelationsInputFilename = "../PureHqdmRelations_v6.csv"
 
 hqdmInputFilename::String
-hqdmInputFilename = "./input/HqdmAllAsDataFormal3Short.csv"  
+hqdmInputFilename = "../HqdmAllAsDataFormal3Short.csv"
 
-joinModelFilename::String 
+joinModelFilename::String
 joinModelFilename = "./input/networksBasic1converted.csv"
 
-elementOfType::String 
+elementOfType::String
 elementOfType = "8130458f-ae96-4ab3-89b9-21f06a2aac78"
 
-hasSuperclass::String 
+hasSuperclass::String
 hasSuperclass = "7d11b956-0014-43be-9a3e-f89e2b31ec4f"
 
 main :: IO ()
@@ -154,7 +156,7 @@ main = do
     -- Load HqdmAllAsData
     hqdmTriples <- fmap V.toList . decode @HqdmTriple NoHeader <$> BL.readFile hqdmInputFilename
 
-    let hqdmInputModel = either (const []) id hqdmTriples
+    let hqdmInputModel = fromRight [] hqdmTriples
     --print hqdmInputModel
     putStr "\n\nLoaded HqdmAllAsData\n\n"
 
@@ -210,14 +212,21 @@ main = do
     putStr "\nResults length:"
     print (length joinedResults)
 
-    let allRelationIdTriples =  sortOnUuid $ hqdmSwapAnyRelationNamesForIds joinedResults hqdmInputModel relationsInputModel 
+    let allRelationIdJoinedTriples =  sortOnUuid $ hqdmSwapAnyRelationNamesForIds joinedResults hqdmInputModel relationsInputModel
 
     --putStr "\nExport the joined model all with predicates as Relation Ids:\n\n"
-    --putStr (concat $ HqdmLib.csvTriplesFromHqdmTriples allRelationIdTriples )
+    --putStr (concat $ HqdmLib.csvTriplesFromHqdmTriples allRelationIdJoinedTriples )
 
     let exampleObjectId = "7e181b8d-0aed-46ee-928e-b08d60d0ed58"
-    let exampleObjectTriples = lookupHqdmOne exampleObjectId allRelationIdTriples
+    let exampleObjectTriples = lookupHqdmOne exampleObjectId allRelationIdJoinedTriples
 
+    -- Type
+    let exampleObjectType =  head $ lookupHqdmIdFromType hqdmInputModel (head $ lookupHqdmType exampleObjectTriples ) 
+    putStr ("\n\nExample object type id: " ++ exampleObjectType ++ "\n\n")
+
+    -- What BR sets apply to this type?
+    let exampleObjectTypeBRelSets = findBrelsFromDomain exampleObjectType relationsInputModel
+    print exampleObjectTypeBRelSets
 
     -- Query for set membership of an element
     putStr "\n\nSet membership predicates:\n\n"
@@ -225,7 +234,7 @@ main = do
     print setMemberships
 
     -- Query for members of a set   
-    
+
     -- Query for part-hood relations of an element
     putStr "\n\nPart predicates:\n\n"
     let partPredicates = filterRelsByPart exampleObjectTriples relationsInputModel
@@ -233,7 +242,10 @@ main = do
 
     --- Now find things that are part of it... and then trasitively
 
-    
+
+    --- Check for Cardiality violations
+    -- Fmap each binary relation set, count number of instances of relations matching each set (and their range?), compare count with max and min cardinality - mark success or fail.
+    --let testResult = RelationSetCheck Valid (head exampleObjectTypeBRelSets)
+    --print testResult
 
     putStr "\n\nDONE\n\n"
-    

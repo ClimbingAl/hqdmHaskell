@@ -95,6 +95,9 @@ type HqdmHasSupertype = HqdmTriple
 hqdmType::String
 hqdmType = "type"
 
+hqdmTypeId::String
+hqdmTypeId = "7e249a64-9f13-47d3-a232-562a3d080198"
+
 hqdmHasSupertype::String
 hqdmHasSupertype = "has_supertype"
 
@@ -160,7 +163,7 @@ lookupHqdmOne :: Id -> [HqdmTriple] -> [HqdmTriple]
 lookupHqdmOne x list = [values | values <- list, x == subject values]
 
 -- | relationPairs
--- Take a list of triples (typically with the samed node Id from lookupHqdmOne) and return a list of the relation pairs.
+-- Take a list of triples (typically with the same node Id from lookupHqdmOne) and return a list of the relation pairs.
 relationPairs :: [HqdmTriple] -> [RelationPair]
 relationPairs = fmap (\x -> RelationPair (predicate x) (object x))
 
@@ -172,14 +175,14 @@ lookupHqdmTypeFromAll hqdmAll nodeId = [object values | values <- hqdmAll, (hqdm
 -- | lookupHqdmType
 -- From the triples with a given node Id (subject), from lookupHqdmOne, find the object with the predicate type.
 lookupHqdmType :: [HqdmTriple] -> [String]
-lookupHqdmType obj = [object values | values <- obj, hqdmType == predicate values]
+lookupHqdmType obj = [object values | values <- obj, (hqdmType == predicate values) || ( hqdmTypeId == predicate values)]
 
 -- | lookupHqdmIdFromType
 -- From the triples with a given node Id (subject), from lookupHqdmOne, find the object with the predicate type.
 lookupHqdmIdFromType :: [HqdmTriple] -> String -> [Id]
-lookupHqdmIdFromType objs typeName 
+lookupHqdmIdFromType objs typeName
   | nodeIdentityTest typeName = [typeName]
-  | otherwise = [subject values | values <- objs, (hqdmType == predicate values) && (typeName == object values)]
+  | otherwise = [subject values | values <- objs, ((hqdmType == predicate values) || ( hqdmTypeId == predicate values)) && (typeName == object values)]
 
 -- | findHqdmTypesInList
 -- Find the type names of each given node Id (subject).

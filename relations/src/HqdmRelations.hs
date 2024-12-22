@@ -25,6 +25,8 @@ module HqdmRelations
     HqdmBinaryRelation,
     HqdmBinaryRelationSet,
     HqdmBinaryRelationPure,
+    CardinalityCheck (Valid, Invalid),
+    RelationSetCheck,
     universalRelationSet,
     getRelationNameFromRels,
     hqdmRelationsToPure,
@@ -115,6 +117,7 @@ import qualified HqdmLib (
 import GHC.Generics (Generic)
 import Data.Csv (FromRecord)
 import Data.List (isPrefixOf, sortOn)
+import GHC.Num (Integer(IN))
 
 -- | In a RelationPairSet xR'y the  is a list of [R'y] for x, where R' can be any allowed 
 --   number of instances of permitted Relations
@@ -143,7 +146,7 @@ data RelationPair = RelationPair
 --   fixed in the source hqdmRelations.csv.
 --
 -- Note: The has_supertype relations are not covered by this but can be added by hand.
---       This is because the EXPRESS notation handles super/su-types as a separate 
+--       This is because the EXPRESS notation handles super/sub-types as a separate 
 --       keyword (e.g. "SUBTYPE OF")
 --
 --  class Relation:
@@ -178,6 +181,10 @@ data HqdmBinaryRelationSet = HqdmBinaryRelationSet
     binaryRelationPairs :: [HqdmBinaryRelation]
   }
   deriving (Show, Eq, Generic)
+
+data CardinalityCheck = Valid | Invalid deriving (Eq, Ord, Enum, Show)
+
+data RelationSetCheck = RelationSetCheck HqdmBinaryRelation CardinalityCheck deriving (Eq, Show)
 
 type RelationId = String
 
@@ -319,7 +326,7 @@ findBrelDomainSupertypes relId brels = HqdmLib.lookupSupertypeOf (getBrelDomainF
 findBrelFromId :: RelationId -> [HqdmBinaryRelationPure] -> [HqdmBinaryRelationPure]
 findBrelFromId relId brels = take 1 [values | values <- brels, relId == pureBinaryRelationId values]
 
-findBrelsFromDomain :: RelationId -> [HqdmBinaryRelationPure] -> [HqdmBinaryRelationPure]
+findBrelsFromDomain :: HqdmLib.Id -> [HqdmBinaryRelationPure] -> [HqdmBinaryRelationPure]
 findBrelsFromDomain domId brels = [values | values <- brels, domId == pureDomain values]
 
 findBrelsFromIds :: [RelationId] -> [HqdmBinaryRelationPure] -> [HqdmBinaryRelationPure]

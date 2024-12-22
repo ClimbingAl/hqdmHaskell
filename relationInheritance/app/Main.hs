@@ -112,10 +112,10 @@ import Data.Maybe
 
 -- Constants
 hqdmRelationsInputFilename::String
-hqdmRelationsInputFilename = "./input/PureHqdmRelations_v5.csv" -- allHqdmRels or exportedPureBinaryRelationsModded2 or PureHqdmRelations_v0
+hqdmRelationsInputFilename = "../PureHqdmRelations_v6.csv" -- allHqdmRels or exportedPureBinaryRelationsModded2 or PureHqdmRelations_v0 or ...
 
 hqdmInputFilename::String
-hqdmInputFilename = "./input/HqdmAllAsDataFormal2.csv"  -- hqdmAllAsDataFormal1_NoExtensions or hqdmAllAsDataFormal1 or hqdmAllAsDataFormal2
+hqdmInputFilename = "./input/HqdmAllAsDataFormal2.csv"  -- hqdmAllAsDataFormal1_NoExtensions or hqdmAllAsDataFormal1 or hqdmAllAsDataFormal2 or ...
 
 exampleBrelId::String
 exampleBrelId = "de211443-0836-42ec-b7ef-4060d9b299fe" -- activity part_of_possible_world

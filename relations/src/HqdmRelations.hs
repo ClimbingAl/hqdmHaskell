@@ -26,7 +26,8 @@ module HqdmRelations
     HqdmBinaryRelationSet,
     HqdmBinaryRelationPure,
     CardinalityCheck (Valid, Invalid),
-    RelationSetCheck,
+    relationSetCheck,
+    relationSetAndIdCheck,
     universalRelationSet,
     getRelationNameFromRels,
     hqdmRelationsToPure,
@@ -184,7 +185,11 @@ data HqdmBinaryRelationSet = HqdmBinaryRelationSet
 
 data CardinalityCheck = Valid | Invalid deriving (Eq, Ord, Enum, Show)
 
-data RelationSetCheck = RelationSetCheck HqdmBinaryRelation CardinalityCheck deriving (Eq, Show)
+relationSetCheck:: CardinalityCheck -> HqdmBinaryRelationPure -> (CardinalityCheck, HqdmBinaryRelationPure)
+relationSetCheck card rel = (card, rel)
+
+relationSetAndIdCheck:: CardinalityCheck -> HqdmBinaryRelationPure -> HqdmLib.Id -> (CardinalityCheck, HqdmBinaryRelationPure, HqdmLib.Id)
+relationSetAndIdCheck card rel uid = (card, rel, uid)
 
 type RelationId = String
 

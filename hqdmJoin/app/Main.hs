@@ -1,5 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE TypeApplications #-}
+{-# LANGUAGE ScopedTypeVariables #-}
+
 
 -- |
 -- Module      :  HqdmJoin Main
@@ -24,7 +26,8 @@ import HqdmRelations (
     HqdmBinaryRelationSet,
     HqdmBinaryRelationPure,
     CardinalityCheck (Valid, Invalid),
-    RelationSetCheck,
+    relationSetCheck,
+    relationSetAndIdCheck,
     universalRelationSet,
     getRelationNameFromRels,
     hqdmRelationsToPure,
@@ -54,7 +57,7 @@ import HqdmRelations (
     findBrelsAndNamesWithDomains,
     findSuperBinaryRelation,
     findSuperBinaryRelation',
-    --addStRelationToPure,
+
     printablePureRelation,
     csvRelationsFromPure,
     lookupSuperBinaryRelsOf,
@@ -68,7 +71,7 @@ import HqdmRelations (
     findMaxMinCardinality,
     hqdmSwapAnyRelationNamesForIds,
     printableLayerWithDomainAndRange,
-    printablePathFromTuplesWithDomainAndRange
+    printablePathFromTuplesWithDomainAndRange, lookupSubBRelsOf
     )
 
 import HqdmLib (
@@ -126,6 +129,7 @@ import qualified Data.Vector as V
 import Data.List (isPrefixOf, sortOn)
 import Data.Maybe
 import Data.Either
+import Data.Bool (Bool)
 
 -- Constants
 hqdmRelationsInputFilename::String
@@ -221,7 +225,7 @@ main = do
     let exampleObjectTriples = lookupHqdmOne exampleObjectId allRelationIdJoinedTriples
 
     -- Type
-    let exampleObjectType =  head $ lookupHqdmIdFromType hqdmInputModel (head $ lookupHqdmType exampleObjectTriples ) 
+    let exampleObjectType = getTypeIdFromObject exampleObjectTriples hqdmInputModel
     putStr ("\n\nExample object type id: " ++ exampleObjectType ++ "\n\n")
 
     -- What BR sets apply to this type?
@@ -242,10 +246,76 @@ main = do
 
     --- Now find things that are part of it... and then trasitively
 
-
     --- Check for Cardiality violations
-    -- Fmap each binary relation set, count number of instances of relations matching each set (and their range?), compare count with max and min cardinality - mark success or fail.
-    --let testResult = RelationSetCheck Valid (head exampleObjectTypeBRelSets)
-    --print testResult
+
+    let testResult = relationSetCheck (cardinalityMet exampleObjectTriples (head exampleObjectTypeBRelSets)) (head exampleObjectTypeBRelSets)
+    putStr ("\n\nCardinality Check:\n\n" ++  show testResult)
+
+    --let testResultSet = cardinalityMetAllRels exampleObjectTriples exampleObjectTypeBRelSets
+    --putStr ("\n\nCardinality Check Set:\n\n" ++  show testResultSet)
+
+    let testResultAll = cardinalityTestAllObjects uniqueJoinNodes joinedResults hqdmInputModel relationsInputModel []
+    putStr "\n\nFailed tests = \n"
+    print (validityCheck testResultAll)
 
     putStr "\n\nDONE\n\n"
+
+validityCheck:: [(CardinalityCheck, HqdmBinaryRelationPure, HqdmLib.Id)] -> [(CardinalityCheck, HqdmBinaryRelationPure, HqdmLib.Id)]
+validityCheck checkResults = [values | values <- checkResults,  fstOf3 values == Invalid]
+
+-- | cardinalityTestAllObjects
+cardinalityTestAllObjects:: [HqdmLib.Id] -> [HqdmTriple] -> [HqdmTriple] -> [HqdmBinaryRelationPure] -> [(CardinalityCheck, HqdmBinaryRelationPure, HqdmLib.Id)] -> [(CardinalityCheck, HqdmBinaryRelationPure, HqdmLib.Id)]
+cardinalityTestAllObjects uuids tplsAll hqdm brels results = go uuids tplsAll hqdm brels results
+    where
+        uuid = head uuids
+        objTpls = lookupHqdmOne uuid tplsAll
+        typeId = getTypeIdFromObject objTpls hqdm
+        typeBrels = findBrelsFromDomain typeId brels
+
+        go uuids tplsAll hqdm brels results
+            | null uuids = results
+            | otherwise = cardinalityTestAllObjects (tail uuids) tplsAll hqdm brels (results ++ cardinalityMetAllRels objTpls typeBrels)
+
+-- | getTypeIdFromObject
+-- Get the Id of the Hqdm Type from a supplied set of triples for a joined Hqdm object ### Implement test for this
+getTypeIdFromObject:: [HqdmTriple] -> [HqdmTriple] -> Id
+getTypeIdFromObject objTpls hqdm = head $ lookupHqdmIdFromType hqdm ( head $ lookupHqdmType objTpls )
+
+-- | cardinalityMetAllRels
+-- Tests whether the collection of triples for a single Hqdm Node (object) satisfies 
+-- all of the HqdmBinaryRelationPure relation sets for that type of object. 
+cardinalityMetAllRels:: [HqdmTriple] -> [HqdmBinaryRelationPure] -> [(CardinalityCheck, HqdmBinaryRelationPure, HqdmLib.Id)]
+cardinalityMetAllRels _ [] = []
+cardinalityMetAllRels [] _ = []
+cardinalityMetAllRels tpls (brel : brels) = relationSetAndIdCheck (cardinalityMet tpls brel) brel (subject $ head tpls) : cardinalityMetAllRels tpls brels
+
+-- | cardinalityMet
+-- Tests whether the collection of triples for a single Hqdm Node (object) satisfies the
+-- supplied HqdmBinaryRelationPure
+cardinalityMet:: [HqdmTriple] -> HqdmBinaryRelationPure -> CardinalityCheck
+cardinalityMet tpls brel = go tpls brel
+    where
+        brelId = getPureRelationId brel
+        brelCMin = getPureCardinalityMin brel
+        brelCMax = getPureCardinalityMax brel
+        relCmp = fmap (\ x -> (oneOrZero (brelId == predicate x)::Int)) tpls
+        relCount = sum relCmp
+
+        go tpls brel
+            | (relCount > brelCMax) && (brelCMax > 0) = Invalid
+            | (relCount < brelCMin) && (brelCMin > 0) = Invalid
+            | otherwise = Valid
+
+oneOrZero:: Bool -> Int
+oneOrZero val
+    | val = 1
+    | otherwise = 0
+
+fstOf3 :: (a, b, c) -> a
+fstOf3 (x, _, _) = x
+
+sndOf3 :: (a, b, c) -> b
+sndOf3 (_, x, _) = x
+
+thdOf3 :: (a, b, c) -> c
+thdOf3 (_, _, x) = x

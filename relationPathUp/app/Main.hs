@@ -118,7 +118,7 @@ flags =
     ,Option ['m'] []       (NoArg Mermaid)
         "Specifies that the output is in Mermaid form."
     ,Option []    ["help"] (NoArg Help)
-        "The command should have the general form: relationPathUp -a PureHqdmRelations_v5.csv HqdmAllAsDataFormal2.csv uuid_of_a_relation"
+        "The command should have the general form: relationPathUp -a PureHqdmRelations_v5.csv HqdmAllAsDataFormal4.csv uuid_of_a_relation"
    ]
 
 parse :: [String] -> IO ([Flag], [String])

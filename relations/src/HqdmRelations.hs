@@ -43,6 +43,7 @@ module HqdmRelations
     getPureRedeclared,
     getPureRedeclaredFromRange,
     printRelation,
+    printRelationWithTypeNames,
     getBrelDomainFromRels,
     findBrelDomainSupertypes,
     findBrelFromId,
@@ -276,6 +277,14 @@ printRelation rel = "RELATION SPECIFICATION:\n\tDomain: " ++ getPureDomain rel +
   "\n\tRelation UUID: " ++ getPureRelationId rel ++ 
   "\n\tOriginal Relation Name: " ++ getPureRelationName rel ++ 
   "\n\tRange: " ++ getPureRange rel ++
+  "\n\tMin Cardinality: " ++ show (getPureCardinalityMin rel) ++
+  "\n\tMax Cardinality: " ++ show (getPureCardinalityMax rel) ++ "\n"
+
+printRelationWithTypeNames :: HqdmBinaryRelationPure -> [HqdmLib.HqdmTriple] -> String
+printRelationWithTypeNames rel tpls = "RELATION SPECIFICATION:\n\tDomain: " ++ getPureDomain rel ++ " type `" ++ head (HqdmLib.lookupHqdmType $ HqdmLib.lookupHqdmOne (getPureDomain rel) tpls) ++ "'" ++
+  "\n\tRelation UUID: " ++ getPureRelationId rel ++ 
+  "\n\tOriginal Relation Name: " ++ getPureRelationName rel ++ 
+  "\n\tRange: " ++ getPureRange rel ++ " type `" ++ head (HqdmLib.lookupHqdmType $ HqdmLib.lookupHqdmOne (getPureRange rel) tpls) ++ "'" ++
   "\n\tMin Cardinality: " ++ show (getPureCardinalityMin rel) ++
   "\n\tMax Cardinality: " ++ show (getPureCardinalityMax rel) ++ "\n"
 

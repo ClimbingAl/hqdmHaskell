@@ -151,7 +151,7 @@ flags =
     ,Option ['c'] []       (NoArg Csv)
         "Specifies that the output is in Csv form."
     ,Option []    ["help"] (NoArg Help)
-        "The command should have the general form: entityTypeSpec -a PureHqdmRelations_v5.csv HqdmAllAsDataFormal2.csv uuid_or_name_of_entity_type"
+        "The command should have the general form: entityTypeSpec -a PureHqdmRelations_v5.csv HqdmAllAsDataFormal4.csv uuid_or_name_of_entity_type"
    ]
 
 parse :: [String] -> IO ([Flag], [String])

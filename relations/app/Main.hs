@@ -101,10 +101,10 @@ import Data.Either
 
 -- Constants
 hqdmRelationsInputFilename::String
-hqdmRelationsInputFilename = "../PureHqdmRelations_v6.csv"
+hqdmRelationsInputFilename = "../PureHqdmRelations_v7.csv"
 
 hqdmInputFilename::String
-hqdmInputFilename = "./input/hqdmAllAsDataFormal2_AllRels.csv"  -- hqdmAllAsDataFormal1_NoExtensions or hqdmAllAsDataFormal1 or hqdmAllAsDataFormal2_AllRels
+hqdmInputFilename = "./input/hqdmAllAsDataFormal4_AllRels.csv"  -- hqdmAllAsDataFormal1_NoExtensions or hqdmAllAsDataFormal1 or hqdmAllAsDataFormal4_AllRels
 
 exampleBrelId::String
 exampleBrelId = "c037270e-801f-4957-ad79-239954cedc37" -- individual hqdm:member_of class_of_individual

@@ -1,7 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE TypeApplications #-}
-{-# LANGUAGE ScopedTypeVariables #-}
-
 
 -- |
 -- Module      :  HqdmJoin Main
@@ -42,6 +40,7 @@ import HqdmRelations (
     getPureRedeclared,
     getPureRedeclaredFromRange,
     printRelation,
+    printRelationWithTypeNames,
     getBrelDomainFromRels,
     findBrelDomainSupertypes,
     findBrelFromId,
@@ -118,7 +117,6 @@ import HqdmQueries (
     filterRelsBySet
     )
 
-import HqdmInspection (howmanyNodes)
 import HqdmIds
 
 -- from bytestring
@@ -126,17 +124,14 @@ import qualified Data.ByteString.Lazy as BL
 -- from cassava
 import Data.Csv (HasHeader( NoHeader ), decode)
 import qualified Data.Vector as V
-import Data.List (isPrefixOf, sortOn)
-import Data.Maybe
 import Data.Either
-import Data.Bool (Bool)
 
 -- Constants
 hqdmRelationsInputFilename::String
-hqdmRelationsInputFilename = "../PureHqdmRelations_v6.csv"
+hqdmRelationsInputFilename = "../PureHqdmRelations_v7.csv"
 
 hqdmInputFilename::String
-hqdmInputFilename = "../HqdmAllAsDataFormal3Short.csv"
+hqdmInputFilename = "../HqdmAllAsDataFormal4Short.csv"
 
 joinModelFilename::String
 joinModelFilename = "./input/networksBasic1converted.csv"
@@ -254,11 +249,51 @@ main = do
     --let testResultSet = cardinalityMetAllRels exampleObjectTriples exampleObjectTypeBRelSets
     --putStr ("\n\nCardinality Check Set:\n\n" ++  show testResultSet)
 
-    let testResultAll = cardinalityTestAllObjects uniqueJoinNodes joinedResults hqdmInputModel relationsInputModel []
+    let testResultAll = cardinalityTestAllObjects uniqueJoinNodes allRelationIdJoinedTriples hqdmInputModel relationsInputModel []
     putStr "\n\nFailed tests = \n"
-    print (validityCheck testResultAll)
+    putStr (printableErrorResults (validityCheck testResultAll) relationsInputModel hqdmInputModel allRelationIdJoinedTriples)
 
+    {-putStr "\n\nInput Rel Set:\n\n"
+    print exampleObjectTypeBRelSets
+    
+    putStr "\n\nTest of relationInSupertypePaths....\n\n"
+    --let rispResult = relationInSupertypePaths "7b3caec7-7e9d-47cd-bb19-19d2872c326f" [head exampleObjectTypeBRelSets] relationsInputModel False
+    let rispResult = filterHigherLevelBrels exampleObjectTypeBRelSets relationsInputModel
+    print rispResult-}
     putStr "\n\nDONE\n\n"
+
+printableErrorResults:: [(CardinalityCheck, HqdmBinaryRelationPure, HqdmLib.Id)] -> [HqdmBinaryRelationPure] -> [HqdmTriple] -> [HqdmTriple] -> String
+printableErrorResults errs brels hqdm tpls =
+    concatMap (\ x ->
+        "\n\nObject Id:" ++ show (thdOf3 x) ++ " of type '" ++ head (lookupHqdmType $ lookupHqdmOne (thdOf3 x) tpls) ++ "'" ++
+        "\nRelation result: " ++ show (fstOf3 x) ++ 
+        onlyPrintInvalidTypeCause x ++
+        printRelationWithTypeNames ( sndOf3 x) hqdm
+        ) errs
+
+onlyPrintInvalidTypeCause:: (CardinalityCheck, HqdmBinaryRelationPure, HqdmLib.Id) -> String 
+onlyPrintInvalidTypeCause err 
+    | fstOf3 err == Valid = ""
+    | otherwise = "\nLikely cause: Relationship missing.\n"
+
+-- | filterHigherLevelBrels
+-- Filter an input set of Binary Relation (Sets) to remove any that are on the super-BR path of others
+-- This function approximately implements the redeclared (RT) keyword from EXPRESS
+filterHigherLevelBrels :: [HqdmBinaryRelationPure] -> [HqdmBinaryRelationPure] -> [HqdmBinaryRelationPure]
+filterHigherLevelBrels brelSet brels =
+    [ values | values <- brelSet, not $ relationInSupertypePaths (getPureRelationId values) brelSet brels False]
+
+-- | relationInSupertypePaths
+-- Returns True if the given relation is in the supertype path of one of the given set
+relationInSupertypePaths :: RelationId -> [HqdmBinaryRelationPure] -> [HqdmBinaryRelationPure] -> Bool -> Bool
+relationInSupertypePaths relId brelSet brels result = go relId brelSet brels result
+    where
+        superBRels = concat $ superRelationPathsToUniversalRelation [[getPureRelationId (head brelSet)]] brels
+        idInSuperBRels = relId `elem` tail superBRels
+
+        go relId brelSet brels result
+            | null brelSet = result
+            | otherwise = relationInSupertypePaths relId (tail brelSet) brels (result || idInSuperBRels)
 
 validityCheck:: [(CardinalityCheck, HqdmBinaryRelationPure, HqdmLib.Id)] -> [(CardinalityCheck, HqdmBinaryRelationPure, HqdmLib.Id)]
 validityCheck checkResults = [values | values <- checkResults,  fstOf3 values == Invalid]
@@ -271,10 +306,11 @@ cardinalityTestAllObjects uuids tplsAll hqdm brels results = go uuids tplsAll hq
         objTpls = lookupHqdmOne uuid tplsAll
         typeId = getTypeIdFromObject objTpls hqdm
         typeBrels = findBrelsFromDomain typeId brels
+        filteredBrels = filterHigherLevelBrels typeBrels brels
 
         go uuids tplsAll hqdm brels results
             | null uuids = results
-            | otherwise = cardinalityTestAllObjects (tail uuids) tplsAll hqdm brels (results ++ cardinalityMetAllRels objTpls typeBrels)
+            | otherwise = cardinalityTestAllObjects (tail uuids) tplsAll hqdm brels (results ++ cardinalityMetAllRels objTpls filteredBrels)
 
 -- | getTypeIdFromObject
 -- Get the Id of the Hqdm Type from a supplied set of triples for a joined Hqdm object ### Implement test for this

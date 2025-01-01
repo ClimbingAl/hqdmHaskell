@@ -250,8 +250,10 @@ main = do
     --putStr ("\n\nCardinality Check Set:\n\n" ++  show testResultSet)
 
     let testResultAll = cardinalityTestAllObjects uniqueJoinNodes allRelationIdJoinedTriples hqdmInputModel relationsInputModel []
-    putStr "\n\nFailed tests = \n"
-    putStr (printableErrorResults (validityCheck testResultAll) relationsInputModel hqdmInputModel allRelationIdJoinedTriples)
+    let invalidResuls = validityCheck testResultAll
+    let filteredResults = filterOutErrorsBy (head $ findBrelFromId "7b3caec7-7e9d-47cd-bb19-19d2872c326f" relationsInputModel) relationsInputModel invalidResuls
+    putStr "\n\nFailed tests filtered to remove parthood relations= \n"
+    putStr (printableErrorResults filteredResults relationsInputModel hqdmInputModel allRelationIdJoinedTriples)
 
     {-putStr "\n\nInput Rel Set:\n\n"
     print exampleObjectTypeBRelSets
@@ -275,6 +277,12 @@ onlyPrintInvalidTypeCause:: (CardinalityCheck, HqdmBinaryRelationPure, HqdmLib.I
 onlyPrintInvalidTypeCause err 
     | fstOf3 err == Valid = ""
     | otherwise = "\nLikely cause: Relationship missing.\n"
+
+-- | filterOutErrorsBy x
+-- Filter the list of cardinality results by the given super Brel Set
+filterOutErrorsBy :: HqdmBinaryRelationPure -> [HqdmBinaryRelationPure] -> [(CardinalityCheck, HqdmBinaryRelationPure, HqdmLib.Id)] -> [(CardinalityCheck, HqdmBinaryRelationPure, HqdmLib.Id)]
+filterOutErrorsBy brel brels errs = 
+    [ values | values <- errs, not $ relationInSupertypePaths (getPureRelationId brel) [ sndOf3 values] brels False]
 
 -- | filterHigherLevelBrels
 -- Filter an input set of Binary Relation (Sets) to remove any that are on the super-BR path of others

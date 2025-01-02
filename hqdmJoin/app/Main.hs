@@ -70,7 +70,15 @@ import HqdmRelations (
     findMaxMinCardinality,
     hqdmSwapAnyRelationNamesForIds,
     printableLayerWithDomainAndRange,
-    printablePathFromTuplesWithDomainAndRange, lookupSubBRelsOf
+    printablePathFromTuplesWithDomainAndRange, 
+    lookupSubBRelsOf,
+    validityFilter,
+    cardinalityTestAllObjects,
+    getTypeIdFromObject,
+    cardinalityMetAllRels,
+    printableErrorResults,
+    filterOutErrorsBy,
+    cardinalityMet
     )
 
 import HqdmLib (
@@ -250,7 +258,7 @@ main = do
     --putStr ("\n\nCardinality Check Set:\n\n" ++  show testResultSet)
 
     let testResultAll = cardinalityTestAllObjects uniqueJoinNodes allRelationIdJoinedTriples hqdmInputModel relationsInputModel []
-    let invalidResuls = validityCheck testResultAll
+    let invalidResuls = validityFilter testResultAll
     let filteredResults = filterOutErrorsBy (head $ findBrelFromId "7b3caec7-7e9d-47cd-bb19-19d2872c326f" relationsInputModel) relationsInputModel invalidResuls
     putStr "\n\nFailed tests filtered to remove parthood relations= \n"
     putStr (printableErrorResults filteredResults relationsInputModel hqdmInputModel allRelationIdJoinedTriples)
@@ -264,102 +272,3 @@ main = do
     print rispResult-}
     putStr "\n\nDONE\n\n"
 
-printableErrorResults:: [(CardinalityCheck, HqdmBinaryRelationPure, HqdmLib.Id)] -> [HqdmBinaryRelationPure] -> [HqdmTriple] -> [HqdmTriple] -> String
-printableErrorResults errs brels hqdm tpls =
-    concatMap (\ x ->
-        "\n\nObject Id:" ++ show (thdOf3 x) ++ " of type '" ++ head (lookupHqdmType $ lookupHqdmOne (thdOf3 x) tpls) ++ "'" ++
-        "\nRelation result: " ++ show (fstOf3 x) ++ 
-        onlyPrintInvalidTypeCause x ++
-        printRelationWithTypeNames ( sndOf3 x) hqdm
-        ) errs
-
-onlyPrintInvalidTypeCause:: (CardinalityCheck, HqdmBinaryRelationPure, HqdmLib.Id) -> String 
-onlyPrintInvalidTypeCause err 
-    | fstOf3 err == Valid = ""
-    | otherwise = "\nLikely cause: Relationship missing.\n"
-
--- | filterOutErrorsBy x
--- Filter the list of cardinality results by the given super Brel Set
-filterOutErrorsBy :: HqdmBinaryRelationPure -> [HqdmBinaryRelationPure] -> [(CardinalityCheck, HqdmBinaryRelationPure, HqdmLib.Id)] -> [(CardinalityCheck, HqdmBinaryRelationPure, HqdmLib.Id)]
-filterOutErrorsBy brel brels errs = 
-    [ values | values <- errs, not $ relationInSupertypePaths (getPureRelationId brel) [ sndOf3 values] brels False]
-
--- | filterHigherLevelBrels
--- Filter an input set of Binary Relation (Sets) to remove any that are on the super-BR path of others
--- This function approximately implements the redeclared (RT) keyword from EXPRESS
-filterHigherLevelBrels :: [HqdmBinaryRelationPure] -> [HqdmBinaryRelationPure] -> [HqdmBinaryRelationPure]
-filterHigherLevelBrels brelSet brels =
-    [ values | values <- brelSet, not $ relationInSupertypePaths (getPureRelationId values) brelSet brels False]
-
--- | relationInSupertypePaths
--- Returns True if the given relation is in the supertype path of one of the given set
-relationInSupertypePaths :: RelationId -> [HqdmBinaryRelationPure] -> [HqdmBinaryRelationPure] -> Bool -> Bool
-relationInSupertypePaths relId brelSet brels result = go relId brelSet brels result
-    where
-        superBRels = concat $ superRelationPathsToUniversalRelation [[getPureRelationId (head brelSet)]] brels
-        idInSuperBRels = relId `elem` tail superBRels
-
-        go relId brelSet brels result
-            | null brelSet = result
-            | otherwise = relationInSupertypePaths relId (tail brelSet) brels (result || idInSuperBRels)
-
-validityCheck:: [(CardinalityCheck, HqdmBinaryRelationPure, HqdmLib.Id)] -> [(CardinalityCheck, HqdmBinaryRelationPure, HqdmLib.Id)]
-validityCheck checkResults = [values | values <- checkResults,  fstOf3 values == Invalid]
-
--- | cardinalityTestAllObjects
-cardinalityTestAllObjects:: [HqdmLib.Id] -> [HqdmTriple] -> [HqdmTriple] -> [HqdmBinaryRelationPure] -> [(CardinalityCheck, HqdmBinaryRelationPure, HqdmLib.Id)] -> [(CardinalityCheck, HqdmBinaryRelationPure, HqdmLib.Id)]
-cardinalityTestAllObjects uuids tplsAll hqdm brels results = go uuids tplsAll hqdm brels results
-    where
-        uuid = head uuids
-        objTpls = lookupHqdmOne uuid tplsAll
-        typeId = getTypeIdFromObject objTpls hqdm
-        typeBrels = findBrelsFromDomain typeId brels
-        filteredBrels = filterHigherLevelBrels typeBrels brels
-
-        go uuids tplsAll hqdm brels results
-            | null uuids = results
-            | otherwise = cardinalityTestAllObjects (tail uuids) tplsAll hqdm brels (results ++ cardinalityMetAllRels objTpls filteredBrels)
-
--- | getTypeIdFromObject
--- Get the Id of the Hqdm Type from a supplied set of triples for a joined Hqdm object ### Implement test for this
-getTypeIdFromObject:: [HqdmTriple] -> [HqdmTriple] -> Id
-getTypeIdFromObject objTpls hqdm = head $ lookupHqdmIdFromType hqdm ( head $ lookupHqdmType objTpls )
-
--- | cardinalityMetAllRels
--- Tests whether the collection of triples for a single Hqdm Node (object) satisfies 
--- all of the HqdmBinaryRelationPure relation sets for that type of object. 
-cardinalityMetAllRels:: [HqdmTriple] -> [HqdmBinaryRelationPure] -> [(CardinalityCheck, HqdmBinaryRelationPure, HqdmLib.Id)]
-cardinalityMetAllRels _ [] = []
-cardinalityMetAllRels [] _ = []
-cardinalityMetAllRels tpls (brel : brels) = relationSetAndIdCheck (cardinalityMet tpls brel) brel (subject $ head tpls) : cardinalityMetAllRels tpls brels
-
--- | cardinalityMet
--- Tests whether the collection of triples for a single Hqdm Node (object) satisfies the
--- supplied HqdmBinaryRelationPure
-cardinalityMet:: [HqdmTriple] -> HqdmBinaryRelationPure -> CardinalityCheck
-cardinalityMet tpls brel = go tpls brel
-    where
-        brelId = getPureRelationId brel
-        brelCMin = getPureCardinalityMin brel
-        brelCMax = getPureCardinalityMax brel
-        relCmp = fmap (\ x -> (oneOrZero (brelId == predicate x)::Int)) tpls
-        relCount = sum relCmp
-
-        go tpls brel
-            | (relCount > brelCMax) && (brelCMax > 0) = Invalid
-            | (relCount < brelCMin) && (brelCMin > 0) = Invalid
-            | otherwise = Valid
-
-oneOrZero:: Bool -> Int
-oneOrZero val
-    | val = 1
-    | otherwise = 0
-
-fstOf3 :: (a, b, c) -> a
-fstOf3 (x, _, _) = x
-
-sndOf3 :: (a, b, c) -> b
-sndOf3 (_, x, _) = x
-
-thdOf3 :: (a, b, c) -> c
-thdOf3 (_, _, x) = x

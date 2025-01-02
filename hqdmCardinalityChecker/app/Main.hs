@@ -68,10 +68,10 @@ main = do
     hqdmRelationSets <- fmap V.toList . decode @HqdmBinaryRelation NoHeader <$> BL.readFile inputRelationsFile
     let relationsInputModel =  csvRelationsToPure $ fromRight [] hqdmRelationSets
 
-    mappedModelData <- fmap V.toList . decode @HqdmTriple NoHeader <$> BL.readFile inputFile
-    let hqdmModelData = fromRight [] mappedModelData
+    pureModelData <- fmap V.toList . decode @HqdmTriple NoHeader <$> BL.readFile inputFile
+    let pureModelData = fromRight [] pureModelData
 
-    let outputModel = sortOnUuid $ hqdmSwapAnyRelationNamesForIds ( removeIriPathsFromAll hqdmModelToMap ) hqdmInputModel relationsInputModel
+    let outputModel = 
     
     writeFile outputFile ( concat $ csvTriplesFromHqdmTriples outputModel ) 
    

@@ -62,16 +62,28 @@ executable hqdmMapToPure
     main-is:          Main.hs
 
     -- Modules included in this executable, other than Main.
-    -- other-modules:
+    other-modules:
+        HqdmRelations
+        HqdmInspection
+        HqdmMermaid
+        HqdmLib
+        HqdmIds
 
     -- LANGUAGE extensions used by modules in this package.
     -- other-extensions:
 
     -- Other library packages from which modules are imported.
     build-depends:    base ^>=4.17.2.1
+        , bytestring
+        , cassava
+        , directory
+        , text
+        , unique
+        , vector
+        , split
 
     -- Directories containing source files.
-    hs-source-dirs:   app
+    hs-source-dirs:   app, ../hqdm/src, ../relations/src
 
     -- Base language which the package is written in.
     default-language: Haskell2010

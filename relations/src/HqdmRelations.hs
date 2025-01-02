@@ -518,18 +518,6 @@ findSuperBinaryRelation' relId tpls brels =
       (findBrelDomainSupertypes relId brels (HqdmLib.lookupSubtypes tpls)) brels,
         snd x `isPrefixOf` getRelationNameFromRels relId brels]
 
-{-addStRelationToPure :: Maybe (RelationId, String) -> HqdmBinaryRelationPure -> HqdmBinaryRelationPure
-addStRelationToPure stRel x = HqdmBinaryRelationPure
-  ( pureDomain x)
-  ( pureBinaryRelationId x)
-  ( pureBinaryRelationName x)
-  ( pureRange x)
-  ( getRelationIdFromMonadTuple stRel )
-  ( pureCardinalityMin x)
-  ( pureCardinalityMax x)
-  ( pureRedeclaredBR x)
-  ( pureRedeclaredFromRange x)-}
-
 addNewCardinalitiesToPure :: Int -> Int -> HqdmBinaryRelationPure -> HqdmBinaryRelationPure
 addNewCardinalitiesToPure cardMin cardMax x = HqdmBinaryRelationPure
   ( pureDomain x)

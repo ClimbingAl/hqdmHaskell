@@ -1,3 +1,5 @@
+./hqdmMapToPure/.stack-work/*
+./hqdmCardinalityChecker/.stack-work/*
 ./entityTypeSpec/.stack-work/*
 ./relationPathUp/.stack-work/*
 ./relationInheritance/.stack-work/*

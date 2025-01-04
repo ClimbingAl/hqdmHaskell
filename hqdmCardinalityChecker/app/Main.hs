@@ -13,21 +13,23 @@
 --
 -- Executable Main that implements the command line tool functionality.
 --  HqdmCardinalityChecker -spoe hqdmRelations.scv hqdmEntityTypes.csv inputFile.csv 
--- Switches: 'h' Contains a header
 
 module Main (main) where
 
 import HqdmRelations (
     HqdmBinaryRelation,
+    cardinalityTestAllObjects,
     csvRelationsToPure,
-    hqdmSwapAnyRelationNamesForIds,
-    sortOnUuid
+    filterErrorsBy,
+    findBrelFromId,
+    printableErrorResults,
+    validityFilter
     )
 
 import HqdmLib (
     HqdmTriple (..),
-    HqdmTriple (subject, predicate, object),
-    csvTriplesFromHqdmTriples
+    getSubjects,
+    uniqueIds
     )
 
 import qualified Data.ByteString.Lazy as BL
@@ -38,8 +40,28 @@ import System.IO
 import System.Exit
 import System.Environment
 import Data.List
-import Data.List.Split
 import Data.Either
+
+universalPartBrel::String
+universalPartBrel = "7b3caec7-7e9d-47cd-bb19-19d2872c326f"
+
+universalSetBrel::String
+universalSetBrel = "2db5490e-01d0-491e-bd64-67ac616f65a0"
+
+universalOrderBrel::String
+universalOrderBrel = "cfb37186-d2d6-48de-a418-6197bdf0a7b0"
+
+universalEmergentBrel::String
+universalEmergentBrel = "f533fac8-d228-4c10-8799-a26fe6ea16a4"
+
+universalReifiedBrel::String
+universalReifiedBrel = "37584690-bff0-493f-80bc-f007af0217fc"
+
+possibleWorldSuperBR::String 
+possibleWorldSuperBR = "ac3fd9bd-a64d-4e87-8da6-1ce76451fde5"
+
+possibleWorldBrel::String
+possibleWorldBrel = "d2bd9e45-948f-4570-91c2-b0693cd81363"
 
 main :: IO ()
 main = do
@@ -55,11 +77,11 @@ main = do
             hPutStrLn stderr "\n\n\3 Arguments should follow the options in the order <hqdmRelations.csv> <hqdmEntityTypes.csv> <inputFile.csv>\n\n"
             exitWith (ExitFailure 1)
 
-    putStr "**hqdmCardinalityChecker**\n\nLoading model files and the supplied input file of processed mapped User Data.\n"
-
     let inputRelationsFile = head fileList
     let inputEntityTypeFile = fileList!!1
     let inputFile = fileList!!2
+
+    putStr ("**hqdmCardinalityChecker**\n\nLoading model files and the supplied input file of processed mapped User Data, from file '" ++ inputFile ++ "'.\n\n")
 
     -- Load HqdmAllAsData
     hqdmTriples <- fmap V.toList . decode @HqdmTriple NoHeader <$> BL.readFile inputEntityTypeFile
@@ -68,12 +90,68 @@ main = do
     hqdmRelationSets <- fmap V.toList . decode @HqdmBinaryRelation NoHeader <$> BL.readFile inputRelationsFile
     let relationsInputModel =  csvRelationsToPure $ fromRight [] hqdmRelationSets
 
-    pureModelData <- fmap V.toList . decode @HqdmTriple NoHeader <$> BL.readFile inputFile
-    let pureModelData = fromRight [] pureModelData
+    modelData <- fmap V.toList . decode @HqdmTriple NoHeader <$> BL.readFile inputFile
+    let pureModelData = fromRight [] modelData
 
-    let outputModel = 
+    let uniqueJoinNodes = uniqueIds $ getSubjects pureModelData
+    let invalidCardinalityTestResults = validityFilter $ cardinalityTestAllObjects uniqueJoinNodes pureModelData hqdmInputModel relationsInputModel []
+
+    if Parthood `elem` fst args
+        then do
+            let filteredByPartsResults = filterErrorsBy (head $ findBrelFromId universalPartBrel relationsInputModel) relationsInputModel invalidCardinalityTestResults
+            putStr "\n\nPARTHOOD Relation Cardinality Exceptions:\n\n"
+            putStr (printableErrorResults filteredByPartsResults relationsInputModel hqdmInputModel pureModelData)
+            putStr ("\n\n\tNumber of PARTHOOD Relation Cardinality Exceptions:" ++ show (length filteredByPartsResults) ++ "\n\n\n")
+        else do
+            putStr ""
     
-    writeFile outputFile ( concat $ csvTriplesFromHqdmTriples outputModel ) 
+    if Set `elem` fst args
+        then do
+            let filteredBySetsResults = filterErrorsBy (head $ findBrelFromId universalSetBrel relationsInputModel) relationsInputModel invalidCardinalityTestResults
+            putStr "\nSET Relation Cardinality Exceptions:\n\n"
+            putStr (printableErrorResults filteredBySetsResults relationsInputModel hqdmInputModel pureModelData)
+            putStr ("\n\n\tNumber of SET Relation Cardinality Exceptions:" ++ show (length filteredBySetsResults) ++ "\n\n\n")
+        else do
+            putStr ""
+    
+    if Order `elem` fst args
+        then do
+            let filteredByOrderResults = filterErrorsBy (head $ findBrelFromId universalOrderBrel relationsInputModel) relationsInputModel invalidCardinalityTestResults 
+            putStr "\nORDER Relation Cardinality Exceptions:\n\n"
+            putStr (printableErrorResults filteredByOrderResults relationsInputModel hqdmInputModel pureModelData)
+            putStr ("\n\n\tNumber of ORDER Relation Cardinality Exceptions:" ++ show (length filteredByOrderResults) ++ "\n\n\n")
+        else do
+            putStr ""
+    
+    if Emergent `elem` fst args
+        then do
+            let filteredByEmergentRelResults = filterErrorsBy (head $ findBrelFromId universalEmergentBrel relationsInputModel) relationsInputModel invalidCardinalityTestResults 
+            putStr "\nEMERGENT Relation Cardinality Exceptions:\n\n"
+            putStr (printableErrorResults filteredByEmergentRelResults relationsInputModel hqdmInputModel pureModelData)
+            putStr ("\n\n\tNumber of EMERGENT Relation Cardinality Exceptions:" ++ show (length filteredByEmergentRelResults) ++ "\n\n\n")
+        else do
+            putStr ""
+
+    if Reified `elem` fst args
+        then do
+            let filteredByReifiedRelResults = filterErrorsBy (head $ findBrelFromId universalReifiedBrel relationsInputModel) relationsInputModel invalidCardinalityTestResults 
+            putStr "\nREIFIED Relation Cardinality Exceptions:\n\n"
+            putStr (printableErrorResults filteredByReifiedRelResults relationsInputModel hqdmInputModel pureModelData)
+            putStr ("\n\n\tNumber of REIFIED Relation Cardinality Exceptions:" ++ show (length filteredByReifiedRelResults) ++ "\n\n\n")
+        else do
+            putStr ""
+
+    if PossibleWorld `elem` fst args
+        then do
+            let filteredByPossibleWorldRelResults = filterErrorsBy (head $ findBrelFromId possibleWorldBrel relationsInputModel) relationsInputModel invalidCardinalityTestResults 
+            putStr "\nPart_of_possible_world Relation Cardinality Exceptions:\n\n"
+            putStr (printableErrorResults filteredByPossibleWorldRelResults relationsInputModel hqdmInputModel pureModelData)
+            putStr ("\n\n\tNumber of part_of_possible_world Relation Cardinality Exceptions:" ++ show (length filteredByPossibleWorldRelResults))
+            putStr "\n\tNote: Strictly, there will always be at least one of these exceptions (see HQDM entity type definition https://github.com/hqdmTop/hqdmFramework/wiki/spatio_temporal_extent)\n\n\n"
+        else do
+            putStr ""
+
+    putStr ("\n\nTotal number of Relation Cardinality Exceptions:" ++ show (length invalidCardinalityTestResults) ++ "\n\n")
    
     putStr "\n\n**DONE**\n\n"
 
@@ -83,13 +161,31 @@ main = do
 ------------------------------------------------------------------------------------
 
 data Flag
-    =  Help                  -- --help
+    = Parthood          -- -p
+    | Set               -- -s
+    | Order             -- -o
+    | Emergent          -- -e
+    | Reified           -- -r
+    | PossibleWorld     -- -w
+    | Help              -- --help
     deriving (Eq,Ord,Enum,Show,Bounded)
 
 flags :: [OptDescr Flag]
 flags =
-   [Option []    ["help"] (NoArg Help)
-        "The command should have the general form: hqdmMapToPure hqdmRelations.csv hqdmEntityTypes.csv inputTriples.csv outputTriplesFilename.csv"
+   [Option ['p'] []        (NoArg Parthood)
+        "Specifies that the output includes relationships of the Parthood Binary Relation Set."
+    ,Option ['s'] []       (NoArg Set)
+        "Specifies that the output includes relationships of the Set (HQDM Class) Binary Relation Set."
+    ,Option ['o'] []       (NoArg Order)
+        "Specifies that the output includes relationships of the Order Binary Relation Set."
+    ,Option ['e'] []       (NoArg Emergent)
+        "Specifies that the output includes relationships of the Emergent Binary Relation Set."
+    ,Option ['r'] []       (NoArg Reified)
+        "Specifies that the output includes relationships of the Reified Binary Relation Set."
+    ,Option ['w'] []       (NoArg PossibleWorld)
+        "Specifies that the output includes relationships of the part_of_possible_world Relation Set."
+    ,Option []    ["help"] (NoArg Help)
+        "The command should have the general form: hqdmMapToPure -psoerw hqdmRelations.csv hqdmEntityTypes.csv inputTriples.csv outputTriplesFilename.csv"
    ]
 
 parse :: [String] -> IO ([Flag], [String])
@@ -105,5 +201,5 @@ parse argv = case getOpt Permute flags argv of
         hPutStrLn stderr (concat errs ++ usageInfo header flags)
         exitWith (ExitFailure 1)
 
-    where header = "Usage: hqdmMapToPure <hqdmRelations.csv> <hqdmEntityTypes.csv> <inputProcessedTriples.csv> <outputFilename.csv>"
+    where header = "Usage: hqdmMapToPure -psoe <hqdmRelations.csv> <hqdmEntityTypes.csv> <inputProcessedTriples.csv> <outputFilename.csv>"
           set f      = [f]

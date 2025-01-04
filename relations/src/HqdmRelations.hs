@@ -84,6 +84,7 @@ module HqdmRelations
     cardinalityMetAllRels,
     printableErrorResults,
     filterOutErrorsBy,
+    filterErrorsBy,
     cardinalityMet
   )
 where
@@ -648,10 +649,16 @@ onlyPrintInvalidTypeCause err
     | otherwise = "\nLikely cause: Relationship missing.\n"
 
 -- | filterOutErrorsBy x
--- Filter the list of cardinality results by the given super Brel Set
+-- Filter the list of cardinality results to remove the given super Brel Set
 filterOutErrorsBy :: HqdmBinaryRelationPure -> [HqdmBinaryRelationPure] -> [(CardinalityCheck, HqdmBinaryRelationPure, HqdmLib.Id)] -> [(CardinalityCheck, HqdmBinaryRelationPure, HqdmLib.Id)]
 filterOutErrorsBy brel brels errs = 
     [ values | values <- errs, not $ relationInSupertypePaths (getPureRelationId brel) [ sndOf3 values] brels False]
+
+-- | filterErrorsBy x
+-- Filter the list of cardinality results by to only include the given super Brel Set
+filterErrorsBy :: HqdmBinaryRelationPure -> [HqdmBinaryRelationPure] -> [(CardinalityCheck, HqdmBinaryRelationPure, HqdmLib.Id)] -> [(CardinalityCheck, HqdmBinaryRelationPure, HqdmLib.Id)]
+filterErrorsBy brel brels errs = 
+    [ values | values <- errs, relationInSupertypePaths (getPureRelationId brel) [ sndOf3 values] brels False]
 
 -- | filterHigherLevelBrels
 -- Filter an input set of Binary Relation (Sets) to remove any that are on the super-BR path of others

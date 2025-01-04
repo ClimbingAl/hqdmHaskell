@@ -102,8 +102,6 @@ executable relationInheritance
         , text
         , unique
         , vector
-        , relationInheritance
-        , hqdm
 
     -- Directories containing source files.
     hs-source-dirs:   app, ../hqdm/src, ../relations/src

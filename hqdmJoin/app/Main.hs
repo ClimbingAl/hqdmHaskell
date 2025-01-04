@@ -136,7 +136,7 @@ import Data.Either
 
 -- Constants
 hqdmRelationsInputFilename::String
-hqdmRelationsInputFilename = "../PureHqdmRelations_v7.csv"
+hqdmRelationsInputFilename = "../PureHqdmRelations_v8.csv"
 
 hqdmInputFilename::String
 hqdmInputFilename = "../HqdmAllAsDataFormal4Short.csv"

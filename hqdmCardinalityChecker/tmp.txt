@@ -1,0 +1,2151 @@
+
+**hqdmCardinalityChecker**
+
+Loading model files and the supplied input file of processed mapped User Data, from file 'testOut2.csv'.
+
+
+
+PARTHOOD Relation Cardinality Exceptions:
+
+
+
+Object Id:"00dac31b-acad-40cf-a44c-72ed092afa08" of type 'functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: a980b931-9769-4975-847a-5d81405b213b type `functional_system_component'
+	Relation UUID: c51e22a9-de7e-49c2-82ee-51ffdb8178c7
+	Original Relation Name: component_of
+	Range: dddc968c-e4e3-4776-b227-6ec6f82160c9 type `system'
+	Min Cardinality: 1
+	Max Cardinality: 1
+
+
+Object Id:"011b2e6f-2623-4590-90ea-d0a974ede827" of type 'functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: a980b931-9769-4975-847a-5d81405b213b type `functional_system_component'
+	Relation UUID: c51e22a9-de7e-49c2-82ee-51ffdb8178c7
+	Original Relation Name: component_of
+	Range: dddc968c-e4e3-4776-b227-6ec6f82160c9 type `system'
+	Min Cardinality: 1
+	Max Cardinality: 1
+
+
+Object Id:"0164289c-522d-4893-adfb-e21e194c56e7" of type 'functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: a980b931-9769-4975-847a-5d81405b213b type `functional_system_component'
+	Relation UUID: c51e22a9-de7e-49c2-82ee-51ffdb8178c7
+	Original Relation Name: component_of
+	Range: dddc968c-e4e3-4776-b227-6ec6f82160c9 type `system'
+	Min Cardinality: 1
+	Max Cardinality: 1
+
+
+Object Id:"02c0f6c8-ea76-414a-a764-eae6cf4129fb" of type 'functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: a980b931-9769-4975-847a-5d81405b213b type `functional_system_component'
+	Relation UUID: c51e22a9-de7e-49c2-82ee-51ffdb8178c7
+	Original Relation Name: component_of
+	Range: dddc968c-e4e3-4776-b227-6ec6f82160c9 type `system'
+	Min Cardinality: 1
+	Max Cardinality: 1
+
+
+Object Id:"04c63471-7073-4e6d-8adf-2bfb9c890ba8" of type 'functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: a980b931-9769-4975-847a-5d81405b213b type `functional_system_component'
+	Relation UUID: c51e22a9-de7e-49c2-82ee-51ffdb8178c7
+	Original Relation Name: component_of
+	Range: dddc968c-e4e3-4776-b227-6ec6f82160c9 type `system'
+	Min Cardinality: 1
+	Max Cardinality: 1
+
+
+Object Id:"04ff825a-8191-4fd1-bf47-26ab800999d1" of type 'class_of_installed_functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: 57d77eb1-397a-4966-8f9f-51812b2287bc type `class_of_installed_functional_system_component'
+	Relation UUID: 2359248b-d916-442c-895b-0b939c27dfc5
+	Original Relation Name: consists__of_by_class
+	Range: bb6f6d3f-1ed1-41ab-942c-6b3667c5da37 type `class_of_spatio_temporal_extent'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"0691e1fe-8efe-41fa-9a0c-dae409285e7d" of type 'kind_of_functional_system'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: 69237cad-6966-4825-ba09-f1402bc93e91 type `kind_of_functional_system'
+	Relation UUID: 77b1abdc-8fcb-40ae-b2c3-15bd8e89df4f
+	Original Relation Name: consists__of_by_class
+	Range: bb6f6d3f-1ed1-41ab-942c-6b3667c5da37 type `class_of_spatio_temporal_extent'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"0691e1fe-8efe-41fa-9a0c-dae409285e7d" of type 'kind_of_functional_system'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: 69237cad-6966-4825-ba09-f1402bc93e91 type `kind_of_functional_system'
+	Relation UUID: 9a784208-bead-4f81-b12a-74b404a8e83d
+	Original Relation Name: has_component_by_class
+	Range: 6ed91d58-3c29-484d-b7b2-2c9b7ad3d414 type `kind_of_system_component'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"077dc199-9332-4edf-bd08-65fa320614c1" of type 'kind_of_functional_system'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: 69237cad-6966-4825-ba09-f1402bc93e91 type `kind_of_functional_system'
+	Relation UUID: 9fc6e6b2-6245-45c9-a658-4807f752d7e1
+	Original Relation Name: has_component_by_class
+	Range: 5ccc13dd-c63c-4502-aa0d-786410b138cd type `kind_of_functional_system_component'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"077dc199-9332-4edf-bd08-65fa320614c1" of type 'kind_of_functional_system'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: 69237cad-6966-4825-ba09-f1402bc93e91 type `kind_of_functional_system'
+	Relation UUID: 77b1abdc-8fcb-40ae-b2c3-15bd8e89df4f
+	Original Relation Name: consists__of_by_class
+	Range: bb6f6d3f-1ed1-41ab-942c-6b3667c5da37 type `class_of_spatio_temporal_extent'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"077dc199-9332-4edf-bd08-65fa320614c1" of type 'kind_of_functional_system'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: 69237cad-6966-4825-ba09-f1402bc93e91 type `kind_of_functional_system'
+	Relation UUID: 9a784208-bead-4f81-b12a-74b404a8e83d
+	Original Relation Name: has_component_by_class
+	Range: 6ed91d58-3c29-484d-b7b2-2c9b7ad3d414 type `kind_of_system_component'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"081f7d92-5f5a-4ac4-9561-dc99f7dcec21" of type 'identification'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: 6c668919-a78c-4239-bdc1-95cf53b3ed94 type `identification'
+	Relation UUID: cb98a274-3072-46ac-a27c-1944aebf9cfb
+	Original Relation Name: consists__of_by_class
+	Range: bb6f6d3f-1ed1-41ab-942c-6b3667c5da37 type `class_of_spatio_temporal_extent'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"098048f2-074a-4415-b05a-b74732348ee0" of type 'functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: a980b931-9769-4975-847a-5d81405b213b type `functional_system_component'
+	Relation UUID: c51e22a9-de7e-49c2-82ee-51ffdb8178c7
+	Original Relation Name: component_of
+	Range: dddc968c-e4e3-4776-b227-6ec6f82160c9 type `system'
+	Min Cardinality: 1
+	Max Cardinality: 1
+
+
+Object Id:"0b11e848-345b-470d-a24e-9863351056c4" of type 'functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: a980b931-9769-4975-847a-5d81405b213b type `functional_system_component'
+	Relation UUID: c51e22a9-de7e-49c2-82ee-51ffdb8178c7
+	Original Relation Name: component_of
+	Range: dddc968c-e4e3-4776-b227-6ec6f82160c9 type `system'
+	Min Cardinality: 1
+	Max Cardinality: 1
+
+
+Object Id:"0df88ffa-4798-4b55-92bf-3496cf31e229" of type 'functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: a980b931-9769-4975-847a-5d81405b213b type `functional_system_component'
+	Relation UUID: c51e22a9-de7e-49c2-82ee-51ffdb8178c7
+	Original Relation Name: component_of
+	Range: dddc968c-e4e3-4776-b227-6ec6f82160c9 type `system'
+	Min Cardinality: 1
+	Max Cardinality: 1
+
+
+Object Id:"0e93a422-4402-4a2b-aa06-6a0740bc5489" of type 'kind_of_organization'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: b5b606ea-c1a9-4cc0-9217-63979c082f5b type `kind_of_organization'
+	Relation UUID: 01fb2628-8416-4cdb-9243-d042d414c178
+	Original Relation Name: component_by_class
+	Range: 1c59d6d4-6324-4f82-92d5-61e4cf5e8d08 type `kind_of_organization_component'
+	Min Cardinality: 1
+	Max Cardinality: 1
+
+
+Object Id:"0e93a422-4402-4a2b-aa06-6a0740bc5489" of type 'kind_of_organization'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: b5b606ea-c1a9-4cc0-9217-63979c082f5b type `kind_of_organization'
+	Relation UUID: 426ead19-ca23-4b83-b1c7-6086660830bd
+	Original Relation Name: consists__of_by_class
+	Range: bb6f6d3f-1ed1-41ab-942c-6b3667c5da37 type `class_of_spatio_temporal_extent'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"0e93a422-4402-4a2b-aa06-6a0740bc5489" of type 'kind_of_organization'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: b5b606ea-c1a9-4cc0-9217-63979c082f5b type `kind_of_organization'
+	Relation UUID: b15e9e88-9526-4585-a6f3-25b8f0ca342a
+	Original Relation Name: has_component_by_class
+	Range: 1c59d6d4-6324-4f82-92d5-61e4cf5e8d08 type `kind_of_organization_component'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"0e93a422-4402-4a2b-aa06-6a0740bc5489" of type 'kind_of_organization'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: b5b606ea-c1a9-4cc0-9217-63979c082f5b type `kind_of_organization'
+	Relation UUID: 8e25f541-6d31-45a1-966c-43c86f9fe714
+	Original Relation Name: has_component_by_class
+	Range: 6ed91d58-3c29-484d-b7b2-2c9b7ad3d414 type `kind_of_system_component'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"1186a687-020f-4454-997a-319148fad52f" of type 'functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: a980b931-9769-4975-847a-5d81405b213b type `functional_system_component'
+	Relation UUID: c51e22a9-de7e-49c2-82ee-51ffdb8178c7
+	Original Relation Name: component_of
+	Range: dddc968c-e4e3-4776-b227-6ec6f82160c9 type `system'
+	Min Cardinality: 1
+	Max Cardinality: 1
+
+
+Object Id:"12d704ea-70be-491b-a11b-67a6ffce69b8" of type 'class_of_state_of_functional_system'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: b3b33e0d-bdb4-42f6-a39a-2b99e8e7163c type `class_of_state_of_functional_system'
+	Relation UUID: cc669614-faa2-46d8-a6dd-170ca5c7af94
+	Original Relation Name: consists__of_by_class
+	Range: bb6f6d3f-1ed1-41ab-942c-6b3667c5da37 type `class_of_spatio_temporal_extent'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"16181f42-aad8-4c99-8481-d99b97b0041f" of type 'functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: a980b931-9769-4975-847a-5d81405b213b type `functional_system_component'
+	Relation UUID: c51e22a9-de7e-49c2-82ee-51ffdb8178c7
+	Original Relation Name: component_of
+	Range: dddc968c-e4e3-4776-b227-6ec6f82160c9 type `system'
+	Min Cardinality: 1
+	Max Cardinality: 1
+
+
+Object Id:"1825ce4c-cb29-4a60-9a91-91309639f134" of type 'functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: a980b931-9769-4975-847a-5d81405b213b type `functional_system_component'
+	Relation UUID: c51e22a9-de7e-49c2-82ee-51ffdb8178c7
+	Original Relation Name: component_of
+	Range: dddc968c-e4e3-4776-b227-6ec6f82160c9 type `system'
+	Min Cardinality: 1
+	Max Cardinality: 1
+
+
+Object Id:"183e2482-f8b5-4345-8a6f-eebba54ee21d" of type 'role'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: bbdadac6-65c2-4a03-9f74-9784b916378e type `role'
+	Relation UUID: 26d14fcd-e3ac-41f7-bdae-0ec7ff6f1a03
+	Original Relation Name: consists__of_by_class
+	Range: bb6f6d3f-1ed1-41ab-942c-6b3667c5da37 type `class_of_spatio_temporal_extent'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"187fa880-21ee-41b8-b365-b27cd1d2b8a0" of type 'kind_of_association'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: 4ab749af-25a0-4906-8783-9337a543dffa type `kind_of_association'
+	Relation UUID: 02151ece-7509-4c43-8850-d51b645c7315
+	Original Relation Name: consists__of_by_class
+	Range: bb6f6d3f-1ed1-41ab-942c-6b3667c5da37 type `class_of_spatio_temporal_extent'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"1c1db80c-2fbd-400e-a653-1466db251783" of type 'functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: a980b931-9769-4975-847a-5d81405b213b type `functional_system_component'
+	Relation UUID: c51e22a9-de7e-49c2-82ee-51ffdb8178c7
+	Original Relation Name: component_of
+	Range: dddc968c-e4e3-4776-b227-6ec6f82160c9 type `system'
+	Min Cardinality: 1
+	Max Cardinality: 1
+
+
+Object Id:"1e383127-3e3c-429e-96c4-dddd2941b65a" of type 'functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: a980b931-9769-4975-847a-5d81405b213b type `functional_system_component'
+	Relation UUID: c51e22a9-de7e-49c2-82ee-51ffdb8178c7
+	Original Relation Name: component_of
+	Range: dddc968c-e4e3-4776-b227-6ec6f82160c9 type `system'
+	Min Cardinality: 1
+	Max Cardinality: 1
+
+
+Object Id:"1eb9e4ca-60d1-48e2-940e-38ebe5600e1b" of type 'role'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: bbdadac6-65c2-4a03-9f74-9784b916378e type `role'
+	Relation UUID: 26d14fcd-e3ac-41f7-bdae-0ec7ff6f1a03
+	Original Relation Name: consists__of_by_class
+	Range: bb6f6d3f-1ed1-41ab-942c-6b3667c5da37 type `class_of_spatio_temporal_extent'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"21b2b267-3956-491f-8276-a705b80b3831" of type 'possible_world'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: a5dc8c36-56fc-44c2-909b-7592b1f44fd7 type `possible_world'
+	Relation UUID: 989c624a-2b34-49b1-8adb-584c6c2b082d
+	Original Relation Name: part_of_possible_world
+	Range: a5dc8c36-56fc-44c2-909b-7592b1f44fd7 type `possible_world'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"22f51b4c-fcf5-4d0c-9982-f6ef3f5feb9d" of type 'functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: a980b931-9769-4975-847a-5d81405b213b type `functional_system_component'
+	Relation UUID: c51e22a9-de7e-49c2-82ee-51ffdb8178c7
+	Original Relation Name: component_of
+	Range: dddc968c-e4e3-4776-b227-6ec6f82160c9 type `system'
+	Min Cardinality: 1
+	Max Cardinality: 1
+
+
+Object Id:"25017629-9e9e-4ae4-98ef-9e579ff5f69e" of type 'representation_by_sign'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: b2471599-92bc-494d-8108-6be9895128a7 type `representation_by_sign'
+	Relation UUID: 29083640-7524-4750-8bb7-b228e8df7983
+	Original Relation Name: consists_of_
+	Range: fcae9992-8838-447e-a530-5f63aab304b2 type `recognizing_language_community'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"25017629-9e9e-4ae4-98ef-9e579ff5f69e" of type 'representation_by_sign'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: b2471599-92bc-494d-8108-6be9895128a7 type `representation_by_sign'
+	Relation UUID: d60aefa6-c830-4bca-b6a3-4bae917e66fe
+	Original Relation Name: consists_of
+	Range: 4e292a65-9a0d-4bfa-9e4f-16ae238c2627 type `sign'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"2699b39d-7e68-4850-be72-d76c17355d48" of type 'kind_of_functional_object'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: cc965f1b-26da-4230-b653-752e764add9e type `kind_of_functional_object'
+	Relation UUID: edd7f094-2e29-46e2-bb92-fe1321913f97
+	Original Relation Name: consists__of_by_class
+	Range: bb6f6d3f-1ed1-41ab-942c-6b3667c5da37 type `class_of_spatio_temporal_extent'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"289d9d31-2ee0-483e-afbe-f6d809e006ef" of type 'functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: a980b931-9769-4975-847a-5d81405b213b type `functional_system_component'
+	Relation UUID: c51e22a9-de7e-49c2-82ee-51ffdb8178c7
+	Original Relation Name: component_of
+	Range: dddc968c-e4e3-4776-b227-6ec6f82160c9 type `system'
+	Min Cardinality: 1
+	Max Cardinality: 1
+
+
+Object Id:"2b232865-fdfd-45fe-9556-5f1eb6a46979" of type 'class_of_state_of_functional_system'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: b3b33e0d-bdb4-42f6-a39a-2b99e8e7163c type `class_of_state_of_functional_system'
+	Relation UUID: cc669614-faa2-46d8-a6dd-170ca5c7af94
+	Original Relation Name: consists__of_by_class
+	Range: bb6f6d3f-1ed1-41ab-942c-6b3667c5da37 type `class_of_spatio_temporal_extent'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"2c118a4c-2b76-4237-8342-fd063b9bd948" of type 'functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: a980b931-9769-4975-847a-5d81405b213b type `functional_system_component'
+	Relation UUID: c51e22a9-de7e-49c2-82ee-51ffdb8178c7
+	Original Relation Name: component_of
+	Range: dddc968c-e4e3-4776-b227-6ec6f82160c9 type `system'
+	Min Cardinality: 1
+	Max Cardinality: 1
+
+
+Object Id:"2c6957c0-48c9-420b-8506-80876d0d268f" of type 'role'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: bbdadac6-65c2-4a03-9f74-9784b916378e type `role'
+	Relation UUID: 26d14fcd-e3ac-41f7-bdae-0ec7ff6f1a03
+	Original Relation Name: consists__of_by_class
+	Range: bb6f6d3f-1ed1-41ab-942c-6b3667c5da37 type `class_of_spatio_temporal_extent'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"2d73b0da-968b-43bc-ac7e-3604fe6cf514" of type 'kind_of_functional_object'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: cc965f1b-26da-4230-b653-752e764add9e type `kind_of_functional_object'
+	Relation UUID: edd7f094-2e29-46e2-bb92-fe1321913f97
+	Original Relation Name: consists__of_by_class
+	Range: bb6f6d3f-1ed1-41ab-942c-6b3667c5da37 type `class_of_spatio_temporal_extent'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"2f476d95-7185-4b13-aa15-e50d42203f8b" of type 'class_of_state_of_functional_object'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: 828b8a81-f980-4c91-b1bd-07228f20c524 type `class_of_state_of_functional_object'
+	Relation UUID: cea0bbfb-6f32-413a-93c9-ee0ad4efa401
+	Original Relation Name: consists__of_by_class
+	Range: bb6f6d3f-1ed1-41ab-942c-6b3667c5da37 type `class_of_spatio_temporal_extent'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"31c79380-d8c8-4304-bd35-6448e6378c41" of type 'class_of_point_in_time'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: 04f30767-7c10-47b4-a0c4-526bc846b814 type `class_of_point_in_time'
+	Relation UUID: 459698f9-ffa6-425b-a179-e6d16ca1983e
+	Original Relation Name: consists__of_by_class
+	Range: bb6f6d3f-1ed1-41ab-942c-6b3667c5da37 type `class_of_spatio_temporal_extent'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"332f8db6-c031-4bc0-ae9b-5ba2d6f65af1" of type 'class_of_state_of_organization'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: 652d9a7e-4310-43ff-8572-2f7e963499ae type `class_of_state_of_organization'
+	Relation UUID: b686a254-182b-42b1-a75d-412af5cd34dc
+	Original Relation Name: consists__of_by_class
+	Range: bb6f6d3f-1ed1-41ab-942c-6b3667c5da37 type `class_of_spatio_temporal_extent'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"338d45df-ba19-4abf-812e-2930d41e7bf7" of type 'class_of_state_of_functional_system'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: b3b33e0d-bdb4-42f6-a39a-2b99e8e7163c type `class_of_state_of_functional_system'
+	Relation UUID: cc669614-faa2-46d8-a6dd-170ca5c7af94
+	Original Relation Name: consists__of_by_class
+	Range: bb6f6d3f-1ed1-41ab-942c-6b3667c5da37 type `class_of_spatio_temporal_extent'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"3d2c9fb6-9ce1-41c2-9f4f-b811543421f1" of type 'functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: a980b931-9769-4975-847a-5d81405b213b type `functional_system_component'
+	Relation UUID: c51e22a9-de7e-49c2-82ee-51ffdb8178c7
+	Original Relation Name: component_of
+	Range: dddc968c-e4e3-4776-b227-6ec6f82160c9 type `system'
+	Min Cardinality: 1
+	Max Cardinality: 1
+
+
+Object Id:"3e1ea4e4-bd2e-4624-bcf5-35d345b2c64b" of type 'role'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: bbdadac6-65c2-4a03-9f74-9784b916378e type `role'
+	Relation UUID: 26d14fcd-e3ac-41f7-bdae-0ec7ff6f1a03
+	Original Relation Name: consists__of_by_class
+	Range: bb6f6d3f-1ed1-41ab-942c-6b3667c5da37 type `class_of_spatio_temporal_extent'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"3eb28f55-3fae-4bbd-b4a9-bb48f96775aa" of type 'functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: a980b931-9769-4975-847a-5d81405b213b type `functional_system_component'
+	Relation UUID: c51e22a9-de7e-49c2-82ee-51ffdb8178c7
+	Original Relation Name: component_of
+	Range: dddc968c-e4e3-4776-b227-6ec6f82160c9 type `system'
+	Min Cardinality: 1
+	Max Cardinality: 1
+
+
+Object Id:"40a5ab24-f21a-4e48-b053-e509809aa532" of type 'functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: a980b931-9769-4975-847a-5d81405b213b type `functional_system_component'
+	Relation UUID: c51e22a9-de7e-49c2-82ee-51ffdb8178c7
+	Original Relation Name: component_of
+	Range: dddc968c-e4e3-4776-b227-6ec6f82160c9 type `system'
+	Min Cardinality: 1
+	Max Cardinality: 1
+
+
+Object Id:"40f5398d-83e3-40c0-be69-0ec34feff51a" of type 'kind_of_association'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: 4ab749af-25a0-4906-8783-9337a543dffa type `kind_of_association'
+	Relation UUID: 02151ece-7509-4c43-8850-d51b645c7315
+	Original Relation Name: consists__of_by_class
+	Range: bb6f6d3f-1ed1-41ab-942c-6b3667c5da37 type `class_of_spatio_temporal_extent'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"42ab476a-a72b-4d68-b976-e2f8d0a1619f" of type 'functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: a980b931-9769-4975-847a-5d81405b213b type `functional_system_component'
+	Relation UUID: c51e22a9-de7e-49c2-82ee-51ffdb8178c7
+	Original Relation Name: component_of
+	Range: dddc968c-e4e3-4776-b227-6ec6f82160c9 type `system'
+	Min Cardinality: 1
+	Max Cardinality: 1
+
+
+Object Id:"45a88bec-1c88-4bfa-bbf0-a2dd12caf401" of type 'class_of_state_of_functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: 65c798a6-a51f-4bba-872a-a60d49594ec4 type `class_of_state_of_functional_system_component'
+	Relation UUID: e6c79b6b-5b1e-4d9c-8cac-6570fb58161d
+	Original Relation Name: consists__of_by_class
+	Range: bb6f6d3f-1ed1-41ab-942c-6b3667c5da37 type `class_of_spatio_temporal_extent'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"48da83e2-3f8a-4720-8771-2f697d025931" of type 'functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: a980b931-9769-4975-847a-5d81405b213b type `functional_system_component'
+	Relation UUID: c51e22a9-de7e-49c2-82ee-51ffdb8178c7
+	Original Relation Name: component_of
+	Range: dddc968c-e4e3-4776-b227-6ec6f82160c9 type `system'
+	Min Cardinality: 1
+	Max Cardinality: 1
+
+
+Object Id:"50195e56-886f-4dba-82d3-0e6d81f03e63" of type 'functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: a980b931-9769-4975-847a-5d81405b213b type `functional_system_component'
+	Relation UUID: c51e22a9-de7e-49c2-82ee-51ffdb8178c7
+	Original Relation Name: component_of
+	Range: dddc968c-e4e3-4776-b227-6ec6f82160c9 type `system'
+	Min Cardinality: 1
+	Max Cardinality: 1
+
+
+Object Id:"5083baf0-6fe0-43ac-a325-746906738e4c" of type 'functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: a980b931-9769-4975-847a-5d81405b213b type `functional_system_component'
+	Relation UUID: c51e22a9-de7e-49c2-82ee-51ffdb8178c7
+	Original Relation Name: component_of
+	Range: dddc968c-e4e3-4776-b227-6ec6f82160c9 type `system'
+	Min Cardinality: 1
+	Max Cardinality: 1
+
+
+Object Id:"50c731fe-148f-4c67-b15b-e368cee39949" of type 'role'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: bbdadac6-65c2-4a03-9f74-9784b916378e type `role'
+	Relation UUID: 26d14fcd-e3ac-41f7-bdae-0ec7ff6f1a03
+	Original Relation Name: consists__of_by_class
+	Range: bb6f6d3f-1ed1-41ab-942c-6b3667c5da37 type `class_of_spatio_temporal_extent'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"50cef304-8f32-4ebc-a327-a316d8498abc" of type 'functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: a980b931-9769-4975-847a-5d81405b213b type `functional_system_component'
+	Relation UUID: c51e22a9-de7e-49c2-82ee-51ffdb8178c7
+	Original Relation Name: component_of
+	Range: dddc968c-e4e3-4776-b227-6ec6f82160c9 type `system'
+	Min Cardinality: 1
+	Max Cardinality: 1
+
+
+Object Id:"518f088d-1e08-4ee9-bada-620d0b8d069d" of type 'pattern'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: efbfe0f6-376d-4461-9f47-f4823d8a426b type `pattern'
+	Relation UUID: b46fde96-90f6-4b03-a92c-f5c86392cb8d
+	Original Relation Name: consists__of_by_class
+	Range: bb6f6d3f-1ed1-41ab-942c-6b3667c5da37 type `class_of_spatio_temporal_extent'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"53e2438b-47ed-43db-8596-3c3ada6d7f8a" of type 'functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: a980b931-9769-4975-847a-5d81405b213b type `functional_system_component'
+	Relation UUID: c51e22a9-de7e-49c2-82ee-51ffdb8178c7
+	Original Relation Name: component_of
+	Range: dddc968c-e4e3-4776-b227-6ec6f82160c9 type `system'
+	Min Cardinality: 1
+	Max Cardinality: 1
+
+
+Object Id:"558f3f3e-9680-4bc6-a0a9-b1803156e5de" of type 'functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: a980b931-9769-4975-847a-5d81405b213b type `functional_system_component'
+	Relation UUID: c51e22a9-de7e-49c2-82ee-51ffdb8178c7
+	Original Relation Name: component_of
+	Range: dddc968c-e4e3-4776-b227-6ec6f82160c9 type `system'
+	Min Cardinality: 1
+	Max Cardinality: 1
+
+
+Object Id:"58b06ec5-b9df-437d-9ebb-a338dbd9a1ab" of type 'kind_of_association'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: 4ab749af-25a0-4906-8783-9337a543dffa type `kind_of_association'
+	Relation UUID: 02151ece-7509-4c43-8850-d51b645c7315
+	Original Relation Name: consists__of_by_class
+	Range: bb6f6d3f-1ed1-41ab-942c-6b3667c5da37 type `class_of_spatio_temporal_extent'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"59c211c5-337c-4a25-8a31-919f7dd37314" of type 'role'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: bbdadac6-65c2-4a03-9f74-9784b916378e type `role'
+	Relation UUID: 26d14fcd-e3ac-41f7-bdae-0ec7ff6f1a03
+	Original Relation Name: consists__of_by_class
+	Range: bb6f6d3f-1ed1-41ab-942c-6b3667c5da37 type `class_of_spatio_temporal_extent'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"5b0e6f24-79ce-42b0-8d26-e1855228af24" of type 'class_of_state_of_functional_object'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: 828b8a81-f980-4c91-b1bd-07228f20c524 type `class_of_state_of_functional_object'
+	Relation UUID: cea0bbfb-6f32-413a-93c9-ee0ad4efa401
+	Original Relation Name: consists__of_by_class
+	Range: bb6f6d3f-1ed1-41ab-942c-6b3667c5da37 type `class_of_spatio_temporal_extent'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"5c59e5a4-7315-478e-be99-709c0d177704" of type 'class_of_state_of_functional_system'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: b3b33e0d-bdb4-42f6-a39a-2b99e8e7163c type `class_of_state_of_functional_system'
+	Relation UUID: cc669614-faa2-46d8-a6dd-170ca5c7af94
+	Original Relation Name: consists__of_by_class
+	Range: bb6f6d3f-1ed1-41ab-942c-6b3667c5da37 type `class_of_spatio_temporal_extent'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"5d372230-d516-45bd-94f4-0064f09f1f67" of type 'pattern'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: efbfe0f6-376d-4461-9f47-f4823d8a426b type `pattern'
+	Relation UUID: b46fde96-90f6-4b03-a92c-f5c86392cb8d
+	Original Relation Name: consists__of_by_class
+	Range: bb6f6d3f-1ed1-41ab-942c-6b3667c5da37 type `class_of_spatio_temporal_extent'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"5d8b7616-9529-4665-9c4b-e114bf41bdda" of type 'functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: a980b931-9769-4975-847a-5d81405b213b type `functional_system_component'
+	Relation UUID: c51e22a9-de7e-49c2-82ee-51ffdb8178c7
+	Original Relation Name: component_of
+	Range: dddc968c-e4e3-4776-b227-6ec6f82160c9 type `system'
+	Min Cardinality: 1
+	Max Cardinality: 1
+
+
+Object Id:"5e3931a1-47f2-4e3e-8b22-d110ee8e651e" of type 'functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: a980b931-9769-4975-847a-5d81405b213b type `functional_system_component'
+	Relation UUID: c51e22a9-de7e-49c2-82ee-51ffdb8178c7
+	Original Relation Name: component_of
+	Range: dddc968c-e4e3-4776-b227-6ec6f82160c9 type `system'
+	Min Cardinality: 1
+	Max Cardinality: 1
+
+
+Object Id:"5f2e6255-decd-469f-9597-3905fe1270d9" of type 'functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: a980b931-9769-4975-847a-5d81405b213b type `functional_system_component'
+	Relation UUID: c51e22a9-de7e-49c2-82ee-51ffdb8178c7
+	Original Relation Name: component_of
+	Range: dddc968c-e4e3-4776-b227-6ec6f82160c9 type `system'
+	Min Cardinality: 1
+	Max Cardinality: 1
+
+
+Object Id:"6304459d-bf6f-4e0d-90ed-ecfcf7c458e0" of type 'class_of_sign'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: 17b9a165-a969-4871-8a7d-2b9b6c7c6168 type `class_of_sign'
+	Relation UUID: bdeeb194-6ad2-4db0-b381-b040c16c6620
+	Original Relation Name: consists__of_by_class
+	Range: bb6f6d3f-1ed1-41ab-942c-6b3667c5da37 type `class_of_spatio_temporal_extent'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"6376fb84-847c-46b5-a782-2fc1e4e29e83" of type 'kind_of_association'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: 4ab749af-25a0-4906-8783-9337a543dffa type `kind_of_association'
+	Relation UUID: 02151ece-7509-4c43-8850-d51b645c7315
+	Original Relation Name: consists__of_by_class
+	Range: bb6f6d3f-1ed1-41ab-942c-6b3667c5da37 type `class_of_spatio_temporal_extent'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"63ee151e-af0d-4dd7-a007-15706ba37820" of type 'class_of_sign'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: 17b9a165-a969-4871-8a7d-2b9b6c7c6168 type `class_of_sign'
+	Relation UUID: bdeeb194-6ad2-4db0-b381-b040c16c6620
+	Original Relation Name: consists__of_by_class
+	Range: bb6f6d3f-1ed1-41ab-942c-6b3667c5da37 type `class_of_spatio_temporal_extent'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"648ca79e-36dc-43c6-a5f3-0d1d7c14c770" of type 'class_of_state_of_functional_system'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: b3b33e0d-bdb4-42f6-a39a-2b99e8e7163c type `class_of_state_of_functional_system'
+	Relation UUID: cc669614-faa2-46d8-a6dd-170ca5c7af94
+	Original Relation Name: consists__of_by_class
+	Range: bb6f6d3f-1ed1-41ab-942c-6b3667c5da37 type `class_of_spatio_temporal_extent'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"65c36d83-516b-41c2-8237-20016f047fb4" of type 'role'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: bbdadac6-65c2-4a03-9f74-9784b916378e type `role'
+	Relation UUID: 26d14fcd-e3ac-41f7-bdae-0ec7ff6f1a03
+	Original Relation Name: consists__of_by_class
+	Range: bb6f6d3f-1ed1-41ab-942c-6b3667c5da37 type `class_of_spatio_temporal_extent'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"66a6cd3b-ab4d-4161-98a9-6e0b767a2705" of type 'role'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: bbdadac6-65c2-4a03-9f74-9784b916378e type `role'
+	Relation UUID: 26d14fcd-e3ac-41f7-bdae-0ec7ff6f1a03
+	Original Relation Name: consists__of_by_class
+	Range: bb6f6d3f-1ed1-41ab-942c-6b3667c5da37 type `class_of_spatio_temporal_extent'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"6cab7470-e18e-4598-8850-4645f3109ef6" of type 'kind_of_ordinary_functional_object'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: 73b12acd-dc2e-4b10-b574-731e07c6d049 type `kind_of_ordinary_functional_object'
+	Relation UUID: 51dc4db1-32c8-4726-8fe7-810b9873deda
+	Original Relation Name: consists__of_by_class
+	Range: bb6f6d3f-1ed1-41ab-942c-6b3667c5da37 type `class_of_spatio_temporal_extent'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"6ccea3fd-df1b-4ce8-85c3-1387deedbbb4" of type 'identification'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: 6c668919-a78c-4239-bdc1-95cf53b3ed94 type `identification'
+	Relation UUID: cb98a274-3072-46ac-a27c-1944aebf9cfb
+	Original Relation Name: consists__of_by_class
+	Range: bb6f6d3f-1ed1-41ab-942c-6b3667c5da37 type `class_of_spatio_temporal_extent'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"6d2f2bff-94e2-483c-a279-10fdd610c55f" of type 'role'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: bbdadac6-65c2-4a03-9f74-9784b916378e type `role'
+	Relation UUID: 26d14fcd-e3ac-41f7-bdae-0ec7ff6f1a03
+	Original Relation Name: consists__of_by_class
+	Range: bb6f6d3f-1ed1-41ab-942c-6b3667c5da37 type `class_of_spatio_temporal_extent'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"6db86b0b-5947-4c2a-8f71-f7296f7df24b" of type 'functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: a980b931-9769-4975-847a-5d81405b213b type `functional_system_component'
+	Relation UUID: c51e22a9-de7e-49c2-82ee-51ffdb8178c7
+	Original Relation Name: component_of
+	Range: dddc968c-e4e3-4776-b227-6ec6f82160c9 type `system'
+	Min Cardinality: 1
+	Max Cardinality: 1
+
+
+Object Id:"6f00889f-e68d-40c9-b970-ca2f3d6bfdb7" of type 'kind_of_functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: 5ccc13dd-c63c-4502-aa0d-786410b138cd type `kind_of_functional_system_component'
+	Relation UUID: 2fb7b3d9-cceb-47b2-9e3a-f51f5bbf7dfa
+	Original Relation Name: consists__of_by_class
+	Range: bb6f6d3f-1ed1-41ab-942c-6b3667c5da37 type `class_of_spatio_temporal_extent'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"750120c8-1d4b-4fed-8908-ce14e30d3e15" of type 'role'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: bbdadac6-65c2-4a03-9f74-9784b916378e type `role'
+	Relation UUID: 26d14fcd-e3ac-41f7-bdae-0ec7ff6f1a03
+	Original Relation Name: consists__of_by_class
+	Range: bb6f6d3f-1ed1-41ab-942c-6b3667c5da37 type `class_of_spatio_temporal_extent'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"77d4fc38-3fe8-4f50-87d8-599c77ab880d" of type 'kind_of_association'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: 4ab749af-25a0-4906-8783-9337a543dffa type `kind_of_association'
+	Relation UUID: 02151ece-7509-4c43-8850-d51b645c7315
+	Original Relation Name: consists__of_by_class
+	Range: bb6f6d3f-1ed1-41ab-942c-6b3667c5da37 type `class_of_spatio_temporal_extent'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"7a0ab39a-107c-4782-a2f1-b6097534f442" of type 'role'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: bbdadac6-65c2-4a03-9f74-9784b916378e type `role'
+	Relation UUID: 26d14fcd-e3ac-41f7-bdae-0ec7ff6f1a03
+	Original Relation Name: consists__of_by_class
+	Range: bb6f6d3f-1ed1-41ab-942c-6b3667c5da37 type `class_of_spatio_temporal_extent'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"7b49b800-6030-4d3a-aebc-ced34871e70e" of type 'functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: a980b931-9769-4975-847a-5d81405b213b type `functional_system_component'
+	Relation UUID: c51e22a9-de7e-49c2-82ee-51ffdb8178c7
+	Original Relation Name: component_of
+	Range: dddc968c-e4e3-4776-b227-6ec6f82160c9 type `system'
+	Min Cardinality: 1
+	Max Cardinality: 1
+
+
+Object Id:"7c92babe-5c0a-4c9c-a55b-854effd49df0" of type 'functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: a980b931-9769-4975-847a-5d81405b213b type `functional_system_component'
+	Relation UUID: c51e22a9-de7e-49c2-82ee-51ffdb8178c7
+	Original Relation Name: component_of
+	Range: dddc968c-e4e3-4776-b227-6ec6f82160c9 type `system'
+	Min Cardinality: 1
+	Max Cardinality: 1
+
+
+Object Id:"7dd6bcd7-6a17-4d45-8d58-c39ba1c9da12" of type 'role'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: bbdadac6-65c2-4a03-9f74-9784b916378e type `role'
+	Relation UUID: 26d14fcd-e3ac-41f7-bdae-0ec7ff6f1a03
+	Original Relation Name: consists__of_by_class
+	Range: bb6f6d3f-1ed1-41ab-942c-6b3667c5da37 type `class_of_spatio_temporal_extent'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"7fcbe3ac-096d-4acb-a7d0-186a2195271e" of type 'functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: a980b931-9769-4975-847a-5d81405b213b type `functional_system_component'
+	Relation UUID: c51e22a9-de7e-49c2-82ee-51ffdb8178c7
+	Original Relation Name: component_of
+	Range: dddc968c-e4e3-4776-b227-6ec6f82160c9 type `system'
+	Min Cardinality: 1
+	Max Cardinality: 1
+
+
+Object Id:"7fd08eec-b03b-4245-8b77-4e8e2e92f347" of type 'role'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: bbdadac6-65c2-4a03-9f74-9784b916378e type `role'
+	Relation UUID: 26d14fcd-e3ac-41f7-bdae-0ec7ff6f1a03
+	Original Relation Name: consists__of_by_class
+	Range: bb6f6d3f-1ed1-41ab-942c-6b3667c5da37 type `class_of_spatio_temporal_extent'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"7ff9e52f-bcb2-4070-bfce-e4fdd643cee4" of type 'role'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: bbdadac6-65c2-4a03-9f74-9784b916378e type `role'
+	Relation UUID: 26d14fcd-e3ac-41f7-bdae-0ec7ff6f1a03
+	Original Relation Name: consists__of_by_class
+	Range: bb6f6d3f-1ed1-41ab-942c-6b3667c5da37 type `class_of_spatio_temporal_extent'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"82fca4c9-0904-4ea8-abf9-1d0b0ec51301" of type 'functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: a980b931-9769-4975-847a-5d81405b213b type `functional_system_component'
+	Relation UUID: c51e22a9-de7e-49c2-82ee-51ffdb8178c7
+	Original Relation Name: component_of
+	Range: dddc968c-e4e3-4776-b227-6ec6f82160c9 type `system'
+	Min Cardinality: 1
+	Max Cardinality: 1
+
+
+Object Id:"8883c70b-bc98-4c5f-b65d-92a21658947c" of type 'functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: a980b931-9769-4975-847a-5d81405b213b type `functional_system_component'
+	Relation UUID: c51e22a9-de7e-49c2-82ee-51ffdb8178c7
+	Original Relation Name: component_of
+	Range: dddc968c-e4e3-4776-b227-6ec6f82160c9 type `system'
+	Min Cardinality: 1
+	Max Cardinality: 1
+
+
+Object Id:"8c1d6f78-392e-45a6-829d-056e4b796b0b" of type 'role'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: bbdadac6-65c2-4a03-9f74-9784b916378e type `role'
+	Relation UUID: 26d14fcd-e3ac-41f7-bdae-0ec7ff6f1a03
+	Original Relation Name: consists__of_by_class
+	Range: bb6f6d3f-1ed1-41ab-942c-6b3667c5da37 type `class_of_spatio_temporal_extent'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"90b8f451-bdba-40e5-a7cc-446e6698c98e" of type 'kind_of_association'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: 4ab749af-25a0-4906-8783-9337a543dffa type `kind_of_association'
+	Relation UUID: 02151ece-7509-4c43-8850-d51b645c7315
+	Original Relation Name: consists__of_by_class
+	Range: bb6f6d3f-1ed1-41ab-942c-6b3667c5da37 type `class_of_spatio_temporal_extent'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"938efa25-8c0d-4380-b7f3-0e0d1e984456" of type 'kind_of_functional_system'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: 69237cad-6966-4825-ba09-f1402bc93e91 type `kind_of_functional_system'
+	Relation UUID: 77b1abdc-8fcb-40ae-b2c3-15bd8e89df4f
+	Original Relation Name: consists__of_by_class
+	Range: bb6f6d3f-1ed1-41ab-942c-6b3667c5da37 type `class_of_spatio_temporal_extent'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"938efa25-8c0d-4380-b7f3-0e0d1e984456" of type 'kind_of_functional_system'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: 69237cad-6966-4825-ba09-f1402bc93e91 type `kind_of_functional_system'
+	Relation UUID: 9a784208-bead-4f81-b12a-74b404a8e83d
+	Original Relation Name: has_component_by_class
+	Range: 6ed91d58-3c29-484d-b7b2-2c9b7ad3d414 type `kind_of_system_component'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"94808823-9865-438f-abf9-5da2ebc1bf5c" of type 'kind_of_functional_system'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: 69237cad-6966-4825-ba09-f1402bc93e91 type `kind_of_functional_system'
+	Relation UUID: 9fc6e6b2-6245-45c9-a658-4807f752d7e1
+	Original Relation Name: has_component_by_class
+	Range: 5ccc13dd-c63c-4502-aa0d-786410b138cd type `kind_of_functional_system_component'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"94808823-9865-438f-abf9-5da2ebc1bf5c" of type 'kind_of_functional_system'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: 69237cad-6966-4825-ba09-f1402bc93e91 type `kind_of_functional_system'
+	Relation UUID: 77b1abdc-8fcb-40ae-b2c3-15bd8e89df4f
+	Original Relation Name: consists__of_by_class
+	Range: bb6f6d3f-1ed1-41ab-942c-6b3667c5da37 type `class_of_spatio_temporal_extent'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"94808823-9865-438f-abf9-5da2ebc1bf5c" of type 'kind_of_functional_system'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: 69237cad-6966-4825-ba09-f1402bc93e91 type `kind_of_functional_system'
+	Relation UUID: 9a784208-bead-4f81-b12a-74b404a8e83d
+	Original Relation Name: has_component_by_class
+	Range: 6ed91d58-3c29-484d-b7b2-2c9b7ad3d414 type `kind_of_system_component'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"988ced22-d631-42c1-95ca-d20088990723" of type 'class_of_possible_world'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: fa589df8-5b75-4b5a-97e5-19d27f6801df type `class_of_possible_world'
+	Relation UUID: 9075c934-cfb3-4402-b0d7-62b36f374b8f
+	Original Relation Name: consists__of_by_class
+	Range: bb6f6d3f-1ed1-41ab-942c-6b3667c5da37 type `class_of_spatio_temporal_extent'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"9895a3cd-be4b-4922-a132-0fa8d9b19c5d" of type 'functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: a980b931-9769-4975-847a-5d81405b213b type `functional_system_component'
+	Relation UUID: c51e22a9-de7e-49c2-82ee-51ffdb8178c7
+	Original Relation Name: component_of
+	Range: dddc968c-e4e3-4776-b227-6ec6f82160c9 type `system'
+	Min Cardinality: 1
+	Max Cardinality: 1
+
+
+Object Id:"9a310748-48cd-47bb-bbb8-8cf2002617ec" of type 'functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: a980b931-9769-4975-847a-5d81405b213b type `functional_system_component'
+	Relation UUID: c51e22a9-de7e-49c2-82ee-51ffdb8178c7
+	Original Relation Name: component_of
+	Range: dddc968c-e4e3-4776-b227-6ec6f82160c9 type `system'
+	Min Cardinality: 1
+	Max Cardinality: 1
+
+
+Object Id:"9a61d44a-0db4-496c-a5e0-81765ebd8c49" of type 'functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: a980b931-9769-4975-847a-5d81405b213b type `functional_system_component'
+	Relation UUID: c51e22a9-de7e-49c2-82ee-51ffdb8178c7
+	Original Relation Name: component_of
+	Range: dddc968c-e4e3-4776-b227-6ec6f82160c9 type `system'
+	Min Cardinality: 1
+	Max Cardinality: 1
+
+
+Object Id:"9a6cfc6f-45ab-4247-a794-efe73e71f049" of type 'kind_of_functional_system'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: 69237cad-6966-4825-ba09-f1402bc93e91 type `kind_of_functional_system'
+	Relation UUID: 77b1abdc-8fcb-40ae-b2c3-15bd8e89df4f
+	Original Relation Name: consists__of_by_class
+	Range: bb6f6d3f-1ed1-41ab-942c-6b3667c5da37 type `class_of_spatio_temporal_extent'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"9a6cfc6f-45ab-4247-a794-efe73e71f049" of type 'kind_of_functional_system'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: 69237cad-6966-4825-ba09-f1402bc93e91 type `kind_of_functional_system'
+	Relation UUID: 9a784208-bead-4f81-b12a-74b404a8e83d
+	Original Relation Name: has_component_by_class
+	Range: 6ed91d58-3c29-484d-b7b2-2c9b7ad3d414 type `kind_of_system_component'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"9aa96187-b66b-4730-a110-d06287e3680a" of type 'role'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: bbdadac6-65c2-4a03-9f74-9784b916378e type `role'
+	Relation UUID: 26d14fcd-e3ac-41f7-bdae-0ec7ff6f1a03
+	Original Relation Name: consists__of_by_class
+	Range: bb6f6d3f-1ed1-41ab-942c-6b3667c5da37 type `class_of_spatio_temporal_extent'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"9b3b6de0-5e01-40d0-8ba6-2aed873a05ca" of type 'functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: a980b931-9769-4975-847a-5d81405b213b type `functional_system_component'
+	Relation UUID: c51e22a9-de7e-49c2-82ee-51ffdb8178c7
+	Original Relation Name: component_of
+	Range: dddc968c-e4e3-4776-b227-6ec6f82160c9 type `system'
+	Min Cardinality: 1
+	Max Cardinality: 1
+
+
+Object Id:"9f90b480-fec7-44ce-b0ed-a71c14235f0a" of type 'functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: a980b931-9769-4975-847a-5d81405b213b type `functional_system_component'
+	Relation UUID: c51e22a9-de7e-49c2-82ee-51ffdb8178c7
+	Original Relation Name: component_of
+	Range: dddc968c-e4e3-4776-b227-6ec6f82160c9 type `system'
+	Min Cardinality: 1
+	Max Cardinality: 1
+
+
+Object Id:"9fa094db-895d-4d71-9c3a-c6abe3cd681a" of type 'functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: a980b931-9769-4975-847a-5d81405b213b type `functional_system_component'
+	Relation UUID: c51e22a9-de7e-49c2-82ee-51ffdb8178c7
+	Original Relation Name: component_of
+	Range: dddc968c-e4e3-4776-b227-6ec6f82160c9 type `system'
+	Min Cardinality: 1
+	Max Cardinality: 1
+
+
+Object Id:"9fe01d6f-ebf4-4231-8775-7858c2eff844" of type 'functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: a980b931-9769-4975-847a-5d81405b213b type `functional_system_component'
+	Relation UUID: c51e22a9-de7e-49c2-82ee-51ffdb8178c7
+	Original Relation Name: component_of
+	Range: dddc968c-e4e3-4776-b227-6ec6f82160c9 type `system'
+	Min Cardinality: 1
+	Max Cardinality: 1
+
+
+Object Id:"9ffa0fc1-3365-4f63-801d-63ef72bda8e1" of type 'functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: a980b931-9769-4975-847a-5d81405b213b type `functional_system_component'
+	Relation UUID: c51e22a9-de7e-49c2-82ee-51ffdb8178c7
+	Original Relation Name: component_of
+	Range: dddc968c-e4e3-4776-b227-6ec6f82160c9 type `system'
+	Min Cardinality: 1
+	Max Cardinality: 1
+
+
+Object Id:"a002079d-3a04-4c1d-b7e5-13951040d533" of type 'class_of_installed_functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: 57d77eb1-397a-4966-8f9f-51812b2287bc type `class_of_installed_functional_system_component'
+	Relation UUID: 2359248b-d916-442c-895b-0b939c27dfc5
+	Original Relation Name: consists__of_by_class
+	Range: bb6f6d3f-1ed1-41ab-942c-6b3667c5da37 type `class_of_spatio_temporal_extent'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"a21b3955-8490-44ba-96e7-1f7524dd8d25" of type 'class_of_installed_functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: 57d77eb1-397a-4966-8f9f-51812b2287bc type `class_of_installed_functional_system_component'
+	Relation UUID: 2359248b-d916-442c-895b-0b939c27dfc5
+	Original Relation Name: consists__of_by_class
+	Range: bb6f6d3f-1ed1-41ab-942c-6b3667c5da37 type `class_of_spatio_temporal_extent'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"a293846a-b3f8-4917-8f00-34dd48a14c0d" of type 'functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: a980b931-9769-4975-847a-5d81405b213b type `functional_system_component'
+	Relation UUID: c51e22a9-de7e-49c2-82ee-51ffdb8178c7
+	Original Relation Name: component_of
+	Range: dddc968c-e4e3-4776-b227-6ec6f82160c9 type `system'
+	Min Cardinality: 1
+	Max Cardinality: 1
+
+
+Object Id:"a440bfab-0b24-4fb5-8ef2-838262d71b7f" of type 'functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: a980b931-9769-4975-847a-5d81405b213b type `functional_system_component'
+	Relation UUID: c51e22a9-de7e-49c2-82ee-51ffdb8178c7
+	Original Relation Name: component_of
+	Range: dddc968c-e4e3-4776-b227-6ec6f82160c9 type `system'
+	Min Cardinality: 1
+	Max Cardinality: 1
+
+
+Object Id:"a51d6887-725c-4cbc-9c94-593de8bac94d" of type 'role'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: bbdadac6-65c2-4a03-9f74-9784b916378e type `role'
+	Relation UUID: 26d14fcd-e3ac-41f7-bdae-0ec7ff6f1a03
+	Original Relation Name: consists__of_by_class
+	Range: bb6f6d3f-1ed1-41ab-942c-6b3667c5da37 type `class_of_spatio_temporal_extent'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"a586b88f-4e88-477d-bb93-6b92e4141076" of type 'functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: a980b931-9769-4975-847a-5d81405b213b type `functional_system_component'
+	Relation UUID: c51e22a9-de7e-49c2-82ee-51ffdb8178c7
+	Original Relation Name: component_of
+	Range: dddc968c-e4e3-4776-b227-6ec6f82160c9 type `system'
+	Min Cardinality: 1
+	Max Cardinality: 1
+
+
+Object Id:"a7fbc436-d312-4a69-98c8-afa67470b110" of type 'representation_by_sign'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: b2471599-92bc-494d-8108-6be9895128a7 type `representation_by_sign'
+	Relation UUID: 29083640-7524-4750-8bb7-b228e8df7983
+	Original Relation Name: consists_of_
+	Range: fcae9992-8838-447e-a530-5f63aab304b2 type `recognizing_language_community'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"a7fbc436-d312-4a69-98c8-afa67470b110" of type 'representation_by_sign'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: b2471599-92bc-494d-8108-6be9895128a7 type `representation_by_sign'
+	Relation UUID: d60aefa6-c830-4bca-b6a3-4bae917e66fe
+	Original Relation Name: consists_of
+	Range: 4e292a65-9a0d-4bfa-9e4f-16ae238c2627 type `sign'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"ab9c00da-74cb-4e63-a37c-ca0bea64fba0" of type 'functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: a980b931-9769-4975-847a-5d81405b213b type `functional_system_component'
+	Relation UUID: c51e22a9-de7e-49c2-82ee-51ffdb8178c7
+	Original Relation Name: component_of
+	Range: dddc968c-e4e3-4776-b227-6ec6f82160c9 type `system'
+	Min Cardinality: 1
+	Max Cardinality: 1
+
+
+Object Id:"ad27f18d-99e2-4402-8803-4825e4a439c6" of type 'kind_of_socially_constructed_object'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: cd887fc6-ed0f-418f-b209-8a20d04f2d16 type `kind_of_socially_constructed_object'
+	Relation UUID: 0add6947-caba-49a1-83a2-1587db82c483
+	Original Relation Name: consists__of_by_class
+	Range: bb6f6d3f-1ed1-41ab-942c-6b3667c5da37 type `class_of_spatio_temporal_extent'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"b17a5dd7-0e51-41f3-9692-1a5c17326de5" of type 'functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: a980b931-9769-4975-847a-5d81405b213b type `functional_system_component'
+	Relation UUID: c51e22a9-de7e-49c2-82ee-51ffdb8178c7
+	Original Relation Name: component_of
+	Range: dddc968c-e4e3-4776-b227-6ec6f82160c9 type `system'
+	Min Cardinality: 1
+	Max Cardinality: 1
+
+
+Object Id:"b3f4ccd5-6463-45e5-9fac-4552a0a7a567" of type 'functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: a980b931-9769-4975-847a-5d81405b213b type `functional_system_component'
+	Relation UUID: c51e22a9-de7e-49c2-82ee-51ffdb8178c7
+	Original Relation Name: component_of
+	Range: dddc968c-e4e3-4776-b227-6ec6f82160c9 type `system'
+	Min Cardinality: 1
+	Max Cardinality: 1
+
+
+Object Id:"b6ad3dc8-233d-4a50-904d-8adf5fb856fb" of type 'functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: a980b931-9769-4975-847a-5d81405b213b type `functional_system_component'
+	Relation UUID: c51e22a9-de7e-49c2-82ee-51ffdb8178c7
+	Original Relation Name: component_of
+	Range: dddc968c-e4e3-4776-b227-6ec6f82160c9 type `system'
+	Min Cardinality: 1
+	Max Cardinality: 1
+
+
+Object Id:"b7ea5ac8-dac2-47c6-a4da-bfa526e96cb7" of type 'functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: a980b931-9769-4975-847a-5d81405b213b type `functional_system_component'
+	Relation UUID: c51e22a9-de7e-49c2-82ee-51ffdb8178c7
+	Original Relation Name: component_of
+	Range: dddc968c-e4e3-4776-b227-6ec6f82160c9 type `system'
+	Min Cardinality: 1
+	Max Cardinality: 1
+
+
+Object Id:"b8563f4e-1751-40f8-b6e5-6c6019f0568b" of type 'kind_of_functional_system'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: 69237cad-6966-4825-ba09-f1402bc93e91 type `kind_of_functional_system'
+	Relation UUID: 9fc6e6b2-6245-45c9-a658-4807f752d7e1
+	Original Relation Name: has_component_by_class
+	Range: 5ccc13dd-c63c-4502-aa0d-786410b138cd type `kind_of_functional_system_component'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"b8563f4e-1751-40f8-b6e5-6c6019f0568b" of type 'kind_of_functional_system'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: 69237cad-6966-4825-ba09-f1402bc93e91 type `kind_of_functional_system'
+	Relation UUID: 77b1abdc-8fcb-40ae-b2c3-15bd8e89df4f
+	Original Relation Name: consists__of_by_class
+	Range: bb6f6d3f-1ed1-41ab-942c-6b3667c5da37 type `class_of_spatio_temporal_extent'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"b8563f4e-1751-40f8-b6e5-6c6019f0568b" of type 'kind_of_functional_system'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: 69237cad-6966-4825-ba09-f1402bc93e91 type `kind_of_functional_system'
+	Relation UUID: 9a784208-bead-4f81-b12a-74b404a8e83d
+	Original Relation Name: has_component_by_class
+	Range: 6ed91d58-3c29-484d-b7b2-2c9b7ad3d414 type `kind_of_system_component'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"bffc603e-a460-42a9-b283-d1eb45c554cb" of type 'role'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: bbdadac6-65c2-4a03-9f74-9784b916378e type `role'
+	Relation UUID: 26d14fcd-e3ac-41f7-bdae-0ec7ff6f1a03
+	Original Relation Name: consists__of_by_class
+	Range: bb6f6d3f-1ed1-41ab-942c-6b3667c5da37 type `class_of_spatio_temporal_extent'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"c0c14f02-6fb9-404d-b104-ffed0cbf29f1" of type 'functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: a980b931-9769-4975-847a-5d81405b213b type `functional_system_component'
+	Relation UUID: c51e22a9-de7e-49c2-82ee-51ffdb8178c7
+	Original Relation Name: component_of
+	Range: dddc968c-e4e3-4776-b227-6ec6f82160c9 type `system'
+	Min Cardinality: 1
+	Max Cardinality: 1
+
+
+Object Id:"c3937857-bb3f-478b-9701-41b1c34dcc44" of type 'identification'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: 6c668919-a78c-4239-bdc1-95cf53b3ed94 type `identification'
+	Relation UUID: cb98a274-3072-46ac-a27c-1944aebf9cfb
+	Original Relation Name: consists__of_by_class
+	Range: bb6f6d3f-1ed1-41ab-942c-6b3667c5da37 type `class_of_spatio_temporal_extent'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"c39b6637-1ae4-44ef-9838-13cb31a323ec" of type 'kind_of_association'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: 4ab749af-25a0-4906-8783-9337a543dffa type `kind_of_association'
+	Relation UUID: 02151ece-7509-4c43-8850-d51b645c7315
+	Original Relation Name: consists__of_by_class
+	Range: bb6f6d3f-1ed1-41ab-942c-6b3667c5da37 type `class_of_spatio_temporal_extent'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"c400477f-b69a-4f64-8ab1-7260300f1cb3" of type 'representation_by_sign'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: b2471599-92bc-494d-8108-6be9895128a7 type `representation_by_sign'
+	Relation UUID: 29083640-7524-4750-8bb7-b228e8df7983
+	Original Relation Name: consists_of_
+	Range: fcae9992-8838-447e-a530-5f63aab304b2 type `recognizing_language_community'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"c400477f-b69a-4f64-8ab1-7260300f1cb3" of type 'representation_by_sign'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: b2471599-92bc-494d-8108-6be9895128a7 type `representation_by_sign'
+	Relation UUID: d60aefa6-c830-4bca-b6a3-4bae917e66fe
+	Original Relation Name: consists_of
+	Range: 4e292a65-9a0d-4bfa-9e4f-16ae238c2627 type `sign'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"c6f44af8-de12-4d54-b959-61d57564c927" of type 'functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: a980b931-9769-4975-847a-5d81405b213b type `functional_system_component'
+	Relation UUID: c51e22a9-de7e-49c2-82ee-51ffdb8178c7
+	Original Relation Name: component_of
+	Range: dddc968c-e4e3-4776-b227-6ec6f82160c9 type `system'
+	Min Cardinality: 1
+	Max Cardinality: 1
+
+
+Object Id:"c6f51ca5-f12e-4519-8aaa-d52298bdd431" of type 'class_of_state_of_functional_object'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: 828b8a81-f980-4c91-b1bd-07228f20c524 type `class_of_state_of_functional_object'
+	Relation UUID: cea0bbfb-6f32-413a-93c9-ee0ad4efa401
+	Original Relation Name: consists__of_by_class
+	Range: bb6f6d3f-1ed1-41ab-942c-6b3667c5da37 type `class_of_spatio_temporal_extent'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"c83b24f0-13b5-49f1-985d-e7373eb3ec99" of type 'functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: a980b931-9769-4975-847a-5d81405b213b type `functional_system_component'
+	Relation UUID: c51e22a9-de7e-49c2-82ee-51ffdb8178c7
+	Original Relation Name: component_of
+	Range: dddc968c-e4e3-4776-b227-6ec6f82160c9 type `system'
+	Min Cardinality: 1
+	Max Cardinality: 1
+
+
+Object Id:"cc71ad2e-f001-47c0-84e0-002510c91a8f" of type 'functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: a980b931-9769-4975-847a-5d81405b213b type `functional_system_component'
+	Relation UUID: c51e22a9-de7e-49c2-82ee-51ffdb8178c7
+	Original Relation Name: component_of
+	Range: dddc968c-e4e3-4776-b227-6ec6f82160c9 type `system'
+	Min Cardinality: 1
+	Max Cardinality: 1
+
+
+Object Id:"d31c9a05-349b-467a-9eee-04e364594246" of type 'functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: a980b931-9769-4975-847a-5d81405b213b type `functional_system_component'
+	Relation UUID: c51e22a9-de7e-49c2-82ee-51ffdb8178c7
+	Original Relation Name: component_of
+	Range: dddc968c-e4e3-4776-b227-6ec6f82160c9 type `system'
+	Min Cardinality: 1
+	Max Cardinality: 1
+
+
+Object Id:"db2e8f75-21ce-43ac-b936-fb7213faae86" of type 'kind_of_functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: 5ccc13dd-c63c-4502-aa0d-786410b138cd type `kind_of_functional_system_component'
+	Relation UUID: 2fb7b3d9-cceb-47b2-9e3a-f51f5bbf7dfa
+	Original Relation Name: consists__of_by_class
+	Range: bb6f6d3f-1ed1-41ab-942c-6b3667c5da37 type `class_of_spatio_temporal_extent'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"db33e338-f50a-4c9f-b0b5-b02121f4088c" of type 'class_of_sign'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: 17b9a165-a969-4871-8a7d-2b9b6c7c6168 type `class_of_sign'
+	Relation UUID: bdeeb194-6ad2-4db0-b381-b040c16c6620
+	Original Relation Name: consists__of_by_class
+	Range: bb6f6d3f-1ed1-41ab-942c-6b3667c5da37 type `class_of_spatio_temporal_extent'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"db8916a6-ae5f-4a37-a816-ea813da7715d" of type 'role'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: bbdadac6-65c2-4a03-9f74-9784b916378e type `role'
+	Relation UUID: 26d14fcd-e3ac-41f7-bdae-0ec7ff6f1a03
+	Original Relation Name: consists__of_by_class
+	Range: bb6f6d3f-1ed1-41ab-942c-6b3667c5da37 type `class_of_spatio_temporal_extent'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"dbd05348-f39d-46d8-aab6-ddd811a4a5fe" of type 'functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: a980b931-9769-4975-847a-5d81405b213b type `functional_system_component'
+	Relation UUID: c51e22a9-de7e-49c2-82ee-51ffdb8178c7
+	Original Relation Name: component_of
+	Range: dddc968c-e4e3-4776-b227-6ec6f82160c9 type `system'
+	Min Cardinality: 1
+	Max Cardinality: 1
+
+
+Object Id:"dd6a415c-8241-49ec-8e4c-6fc935f9bd11" of type 'representation_by_sign'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: b2471599-92bc-494d-8108-6be9895128a7 type `representation_by_sign'
+	Relation UUID: 29083640-7524-4750-8bb7-b228e8df7983
+	Original Relation Name: consists_of_
+	Range: fcae9992-8838-447e-a530-5f63aab304b2 type `recognizing_language_community'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"dd6a415c-8241-49ec-8e4c-6fc935f9bd11" of type 'representation_by_sign'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: b2471599-92bc-494d-8108-6be9895128a7 type `representation_by_sign'
+	Relation UUID: d60aefa6-c830-4bca-b6a3-4bae917e66fe
+	Original Relation Name: consists_of
+	Range: 4e292a65-9a0d-4bfa-9e4f-16ae238c2627 type `sign'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"e2d88b96-3bff-4bb9-99fb-d36a917d344b" of type 'class_of_state_of_functional_system'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: b3b33e0d-bdb4-42f6-a39a-2b99e8e7163c type `class_of_state_of_functional_system'
+	Relation UUID: cc669614-faa2-46d8-a6dd-170ca5c7af94
+	Original Relation Name: consists__of_by_class
+	Range: bb6f6d3f-1ed1-41ab-942c-6b3667c5da37 type `class_of_spatio_temporal_extent'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"e43e23d6-8c3f-47a4-8cff-2fa4acffde20" of type 'functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: a980b931-9769-4975-847a-5d81405b213b type `functional_system_component'
+	Relation UUID: c51e22a9-de7e-49c2-82ee-51ffdb8178c7
+	Original Relation Name: component_of
+	Range: dddc968c-e4e3-4776-b227-6ec6f82160c9 type `system'
+	Min Cardinality: 1
+	Max Cardinality: 1
+
+
+Object Id:"e795fe3e-8c36-4241-b8c2-489f5f3c37e2" of type 'role'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: bbdadac6-65c2-4a03-9f74-9784b916378e type `role'
+	Relation UUID: 26d14fcd-e3ac-41f7-bdae-0ec7ff6f1a03
+	Original Relation Name: consists__of_by_class
+	Range: bb6f6d3f-1ed1-41ab-942c-6b3667c5da37 type `class_of_spatio_temporal_extent'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"e7a9d64d-310e-4824-b1e2-633acf2a388f" of type 'functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: a980b931-9769-4975-847a-5d81405b213b type `functional_system_component'
+	Relation UUID: c51e22a9-de7e-49c2-82ee-51ffdb8178c7
+	Original Relation Name: component_of
+	Range: dddc968c-e4e3-4776-b227-6ec6f82160c9 type `system'
+	Min Cardinality: 1
+	Max Cardinality: 1
+
+
+Object Id:"e7c2e018-d199-4aaa-bc91-9f5cac780cb0" of type 'functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: a980b931-9769-4975-847a-5d81405b213b type `functional_system_component'
+	Relation UUID: c51e22a9-de7e-49c2-82ee-51ffdb8178c7
+	Original Relation Name: component_of
+	Range: dddc968c-e4e3-4776-b227-6ec6f82160c9 type `system'
+	Min Cardinality: 1
+	Max Cardinality: 1
+
+
+Object Id:"ed7e59d3-b201-46b5-b80c-2451d6a1f1b5" of type 'functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: a980b931-9769-4975-847a-5d81405b213b type `functional_system_component'
+	Relation UUID: c51e22a9-de7e-49c2-82ee-51ffdb8178c7
+	Original Relation Name: component_of
+	Range: dddc968c-e4e3-4776-b227-6ec6f82160c9 type `system'
+	Min Cardinality: 1
+	Max Cardinality: 1
+
+
+Object Id:"f0bb3398-a594-438e-9689-b9033fc987f9" of type 'representation_by_sign'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: b2471599-92bc-494d-8108-6be9895128a7 type `representation_by_sign'
+	Relation UUID: 29083640-7524-4750-8bb7-b228e8df7983
+	Original Relation Name: consists_of_
+	Range: fcae9992-8838-447e-a530-5f63aab304b2 type `recognizing_language_community'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"f0bb3398-a594-438e-9689-b9033fc987f9" of type 'representation_by_sign'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: b2471599-92bc-494d-8108-6be9895128a7 type `representation_by_sign'
+	Relation UUID: d60aefa6-c830-4bca-b6a3-4bae917e66fe
+	Original Relation Name: consists_of
+	Range: 4e292a65-9a0d-4bfa-9e4f-16ae238c2627 type `sign'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"f1a3d7d1-e652-4ecb-ba6c-d346b5de260d" of type 'functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: a980b931-9769-4975-847a-5d81405b213b type `functional_system_component'
+	Relation UUID: c51e22a9-de7e-49c2-82ee-51ffdb8178c7
+	Original Relation Name: component_of
+	Range: dddc968c-e4e3-4776-b227-6ec6f82160c9 type `system'
+	Min Cardinality: 1
+	Max Cardinality: 1
+
+
+Object Id:"f2fa28ac-1aef-4b86-9a27-8ba4ad802e60" of type 'role'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: bbdadac6-65c2-4a03-9f74-9784b916378e type `role'
+	Relation UUID: 26d14fcd-e3ac-41f7-bdae-0ec7ff6f1a03
+	Original Relation Name: consists__of_by_class
+	Range: bb6f6d3f-1ed1-41ab-942c-6b3667c5da37 type `class_of_spatio_temporal_extent'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"f4e814aa-3d8d-4185-950f-2629f2e309fb" of type 'functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: a980b931-9769-4975-847a-5d81405b213b type `functional_system_component'
+	Relation UUID: c51e22a9-de7e-49c2-82ee-51ffdb8178c7
+	Original Relation Name: component_of
+	Range: dddc968c-e4e3-4776-b227-6ec6f82160c9 type `system'
+	Min Cardinality: 1
+	Max Cardinality: 1
+
+
+Object Id:"f58623b7-b184-4ff3-8d2e-5d6ad4c5697b" of type 'functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: a980b931-9769-4975-847a-5d81405b213b type `functional_system_component'
+	Relation UUID: c51e22a9-de7e-49c2-82ee-51ffdb8178c7
+	Original Relation Name: component_of
+	Range: dddc968c-e4e3-4776-b227-6ec6f82160c9 type `system'
+	Min Cardinality: 1
+	Max Cardinality: 1
+
+
+Object Id:"f7406282-1a0b-4ad6-8d04-10d504fd9851" of type 'role'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: bbdadac6-65c2-4a03-9f74-9784b916378e type `role'
+	Relation UUID: 26d14fcd-e3ac-41f7-bdae-0ec7ff6f1a03
+	Original Relation Name: consists__of_by_class
+	Range: bb6f6d3f-1ed1-41ab-942c-6b3667c5da37 type `class_of_spatio_temporal_extent'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"f7a136da-d435-4e05-9869-5aaed237b3cc" of type 'functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: a980b931-9769-4975-847a-5d81405b213b type `functional_system_component'
+	Relation UUID: c51e22a9-de7e-49c2-82ee-51ffdb8178c7
+	Original Relation Name: component_of
+	Range: dddc968c-e4e3-4776-b227-6ec6f82160c9 type `system'
+	Min Cardinality: 1
+	Max Cardinality: 1
+
+
+Object Id:"f8daaca3-c180-4b35-ab4c-85612ef66dcf" of type 'pattern'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: efbfe0f6-376d-4461-9f47-f4823d8a426b type `pattern'
+	Relation UUID: b46fde96-90f6-4b03-a92c-f5c86392cb8d
+	Original Relation Name: consists__of_by_class
+	Range: bb6f6d3f-1ed1-41ab-942c-6b3667c5da37 type `class_of_spatio_temporal_extent'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"fba565f5-e89e-40f3-bb1d-32805e835d89" of type 'role'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: bbdadac6-65c2-4a03-9f74-9784b916378e type `role'
+	Relation UUID: 26d14fcd-e3ac-41f7-bdae-0ec7ff6f1a03
+	Original Relation Name: consists__of_by_class
+	Range: bb6f6d3f-1ed1-41ab-942c-6b3667c5da37 type `class_of_spatio_temporal_extent'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"fc07e5f2-a733-4421-8c7c-f2b7faf30ccb" of type 'functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: a980b931-9769-4975-847a-5d81405b213b type `functional_system_component'
+	Relation UUID: c51e22a9-de7e-49c2-82ee-51ffdb8178c7
+	Original Relation Name: component_of
+	Range: dddc968c-e4e3-4776-b227-6ec6f82160c9 type `system'
+	Min Cardinality: 1
+	Max Cardinality: 1
+
+
+Object Id:"fcd7f192-b04e-4765-90cf-5cc4f6125619" of type 'kind_of_functional_system_component'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: 5ccc13dd-c63c-4502-aa0d-786410b138cd type `kind_of_functional_system_component'
+	Relation UUID: 2fb7b3d9-cceb-47b2-9e3a-f51f5bbf7dfa
+	Original Relation Name: consists__of_by_class
+	Range: bb6f6d3f-1ed1-41ab-942c-6b3667c5da37 type `class_of_spatio_temporal_extent'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"ff2a8d80-8561-4e82-a1c7-430cf791c7c9" of type 'kind_of_association'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: 4ab749af-25a0-4906-8783-9337a543dffa type `kind_of_association'
+	Relation UUID: 02151ece-7509-4c43-8850-d51b645c7315
+	Original Relation Name: consists__of_by_class
+	Range: bb6f6d3f-1ed1-41ab-942c-6b3667c5da37 type `class_of_spatio_temporal_extent'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+	Number of PARTHOOD Relation Cardinality Exceptions:159
+
+
+
+SET Relation Cardinality Exceptions:
+
+
+
+Object Id:"15d081f0-e663-4b09-b2e1-3f068043f60e" of type 'functional_object'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: 130e95f1-ebc4-46f1-90ba-3f9fa21cb77b type `functional_object'
+	Relation UUID: bcd15b28-4d3e-41de-966c-fac27b7ff54c
+	Original Relation Name: intended_role
+	Range: bbdadac6-65c2-4a03-9f74-9784b916378e type `role'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"2699b39d-7e68-4850-be72-d76c17355d48" of type 'kind_of_functional_object'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: cc965f1b-26da-4230-b653-752e764add9e type `kind_of_functional_object'
+	Relation UUID: 0f5fd166-e3a0-4903-b595-24434e12a684
+	Original Relation Name: intended_role_by_class
+	Range: bbdadac6-65c2-4a03-9f74-9784b916378e type `role'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"2d73b0da-968b-43bc-ac7e-3604fe6cf514" of type 'kind_of_functional_object'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: cc965f1b-26da-4230-b653-752e764add9e type `kind_of_functional_object'
+	Relation UUID: 0f5fd166-e3a0-4903-b595-24434e12a684
+	Original Relation Name: intended_role_by_class
+	Range: bbdadac6-65c2-4a03-9f74-9784b916378e type `role'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"3feb038a-6c2c-4705-90ff-1f97fec8bdc4" of type 'sign'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: 4e292a65-9a0d-4bfa-9e4f-16ae238c2627 type `sign'
+	Relation UUID: d4ae7b0d-19a8-4c5a-89d9-c2d87a107ee7
+	Original Relation Name: member_of_kind
+	Range: cd887fc6-ed0f-418f-b209-8a20d04f2d16 type `kind_of_socially_constructed_object'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"3feb038a-6c2c-4705-90ff-1f97fec8bdc4" of type 'sign'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: 4e292a65-9a0d-4bfa-9e4f-16ae238c2627 type `sign'
+	Relation UUID: 94d61e85-ccbf-427b-840e-46e566fffd49
+	Original Relation Name: member_of_kind
+	Range: bbdadac6-65c2-4a03-9f74-9784b916378e type `role'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"5ae35f95-51d6-4b79-9880-21b220353324" of type 'sign'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: 4e292a65-9a0d-4bfa-9e4f-16ae238c2627 type `sign'
+	Relation UUID: d4ae7b0d-19a8-4c5a-89d9-c2d87a107ee7
+	Original Relation Name: member_of_kind
+	Range: cd887fc6-ed0f-418f-b209-8a20d04f2d16 type `kind_of_socially_constructed_object'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"5ae35f95-51d6-4b79-9880-21b220353324" of type 'sign'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: 4e292a65-9a0d-4bfa-9e4f-16ae238c2627 type `sign'
+	Relation UUID: 94d61e85-ccbf-427b-840e-46e566fffd49
+	Original Relation Name: member_of_kind
+	Range: bbdadac6-65c2-4a03-9f74-9784b916378e type `role'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"9012284e-24a6-4e2b-a050-4719db46d317" of type 'sign'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: 4e292a65-9a0d-4bfa-9e4f-16ae238c2627 type `sign'
+	Relation UUID: d4ae7b0d-19a8-4c5a-89d9-c2d87a107ee7
+	Original Relation Name: member_of_kind
+	Range: cd887fc6-ed0f-418f-b209-8a20d04f2d16 type `kind_of_socially_constructed_object'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"9012284e-24a6-4e2b-a050-4719db46d317" of type 'sign'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: 4e292a65-9a0d-4bfa-9e4f-16ae238c2627 type `sign'
+	Relation UUID: 94d61e85-ccbf-427b-840e-46e566fffd49
+	Original Relation Name: member_of_kind
+	Range: bbdadac6-65c2-4a03-9f74-9784b916378e type `role'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"c6d71c41-dbe0-47e3-bcfa-542ed1ebc4ec" of type 'sign'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: 4e292a65-9a0d-4bfa-9e4f-16ae238c2627 type `sign'
+	Relation UUID: d4ae7b0d-19a8-4c5a-89d9-c2d87a107ee7
+	Original Relation Name: member_of_kind
+	Range: cd887fc6-ed0f-418f-b209-8a20d04f2d16 type `kind_of_socially_constructed_object'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"c6d71c41-dbe0-47e3-bcfa-542ed1ebc4ec" of type 'sign'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: 4e292a65-9a0d-4bfa-9e4f-16ae238c2627 type `sign'
+	Relation UUID: 94d61e85-ccbf-427b-840e-46e566fffd49
+	Original Relation Name: member_of_kind
+	Range: bbdadac6-65c2-4a03-9f74-9784b916378e type `role'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"caf90d3d-2926-46ac-a61e-fd4e63cc9111" of type 'sign'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: 4e292a65-9a0d-4bfa-9e4f-16ae238c2627 type `sign'
+	Relation UUID: d4ae7b0d-19a8-4c5a-89d9-c2d87a107ee7
+	Original Relation Name: member_of_kind
+	Range: cd887fc6-ed0f-418f-b209-8a20d04f2d16 type `kind_of_socially_constructed_object'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"caf90d3d-2926-46ac-a61e-fd4e63cc9111" of type 'sign'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: 4e292a65-9a0d-4bfa-9e4f-16ae238c2627 type `sign'
+	Relation UUID: 94d61e85-ccbf-427b-840e-46e566fffd49
+	Original Relation Name: member_of_kind
+	Range: bbdadac6-65c2-4a03-9f74-9784b916378e type `role'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+Object Id:"d33ae209-e7ba-4c1a-aa54-de862810c1cd" of type 'functional_object'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: 130e95f1-ebc4-46f1-90ba-3f9fa21cb77b type `functional_object'
+	Relation UUID: bcd15b28-4d3e-41de-966c-fac27b7ff54c
+	Original Relation Name: intended_role
+	Range: bbdadac6-65c2-4a03-9f74-9784b916378e type `role'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+	Number of SET Relation Cardinality Exceptions:14
+
+
+
+ORDER Relation Cardinality Exceptions:
+
+
+
+	Number of ORDER Relation Cardinality Exceptions:0
+
+
+
+EMERGENT Relation Cardinality Exceptions:
+
+
+
+	Number of EMERGENT Relation Cardinality Exceptions:0
+
+
+
+REIFIED Relation Cardinality Exceptions:
+
+
+
+	Number of REIFIED Relation Cardinality Exceptions:0
+
+
+
+Part_of_possible_world Relation Cardinality Exceptions:
+
+
+
+Object Id:"21b2b267-3956-491f-8276-a705b80b3831" of type 'possible_world'
+Relation result: Invalid
+Likely cause: Relationship missing.
+RELATION SPECIFICATION:
+	Domain: a5dc8c36-56fc-44c2-909b-7592b1f44fd7 type `possible_world'
+	Relation UUID: 989c624a-2b34-49b1-8adb-584c6c2b082d
+	Original Relation Name: part_of_possible_world
+	Range: a5dc8c36-56fc-44c2-909b-7592b1f44fd7 type `possible_world'
+	Min Cardinality: 1
+	Max Cardinality: -1
+
+
+	Number of part_of_possible_world Relation Cardinality Exceptions:1
+	Note: Strictly, there will always be at least one of these exceptions (see HQDM entity type definition https://github.com/hqdmTop/hqdmFramework/wiki/spatio_temporal_extent)
+
+
+
+
+Total number of Relation Cardinality Exceptions:173
+
+
+
+**DONE**
+

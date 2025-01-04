@@ -88,20 +88,16 @@ import HqdmLib (
     collapseInheritedRels,
     printableRelationPairs)
 
-import HqdmInspection (howmanyNodes)
-import HqdmIds
-
 -- from bytestring
 import qualified Data.ByteString.Lazy as BL
 -- from cassava
 import Data.Csv (HasHeader( NoHeader ), decode)
 import qualified Data.Vector as V
-import Data.List (isPrefixOf)
 import Data.Either
 
 -- Constants
 hqdmRelationsInputFilename::String
-hqdmRelationsInputFilename = "../PureHqdmRelations_v7.csv"
+hqdmRelationsInputFilename = "../PureHqdmRelations_v8.csv"
 
 hqdmInputFilename::String
 hqdmInputFilename = "./input/hqdmAllAsDataFormal4_AllRels.csv"  -- hqdmAllAsDataFormal1_NoExtensions or hqdmAllAsDataFormal1 or hqdmAllAsDataFormal4_AllRels

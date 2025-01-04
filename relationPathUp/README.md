@@ -19,7 +19,7 @@ This runs on any Linux command line as:
 
 It may run on macOS (could be straightforward) and Windows (likely non-trivial), I haven't tried it.  The binary for this is included in the repo so that youy don't have to build it.  If you don't like trusting binaries then you can rebuild it by installing the Haskell GHC and Cabal build system. The command `stack build` will then build this command line tool and all of its dependencies.  The tool can then be used using `stack` itself like this:
 
-`stack exec -- relationPathUp -a PureHqdmRelations_v7.csv HqdmAllAsDataFormal4Short.csv 6e23c714-9241-4132-aa7b-82391c6a60b7`
+`stack exec -- relationPathUp -a PureHqdmRelations_v8.csv HqdmAllAsDataFormal4Short.csv 6e23c714-9241-4132-aa7b-82391c6a60b7`
 
 If you wish to use it without `stack` then you can build it with th `--copy-bins` switch. 
 

@@ -63,14 +63,14 @@ Further documentation will soon be provided on the top level structure of Binary
     -- A data type that uses only identities to specify the xR'y of a HQDM Binary 
     data HqdmBinaryRelationPure = HqdmBinaryRelationPure
       { pureDomain :: !HqdmLib.Id,
-        pureBinaryRelationId :: !RelationId,  -- Relation unique Id (hqdmRel:uuid)
-        pureBinaryRelationName :: String,     -- Name of Binary Relation Set (doesn't need to be unique?)
-        pureRange:: !HqdmLib.Id,              -- Range Set ids.  Does this need to be a list?
-        pureHasSuperBR :: [RelationId],       -- SuperBR Set Id (empty if none?)... Should be HqdmLib.Id
+        pureBinaryRelationId :: !RelationId,  -- Relation unique Id (uuid)
+        pureBinaryRelationName :: String,     -- Name of Binary Relation Set (doesn't need to be unique)
+        pureRange:: !HqdmLib.Id,              -- Range Set ids
+        pureHasSuperBR :: [RelationId],       -- SuperBR Set Ids (empty if none)
         pureCardinalityMin :: Int,            -- 0,1,...
         pureCardinalityMax :: Int,            -- -1 (indicates no max!),0,1,2,...
-        pureRedeclaredBR :: Bool,             -- True means superBRtypes are abstract?
-        pureRedeclaredFromRange :: HqdmLib.Id
+        pureRedeclaredBR :: Bool,             -- True means this is redeclared from its SuperBR
+        pureRedeclaredFromRange :: HqdmLib.Id -- reserved
       }
       deriving (Show, Eq, Generic)
 ```
@@ -100,11 +100,13 @@ f5ac9254-2b93-4ed7-b89e-70994842b438,079d4bef-cee0-455b-a1c1-743fe9d8bb6c,tempor
 f5ac9254-2b93-4ed7-b89e-70994842b438,38639ead-3a1b-46d3-8aa6-d0698bfbb678,member_of,bb6f6d3f-1ed1-41ab-942c-6b3667c5da37,96a99f0a-1e95-48a1-976e-2d50a0610d64,0,-1,False,
 ```
 
-All the NodeIds are preserved from the hqdmAllAsData experiment, with all the predicate names and HQDM Entity Types as-per HQDM as documented (and as in Magma Core).
+All the Entity Type NodeIds are preserved from the hqdmAllAsData experiment, with all the predicate names and HQDM Entity Types as-per HQDM as documented (and as in Magma Core).  The following example `HqdmBinaryRelationPure` entry shows the populated fields for the first entry in the PureHqdmRelations file, showing the domain uuid for `state_of_biological_object`, unique Binary Relation Id for the originally named `temporal_part_of` relationship, the range uuid for `physical_object`, the uuid for a single Super Binary Relation Set and then specified properties for Cardinality constraints and redeclaration:
 
 ```
 HqdmBinaryRelationPure {pureDomain = "f5ac9254-2b93-4ed7-b89e-70994842b438", pureBinaryRelationId = "hqdmRelation:2adc222f-927f-41f6-8497-74567bd6e49b", pureBinaryRelationName = "temporal_part_of", pureRange = "db723822-93f7-4c1d-8f17-fb094a5c10d9", pureHasSuperBR = "4096218c-eac7-44a6-90f8-e7ac21599c85", pureCardinalityMin = 0, pureCardinalityMax = -1, pureRedeclaredBR = False, pureRedeclaredFromRange = ""},
 ```
+
+It should be noted that in the original documentation for HQDM there was considerable re-use of relationship names in the super-subtype hierarchy.  Those names have been preserved in the Binary Relation Sets specifications but they have no role in the identity of the relations within the Haskell functions.  They are, however, used for the mapping to/from externally generated datasets such as those generated using MagmaCore.  Ther are currently 2764 Binary Relation Sets created for the hqdmHaskell codebase, corresponding to the originally specified HQDM relationships and the inheritance relations the computed when developing *hqdmHaskell*.
 
 ### Functions in HqdmLib (TBC)
 

@@ -28,10 +28,12 @@ module HqdmLib
     uniqueIds,
     uniqueTriples,
     stringListSort,
+    headIfStringPresent,
     lookupHqdmOne,
+    lookupHqdmTypeIdFromName,
     relationPairs,
     lookupHqdmType,
-    lookupHqdmIdFromType,
+    lookupHqdmIdsFromTypePredicates,
     lookupHqdmTypeFromAll,
     lookupSubtypes,
     lookupSubtypeOf,
@@ -134,6 +136,14 @@ uniqueIds xs = [x | (x, y) <- zip xs [0 ..], x `notElem` take y xs]
 uniqueTriples :: [HqdmTriple] -> [HqdmTriple]
 uniqueTriples xs = [x | (x, y) <- zip xs [0 ..], x `notElem` take y xs]
 
+-----------------------------------------------------------------------------------
+-- Utils to move to another Lib
+-----------------------------------------------------------------------------------
+headIfStringPresent :: [String] -> String
+headIfStringPresent x
+  | not (null x)   = head x
+  | otherwise      = ""
+
 -------------------------------------------------
 -- Based on an online source (not covered by Copyright):
 -- function declaration for function insert
@@ -154,6 +164,10 @@ stringListSort (x : xs) = insert (stringListSort xs) x
 deleteItemsFromList :: [String] -> [String] -> [String]
 deleteItemsFromList fromList itemsToRemove = [x | x <- fromList, x `notElem` itemsToRemove]
 
+-------------------------------------------------------------------------------------
+-- End of Utils
+-------------------------------------------------------------------------------------
+
 -------------------------------------------------
 -- GRAPH FUNCTIONS USING THE LIST OF TRIPLES OF HqdmAllAsData
 
@@ -170,24 +184,29 @@ relationPairs = fmap (\x -> RelationPair (predicate x) (object x))
 -- | lookupHqdmTypeFromAll
 -- From the complete set of HQDM triples with a given node Id (subject), from lookupHqdmOne, find the type name of the given Node Id.
 lookupHqdmTypeFromAll :: [HqdmTriple] -> String -> [String]
-lookupHqdmTypeFromAll hqdmAll nodeId = [object values | values <- hqdmAll, (hqdmType == predicate values) && (nodeId == subject values)]
+lookupHqdmTypeFromAll hqdmAll nodeId = [object values | values <- hqdmAll, ((hqdmType == predicate values) || ( hqdmTypeId == predicate values)) && (nodeId == subject values)]
+
+-- | lookupHqdmTypeIdFromName
+-- From a set of HQDM AllAsData triples, find the ObjectId from a given Type Name
+lookupHqdmTypeIdFromName :: [HqdmTriple] -> String -> String
+lookupHqdmTypeIdFromName hqdmAll typeName = headIfStringPresent [subject values | values <- hqdmAll, ((hqdmType == predicate values) || ( hqdmTypeId == predicate values)) && (typeName == object values)]
 
 -- | lookupHqdmType
 -- From the triples with a given node Id (subject), from lookupHqdmOne, find the object with the predicate type.
 lookupHqdmType :: [HqdmTriple] -> [String]
 lookupHqdmType obj = [object values | values <- obj, (hqdmType == predicate values) || ( hqdmTypeId == predicate values)]
 
--- | lookupHqdmIdFromType
+-- | lookupHqdmIdsFromTypePredicates
 -- From the triples with a given node Id (subject), from lookupHqdmOne, find the object with the predicate type.
-lookupHqdmIdFromType :: [HqdmTriple] -> String -> [Id]
-lookupHqdmIdFromType objs typeName
+lookupHqdmIdsFromTypePredicates :: [HqdmTriple] -> String -> [Id]
+lookupHqdmIdsFromTypePredicates objs typeName
   | nodeIdentityTest typeName = [typeName]
   | otherwise = [subject values | values <- objs, ((hqdmType == predicate values) || ( hqdmTypeId == predicate values)) && (typeName == object values)]
 
 -- | findHqdmTypesInList
 -- Find the type names of each given node Id (subject).
 findHqdmTypeNamesInList :: [Id] -> [HqdmTriple] -> [String]
-findHqdmTypeNamesInList ids hqdmModel = fmap (\ x -> head (lookupHqdmType $ lookupHqdmOne x hqdmModel)) ids
+findHqdmTypeNamesInList ids hqdmModel = fmap (\ x -> headIfStringPresent (lookupHqdmType $ lookupHqdmOne x hqdmModel)) ids
 
 -- | lookupSubtypes
 -- From all the triples that have the has_supertype or has_superclass predicate.
@@ -227,11 +246,6 @@ lookupSupertypesOf :: [Id] -> [HqdmTriple] -> [[Id]]
 lookupSupertypesOf [] _ = []
 lookupSupertypesOf _ [] = []
 lookupSupertypesOf (id : ids) list = lookupSupertypeOf id list : lookupSupertypesOf ids list
-
-headIfStringPresent :: [String] -> String
-headIfStringPresent x
-  | not (null x)   = head x
-  | otherwise      = ""
 
 -------------------------------------------------
 -- | findHqdmTypesInList
@@ -301,7 +315,7 @@ findSubtypeTree ids hqdmStl = go ids hqdmStl
 findInheritedRels :: [Id] -> [HqdmTriple] -> [[RelationPair]] -> [[RelationPair]]
 findInheritedRels tree hqdmModel rels = go tree hqdmModel rels
   where
-    nextType = head tree
+    nextType = headIfStringPresent tree
     newRels = relationPairs $ lookupHqdmOne nextType hqdmModel
 
     go tree hqdmModel rels
@@ -325,7 +339,7 @@ printableCollapsedList cl = fmap ("\n    " ++) cl
 -- predicate and type name as a joined String.
 printableRelationPair :: [HqdmTriple] -> RelationPair -> String
 printableRelationPair hqdmAll rp
-  | nodeIdentityTest (o rp) = "    " ++ p rp ++ " [" ++ head (lookupHqdmTypeFromAll hqdmAll (o rp)) ++ "]\n"
+  | nodeIdentityTest (o rp) = "    " ++ p rp ++ " [" ++ headIfStringPresent (lookupHqdmTypeFromAll hqdmAll (o rp)) ++ "]\n"
   | otherwise = "    " ++ p rp ++ " " ++ o rp ++ "\n"
 
 -- | printableRelationPairList

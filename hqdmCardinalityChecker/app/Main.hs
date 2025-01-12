@@ -23,6 +23,7 @@ import HqdmRelations (
     filterErrorsBy,
     findBrelFromId,
     printableErrorResults,
+    rangeTestAllObjects,
     validityFilter
     )
 
@@ -81,7 +82,7 @@ main = do
     let inputEntityTypeFile = fileList!!1
     let inputFile = fileList!!2
 
-    putStr ("**hqdmCardinalityChecker**\n\nLoading model files and the supplied input file of processed mapped User Data, from file '" ++ inputFile ++ "'.\n\n")
+    putStr ("**hqdmCardinalityChecker**\n\nLoading model files and the supplied input file of processed mapped User Data, from file '" ++ inputFile ++ "'.\n\nPART1: CARDINALITY VIOLATION CHECKS\n\n")
 
     -- Load HqdmAllAsData
     hqdmTriples <- fmap V.toList . decode @HqdmTriple NoHeader <$> BL.readFile inputEntityTypeFile
@@ -100,7 +101,7 @@ main = do
         then do
             let filteredByPartsResults = filterErrorsBy (head $ findBrelFromId universalPartBrel relationsInputModel) relationsInputModel invalidCardinalityTestResults
             putStr "\n\nPARTHOOD Relation Cardinality Exceptions:\n\n"
-            putStr (printableErrorResults filteredByPartsResults relationsInputModel hqdmInputModel pureModelData)
+            putStr (printableErrorResults filteredByPartsResults hqdmInputModel pureModelData)
             putStr ("\n\n\tNumber of PARTHOOD Relation Cardinality Exceptions:" ++ show (length filteredByPartsResults) ++ "\n\n\n")
         else do
             putStr ""
@@ -109,7 +110,7 @@ main = do
         then do
             let filteredBySetsResults = filterErrorsBy (head $ findBrelFromId universalSetBrel relationsInputModel) relationsInputModel invalidCardinalityTestResults
             putStr "\nSET Relation Cardinality Exceptions:\n\n"
-            putStr (printableErrorResults filteredBySetsResults relationsInputModel hqdmInputModel pureModelData)
+            putStr (printableErrorResults filteredBySetsResults hqdmInputModel pureModelData)
             putStr ("\n\n\tNumber of SET Relation Cardinality Exceptions:" ++ show (length filteredBySetsResults) ++ "\n\n\n")
         else do
             putStr ""
@@ -118,7 +119,7 @@ main = do
         then do
             let filteredByOrderResults = filterErrorsBy (head $ findBrelFromId universalOrderBrel relationsInputModel) relationsInputModel invalidCardinalityTestResults 
             putStr "\nORDER Relation Cardinality Exceptions:\n\n"
-            putStr (printableErrorResults filteredByOrderResults relationsInputModel hqdmInputModel pureModelData)
+            putStr (printableErrorResults filteredByOrderResults hqdmInputModel pureModelData)
             putStr ("\n\n\tNumber of ORDER Relation Cardinality Exceptions:" ++ show (length filteredByOrderResults) ++ "\n\n\n")
         else do
             putStr ""
@@ -127,7 +128,7 @@ main = do
         then do
             let filteredByEmergentRelResults = filterErrorsBy (head $ findBrelFromId universalEmergentBrel relationsInputModel) relationsInputModel invalidCardinalityTestResults 
             putStr "\nEMERGENT Relation Cardinality Exceptions:\n\n"
-            putStr (printableErrorResults filteredByEmergentRelResults relationsInputModel hqdmInputModel pureModelData)
+            putStr (printableErrorResults filteredByEmergentRelResults hqdmInputModel pureModelData)
             putStr ("\n\n\tNumber of EMERGENT Relation Cardinality Exceptions:" ++ show (length filteredByEmergentRelResults) ++ "\n\n\n")
         else do
             putStr ""
@@ -136,7 +137,7 @@ main = do
         then do
             let filteredByReifiedRelResults = filterErrorsBy (head $ findBrelFromId universalReifiedBrel relationsInputModel) relationsInputModel invalidCardinalityTestResults 
             putStr "\nREIFIED Relation Cardinality Exceptions:\n\n"
-            putStr (printableErrorResults filteredByReifiedRelResults relationsInputModel hqdmInputModel pureModelData)
+            putStr (printableErrorResults filteredByReifiedRelResults hqdmInputModel pureModelData)
             putStr ("\n\n\tNumber of REIFIED Relation Cardinality Exceptions:" ++ show (length filteredByReifiedRelResults) ++ "\n\n\n")
         else do
             putStr ""
@@ -145,13 +146,20 @@ main = do
         then do
             let filteredByPossibleWorldRelResults = filterErrorsBy (head $ findBrelFromId possibleWorldBrel relationsInputModel) relationsInputModel invalidCardinalityTestResults 
             putStr "\nPart_of_possible_world Relation Cardinality Exceptions:\n\n"
-            putStr (printableErrorResults filteredByPossibleWorldRelResults relationsInputModel hqdmInputModel pureModelData)
+            putStr (printableErrorResults filteredByPossibleWorldRelResults hqdmInputModel pureModelData)
             putStr ("\n\n\tNumber of part_of_possible_world Relation Cardinality Exceptions:" ++ show (length filteredByPossibleWorldRelResults))
             putStr "\n\tNote: Strictly, there will always be at least one of these exceptions (see HQDM entity type definition https://github.com/hqdmTop/hqdmFramework/wiki/spatio_temporal_extent)\n\n\n"
         else do
             putStr ""
 
     putStr ("\n\nTotal number of Relation Cardinality Exceptions:" ++ show (length invalidCardinalityTestResults) ++ "\n\n")
+
+    -- Binary Relation Range Type check
+    putStr "\n\nPART2: BINARY RELATION RANGE TYPE VIOLATION CHECKS\n\n"
+    let invalidRangeTestResults = validityFilter $ rangeTestAllObjects uniqueJoinNodes pureModelData hqdmInputModel relationsInputModel []
+    putStr (printableErrorResults invalidRangeTestResults hqdmInputModel pureModelData)
+    putStr ("\n\n\tNumber of Binary Relation Range Exceptions:" ++ show (length invalidRangeTestResults))
+    putStr "\n\tNote: Strictly, this only tests for instances of Binary Relations that are present in the dataset.  If an instance of a necessary Binary Relation is missing this will be caught by the Cardinality Checking above.\n\n\n"
    
     putStr "\n\n**DONE**\n\n"
 
@@ -185,7 +193,7 @@ flags =
     ,Option ['w'] []       (NoArg PossibleWorld)
         "Specifies that the output includes relationships of the part_of_possible_world Relation Set."
     ,Option []    ["help"] (NoArg Help)
-        "The command should have the general form: hqdmMapToPure -psoerw hqdmRelations.csv hqdmEntityTypes.csv inputTriples.csv outputTriplesFilename.csv"
+        "The command should have the general form: hqdmCardinalityChecker -psoerw hqdmRelations.csv hqdmEntityTypes.csv inputTriples.csv outputTriplesFilename.csv"
    ]
 
 parse :: [String] -> IO ([Flag], [String])
@@ -201,5 +209,5 @@ parse argv = case getOpt Permute flags argv of
         hPutStrLn stderr (concat errs ++ usageInfo header flags)
         exitWith (ExitFailure 1)
 
-    where header = "Usage: hqdmMapToPure -psoe <hqdmRelations.csv> <hqdmEntityTypes.csv> <inputProcessedTriples.csv> <outputFilename.csv>"
+    where header = "Usage: hqdmCardinalityChecker -psoerw <hqdmRelations.csv> <hqdmEntityTypes.csv> <inputProcessedTriples.csv> <outputFilename.csv>"
           set f      = [f]

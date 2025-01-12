@@ -20,7 +20,7 @@ import HqdmRelations (
     HqdmBinaryRelation,
     csvRelationsToPure,
     getRelationNameFromRels,
-    hqdmSwapAnyRelationNamesForIds,
+    hqdmSwapAnyRelationNamesForIdsStrict,
     sortOnUuid,
     subtypesOfFilter
     )
@@ -30,7 +30,7 @@ import HqdmLib (
     HqdmTriple (subject, predicate, object),
     csvTriplesFromHqdmTriples,
     getSubjects,
-    lookupHqdmIdFromType,
+    lookupHqdmIdsFromTypePredicates,
     lookupHqdmOne,
     lookupSubtypes,
     uniqueIds
@@ -91,7 +91,7 @@ main = do
 
     let uniqueJoinNodes = uniqueIds $ getSubjects joinInputModel
     let nodeTypeStatements = fmap (\ x -> head $ lookupHqdmOne x joinInputModel) uniqueJoinNodes
-    let typeIdsOfJoinObjects = zip uniqueJoinNodes (fmap (head . lookupHqdmIdFromType hqdmInputModel . object)  nodeTypeStatements)
+    let typeIdsOfJoinObjects = zip uniqueJoinNodes (fmap (head . lookupHqdmIdsFromTypePredicates hqdmInputModel . object)  nodeTypeStatements)
 
     let subtypes = lookupSubtypes hqdmInputModel
     let onlySubtypesOfSte = subtypesOfFilter typeIdsOfJoinObjects spatio_temporal_extent subtypes
@@ -104,7 +104,7 @@ main = do
     let hasSuperclassTriples = fmap (\ x -> HqdmTriple (fst x) hasSuperClassName (snd x)) onlySubtypesOfClass
     
     let joinedResults = sortOnUuid $ joinInputModel ++ hasSuperclassTriples ++ elementOfTypeTriples
-    let joinedResultsAllIds =  hqdmSwapAnyRelationNamesForIds joinedResults hqdmInputModel relationsInputModel
+    let joinedResultsAllIds =  hqdmSwapAnyRelationNamesForIdsStrict joinedResults hqdmInputModel relationsInputModel
 
     writeFile outputFile ( concat $ csvTriplesFromHqdmTriples joinedResultsAllIds ) 
    

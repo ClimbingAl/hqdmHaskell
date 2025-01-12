@@ -74,7 +74,7 @@ import HqdmLib (
     stringListSort,
     lookupHqdmOne,
     lookupHqdmType,
-    lookupHqdmIdFromType,
+    lookupHqdmIdsFromTypePredicates,
     lookupSubtypes,
     lookupSubtypeOf,
     lookupSubtypesOf,

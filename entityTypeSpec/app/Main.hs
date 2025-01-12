@@ -126,7 +126,7 @@ main = do
 uuidOrEntityName :: String -> [HqdmTriple] -> String
 uuidOrEntityName ip tpls
     | nodeIdentityTest ip = ip
-    | otherwise = head $ lookupHqdmIdFromType tpls ip
+    | otherwise = head $ lookupHqdmIdsFromTypePredicates tpls ip
 
 ------------------------------------------------------------------------------------
 -- Argument handling functions

@@ -29,7 +29,7 @@ import HqdmLib (
     stringListSort,
     lookupHqdmOne,
     lookupHqdmType,
-    lookupHqdmIdFromType,
+    lookupHqdmIdsFromTypePredicates,
     lookupSubtypes,
     lookupSubtypeOf,
     lookupSubtypesOf,
@@ -179,8 +179,8 @@ main = do
     -- Use this to output HQDM Constants for use in HqdmIds.hs.  Beware class::String.  Must change to something else like hqdmClass.
     -- putStr hqdmConstants
 
-    -- Test the lookupHqdmIdFromType :: [HqdmTriple] -> String -> [Id] function
-    let idOfThing = lookupHqdmIdFromType hqdmInputModel "thing"
+    -- Test the lookupHqdmIdsFromTypePredicates :: [HqdmTriple] -> String -> [Id] function
+    let idOfThing = lookupHqdmIdsFromTypePredicates hqdmInputModel "thing"
     putStr "\n\nId of thing is:\n"
     print (head idOfThing)
 

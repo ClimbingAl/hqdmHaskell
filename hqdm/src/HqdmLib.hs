@@ -54,8 +54,7 @@ module HqdmLib
     screenCharOffset,
     fmtString,
     deleteItemsFromList,
-    nodeIdentityTest,
-    headIfStringPresent
+    nodeIdentityTest
   )
 where
 
@@ -65,22 +64,22 @@ import GHC.Generics (Generic)
 import HqdmIds (thing)
 
 data HqdmTriple = HqdmTriple
-  { subject :: !String,
-    predicate :: !String,
-    object :: !String
+  { subject :: !Id,
+    predicate :: !Id,
+    object :: !Id
   }
   deriving (Show, Eq, Generic)
 
 instance FromRecord HqdmTriple
 
 data RelationPair = RelationPair
-  { p :: !String,
-    o :: !String
+  { p :: !Id,
+    o :: !Id
   }
   deriving (Show, Eq, Generic)
 
 newtype Relation = Relation
-  { rel :: String
+  { rel :: Id
   }
   deriving (Show, Eq, Generic)
 

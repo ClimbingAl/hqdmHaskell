@@ -16,7 +16,7 @@ Using the `hqdmMapToPure` command line tool:
 
 ## Example
 
-`./hqdmMapToPure ../PureHqdmRelations_v8.csv ../HqdmAllAsDataFormal4Short.csv ../../datasets/eagleSystem-prepared.csv ../../datasets/eagleSystem-mapped.csv`
+`./hqdmMapToPure ../PureHqdmRelations_v9.csv ../HqdmAllAsDataFormal4Short.csv ../../datasets/eagleSystem-prepared.csv ../../datasets/eagleSystem-mapped.csv`
 
 Note: the source file ("prepared.csv") and the output mapped file ("mapped.csv") are not provided in this repo but the HQDM model specification files are.
 
@@ -32,11 +32,11 @@ Usage: hqdmMapToPure <hqdmRelations.csv> <hqdmEntityTypes.csv> <inputProcessedTr
 ## Running the command
 This runs on any Linux command line as:
 
-`./hqdmMapToPure ../PureHqdmRelations_v8.csv ../HqdmAllAsDataFormal4Short.csv ../../datasets/eagleSystem-prepared.csv ../../datasets/eagleSystem-mapped.csv`
+`./hqdmMapToPure ../PureHqdmRelations_v9.csv ../HqdmAllAsDataFormal4Short.csv ../../datasets/eagleSystem-prepared.csv ../../datasets/eagleSystem-mapped.csv`
 
 It may run on macOS (could be straightforward) and Windows.  The binary for this is included in the repo so that youy don't have to build it.  If you don't like trusting binaries then you can rebuild it by installing the Haskell GHC and Cabal build system. The command `stack build` will then build this command line tool and all of its dependencies.  The tool can then be used using `stack` itself like this:
 
-`stack exec -- hqdmMapToPure ../PureHqdmRelations_v8.csv ../HqdmAllAsDataFormal4Short.csv ../../datasets/eagleSystem-prepared.csv ../../datasets/eagleSystem-mapped.csv`
+`stack exec -- hqdmMapToPure ../PureHqdmRelations_v9.csv ../HqdmAllAsDataFormal4Short.csv ../../datasets/eagleSystem-prepared.csv ../../datasets/eagleSystem-mapped.csv`
 
 If you wish to use it without `stack` then you can build it with th `--copy-bins` switch. 
 

@@ -25,7 +25,7 @@ This runs on any Linux command line as:
 
 It may run on macOS (could be straightforward) and Windows (likely non-trivial), I haven't tried it.  The binary for this is included in the repo so that youy don't have to build it.  If you don't like trusting binaries then you can rebuild it by installing the Haskell GHC and Cabal build system. The command `stack build` will then build this command line tool and all of its dependencies.  The tool can then be used using `stack` itself like this:
 
-`stack exec -- entityTypeSpec -a PureHqdmRelations_v8.csv HqdmAllAsDataFormal4Short.csv functional_system`
+`stack exec -- entityTypeSpec -a PureHqdmRelations_v9.csv HqdmAllAsDataFormal4Short.csv functional_system`
 
 If you wish to use it without `stack` then you can build it with th `--copy-bins` switch. 
 

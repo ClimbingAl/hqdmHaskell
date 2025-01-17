@@ -20,13 +20,17 @@ module HqdmMermaid (
   mermaidAddTitle,
   insertEntityNodeName,
   insertBRNodeName,
-  mermaidSubRelationPathsWithLayerCount
+  mermaidSubRelationPathsWithLayerCount,
+  mermaidEulerCentralClassDef,
+  mermaidEntityEulerTree,
+  mermaidAddEulerTitle
 ) where
 
-import HqdmLib 
+import HqdmLib
 import HqdmRelations
 import Data.List.Split
 import HqdmIds (thing)
+import Data.String (IsString)
 
 mermaidMkdnStart :: String
 mermaidMkdnStart = "``` mermaid\n"
@@ -46,7 +50,7 @@ mermaidStyleStart = "  style "
 mermaidStrokeStyleEnd :: String
 mermaidStrokeStyleEnd = " stroke-width:4px;\n"
 
-mermaidArrow :: String 
+mermaidArrow :: String
 mermaidArrow = "-->"
 
 mermaidArrowNamed :: String
@@ -85,11 +89,20 @@ lineEnd = ";\n"
 mermaidNodePaddingClassName :: String
 mermaidNodePaddingClassName = ":::stdSize"
 
+mermaidEulerCentralClassDef :: String
+mermaidEulerCentralClassDef = "\tclassDef specialSize fill:#52a4e3,stroke:#4698eb,stroke-width:2px,color:#000;\n"
+
+mermaidEulerCentralClassName :: String
+mermaidEulerCentralClassName = ":::specialSize;"
+
 mermaidNodePaddingClassDef :: String
-mermaidNodePaddingClassDef = "\tclassDef stdSize padding:125px,stroke-width:6px,font-size:20pt,stroke:#000\n"
+mermaidNodePaddingClassDef = "\tclassDef stdSize padding:125px,stroke-width:6px,font-size:20pt,stroke:#000\n\tclassDef specialSize padding:125px,stroke-width:6px,font-size:20pt,stroke:#000, fill:#e38952\n\tclassDef foundationSize padding:125px,stroke-width:6px,font-size:20pt,stroke:#000, fill:#52a4e3\n"
 
 mermaidAddTitle :: String -> String -> String
-mermaidAddTitle mm title = "--- \ntitle: " ++ title ++ "\n---\n" ++ mm
+mermaidAddTitle mm title = "--- \ntitle: " ++ title ++ "\nconfig:\n  layout: neutral\n  look: handDrawn\n---\n" ++ mm
+
+mermaidAddEulerTitle :: String -> String -> String
+mermaidAddEulerTitle mm title = "--- \ntitle: " ++ title ++ "\nconfig:\n  layout: neutral\n  look: classic\n---\n" ++ mm
 
 mermaidTDTopAndTail :: String -> String
 mermaidTDTopAndTail body = "%%{init: { \"flowchart\": { \"htmlLabels\": true, \"curve\": \"linear\" } } }%%\ngraph TD\n" ++ mermaidNodePaddingClassDef ++ body ++ "\n"
@@ -113,18 +126,36 @@ mermaidEntitySupertypeTree ids hqdm mmNodes= go ids hqdm mmNodes
     nextLayer = last ids
     possibleNewLayer = HqdmLib.uniqueIds $ concat (HqdmLib.lookupSupertypesOf nextLayer hqdm)
     newLayer = [HqdmLib.deleteItemsFromList possibleNewLayer (take 1 nextLayer)]
-    nextMmNodes = concat $ concatMap (\ x -> 
-        fmap (\ y -> 
-            "\t" ++ y ++ "[" ++ insertBRsinString ( HqdmLib.headIfStringPresent (HqdmLib.lookupHqdmTypeFromAll hqdm y)) ++ "]" ++ mermaidNodePaddingClassName ++ ";\n" 
+    nextMmNodes = concat $ concatMap (\ x ->
+        fmap (\ y ->
+            "\t" ++ y ++ "[" ++ insertBRsinString ( HqdmLib.headIfStringPresent (HqdmLib.lookupHqdmTypeFromAll hqdm y)) ++ "]" ++ mermaidNodePaddingClassName ++ ";\n"
                 ++ "\t" ++ y ++ "-->|supertype_of|" ++ x ++ ";\n"
             ) (HqdmLib.lookupSupertypeOf x hqdm)) nextLayer
-    -- newLayer is formed from a defence against circularity.  Remove elements of newLayer that are in nextLayer.
 
     go ids hqdm mmNodes
       | null newLayer = mmNodes
       | newLayer == [[]] = mmNodes
       | sum [length $ filter (== thing) yl | yl <- newLayer] > 0 = nextMmNodes ++ mmNodes
       | otherwise = mermaidEntitySupertypeTree (ids ++ newLayer) hqdm ( nextMmNodes ++ mmNodes )
+
+-- | mermaidEntityEulerTree
+-- From all the triples given by lookupSupertypes find all the supertypes of a given node Id
+-- (supplied as a [[id]]). This takes hqdm type triples as [HqdmTriple].
+-- The ouput is a list of mermaid nodes and connections between them.
+mermaidEntityEulerTree :: [[HqdmLib.Id]] -> [HqdmLib.HqdmTriple] -> String -> String
+mermaidEntityEulerTree ids hqdm mmNodes= go ids hqdm mmNodes
+  where
+    nextLayer = last ids
+    possibleNewLayer = HqdmLib.uniqueIds $ concat (HqdmLib.lookupSupertypesOf nextLayer hqdm)
+    newLayer = [HqdmLib.deleteItemsFromList possibleNewLayer (take 1 nextLayer)]
+    nextMmNodes = concatMap (\ x -> HqdmLib.headIfStringPresent (HqdmLib.lookupHqdmTypeFromAll hqdm x) ++ " ") (concat newLayer)
+    mmLayer =  "subgraph " ++ concat (concat newLayer) ++ "[\"" ++ nextMmNodes ++ "\"];\n" ++ mmNodes ++ "\tend\n"
+
+    go ids hqdm mmNodes
+      | null newLayer = mmNodes
+      | newLayer == [[]] = mmNodes
+      | sum [length $ filter (== thing) yl | yl <- newLayer] > 0 = mmLayer
+      | otherwise = mermaidEntityEulerTree (ids ++ newLayer) hqdm mmLayer
 
 -- | mermaidSuperRelationPathsToUniversalRelation
 -- From all the Binary Relations given find all the BR supertypes of a given RelationId
@@ -137,9 +168,9 @@ mermaidSuperRelationPathsToUniversalRelation relIds brels mmNodes = go relIds br
     nextLayer = last relIds
     superBRs = HqdmRelations.getPureSuperRelations $ HqdmRelations.findBrelsFromIds nextLayer brels
     newLayer = [ HqdmLib.uniqueIds $ HqdmLib.deleteItemsFromList superBRs nextLayer]
-    nextMmNodes = concat $ concatMap (\ x -> 
-        fmap (\ y -> 
-            "\t" ++ y ++ "[" ++ y ++ " <BR> " ++ HqdmRelations.getPureRelationName (head $ HqdmRelations.findBrelFromId y brels) ++ "]" ++ mermaidNodePaddingClassName ++ ";\n" 
+    nextMmNodes = concat $ concatMap (\ x ->
+        fmap (\ y ->
+            "\t" ++ y ++ "[" ++ y ++ " <BR> " ++ HqdmRelations.getPureRelationName (head $ HqdmRelations.findBrelFromId y brels) ++ "]" ++ mermaidNodePaddingClassName ++ ";\n"
                 ++ "\t" ++ y ++ "-->|superBinaryRel_of|" ++ x ++ ";\n"
             ) (HqdmRelations.getPureSuperRelation (head $ HqdmRelations.findBrelFromId x brels))) nextLayer
     -- newLayer is formed from a defence against circularity.  Remove elements of newLayer that are in nextLayer.
@@ -147,7 +178,7 @@ mermaidSuperRelationPathsToUniversalRelation relIds brels mmNodes = go relIds br
     go relIds brels mmNodes
       | null newLayer = init mmNodes
       | newLayer == [[]] = mmNodes
-      | sum [length $ filter (== HqdmRelations.universalRelationSet) yl | yl <- newLayer] > 0 = nextMmNodes ++ mmNodes 
+      | sum [length $ filter (== HqdmRelations.universalRelationSet) yl | yl <- newLayer] > 0 = nextMmNodes ++ mmNodes
       | otherwise = mermaidSuperRelationPathsToUniversalRelation (relIds ++ newLayer) brels ( nextMmNodes ++ mmNodes )
 
 -- | mermaidSubRelationPathsWithLayerCount
@@ -161,9 +192,9 @@ mermaidSubRelationPathsWithLayerCount relIds brels cnt mmNodes = go relIds brels
     nextLayer = last relIds
     subBRs = concat $ HqdmRelations.lookupSubBRelsOf nextLayer brels
     newLayer = [ HqdmLib.uniqueIds $ HqdmLib.deleteItemsFromList subBRs nextLayer]
-    nextMmNodes = concat $ concatMap (\ x -> 
-        fmap (\ y -> 
-            "\t" ++ x ++ "[" ++ x ++ " <BR> " ++ HqdmRelations.getPureRelationName (head $ HqdmRelations.findBrelFromId x brels) ++ "]" ++ mermaidNodePaddingClassName ++ ";\n" 
+    nextMmNodes = concat $ concatMap (\ x ->
+        fmap (\ y ->
+            "\t" ++ x ++ "[" ++ x ++ " <BR> " ++ HqdmRelations.getPureRelationName (head $ HqdmRelations.findBrelFromId x brels) ++ "]" ++ mermaidNodePaddingClassName ++ ";\n"
                 ++ "\t" ++ y ++ "-->|superBinaryRel_of|" ++ x ++ ";\n"
             ) (HqdmRelations.getPureSuperRelation (head $ HqdmRelations.findBrelFromId x brels))) (concat newLayer)
     -- newLayer is formed from a defence against circularity.  Remove elements of newLayer that are in nextLayer.

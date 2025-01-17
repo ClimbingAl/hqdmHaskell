@@ -4,7 +4,7 @@ A command line tool that takes in a converted (mapped to pure) hqdm dataset and 
 
 ## Example
 
-`hqdmCardinalityChecker -sw ../PureHqdmRelations_v8.csv ../HqdmAllAsDataFormal4Short.csv mappedHqdmDataset.csv`
+`hqdmCardinalityChecker -sw ../PureHqdmRelations_v9.csv ../HqdmAllAsDataFormal4Short.csv mappedHqdmDataset.csv`
 
 ## General Command pattern
 
@@ -24,11 +24,11 @@ Usage: hqdmCardinalityChecker -psoerw <hqdmRelations.csv> <hqdmEntityTypes.csv> 
 ## Running the command
 This runs on any Linux command line as:
 
-`./hqdmCardinalityChecker -sw ../PureHqdmRelations_v8.csv ../HqdmAllAsDataFormal4Short.csv mappedHqdmDataset.csv`
+`./hqdmCardinalityChecker -sw ../PureHqdmRelations_v9.csv ../HqdmAllAsDataFormal4Short.csv mappedHqdmDataset.csv`
 
 It may run on macOS (could be straightforward) and Windows.  The binary for this is included in the repo so that youy don't have to build it.  If you don't like trusting binaries then you can rebuild it by installing the Haskell GHC and Cabal build system. The command `stack build` will then build this command line tool and all of its dependencies.  The tool can then be used using `stack` itself like this:
 
-`stack exec -- hqdmCardinalityChecker -sw ../PureHqdmRelations_v8.csv ../HqdmAllAsDataFormal4Short.csv mappedHqdmDataset.csv`
+`stack exec -- hqdmCardinalityChecker -sw ../PureHqdmRelations_v9.csv ../HqdmAllAsDataFormal4Short.csv mappedHqdmDataset.csv`
 
 If you wish to use it without `stack` then you can build it with th `--copy-bins` switch. 
 
@@ -50,7 +50,7 @@ RELATION SPECIFICATION:
 
 The following command using a test file with cardinality and range type errors (some filtered using the selected switches) gives the text output beneath it:
 
-`./hqdmCardinalityChecker -w ../PureHqdmRelations_v8.csv ../HqdmAllAsDataFormal4Short.csv ../../datasets/joinedAllRelsTestWith1Err.csv`
+`./hqdmCardinalityChecker -w ../PureHqdmRelations_v9.csv ../HqdmAllAsDataFormal4Short.csv ../../datasets/joinedAllRelsTestWith1Err.csv`
 
 ```
 **hqdmCardinalityChecker**

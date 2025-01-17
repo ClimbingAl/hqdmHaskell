@@ -33,7 +33,10 @@ import HqdmMermaid (
     mermaidAddTitle,
     mermaidEntitySupertypeTree,
     mermaidTDTopAndTail,
-    insertEntityNodeName
+    insertEntityNodeName,
+    mermaidEulerCentralClassDef,
+    mermaidEntityEulerTree,
+    mermaidAddEulerTitle
     )
 
 import qualified Data.ByteString.Lazy as BL
@@ -118,6 +121,9 @@ main = do
             putStr "\n\nMermaid TD graph of the supertypes:\n\n"
             let mmGraph = mermaidAddTitle (mermaidTDTopAndTail (insertEntityNodeName entityId hqdmInputModel ++ mermaidEntitySupertypeTree [[entityId]] hqdmInputModel "")) ("Supertype graph for " ++ entityType)
             putStr mmGraph
+            putStr "\n\nMermaid Euler diagram of the supertypes:\n\n"
+            let mmEulerDiagram = mermaidAddEulerTitle ("flowchart TB\n" ++ mermaidEntityEulerTree [[entityId]] hqdmInputModel (entityId ++ "[\"" ++ HqdmLib.headIfStringPresent (HqdmLib.lookupHqdmTypeFromAll hqdmInputModel entityId) ++ "\"]:::specialSize\n") ) ("Supertype Euler diagram for " ++ entityType) ++ mermaidEulerCentralClassDef ++ "\n"
+            putStr mmEulerDiagram
         else putStr ""
     
     putStr ("Read about it here: https://github.com/hqdmTop/hqdmFramework/wiki/" ++ entityType ++ "\n\n")

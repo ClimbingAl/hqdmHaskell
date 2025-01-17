@@ -1,0 +1,62 @@
+
+
+Range Check:
+
+
+
+Failed range tests = 
+
+
+Single test of rangeMetTest:
+
+RelationCheckTest {brelRange = "5ccc13dd-c63c-4502-aa0d-786410b138cd", rangeInstanceOfBrel = "fcd7f192-b04e-4765-90cf-5cc4f6125619", typeOfInstanceOfBrel = "kind_of_functional_system_component", idOfType = "5ccc13dd-c63c-4502-aa0d-786410b138cd", tpls = [HqdmTriple {subject = "8883c70b-bc98-4c5f-b65d-92a21658947c", predicate = "7e249a64-9f13-47d3-a232-562a3d080198", object = "functional_system_component"},HqdmTriple {subject = "8883c70b-bc98-4c5f-b65d-92a21658947c", predicate = "919a3f90-b681-422c-8481-fe313daa0044", object = "2024-09-07T08:12:26.006313412Z"},HqdmTriple {subject = "8883c70b-bc98-4c5f-b65d-92a21658947c", predicate = "972bdd5f-5f8c-42d1-a47f-1ac08d1da48e", object = "HqdmNetworksProject_User1"},HqdmTriple {subject = "8883c70b-bc98-4c5f-b65d-92a21658947c", predicate = "fe987366-a8ad-48fa-8821-73f54f6df180", object = "LineCardX_PortModuleComponent_Number_28_-_THIS_NAME_HAS_NO_MEANING"},HqdmTriple {subject = "8883c70b-bc98-4c5f-b65d-92a21658947c", predicate = "69b0e5b9-3be2-4ec3-a9a6-bb5b523d4b32", object = "7beaf4a9-bbe3-4fd9-bfac-746d25703270"},HqdmTriple {subject = "8883c70b-bc98-4c5f-b65d-92a21658947c", predicate = "163a237b-c25f-4062-84ee-695f217d6bec", object = "48bc2f4e-fe5a-41d3-bc7c-5c4bc7c0cd91"},HqdmTriple {subject = "8883c70b-bc98-4c5f-b65d-92a21658947c", predicate = "69b0e5b9-3be2-4ec3-a9a6-bb5b523d4b32", object = "7a1b2a2c-84b5-445e-a06c-fe8b06bc1fbf"},HqdmTriple {subject = "8883c70b-bc98-4c5f-b65d-92a21658947c", predicate = "3259ef23-d8c9-4771-a888-769f66380d0d", object = "750120c8-1d4b-4fed-8908-ce14e30d3e15"},HqdmTriple {subject = "8883c70b-bc98-4c5f-b65d-92a21658947c", predicate = "8ea62706-fa07-40d7-8586-a8768403c01e", object = "fcd7f192-b04e-4765-90cf-5cc4f6125619"},HqdmTriple {subject = "8883c70b-bc98-4c5f-b65d-92a21658947c", predicate = "6dd0f2db-ff7b-4629-a113-c5f9e12699b1", object = "21b2b267-3956-491f-8276-a705b80b3831"},HqdmTriple {subject = "8883c70b-bc98-4c5f-b65d-92a21658947c", predicate = "8130458f-ae96-4ab3-89b9-21f06a2aac78", object = "a980b931-9769-4975-847a-5d81405b213b"}]}
+
+
+SubBrel Tree example:
+
+--- 
+title: Sub-BRel graph for 2db5490e-01d0-491e-bd64-67ac616f65a0
+---
+%%{init: { "flowchart": { "htmlLabels": true, "curve": "linear" } } }%%
+graph TD
+	classDef stdSize padding:125px,stroke-width:6px,font-size:20pt,stroke:#000
+	2db5490e-01d0-491e-bd64-67ac616f65a0[2db5490e-01d0-491e-bd64-67ac616f65a0 <BR> universal_set_relation_set]:::stdSize;
+	58d8936d-5887-4cf1-9f15-e96fa07f430e[58d8936d-5887-4cf1-9f15-e96fa07f430e <BR> member__of]:::stdSize;
+	2db5490e-01d0-491e-bd64-67ac616f65a0-->|superBinaryRel_of|58d8936d-5887-4cf1-9f15-e96fa07f430e;
+	e052b90c-13c3-4fea-8289-0c995656ed8f[e052b90c-13c3-4fea-8289-0c995656ed8f <BR> member_of]:::stdSize;
+	2db5490e-01d0-491e-bd64-67ac616f65a0-->|superBinaryRel_of|e052b90c-13c3-4fea-8289-0c995656ed8f;
+	bcd15b28-4d3e-41de-966c-fac27b7ff54c[bcd15b28-4d3e-41de-966c-fac27b7ff54c <BR> intended_role]:::stdSize;
+	2db5490e-01d0-491e-bd64-67ac616f65a0-->|superBinaryRel_of|bcd15b28-4d3e-41de-966c-fac27b7ff54c;
+	371e36c7-a1c5-4f10-8d88-d47b99da2710[371e36c7-a1c5-4f10-8d88-d47b99da2710 <BR> natural_role]:::stdSize;
+	2db5490e-01d0-491e-bd64-67ac616f65a0-->|superBinaryRel_of|371e36c7-a1c5-4f10-8d88-d47b99da2710;
+	194bd978-b78d-42c5-a5cf-7830a183a120[194bd978-b78d-42c5-a5cf-7830a183a120 <BR> member_of]:::stdSize;
+	2db5490e-01d0-491e-bd64-67ac616f65a0-->|superBinaryRel_of|194bd978-b78d-42c5-a5cf-7830a183a120;
+	7d11b956-0014-43be-9a3e-f89e2b31ec4f[7d11b956-0014-43be-9a3e-f89e2b31ec4f <BR> has_superclass]:::stdSize;
+	1f983e8a-7db1-4374-8fb1-7e8a432a967e-->|superBinaryRel_of|7d11b956-0014-43be-9a3e-f89e2b31ec4f;
+	7d11b956-0014-43be-9a3e-f89e2b31ec4f[7d11b956-0014-43be-9a3e-f89e2b31ec4f <BR> has_superclass]:::stdSize;
+	2db5490e-01d0-491e-bd64-67ac616f65a0-->|superBinaryRel_of|7d11b956-0014-43be-9a3e-f89e2b31ec4f;
+	79fdb419-28da-4443-b82a-62f7cae17a15[79fdb419-28da-4443-b82a-62f7cae17a15 <BR> member_of]:::stdSize;
+	2db5490e-01d0-491e-bd64-67ac616f65a0-->|superBinaryRel_of|79fdb419-28da-4443-b82a-62f7cae17a15;
+	9078d74f-05bc-4f7a-bc75-6cbc15f1e867[9078d74f-05bc-4f7a-bc75-6cbc15f1e867 <BR> class_of_offered]:::stdSize;
+	2db5490e-01d0-491e-bd64-67ac616f65a0-->|superBinaryRel_of|9078d74f-05bc-4f7a-bc75-6cbc15f1e867;
+	034d023c-4e85-41c9-81fb-bb80a3b4662f[034d023c-4e85-41c9-81fb-bb80a3b4662f <BR> consideration_by_class]:::stdSize;
+	2db5490e-01d0-491e-bd64-67ac616f65a0-->|superBinaryRel_of|034d023c-4e85-41c9-81fb-bb80a3b4662f;
+	a0d4651d-b1e9-49d0-8429-d6b3c1f0ae51[a0d4651d-b1e9-49d0-8429-d6b3c1f0ae51 <BR> meets_specification]:::stdSize;
+	2db5490e-01d0-491e-bd64-67ac616f65a0-->|superBinaryRel_of|a0d4651d-b1e9-49d0-8429-d6b3c1f0ae51;
+	2baadd7c-4a98-434b-abbf-6f3b1f34e72c[2baadd7c-4a98-434b-abbf-6f3b1f34e72c <BR> intersection_of]:::stdSize;
+	2db5490e-01d0-491e-bd64-67ac616f65a0-->|superBinaryRel_of|2baadd7c-4a98-434b-abbf-6f3b1f34e72c;
+	0f5fd166-e3a0-4903-b595-24434e12a684[0f5fd166-e3a0-4903-b595-24434e12a684 <BR> intended_role_by_class]:::stdSize;
+	2db5490e-01d0-491e-bd64-67ac616f65a0-->|superBinaryRel_of|0f5fd166-e3a0-4903-b595-24434e12a684;
+	6b25993e-b212-4d6f-bdcb-2f0755dfbbe6[6b25993e-b212-4d6f-bdcb-2f0755dfbbe6 <BR> natural_role_by_class]:::stdSize;
+	2db5490e-01d0-491e-bd64-67ac616f65a0-->|superBinaryRel_of|6b25993e-b212-4d6f-bdcb-2f0755dfbbe6;
+	179340bb-2294-44fe-a6bb-8021849b81f2[179340bb-2294-44fe-a6bb-8021849b81f2 <BR> ranges_over]:::stdSize;
+	2db5490e-01d0-491e-bd64-67ac616f65a0-->|superBinaryRel_of|179340bb-2294-44fe-a6bb-8021849b81f2;
+	4a0e4229-18c6-459a-856b-807ce20f31d5[4a0e4229-18c6-459a-856b-807ce20f31d5 <BR> upper_bound]:::stdSize;
+	2db5490e-01d0-491e-bd64-67ac616f65a0-->|superBinaryRel_of|4a0e4229-18c6-459a-856b-807ce20f31d5;
+	c3185d06-6309-4e69-952d-13e47ed6f5a3[c3185d06-6309-4e69-952d-13e47ed6f5a3 <BR> lower_bound]:::stdSize;
+	2db5490e-01d0-491e-bd64-67ac616f65a0-->|superBinaryRel_of|c3185d06-6309-4e69-952d-13e47ed6f5a3;
+
+
+
+DONE
+

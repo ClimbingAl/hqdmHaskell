@@ -289,7 +289,7 @@ main = do
 
     putStr "\n\nSubBrel Tree example:\n\n"
     --let subBrelTree = findSubBRelTreeWithCount [[universalRelationSet]] relationsInputModel 2
-    let relId = "7b3caec7-7e9d-47cd-bb19-19d2872c326f" -- "7b3caec7-7e9d-47cd-bb19-19d2872c326f" --"69b0e5b9-3be2-4ec3-a9a6-bb5b523d4b32" --"85e78ac0-ec72-478f-9aac-cacb520290a0"
+    let relId = "2db5490e-01d0-491e-bd64-67ac616f65a0" -- "7b3caec7-7e9d-47cd-bb19-19d2872c326f" --"69b0e5b9-3be2-4ec3-a9a6-bb5b523d4b32" --"85e78ac0-ec72-478f-9aac-cacb520290a0"
     let mermaidSubBrelTree = mermaidAddTitle (mermaidTDTopAndTail (insertBRNodeName relId relationsInputModel ++ mermaidSubRelationPathsWithLayerCount [[relId]] relationsInputModel 1 "")) ("Sub-BRel graph for " ++ relId)
     putStr mermaidSubBrelTree
 

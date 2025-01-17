@@ -1,0 +1,68 @@
+
+
+Range Check:
+
+
+
+Failed range tests = 
+
+
+Single test of rangeMetTest:
+
+RelationCheckTest {brelRange = "5ccc13dd-c63c-4502-aa0d-786410b138cd", rangeInstanceOfBrel = "fcd7f192-b04e-4765-90cf-5cc4f6125619", typeOfInstanceOfBrel = "kind_of_functional_system_component", idOfType = "5ccc13dd-c63c-4502-aa0d-786410b138cd", tpls = [HqdmTriple {subject = "8883c70b-bc98-4c5f-b65d-92a21658947c", predicate = "7e249a64-9f13-47d3-a232-562a3d080198", object = "functional_system_component"},HqdmTriple {subject = "8883c70b-bc98-4c5f-b65d-92a21658947c", predicate = "919a3f90-b681-422c-8481-fe313daa0044", object = "2024-09-07T08:12:26.006313412Z"},HqdmTriple {subject = "8883c70b-bc98-4c5f-b65d-92a21658947c", predicate = "972bdd5f-5f8c-42d1-a47f-1ac08d1da48e", object = "HqdmNetworksProject_User1"},HqdmTriple {subject = "8883c70b-bc98-4c5f-b65d-92a21658947c", predicate = "fe987366-a8ad-48fa-8821-73f54f6df180", object = "LineCardX_PortModuleComponent_Number_28_-_THIS_NAME_HAS_NO_MEANING"},HqdmTriple {subject = "8883c70b-bc98-4c5f-b65d-92a21658947c", predicate = "69b0e5b9-3be2-4ec3-a9a6-bb5b523d4b32", object = "7beaf4a9-bbe3-4fd9-bfac-746d25703270"},HqdmTriple {subject = "8883c70b-bc98-4c5f-b65d-92a21658947c", predicate = "163a237b-c25f-4062-84ee-695f217d6bec", object = "48bc2f4e-fe5a-41d3-bc7c-5c4bc7c0cd91"},HqdmTriple {subject = "8883c70b-bc98-4c5f-b65d-92a21658947c", predicate = "69b0e5b9-3be2-4ec3-a9a6-bb5b523d4b32", object = "7a1b2a2c-84b5-445e-a06c-fe8b06bc1fbf"},HqdmTriple {subject = "8883c70b-bc98-4c5f-b65d-92a21658947c", predicate = "3259ef23-d8c9-4771-a888-769f66380d0d", object = "750120c8-1d4b-4fed-8908-ce14e30d3e15"},HqdmTriple {subject = "8883c70b-bc98-4c5f-b65d-92a21658947c", predicate = "8ea62706-fa07-40d7-8586-a8768403c01e", object = "fcd7f192-b04e-4765-90cf-5cc4f6125619"},HqdmTriple {subject = "8883c70b-bc98-4c5f-b65d-92a21658947c", predicate = "6dd0f2db-ff7b-4629-a113-c5f9e12699b1", object = "21b2b267-3956-491f-8276-a705b80b3831"},HqdmTriple {subject = "8883c70b-bc98-4c5f-b65d-92a21658947c", predicate = "8130458f-ae96-4ab3-89b9-21f06a2aac78", object = "a980b931-9769-4975-847a-5d81405b213b"}]}
+
+
+SubBrel Tree example:
+
+--- 
+title: Sub-BRel graph for 7b3caec7-7e9d-47cd-bb19-19d2872c326f
+---
+%%{init: { "flowchart": { "htmlLabels": true, "curve": "linear" } } }%%
+graph TD
+	classDef stdSize padding:125px,stroke-width:6px,font-size:20pt,stroke:#000
+	7b3caec7-7e9d-47cd-bb19-19d2872c326f[7b3caec7-7e9d-47cd-bb19-19d2872c326f <BR> universal_part_relation_set]:::stdSize;
+	be900942-8601-4254-9a12-d87a5bfa05d3[be900942-8601-4254-9a12-d87a5bfa05d3 <BR> part_of]:::stdSize;
+	7b3caec7-7e9d-47cd-bb19-19d2872c326f-->|superBinaryRel_of|be900942-8601-4254-9a12-d87a5bfa05d3;
+	06306029-24da-4626-aac8-3d71f77b74aa[06306029-24da-4626-aac8-3d71f77b74aa <BR> consists_of]:::stdSize;
+	7b3caec7-7e9d-47cd-bb19-19d2872c326f-->|superBinaryRel_of|06306029-24da-4626-aac8-3d71f77b74aa;
+	5df20202-283c-4273-9551-456cc182dd0d[5df20202-283c-4273-9551-456cc182dd0d <BR> component_of]:::stdSize;
+	7b3caec7-7e9d-47cd-bb19-19d2872c326f-->|superBinaryRel_of|5df20202-283c-4273-9551-456cc182dd0d;
+	d03b73d7-7c2b-4cc7-b086-ddc0d930e0ed[d03b73d7-7c2b-4cc7-b086-ddc0d930e0ed <BR> consists_of]:::stdSize;
+	7b3caec7-7e9d-47cd-bb19-19d2872c326f-->|superBinaryRel_of|d03b73d7-7c2b-4cc7-b086-ddc0d930e0ed;
+	79cbb2a3-c1b1-4996-b47f-22510688bac1[79cbb2a3-c1b1-4996-b47f-22510688bac1 <BR> consists_of_participant]:::stdSize;
+	7b3caec7-7e9d-47cd-bb19-19d2872c326f-->|superBinaryRel_of|79cbb2a3-c1b1-4996-b47f-22510688bac1;
+	9467139c-dba3-4a2b-b87d-7bbb583df924[9467139c-dba3-4a2b-b87d-7bbb583df924 <BR> part__of_by_class]:::stdSize;
+	7b3caec7-7e9d-47cd-bb19-19d2872c326f-->|superBinaryRel_of|9467139c-dba3-4a2b-b87d-7bbb583df924;
+	a87141d8-915a-4985-82b2-3ff494741cfd[a87141d8-915a-4985-82b2-3ff494741cfd <BR> consists__of_by_class]:::stdSize;
+	7b3caec7-7e9d-47cd-bb19-19d2872c326f-->|superBinaryRel_of|a87141d8-915a-4985-82b2-3ff494741cfd;
+	b0baa7f6-cbb6-4f55-956f-2415efecebe7[b0baa7f6-cbb6-4f55-956f-2415efecebe7 <BR> has_component_by_class]:::stdSize;
+	7b3caec7-7e9d-47cd-bb19-19d2872c326f-->|superBinaryRel_of|b0baa7f6-cbb6-4f55-956f-2415efecebe7;
+	01fb2628-8416-4cdb-9243-d042d414c178[01fb2628-8416-4cdb-9243-d042d414c178 <BR> component_by_class]:::stdSize;
+	7b3caec7-7e9d-47cd-bb19-19d2872c326f-->|superBinaryRel_of|01fb2628-8416-4cdb-9243-d042d414c178;
+	fd2cd441-1e7c-41c1-a751-3854061db612[fd2cd441-1e7c-41c1-a751-3854061db612 <BR> part_of_by_class]:::stdSize;
+	7b3caec7-7e9d-47cd-bb19-19d2872c326f-->|superBinaryRel_of|fd2cd441-1e7c-41c1-a751-3854061db612;
+	2d5730ba-950c-482e-aa81-1fc487b7a490[2d5730ba-950c-482e-aa81-1fc487b7a490 <BR> part_of_by_class_]:::stdSize;
+	7b3caec7-7e9d-47cd-bb19-19d2872c326f-->|superBinaryRel_of|2d5730ba-950c-482e-aa81-1fc487b7a490;
+	d06091c7-b22b-4141-a803-3f6dddf8ac11[d06091c7-b22b-4141-a803-3f6dddf8ac11 <BR> consists_of_by_class]:::stdSize;
+	7b3caec7-7e9d-47cd-bb19-19d2872c326f-->|superBinaryRel_of|d06091c7-b22b-4141-a803-3f6dddf8ac11;
+	744316c4-55e4-4b3d-aaed-bb05f54aeb46[744316c4-55e4-4b3d-aaed-bb05f54aeb46 <BR> part_of_by_class]:::stdSize;
+	7b3caec7-7e9d-47cd-bb19-19d2872c326f-->|superBinaryRel_of|744316c4-55e4-4b3d-aaed-bb05f54aeb46;
+	c8d2e455-c9c1-41db-8fb7-273fd73842c0[c8d2e455-c9c1-41db-8fb7-273fd73842c0 <BR> part_of_by_class_]:::stdSize;
+	7b3caec7-7e9d-47cd-bb19-19d2872c326f-->|superBinaryRel_of|c8d2e455-c9c1-41db-8fb7-273fd73842c0;
+	28580a84-675f-487e-b92f-f5469f4ce67f[28580a84-675f-487e-b92f-f5469f4ce67f <BR> consists_of_by_class]:::stdSize;
+	7b3caec7-7e9d-47cd-bb19-19d2872c326f-->|superBinaryRel_of|28580a84-675f-487e-b92f-f5469f4ce67f;
+	ebb8de78-9ec0-4375-acb9-15f3646ae9f0[ebb8de78-9ec0-4375-acb9-15f3646ae9f0 <BR> consists_of_participant]:::stdSize;
+	7b3caec7-7e9d-47cd-bb19-19d2872c326f-->|superBinaryRel_of|ebb8de78-9ec0-4375-acb9-15f3646ae9f0;
+	29083640-7524-4750-8bb7-b228e8df7983[29083640-7524-4750-8bb7-b228e8df7983 <BR> consists_of_]:::stdSize;
+	7b3caec7-7e9d-47cd-bb19-19d2872c326f-->|superBinaryRel_of|29083640-7524-4750-8bb7-b228e8df7983;
+	d60aefa6-c830-4bca-b6a3-4bae917e66fe[d60aefa6-c830-4bca-b6a3-4bae917e66fe <BR> consists_of]:::stdSize;
+	7b3caec7-7e9d-47cd-bb19-19d2872c326f-->|superBinaryRel_of|d60aefa6-c830-4bca-b6a3-4bae917e66fe;
+	6700c284-60c9-4fcb-bb4c-61461db845c8[6700c284-60c9-4fcb-bb4c-61461db845c8 <BR> consists_of_by_class]:::stdSize;
+	7b3caec7-7e9d-47cd-bb19-19d2872c326f-->|superBinaryRel_of|6700c284-60c9-4fcb-bb4c-61461db845c8;
+	5b92a20d-c483-4f10-ba41-b5b83bc72f23[5b92a20d-c483-4f10-ba41-b5b83bc72f23 <BR> consists_of_in_members]:::stdSize;
+	7b3caec7-7e9d-47cd-bb19-19d2872c326f-->|superBinaryRel_of|5b92a20d-c483-4f10-ba41-b5b83bc72f23;
+
+
+
+DONE
+

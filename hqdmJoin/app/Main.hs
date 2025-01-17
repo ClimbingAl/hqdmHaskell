@@ -82,7 +82,8 @@ import HqdmRelations (
     filterOutErrorsBy,
     cardinalityMet,
     rangeTestAllObjects,
-    rangeMetTest
+    rangeMetTest,
+    findSubBRelTreeWithCount
     )
 
 import HqdmLib (
@@ -130,6 +131,7 @@ import HqdmQueries (
     )
 
 import HqdmIds
+import HqdmMermaid
 
 -- from bytestring
 import qualified Data.ByteString.Lazy as BL
@@ -278,12 +280,18 @@ main = do
     let invalidRangeResults = validityFilter rangeTestResultsAll
     
     putStr "\n\nFailed range tests = \n"
-    putStr (printableErrorResults invalidRangeResults hqdmInputModel allRelationIdJoinedTriples)
+    --putStr (printableErrorResults invalidRangeResults hqdmInputModel allRelationIdJoinedTriples)
 
     putStr "\n\nSingle test of rangeMetTest:\n\n"
     -- point_in_time 6bb0b0b6-41cd-4bb3-a0e8-d483b25f6cf1
     let simpleRangeTest = rangeMetTest (HqdmLib.lookupHqdmOne "8883c70b-bc98-4c5f-b65d-92a21658947c" allRelationIdJoinedTriples) allRelationIdJoinedTriples hqdmInputModel (head $ findBrelFromId "8ea62706-fa07-40d7-8586-a8768403c01e" relationsInputModel)
     print simpleRangeTest
+
+    putStr "\n\nSubBrel Tree example:\n\n"
+    --let subBrelTree = findSubBRelTreeWithCount [[universalRelationSet]] relationsInputModel 2
+    let relId = "7b3caec7-7e9d-47cd-bb19-19d2872c326f" -- "7b3caec7-7e9d-47cd-bb19-19d2872c326f" --"69b0e5b9-3be2-4ec3-a9a6-bb5b523d4b32" --"85e78ac0-ec72-478f-9aac-cacb520290a0"
+    let mermaidSubBrelTree = mermaidAddTitle (mermaidTDTopAndTail (insertBRNodeName relId relationsInputModel ++ mermaidSubRelationPathsWithLayerCount [[relId]] relationsInputModel 1 "")) ("Sub-BRel graph for " ++ relId)
+    putStr mermaidSubBrelTree
 
     {-putStr "\n\nInput Rel Set:\n\n"
     print exampleObjectTypeBRelSets

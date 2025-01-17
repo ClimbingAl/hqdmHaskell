@@ -19,7 +19,8 @@ module HqdmMermaid (
   mermaidTDTopAndTail,
   mermaidAddTitle,
   insertEntityNodeName,
-  insertBRNodeName
+  insertBRNodeName,
+  mermaidSubRelationPathsWithLayerCount
 ) where
 
 import HqdmLib 
@@ -148,6 +149,30 @@ mermaidSuperRelationPathsToUniversalRelation relIds brels mmNodes = go relIds br
       | newLayer == [[]] = mmNodes
       | sum [length $ filter (== HqdmRelations.universalRelationSet) yl | yl <- newLayer] > 0 = nextMmNodes ++ mmNodes 
       | otherwise = mermaidSuperRelationPathsToUniversalRelation (relIds ++ newLayer) brels ( nextMmNodes ++ mmNodes )
+
+-- | mermaidSubRelationPathsWithLayerCount
+-- From all the Binary Relations given find all the BR supertypes of a given RelationId
+-- (supplied as a [[RelationId]]). This takes only has_supertype statements as [HqdmTriple].
+-- The ouput is a list of mermaid nodes and connections between them.
+-- Scratch: HqdmRelations.getPureRelationId $ head (HqdmRelations.findBrelFromId y brels)
+mermaidSubRelationPathsWithLayerCount :: [[RelationId]] -> [HqdmBinaryRelationPure] -> Int -> String -> String
+mermaidSubRelationPathsWithLayerCount relIds brels cnt mmNodes = go relIds brels cnt mmNodes
+  where
+    nextLayer = last relIds
+    subBRs = concat $ HqdmRelations.lookupSubBRelsOf nextLayer brels
+    newLayer = [ HqdmLib.uniqueIds $ HqdmLib.deleteItemsFromList subBRs nextLayer]
+    nextMmNodes = concat $ concatMap (\ x -> 
+        fmap (\ y -> 
+            "\t" ++ x ++ "[" ++ x ++ " <BR> " ++ HqdmRelations.getPureRelationName (head $ HqdmRelations.findBrelFromId x brels) ++ "]" ++ mermaidNodePaddingClassName ++ ";\n" 
+                ++ "\t" ++ y ++ "-->|superBinaryRel_of|" ++ x ++ ";\n"
+            ) (HqdmRelations.getPureSuperRelation (head $ HqdmRelations.findBrelFromId x brels))) (concat newLayer)
+    -- newLayer is formed from a defence against circularity.  Remove elements of newLayer that are in nextLayer.
+
+    go relIds brels cnt mmNodes
+      | cnt == 0 = mmNodes
+      | null newLayer = init mmNodes
+      | newLayer == [[]] = mmNodes
+      | otherwise = mermaidSubRelationPathsWithLayerCount (relIds ++ newLayer) brels (subtract 1 cnt) ( nextMmNodes ++ mmNodes )
 
 {-/*
     * EXAMPLE TYPE HIERARCHY

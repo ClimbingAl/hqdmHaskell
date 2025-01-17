@@ -297,7 +297,6 @@ findSubtypeTree ids hqdmStl = go ids hqdmStl
     nextLayer = last ids
     possibleNewLayer = uniqueIds $ concat (lookupSubtypesOf nextLayer hqdmStl)
     newLayer = [deleteItemsFromList possibleNewLayer (concat ids)]
-    --- Defence against circularity.  Remove elements of newLayer that are already in subtype tree.
 
     go ids hqdmStl
       | null (head newLayer) = ids

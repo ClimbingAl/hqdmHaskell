@@ -78,6 +78,7 @@ module HqdmRelations
     printableLayerWithDomainAndRange,
     printablePathFromTuplesWithDomainAndRange,
     findSubBinaryRelationTree,
+    findSubBRelTreeWithCount,
     lookupSubBRelsOf,
     lookupSubBRelOf,
     validityFilter,
@@ -134,7 +135,6 @@ import qualified HqdmLib (
 import GHC.Generics (Generic)
 import Data.Csv (FromRecord)
 import Data.List (isPrefixOf, sortOn)
-import GHC.Num (Integer(IN))
 
 -- | In a RelationPairSet xR'y the  is a list of [R'y] for x, where R' can be any allowed 
 --   number of instances of permitted Relations
@@ -384,6 +384,20 @@ superRelationPathsToUniversalRelation relIds brels = go relIds brels
       | sum [length $ filter (== universalRelationSet) yl | yl <- newLayer] > 0 = relIds ++ newLayer
       | otherwise = superRelationPathsToUniversalRelation (relIds ++ newLayer) brels
 
+-- | findSubBRelTreeWithCount
+-- From the provided Binary Relation Sets given, find the BRel Subsets for # layers in the count.
+findSubBRelTreeWithCount :: [[RelationId]] -> [HqdmBinaryRelationPure] -> Int -> [[RelationId]]
+findSubBRelTreeWithCount ids hqdmBrels cnt = go ids hqdmBrels cnt
+  where
+    nextLayer = last ids
+    possibleNewLayer = HqdmLib.uniqueIds $ concat (lookupSubBRelsOf nextLayer hqdmBrels)
+    newLayer = [HqdmLib.deleteItemsFromList possibleNewLayer (concat ids)]
+
+    go ids brels cnt
+      | cnt == 0 = ids
+      | null (head newLayer) = ids
+      | otherwise = findSubBRelTreeWithCount (ids ++ newLayer) brels (subtract 1 cnt)
+
 -- | relIdNameTupleLayers
 -- Take a list of lists of Relation Ids, find their names and generate an equivalent list of Tuples of the Id and Name pairs
 relIdNameTupleLayers :: [[RelationId]] -> [HqdmBinaryRelationPure] -> [[(RelationId, String)]]
@@ -526,7 +540,7 @@ isSubtype :: HqdmLib.Id -> HqdmLib.Id -> [HqdmLib.HqdmTriple] -> Bool
 isSubtype id superTypeId tpls = id `elem` concat (HqdmLib.findSubtypeTree [[superTypeId]] tpls)
 
 -- | subtypesOfFilter
--- Filter a list of given Type tuples to select onlt those that are subtypes of the given type Id
+-- Filter a list of given Type tuples to select only those that are subtypes of the given type Id
 subtypesOfFilter :: [(HqdmLib.Id,HqdmLib.Id)] -> HqdmLib.Id -> [HqdmLib.HqdmTriple] -> [(HqdmLib.Id,HqdmLib.Id)]
 subtypesOfFilter ids superTypeId tpls = filter (\ x -> isSubtype (snd x) superTypeId tpls) ids
 
@@ -674,10 +688,10 @@ lookupSubBRelsOf (id : ids) list = lookupSubBRelOf id list : lookupSubBRelsOf id
 -- | findSubBinaryRelationTree
 -- From all the BinaryRelations given by lookupSubBRels, find the subBrels of a given RelationId
 findSubBinaryRelationTree :: [[RelationId]] -> [HqdmBinaryRelationPure] -> [[RelationId]]
-findSubBinaryRelationTree ids hqdmBrel = go ids hqdmBrel
+findSubBinaryRelationTree ids hqdmBrels = go ids hqdmBrels
   where
     nextLayer = last ids
-    possibleNewLayer = HqdmLib.uniqueIds $ concat (lookupSubBRelsOf nextLayer hqdmBrel)
+    possibleNewLayer = HqdmLib.uniqueIds $ concat (lookupSubBRelsOf nextLayer hqdmBrels)
     newLayer = [HqdmLib.deleteItemsFromList possibleNewLayer (concat ids)]
 
     go ids hqdmBrel

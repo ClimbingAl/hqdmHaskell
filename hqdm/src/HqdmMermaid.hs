@@ -90,19 +90,19 @@ mermaidNodePaddingClassName :: String
 mermaidNodePaddingClassName = ":::stdSize"
 
 mermaidEulerCentralClassDef :: String
-mermaidEulerCentralClassDef = "\tclassDef specialSize fill:#52a4e3,stroke:#4698eb,stroke-width:2px,color:#000;\n"
+mermaidEulerCentralClassDef = "classDef specialSize fill:#c8e4fa,stroke:#4698eb,stroke-width:2px,color:#000;\n"
 
 mermaidEulerCentralClassName :: String
 mermaidEulerCentralClassName = ":::specialSize;"
 
 mermaidNodePaddingClassDef :: String
-mermaidNodePaddingClassDef = "\tclassDef stdSize padding:125px,stroke-width:6px,font-size:20pt,stroke:#000\n\tclassDef specialSize padding:125px,stroke-width:6px,font-size:20pt,stroke:#000, fill:#e38952\n\tclassDef foundationSize padding:125px,stroke-width:6px,font-size:20pt,stroke:#000, fill:#52a4e3\n"
+mermaidNodePaddingClassDef = "classDef stdSize padding:125px,stroke-width:6px,font-size:20pt,stroke:#000\nclassDef specialSize padding:125px,stroke-width:6px,font-size:20pt,stroke:#000, fill:#e38952\nclassDef foundationSize padding:125px,stroke-width:6px,font-size:20pt,stroke:#000, fill:#52a4e3\n"
 
 mermaidAddTitle :: String -> String -> String
 mermaidAddTitle mm title = "--- \ntitle: " ++ title ++ "\nconfig:\n  layout: neutral\n  look: handDrawn\n---\n" ++ mm
 
 mermaidAddEulerTitle :: String -> String -> String
-mermaidAddEulerTitle mm title = "--- \ntitle: " ++ title ++ "\nconfig:\n  layout: neutral\n  look: classic\n---\n" ++ mm
+mermaidAddEulerTitle mm title = "--- \ntitle: " ++ title ++ "\nconfig:\n  theme: default\n  look: classic\n---\n" ++ mm
 
 mermaidTDTopAndTail :: String -> String
 mermaidTDTopAndTail body = "%%{init: { \"flowchart\": { \"htmlLabels\": true, \"curve\": \"linear\" } } }%%\ngraph TD\n" ++ mermaidNodePaddingClassDef ++ body ++ "\n"

@@ -4,7 +4,7 @@ A command line tool to query the functional specification files of HQDM for the 
 
 ## Example
 
-`relationPathUp -a PureHqdmRelations_v5.csv HqdmAllAsDataFormal4Short.csv 6e23c714-9241-4132-aa7b-82391c6a60b7`
+`relationPathUp -a PureHqdmRelations_v9.csv HqdmAllAsDataFormal4Short.csv 6e23c714-9241-4132-aa7b-82391c6a60b7`
 
 ## General Command pattern
 
@@ -15,7 +15,7 @@ It is recommended to use the Relation File and Entity Type Files provided in thi
 ## Running the command
 This runs on any Linux command line as:
 
-`./relationPathUp -a PureHqdmRelations_v5.csv HqdmAllAsDataFormal4Short.csv 6e23c714-9241-4132-aa7b-82391c6a60b7`
+`./relationPathUp -a PureHqdmRelations_v9.csv HqdmAllAsDataFormal4Short.csv 6e23c714-9241-4132-aa7b-82391c6a60b7`
 
 It may run on macOS (could be straightforward) and Windows (likely non-trivial), I haven't tried it.  The binary for this is included in the repo so that youy don't have to build it.  If you don't like trusting binaries then you can rebuild it by installing the Haskell GHC and Cabal build system. The command `stack build` will then build this command line tool and all of its dependencies.  The tool can then be used using `stack` itself like this:
 

@@ -41,10 +41,64 @@ This will copy the binary to the local bin path (you can then use it locally or 
 
 `-g` GraphViz output - Not yet implemented
 
-`-m` Mermaid output - Initial implementation - waiting for Mermaid Euler chart feature ([#5932](https://github.com/mermaid-js/mermaid/pull/5932))
+`-m` Mermaid output - Two forms of diagrams output, a subtype-supertype inheritance graph and an Euler diagram of type enclosure (viewable using https://mermaid.live/edit)
 
 ## Example output
 
+Mermaid diagram showing the inheritance path from **system** up to **thing**:
+
+```mermaid
+graph TD
+classDef stdSize fill:#c8e4fa,padding:125px,stroke-width:6px,font-size:20pt,stroke:#000,color:#000
+classDef specialSize padding:125px,stroke-width:6px,font-size:20pt,stroke:#000, fill:#e38952
+classDef foundationSize padding:125px,stroke-width:6px,font-size:20pt,stroke:#000, fill:#52a4e3
+        dddc968c-e4e3-4776-b227-6ec6f82160c9[system <br> ]:::stdSize;
+        e5ec5d9e-afea-44f7-93c9-699cd5072d90[thing <br> ]:::stdSize;
+        e5ec5d9e-afea-44f7-93c9-699cd5072d90-->|supertype_of|dd8359c4-0a2b-416a-af27-3bcb0551b41a;
+        dd8359c4-0a2b-416a-af27-3bcb0551b41a[spatio <br> temporal <br> extent <br> ]:::stdSize;
+        dd8359c4-0a2b-416a-af27-3bcb0551b41a-->|supertype_of|13bebbab-ce5c-4c3b-ac77-66713f303a0a;
+        13bebbab-ce5c-4c3b-ac77-66713f303a0a[state <br> ]:::stdSize;
+        13bebbab-ce5c-4c3b-ac77-66713f303a0a-->|supertype_of|f9cb048d-a2f7-4ff6-b824-c59b44e2aabe;
+        13bebbab-ce5c-4c3b-ac77-66713f303a0a[state <br> ]:::stdSize;
+        13bebbab-ce5c-4c3b-ac77-66713f303a0a-->|supertype_of|58107227-267a-4f2e-a44a-25bb61c6a455;
+        f9cb048d-a2f7-4ff6-b824-c59b44e2aabe[state <br> of <br> physical <br> object <br> ]:::stdSize;
+        f9cb048d-a2f7-4ff6-b824-c59b44e2aabe-->|supertype_of|1d81fb63-17e1-4f37-a2f6-3fb0c11b36c2;
+        58107227-267a-4f2e-a44a-25bb61c6a455[individual <br> ]:::stdSize;
+        58107227-267a-4f2e-a44a-25bb61c6a455-->|supertype_of|db723822-93f7-4c1d-8f17-fb094a5c10d9;
+        f9cb048d-a2f7-4ff6-b824-c59b44e2aabe[state <br> of <br> physical <br> object <br> ]:::stdSize;
+        f9cb048d-a2f7-4ff6-b824-c59b44e2aabe-->|supertype_of|db723822-93f7-4c1d-8f17-fb094a5c10d9;
+        1d81fb63-17e1-4f37-a2f6-3fb0c11b36c2[state <br> of <br> ordinary <br> physical <br> object <br> ]:::stdSize;
+        1d81fb63-17e1-4f37-a2f6-3fb0c11b36c2-->|supertype_of|2d025173-f36f-46d5-a0fe-93e9c27ea08d;
+        db723822-93f7-4c1d-8f17-fb094a5c10d9[physical <br> object <br> ]:::stdSize;
+        db723822-93f7-4c1d-8f17-fb094a5c10d9-->|supertype_of|2d025173-f36f-46d5-a0fe-93e9c27ea08d;
+        1d81fb63-17e1-4f37-a2f6-3fb0c11b36c2[state <br> of <br> ordinary <br> physical <br> object <br> ]:::stdSize;
+        1d81fb63-17e1-4f37-a2f6-3fb0c11b36c2-->|supertype_of|4e4a8a47-3a4c-44b9-83cc-96a11041172a;
+        2d025173-f36f-46d5-a0fe-93e9c27ea08d[ordinary <br> physical <br> object <br> ]:::stdSize;
+        2d025173-f36f-46d5-a0fe-93e9c27ea08d-->|supertype_of|dddc968c-e4e3-4776-b227-6ec6f82160c9;
+        4e4a8a47-3a4c-44b9-83cc-96a11041172a[state <br> of <br> system <br> ]:::stdSize;
+        4e4a8a47-3a4c-44b9-83cc-96a11041172a-->|supertype_of|dddc968c-e4e3-4776-b227-6ec6f82160c9;
+
+```
+Mermaid diagram showing an Euler representation of the types from **system** up to **thing**:
+
+```mermaid
+flowchart TB
+subgraph e5ec5d9e-afea-44f7-93c9-699cd5072d90["thing "];
+subgraph dd8359c4-0a2b-416a-af27-3bcb0551b41a["spatio_temporal_extent "];
+subgraph 13bebbab-ce5c-4c3b-ac77-66713f303a0a["state "];
+subgraph f9cb048d-a2f7-4ff6-b824-c59b44e2aabe58107227-267a-4f2e-a44a-25bb61c6a455["state_of_physical_object individual "];
+subgraph 1d81fb63-17e1-4f37-a2f6-3fb0c11b36c2db723822-93f7-4c1d-8f17-fb094a5c10d9["state_of_ordinary_physical_object physical_object "];
+subgraph 2d025173-f36f-46d5-a0fe-93e9c27ea08d4e4a8a47-3a4c-44b9-83cc-96a11041172a["ordinary_physical_object state_of_system "];
+dddc968c-e4e3-4776-b227-6ec6f82160c9["system"]:::specialSize
+        end
+        end
+        end
+        end
+        end
+        end
+classDef specialSize fill:#c8e4fa,stroke:#4698eb,stroke-width:2px,color:#000;
+```
+ASCII output of the entity type **spatio_temporal_extent**:
 ```
 ASCII Entity Type Inheritance Supertype Path To Thing from 'spatio_temporal_extent' (dd8359c4-0a2b-416a-af27-3bcb0551b41a):
 

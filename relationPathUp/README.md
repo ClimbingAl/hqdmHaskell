@@ -37,6 +37,25 @@ This will copy the binary to the local bin path (you can then use it locally or 
 
 ## Example output
 
+Binary Relation set inheritance path from **6e23c714-9241-4132-aa7b-82391c6a60b7** ([individual] member_of_kind(6e23c714-9241-4132-aa7b-82391c6a60b7) [kind_of_individual]) to the **universal_relation_set**:
+
+```mermaid
+graph TD
+classDef stdSize padding:125px,stroke-width:6px,font-size:20pt,stroke:#000
+classDef specialSize padding:125px,stroke-width:6px,font-size:20pt,stroke:#000, fill:#e38952
+classDef foundationSize padding:125px,stroke-width:6px,font-size:20pt,stroke:#000, fill:#52a4e3
+        6e23c714-9241-4132-aa7b-82391c6a60b7[6e23c714-9241-4132-aa7b-82391c6a60b7 <BR> member_of_kind]:::stdSize;
+        85e78ac0-ec72-478f-9aac-cacb520290a0[85e78ac0-ec72-478f-9aac-cacb520290a0 <BR> universal_relation_set]:::stdSize;
+        85e78ac0-ec72-478f-9aac-cacb520290a0-->|superBinaryRel_of|2db5490e-01d0-491e-bd64-67ac616f65a0;
+        2db5490e-01d0-491e-bd64-67ac616f65a0[2db5490e-01d0-491e-bd64-67ac616f65a0 <BR> universal_set_relation_set]:::stdSize;
+        2db5490e-01d0-491e-bd64-67ac616f65a0-->|superBinaryRel_of|e052b90c-13c3-4fea-8289-0c995656ed8f;
+        e052b90c-13c3-4fea-8289-0c995656ed8f[e052b90c-13c3-4fea-8289-0c995656ed8f <BR> member_of]:::stdSize;
+        e052b90c-13c3-4fea-8289-0c995656ed8f-->|superBinaryRel_of|65553ab0-e43d-4f6c-8f1d-76dad4610a54;
+        65553ab0-e43d-4f6c-8f1d-76dad4610a54[65553ab0-e43d-4f6c-8f1d-76dad4610a54 <BR> member_of]:::stdSize;
+        65553ab0-e43d-4f6c-8f1d-76dad4610a54-->|superBinaryRel_of|6e23c714-9241-4132-aa7b-82391c6a60b7;
+```
+The ASCII form of output for the same Binary Relation set:
+
 ```
 ASCII Relation Inheritance Path To Universal Binary Relation Set (6e23c714-9241-4132-aa7b-82391c6a60b7):
 

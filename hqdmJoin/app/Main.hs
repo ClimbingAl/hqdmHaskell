@@ -219,7 +219,7 @@ main = do
     --putStr "\nNow do the join and show the results:\n\n"
 
     let joinedResults = sortOnUuid $ joinInputModel ++ hasSuperclassTriples ++ elementOfTypeTriples
-    --putStr (concat $ HqdmLib.csvTriplesFromHqdmTriples joinedResults)
+    putStr (concat $ HqdmLib.csvTriplesFromHqdmTriples joinedResults)
 
     --putStr "\nResults length:"
     --print (length joinedResults)
@@ -229,6 +229,7 @@ main = do
     --putStr "\nExport the joined model all with predicates as Relation Ids:\n\n"
     --putStr (concat $ HqdmLib.csvTriplesFromHqdmTriples allRelationIdJoinedTriples )
 
+{-
     ----------------------------------------
     -- LOAD Pre-Joined Triples
     ----------------------------------------
@@ -289,10 +290,10 @@ main = do
 
     putStr "\n\nSubBrel Tree example:\n\n"
     --let subBrelTree = findSubBRelTreeWithCount [[universalRelationSet]] relationsInputModel 2
-    let relId = "85e78ac0-ec72-478f-9aac-cacb520290a0" -- "7b3caec7-7e9d-47cd-bb19-19d2872c326f" Part --"69b0e5b9-3be2-4ec3-a9a6-bb5b523d4b32" Attr --"85e78ac0-ec72-478f-9aac-cacb520290a0" Top --"2db5490e-01d0-491e-bd64-67ac616f65a0" Set
-    let mermaidSubBrelTree = mermaidAddTitle (mermaidTDTopAndTail (insertBRNodeName relId relationsInputModel ++ mermaidSubRelationPathsWithLayerCount [[relId]] relationsInputModel 1 "")) ("Sub-BRel graph for " ++ relId)
+    let relId = "69b0e5b9-3be2-4ec3-a9a6-bb5b523d4b32" -- "7b3caec7-7e9d-47cd-bb19-19d2872c326f" Part --"69b0e5b9-3be2-4ec3-a9a6-bb5b523d4b32" Attr --"85e78ac0-ec72-478f-9aac-cacb520290a0" Top --"2db5490e-01d0-491e-bd64-67ac616f65a0" Set -- "f533fac8-d228-4c10-8799-a26fe6ea16a4" Emergent -- "cfb37186-d2d6-48de-a418-6197bdf0a7b0" Order
+    let mermaidSubBrelTree = mermaidAddTitle (mermaidTDTopAndTail (insertBRNodeName relId relationsInputModel ++ mermaidSubRelationPathsWithLayerCount [[relId]] relationsInputModel 2 "")) ("Sub-BRel graph for " ++ relId)
     putStr mermaidSubBrelTree
-
+-}
     {-putStr "\n\nInput Rel Set:\n\n"
     print exampleObjectTypeBRelSets
     

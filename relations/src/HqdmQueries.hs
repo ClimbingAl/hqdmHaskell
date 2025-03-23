@@ -125,7 +125,7 @@ import Data.Csv (FromRecord)
 import Data.List (isPrefixOf, sortOn)
 
 part::HqdmRelations.RelationId
-part = "7b3caec7-7e9d-47cd-bb19-19d2872c326f"
+part = "be900942-8601-4254-9a12-d87a5bfa05d3"
 
 set::HqdmRelations.RelationId
 set = "2db5490e-01d0-491e-bd64-67ac616f65a0"
@@ -139,13 +139,12 @@ emergent = "f533fac8-d228-4c10-8799-a26fe6ea16a4"
 -- | filterRelsBy
 -- Filter the given HqdmAllAsData joined triples by a given set of relations (relSet)
 -- This filtering is done by finding the all the sub-binary relation sets of the given set
--- and returning only the joined triples that are ordered pairs from one or more of those
--- sets.
--- NOTE: Only works where predicates are converted to HqdmLib.RelationId
+-- and returning only the joined triples that are ordered pairs from those sets.
 filterRelsBy :: HqdmRelations.RelationId -> [HqdmLib.HqdmTriple] -> [HqdmRelations.HqdmBinaryRelationPure] -> [HqdmLib.HqdmTriple]
 filterRelsBy relSet tpls brels = go tpls
     where
         subBrels = concat $ HqdmRelations.findSubBinaryRelationTree [[relSet]] brels
+        
         go tpls = [values | values <- tpls, HqdmLib.predicate values `elem` subBrels]
 
 filterRelsByPart::[HqdmLib.HqdmTriple] -> [HqdmRelations.HqdmBinaryRelationPure] -> [HqdmLib.HqdmTriple]

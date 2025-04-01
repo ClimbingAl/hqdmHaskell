@@ -147,6 +147,8 @@ Note: The `hqdm` and `inheritance` folders use different versions of Cabal, whic
 - [x] Do a test with binding to a Magma Core dataset (perhaps NetworksBasic).  I'm thinking about using `hqdm:instance_of` instead of `rdf:type`, to remove logical ambiguity.
 - [ ] Build a Domain Specific Language to enable HQDM operations (initially for query).
 - [ ] Add data modification and exception handling.
+- [ ] Add export to MAGMA CORE db command line app.
+- [ ] Create pipeline tool to ease use of command line apps.
 
 Done but not documented:   Re-create triples (using collapsed sets) and compare with original set.
 

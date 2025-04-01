@@ -219,15 +219,15 @@ main = do
     --putStr "\nNow do the join and show the results:\n\n"
 
     let joinedResults = sortOnUuid $ joinInputModel ++ hasSuperclassTriples ++ elementOfTypeTriples
-    putStr (concat $ HqdmLib.csvTriplesFromHqdmTriples joinedResults)
+    --putStr (concat $ HqdmLib.csvTriplesFromHqdmTriples joinedResults)
 
     --putStr "\nResults length:"
     --print (length joinedResults)
 
-    --let allRelationIdJoinedTriples =  sortOnUuid $ hqdmSwapAnyRelationNamesForIdsStrict joinedResults hqdmInputModel relationsInputModel
+    let allRelationIdJoinedTriples =  sortOnUuid $ hqdmSwapAnyRelationNamesForIdsStrict joinedResults hqdmInputModel relationsInputModel
 
     --putStr "\nExport the joined model all with predicates as Relation Ids:\n\n"
-    --putStr (concat $ HqdmLib.csvTriplesFromHqdmTriples allRelationIdJoinedTriples )
+    putStr (concat $ HqdmLib.csvTriplesFromHqdmTriples allRelationIdJoinedTriples )
 
 {-
     ----------------------------------------
@@ -301,5 +301,5 @@ main = do
     --let rispResult = relationInSupertypePaths "7b3caec7-7e9d-47cd-bb19-19d2872c326f" [head exampleObjectTypeBRelSets] relationsInputModel False
     let rispResult = filterHigherLevelBrels exampleObjectTypeBRelSets relationsInputModel
     print rispResult-}
-    putStr "\n\nDONE\n\n"
+    --putStr "\n\nDONE\n\n"
 

@@ -156,9 +156,11 @@ Notes on relations, cardinalities, etc
     - [x] compute/identify the missing relations from the pre-constructed hqdmRelations
         -- Add handling of pureRedeclaredFromRange
     - [x] compute all relations and their relation-supersubset relationships
-H   - [ ] test mc datasets to see that they conform to cardinalities
+    - [x] test mc datasets to see that they conform to cardinalities
     - [ ] calculate the inverse relations
     - [ ] perform predicate searches that include inverse relations
+    - [ ] dictionary for strings using uuid type5 
+    - [ ] perform transitive searches for given relation set (e.g. part_of includes all of the sub-brel sets)
     - [x] calculate all allowed relations (based on inheritance, not the sets of all possible relations)
     - [ ] introduce the powerset?... probably best to miss this out, but could be useful to think it through
 

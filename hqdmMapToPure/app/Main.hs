@@ -97,13 +97,13 @@ main = do
     let onlySubtypesOfSte = subtypesOfFilter typeIdsOfJoinObjects spatio_temporal_extent subtypes
     let elementOfTypeName = getRelationNameFromRels elementOfType relationsInputModel
     let elementOfTypeTriples = fmap (\ x -> HqdmTriple (fst x) elementOfTypeName (snd x)) onlySubtypesOfSte
-    --print elementOfTypeTriples
     
     let onlySubtypesOfClass = subtypesOfFilter typeIdsOfJoinObjects hqdmClass subtypes
     let hasSuperClassName = getRelationNameFromRels hasSuperclass relationsInputModel
     let hasSuperclassTriples = fmap (\ x -> HqdmTriple (fst x) hasSuperClassName (snd x)) onlySubtypesOfClass
     
     let joinedResults = sortOnUuid $ joinInputModel ++ hasSuperclassTriples ++ elementOfTypeTriples
+    
     let joinedResultsAllIds =  hqdmSwapAnyRelationNamesForIdsStrict joinedResults hqdmInputModel relationsInputModel
 
     writeFile outputFile ( concat $ csvTriplesFromHqdmTriples joinedResultsAllIds ) 

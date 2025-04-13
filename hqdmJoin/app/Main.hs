@@ -127,7 +127,8 @@ import HqdmQueries (
     emergent,
     filterRelsBy,
     filterRelsByPart,
-    filterRelsBySet
+    filterRelsBySet,
+    transitiveQueryByRels
     )
 
 import HqdmIds
@@ -229,11 +230,11 @@ main = do
     --putStr "\nExport the joined model all with predicates as Relation Ids:\n\n"
     putStr (concat $ HqdmLib.csvTriplesFromHqdmTriples allRelationIdJoinedTriples )
 
-{-
+
     ----------------------------------------
     -- LOAD Pre-Joined Triples
     ----------------------------------------
-    preJoinedModel <- fmap V.toList . decode @HqdmTriple NoHeader <$> BL.readFile "joinedAllRelsTestWith1Err.csv"
+    preJoinedModel <- fmap V.toList . decode @HqdmTriple NoHeader <$> BL.readFile "joinedAllRelsTest.csv"
     let allRelationIdJoinedTriples = fromRight [] preJoinedModel
 
     let exampleObjectId = "7e181b8d-0aed-46ee-928e-b08d60d0ed58"
@@ -288,12 +289,12 @@ main = do
     let simpleRangeTest = rangeMetTest (HqdmLib.lookupHqdmOne "8883c70b-bc98-4c5f-b65d-92a21658947c" allRelationIdJoinedTriples) allRelationIdJoinedTriples hqdmInputModel (head $ findBrelFromId "8ea62706-fa07-40d7-8586-a8768403c01e" relationsInputModel)
     print simpleRangeTest
 
-    putStr "\n\nSubBrel Tree example:\n\n"
+    putStr "\n\nSubBrel Tree mermaid example:\n\n"
     --let subBrelTree = findSubBRelTreeWithCount [[universalRelationSet]] relationsInputModel 2
-    let relId = "69b0e5b9-3be2-4ec3-a9a6-bb5b523d4b32" -- "7b3caec7-7e9d-47cd-bb19-19d2872c326f" Part --"69b0e5b9-3be2-4ec3-a9a6-bb5b523d4b32" Attr --"85e78ac0-ec72-478f-9aac-cacb520290a0" Top --"2db5490e-01d0-491e-bd64-67ac616f65a0" Set -- "f533fac8-d228-4c10-8799-a26fe6ea16a4" Emergent -- "cfb37186-d2d6-48de-a418-6197bdf0a7b0" Order
-    let mermaidSubBrelTree = mermaidAddTitle (mermaidTDTopAndTail (insertBRNodeName relId relationsInputModel ++ mermaidSubRelationPathsWithLayerCount [[relId]] relationsInputModel 2 "")) ("Sub-BRel graph for " ++ relId)
-    putStr mermaidSubBrelTree
--}
+    let relId = "be900942-8601-4254-9a12-d87a5bfa05d3" -- "7b3caec7-7e9d-47cd-bb19-19d2872c326f" Part --"69b0e5b9-3be2-4ec3-a9a6-bb5b523d4b32" Attr --"85e78ac0-ec72-478f-9aac-cacb520290a0" Top --"2db5490e-01d0-491e-bd64-67ac616f65a0" Set -- "f533fac8-d228-4c10-8799-a26fe6ea16a4" Emergent -- "cfb37186-d2d6-48de-a418-6197bdf0a7b0" Order
+    -- let mermaidSubBrelTree = mermaidAddTitle (mermaidTDTopAndTail (insertBRNodeName relId relationsInputModel ++ mermaidSubRelationPathsWithLayerCount [[relId]] relationsInputModel 2 "")) ("Sub-BRel graph for " ++ relId)
+    -- putStr mermaidSubBrelTree
+
     {-putStr "\n\nInput Rel Set:\n\n"
     print exampleObjectTypeBRelSets
     
@@ -301,5 +302,16 @@ main = do
     --let rispResult = relationInSupertypePaths "7b3caec7-7e9d-47cd-bb19-19d2872c326f" [head exampleObjectTypeBRelSets] relationsInputModel False
     let rispResult = filterHigherLevelBrels exampleObjectTypeBRelSets relationsInputModel
     print rispResult-}
-    --putStr "\n\nDONE\n\n"
+
+    -- Find the spo statements of the given object and test if any of <o> identities are connected from the object to it by a BRel in the BRel Subtree
+    putStr "\n\nSubBrel Tree example:\n\n"
+    let targetSubBrelTree = uniqueIds $ concat (findSubBRelTreeWithCount [[relId]] relationsInputModel 100)
+    print targetSubBrelTree
+
+    -- Do a transitive parthood query for a given node
+    putStr "\n\nParthood transitive query:\n\n"
+    let transitiveResults = tail $ transitiveQueryByRels targetSubBrelTree allRelationIdJoinedTriples ["04c63471-7073-4e6d-8adf-2bfb9c890ba8"] [[]]
+    print transitiveResults
+    
+    putStr "\n\nDONE\n\n"
 

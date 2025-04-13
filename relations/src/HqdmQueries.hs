@@ -24,7 +24,8 @@ module HqdmQueries (
     emergent,
     filterRelsBy,
     filterRelsByPart,
-    filterRelsBySet
+    filterRelsBySet,
+    transitiveQueryByRels
 )
 where
 
@@ -120,9 +121,6 @@ import qualified HqdmLib (
     deleteItemsFromList
     )
 
-import GHC.Generics (Generic)
-import Data.Csv (FromRecord)
-import Data.List (isPrefixOf, sortOn)
 
 part::HqdmRelations.RelationId
 part = "be900942-8601-4254-9a12-d87a5bfa05d3"
@@ -144,7 +142,7 @@ filterRelsBy :: HqdmRelations.RelationId -> [HqdmLib.HqdmTriple] -> [HqdmRelatio
 filterRelsBy relSet tpls brels = go tpls
     where
         subBrels = concat $ HqdmRelations.findSubBinaryRelationTree [[relSet]] brels
-        
+
         go tpls = [values | values <- tpls, HqdmLib.predicate values `elem` subBrels]
 
 filterRelsByPart::[HqdmLib.HqdmTriple] -> [HqdmRelations.HqdmBinaryRelationPure] -> [HqdmLib.HqdmTriple]
@@ -153,4 +151,18 @@ filterRelsByPart = filterRelsBy part
 filterRelsBySet::[HqdmLib.HqdmTriple] -> [HqdmRelations.HqdmBinaryRelationPure] -> [HqdmLib.HqdmTriple]
 filterRelsBySet = filterRelsBy set
 
+-- | transitiveQueryByRels
+-- Recursively find all the connected ids based on a specified list of binary relations
+--    relSet  : The ids of the binary relation sets that are included in the transitive search (may include the computed set of sub-binrary relation sets)
+--    tpls    : The dataset that contains the objects (as triples) to be queried
+--    newNodeIds : The nodeId (or nodeIds) that the query is being made from (initially this may just be a single node)
+--    nodeIds : The accumulated list of results
+transitiveQueryByRels::[HqdmRelations.RelationId] -> [HqdmLib.HqdmTriple] -> [HqdmLib.Id] -> [[HqdmLib.Id]] -> [[HqdmLib.Id]]
+transitiveQueryByRels relSet tpls newNodeIds nodeIds = go relSet tpls nodeIds
+  where
+    connectedNodes = [HqdmLib.object values | values <- tpls, (HqdmLib.predicate values  `elem` relSet) && (HqdmLib.subject values `elem` newNodeIds)]
+    newNodes = HqdmLib.deleteItemsFromList connectedNodes (concat nodeIds) -- This is to make the function more efficient and add a defence against circularity
 
+    go relSet tpls nodeIds
+      | null newNodes = nodeIds
+      | otherwise =  transitiveQueryByRels relSet tpls newNodes (nodeIds ++ [newNodes])

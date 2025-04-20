@@ -107,6 +107,7 @@ import qualified HqdmLib (
     uniqueTriples,
     stringListSort,
     headIfStringPresent,
+    tailIfStringPresent,
     lookupHqdmOne,
     lookupHqdmType,
     lookupHqdmTypeIdFromName,
@@ -506,15 +507,22 @@ convertAnyHqdmRelationByDomainAndName tpl typeId brels = go tpl
 -- | This swaps the relation names in a HqdmAllAsData dataset (it doesn't handle instance and extended subclasses)
 -- Looks for match of domain type, relation name and range type
 hqdmSwapAnyRelationNamesForIdsStrict :: [HqdmLib.HqdmTriple] -> [HqdmLib.HqdmTriple]-> [HqdmBinaryRelationPure] -> [HqdmLib.HqdmTriple]
-hqdmSwapAnyRelationNamesForIdsStrict hqdmTpls topTpls brels = fmap (\ x -> convertAnyHqdmRelationByDomainRangeAndName x (hqdmDomainTypeFromIdInList x hqdmTpls topTpls) (hqdmRangeTypeFromIdInList x hqdmTpls topTpls) brels) hqdmTpls
+hqdmSwapAnyRelationNamesForIdsStrict hqdmTpls topTpls brels = fmap (\ x -> convertAnyHqdmRelationByDomainRangeAndName x (hqdmDomainTypeFromIdInList x hqdmTpls topTpls) (hqdmRangeTypeFromIdInList x hqdmTpls topTpls) brels topTpls) hqdmTpls 
 
 -- | This swaps the relation name in a HqdmAllAsData triple (it doesn't handle instance and extended subclass triples)
 -- Takes the triple and the Top Type from which it inherits its relations
-convertAnyHqdmRelationByDomainRangeAndName :: HqdmLib.HqdmTriple -> HqdmLib.Id -> HqdmLib.Id -> [HqdmBinaryRelationPure] -> HqdmLib.HqdmTriple
-convertAnyHqdmRelationByDomainRangeAndName tpl domainTypeId rangeTypeId brels = go tpl
+-- ** NOTE ** THIS HANDLES RANGE SUBTYPES
+--    tpl           A triple to convert the predicate of
+--    domainTypeId  The type of the subject (Left)
+--    rangeTypeId   The type of the object (Right)
+--    brels         The list of binary relation sets
+--    topTpls       The full collection of hqdm supertype-subtype statements
+convertAnyHqdmRelationByDomainRangeAndName :: HqdmLib.HqdmTriple -> HqdmLib.Id -> HqdmLib.Id -> [HqdmBinaryRelationPure] -> [HqdmLib.HqdmHasSupertype] -> HqdmLib.HqdmTriple
+convertAnyHqdmRelationByDomainRangeAndName tpl domainTypeId rangeTypeId brels topTpls = go tpl
   where
     pureRelMatch = HqdmLib.headIfStringPresent [ pureBinaryRelationId values | values <- brels, (domainTypeId == pureDomain values) && (HqdmLib.predicate tpl ==  pureBinaryRelationName values) && (rangeTypeId == pureRange values) ]
     -- THESE PROPERTIES AND GUARDS SHOULD BE CONSIDERED TEMPORARY.  THEY CAN BE QUERIED FROM THE DATA BUT AN EXTRA GENERIC FUNCTION IS NEEDED FOR THIS
+    subtypeRangeMatch = HqdmLib.tailIfStringPresent [ pureBinaryRelationId values | values <- brels, (domainTypeId == pureDomain values) && (HqdmLib.predicate tpl ==  pureBinaryRelationName values) && (rangeTypeId `elem` concat (HqdmLib.findSubtypeTree [[pureRange values]] topTpls)) ]
     hqdmTypeBR = HqdmLib.headIfStringPresent [ pureBinaryRelationId values | values <- brels, hqdmType == pureBinaryRelationName values ]
     hqdmHasSupertypeBR = HqdmLib.headIfStringPresent [ pureBinaryRelationId values | values <- brels, hqdmHasSupertype == pureBinaryRelationName values ]
     hqdmHasSuperclassBR = HqdmLib.headIfStringPresent [ pureBinaryRelationId values | values <- brels, hqdmHasSuperclass == pureBinaryRelationName values ]
@@ -531,6 +539,7 @@ convertAnyHqdmRelationByDomainRangeAndName tpl domainTypeId rangeTypeId brels = 
       | HqdmLib.predicate tpl==hqdmEntityName  = HqdmLib.HqdmTriple (HqdmLib.subject tpl) hqdmHasEntityNameBR (HqdmLib.object tpl)
       | HqdmLib.predicate tpl==hqdmRecordCreated  = HqdmLib.HqdmTriple (HqdmLib.subject tpl) hqdmHasRecordCreatedBR (HqdmLib.object tpl)
       | HqdmLib.predicate tpl==hqdmRecordCreator  = HqdmLib.HqdmTriple (HqdmLib.subject tpl) hqdmHasRecordCreatorBR (HqdmLib.object tpl)
+      | subtypeRangeMatch /= "" = HqdmLib.HqdmTriple (HqdmLib.subject tpl) subtypeRangeMatch (HqdmLib.object tpl) -- This is for the case that there is a 
       | pureRelMatch == "" = HqdmLib.HqdmTriple (HqdmLib.subject tpl) hqdmAttributeBR (HqdmLib.object tpl)
       | otherwise = HqdmLib.HqdmTriple (HqdmLib.subject tpl) pureRelMatch (HqdmLib.object tpl)
 

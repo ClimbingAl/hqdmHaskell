@@ -25,102 +25,13 @@ module HqdmQueries (
     filterRelsBy,
     filterRelsByPart,
     filterRelsBySet,
-    transitiveQueryByRels
+    transitiveQueryFromLeft,
+    transitiveQueryFromRight
 )
 where
 
 import qualified HqdmRelations
-  (
-    RelationId,
-    HqdmRelationSet,
-    RelationPair,
-    HqdmBinaryRelation,
-    HqdmBinaryRelationSet,
-    HqdmBinaryRelationPure,
-    universalRelationSet,
-    getRelationNameFromRels,
-    hqdmRelationsToPure,
-    csvRelationsToPure,
-    getPureDomain,
-    getPureRelationId,
-    getPureRelationName,
-    getPureRange,
-    getPureSuperRelation,
-    getPureCardinalityMin,
-    getPureCardinalityMax,
-    getPureRedeclared,
-    getPureRedeclaredFromRange,
-    printRelation,
-    getBrelDomainFromRels,
-    findBrelDomainSupertypes,
-    findBrelFromId,
-    findBrelsFromDomain,
-    superRelationPathsToUniversalRelation,
-    relIdNameTupleLayers,
-    relIdNameTuples,
-    printablePathFromTuples,
-    isSubtype,
-    subtypesOfFilter,
-    sortOnUuid,
-    findBrelsWithDomains,
-    findBrelsAndNamesWithDomains,
-    findSuperBinaryRelation,
-    findSuperBinaryRelation',
-    --addStRelationToPure,
-    printablePureRelation,
-    csvRelationsFromPure,
-    lookupSuperBinaryRelsOf,
-    hqdmSwapTopRelationNamesForIds,
-    convertTopRelationByDomainAndName,
-    headListIfPresent,
-    addNewCardinalitiesToPure,
-    correctCardinalities,
-    correctAllCardinalities,
-    findMaxMaxCardinality,
-    findMaxMinCardinality,
-    hqdmSwapAnyRelationNamesForIdsStrict,
-    printableLayerWithDomainAndRange,
-    printablePathFromTuplesWithDomainAndRange,
-    findSubBinaryRelationTree,
-    lookupSubBRelsOf,
-    lookupSubBRelOf
-  )
-
-import qualified HqdmLib (
-    Id,
-    HqdmTriple(..),
-    HqdmTriple(subject, predicate, object),
-    RelationPair,
-    Relation,
-    HqdmHasSupertype,
-    getSubjects,
-    getPredicates,
-    uniqueIds,
-    uniqueTriples,
-    stringListSort,
-    lookupHqdmOne,
-    lookupHqdmType,
-    lookupHqdmIdsFromTypePredicates,
-    lookupSubtypes,
-    lookupSubtypeOf,
-    lookupSubtypesOf,
-    lookupSupertypeOf,
-    lookupSupertypesOf,
-    findHqdmTypesInList,
-    findSupertypeTree,
-    printableTypeTree,
-    findSubtypeTree,
-    findInheritedRels,
-    collapseInheritedRels,
-    printableCollapsedList,
-    printableRelationPairs,
-    exportAsTriples,
-    csvTriplesFromHqdmTriples,
-    screenCharOffset,
-    fmtString,
-    deleteItemsFromList
-    )
-
+import qualified HqdmLib 
 
 part::HqdmRelations.RelationId
 part = "be900942-8601-4254-9a12-d87a5bfa05d3"
@@ -151,18 +62,35 @@ filterRelsByPart = filterRelsBy part
 filterRelsBySet::[HqdmLib.HqdmTriple] -> [HqdmRelations.HqdmBinaryRelationPure] -> [HqdmLib.HqdmTriple]
 filterRelsBySet = filterRelsBy set
 
--- | transitiveQueryByRels
--- Recursively find all the connected ids based on a specified list of binary relations
+-- | transitiveQueryFromLeft
+-- Recursively find all the connected ids based on a specified list of binary relations with nodeIds applied from the left (e.g. <a rel b>, the node given is treated as a)
 --    relSet  : The ids of the binary relation sets that are included in the transitive search (may include the computed set of sub-binrary relation sets)
 --    tpls    : The dataset that contains the objects (as triples) to be queried
 --    newNodeIds : The nodeId (or nodeIds) that the query is being made from (initially this may just be a single node)
 --    nodeIds : The accumulated list of results
-transitiveQueryByRels::[HqdmRelations.RelationId] -> [HqdmLib.HqdmTriple] -> [HqdmLib.Id] -> [[HqdmLib.Id]] -> [[HqdmLib.Id]]
-transitiveQueryByRels relSet tpls newNodeIds nodeIds = go relSet tpls nodeIds
+transitiveQueryFromLeft::[HqdmRelations.RelationId] -> [HqdmLib.HqdmTriple] -> [HqdmLib.Id] -> [[HqdmLib.Id]] -> [[HqdmLib.Id]]
+transitiveQueryFromLeft relSet tpls newNodeIds nodeIds = go relSet tpls nodeIds
   where
     connectedNodes = [HqdmLib.object values | values <- tpls, (HqdmLib.predicate values  `elem` relSet) && (HqdmLib.subject values `elem` newNodeIds)]
     newNodes = HqdmLib.deleteItemsFromList connectedNodes (concat nodeIds) -- This is to make the function more efficient and add a defence against circularity
 
     go relSet tpls nodeIds
       | null newNodes = nodeIds
-      | otherwise =  transitiveQueryByRels relSet tpls newNodes (nodeIds ++ [newNodes])
+      | otherwise =  transitiveQueryFromLeft relSet tpls newNodes (nodeIds ++ [newNodes])
+
+-- | transitiveQueryFromRight
+-- Recursively find all the connected ids based on a specified list of binary relations with nodeIds applied from the right (e.g. <a rel b>, the node given is treated as b)
+-- This is (roughly) equivalent to a transitive query for the inverse relations, if they were fully specified and used.
+--    relSet  : The ids of the binary relation sets that are included in the transitive search (may include the computed set of sub-binrary relation sets)
+--    tpls    : The dataset that contains the objects (as triples) to be queried
+--    newNodeIds : The nodeId (or nodeIds) that the query is being made from (initially this may just be a single node)
+--    nodeIds : The accumulated list of results
+transitiveQueryFromRight::[HqdmRelations.RelationId] -> [HqdmLib.HqdmTriple] -> [HqdmLib.Id] -> [[HqdmLib.Id]] -> [[HqdmLib.Id]]
+transitiveQueryFromRight relSet tpls newNodeIds nodeIds = go relSet tpls nodeIds
+  where
+    connectedNodes = [HqdmLib.subject values | values <- tpls, (HqdmLib.predicate values  `elem` relSet) && (HqdmLib.object values `elem` newNodeIds)]
+    newNodes = HqdmLib.deleteItemsFromList connectedNodes (concat nodeIds) -- This is to make the function more efficient and add a defence against circularity
+
+    go relSet tpls nodeIds
+      | null newNodes = nodeIds
+      | otherwise =  transitiveQueryFromRight relSet tpls newNodes (nodeIds ++ [newNodes])

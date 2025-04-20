@@ -13,6 +13,8 @@
 --
 -- Executable Main that implements the command line tool functionality.
 --  hqdmMapToPure hqdmRelations.csv hqdmEntityTypes.csv inputFile.csv outputFile.csv 
+--
+-- TEMPORARY SHORT-CUT, hqdmSwapAnyRelationNamesForIds IS USED INSTEAD OF hqdmSwapAnyRelationNamesForIdsStrict due to range subtypes not being strictly checked in it
 
 module Main (main) where
 

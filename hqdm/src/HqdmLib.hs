@@ -29,6 +29,7 @@ module HqdmLib
     uniqueTriples,
     stringListSort,
     headIfStringPresent,
+    tailIfStringPresent,
     lookupHqdmOne,
     lookupHqdmTypeIdFromName,
     relationPairs,
@@ -41,6 +42,8 @@ module HqdmLib
     lookupSupertypeOf,
     lookupSupertypesOf,
     findHqdmTypesInList,
+    findHqdmTypeNamesInList,
+    findHqdmNamesInList,
     findSupertypeTree,
     printableTypeTree,
     findSubtypeTree,
@@ -111,6 +114,9 @@ hqdmHasSuperclass = "has_superclass"
 hqdmHasSuperclassId::String
 hqdmHasSuperclassId = "7d11b956-0014-43be-9a3e-f89e2b31ec4f"
 
+hqdmDataEntityName::String
+hqdmDataEntityName = "fe987366-a8ad-48fa-8821-73f54f6df180"
+
 screenCharOffset :: Int
 screenCharOffset = 100
 
@@ -141,6 +147,11 @@ uniqueTriples xs = [x | (x, y) <- zip xs [0 ..], x `notElem` take y xs]
 headIfStringPresent :: [String] -> String
 headIfStringPresent x
   | not (null x)   = head x
+  | otherwise      = ""
+
+tailIfStringPresent :: [String] -> String
+tailIfStringPresent x
+  | not (null x)   = last x
   | otherwise      = ""
 
 -------------------------------------------------
@@ -195,6 +206,12 @@ lookupHqdmTypeIdFromName hqdmAll typeName = headIfStringPresent [subject values 
 lookupHqdmType :: [HqdmTriple] -> [String]
 lookupHqdmType obj = [object values | values <- obj, (hqdmType == predicate values) || ( hqdmTypeId == predicate values)]
 
+-- | lookupHqdmName
+-- From the triples with a given node Id (subject), from lookupHqdmOne, find the object with the predicate type.
+lookupHqdmName :: [HqdmTriple] -> [String]
+lookupHqdmName obj = [object values | values <- obj, (hqdmDataEntityName == predicate values)]
+
+
 -- | lookupHqdmIdsFromTypePredicates
 -- From the triples with a given node Id (subject), from lookupHqdmOne, find the object with the predicate type.
 lookupHqdmIdsFromTypePredicates :: [HqdmTriple] -> String -> [Id]
@@ -202,10 +219,15 @@ lookupHqdmIdsFromTypePredicates objs typeName
   | nodeIdentityTest typeName = [typeName]
   | otherwise = [subject values | values <- objs, ((hqdmType == predicate values) || ( hqdmTypeId == predicate values)) && (typeName == object values)]
 
--- | findHqdmTypesInList
+-- | findHqdmTypeNamesInList
 -- Find the type names of each given node Id (subject).
 findHqdmTypeNamesInList :: [Id] -> [HqdmTriple] -> [String]
 findHqdmTypeNamesInList ids hqdmModel = fmap (\ x -> headIfStringPresent (lookupHqdmType $ lookupHqdmOne x hqdmModel)) ids
+
+-- | findHqdmNamesInList
+-- Find the data entity names of each given node Id (subject).
+findHqdmNamesInList :: [Id] -> [HqdmTriple] -> [String]
+findHqdmNamesInList ids hqdmModel = fmap (\ x -> headIfStringPresent (lookupHqdmName $ lookupHqdmOne x hqdmModel)) ids
 
 -- | lookupSubtypes
 -- From all the triples that have the has_supertype or has_superclass predicate.

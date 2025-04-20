@@ -107,6 +107,8 @@ import HqdmLib (
     lookupSupertypeOf,
     lookupSupertypesOf,
     findHqdmTypesInList,
+    findHqdmTypeNamesInList,
+    findHqdmNamesInList,
     findSupertypeTree,
     printableTypeTree,
     findSubtypeTree,
@@ -128,7 +130,8 @@ import HqdmQueries (
     filterRelsBy,
     filterRelsByPart,
     filterRelsBySet,
-    transitiveQueryByRels
+    transitiveQueryFromLeft,
+    transitiveQueryFromRight
     )
 
 import HqdmIds
@@ -156,6 +159,9 @@ elementOfType = "8130458f-ae96-4ab3-89b9-21f06a2aac78"
 
 hasSuperclass::String
 hasSuperclass = "7d11b956-0014-43be-9a3e-f89e2b31ec4f"
+
+partOf::String
+partOf = "be900942-8601-4254-9a12-d87a5bfa05d3"
 
 main :: IO ()
 main = do
@@ -305,13 +311,17 @@ main = do
 
     -- Find the spo statements of the given object and test if any of <o> identities are connected from the object to it by a BRel in the BRel Subtree
     putStr "\n\nSubBrel Tree example:\n\n"
-    let targetSubBrelTree = uniqueIds $ concat (findSubBRelTreeWithCount [[relId]] relationsInputModel 100)
+    let targetSubBrelTree = uniqueIds $ concat (findSubBRelTreeWithCount [[partOf]] relationsInputModel 100)
     print targetSubBrelTree
 
     -- Do a transitive parthood query for a given node
-    putStr "\n\nParthood transitive query:\n\n"
-    let transitiveResults = tail $ transitiveQueryByRels targetSubBrelTree allRelationIdJoinedTriples ["04c63471-7073-4e6d-8adf-2bfb9c890ba8"] [[]]
+    putStr "\n\nParthood transitive query from Right:\n\n"
+    let queryNode = "a46c340b-640a-443c-9b46-fd57a2690c9e"   --"04c63471-7073-4e6d-8adf-2bfb9c890ba8" -- R1 "b6663c0f-73ac-42a4-a027-333047618cb9" -- Installed Line Card 1 in R1 "a46c340b-640a-443c-9b46-fd57a2690c9e"
+    let transitiveResults = tail $ transitiveQueryFromRight targetSubBrelTree allRelationIdJoinedTriples [queryNode] [[]]
     print transitiveResults
     
+    let namesOfNodes = HqdmLib.findHqdmNamesInList (concat transitiveResults) allRelationIdJoinedTriples
+    print namesOfNodes
+
     putStr "\n\nDONE\n\n"
 

@@ -29,7 +29,7 @@ module HqdmLib
     uniqueTriples,
     stringListSort,
     headIfStringPresent,
-    tailIfStringPresent,
+    lastIfStringPresent,
     lookupHqdmOne,
     lookupHqdmTypeIdFromName,
     relationPairs,
@@ -149,8 +149,8 @@ headIfStringPresent x
   | not (null x)   = head x
   | otherwise      = ""
 
-tailIfStringPresent :: [String] -> String
-tailIfStringPresent x
+lastIfStringPresent :: [String] -> String
+lastIfStringPresent x
   | not (null x)   = last x
   | otherwise      = ""
 

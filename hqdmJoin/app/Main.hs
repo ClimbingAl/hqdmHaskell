@@ -44,6 +44,7 @@ import HqdmRelations (
     getBrelDomainFromRels,
     findBrelDomainSupertypes,
     findBrelFromId,
+    findBrelsFromIds,
     findBrelsFromDomain,
     superRelationPathsToUniversalRelation,
     relIdNameTupleLayers,
@@ -83,7 +84,9 @@ import HqdmRelations (
     cardinalityMet,
     rangeTestAllObjects,
     rangeMetTest,
-    findSubBRelTreeWithCount
+    findSubBRelTreeWithCount,
+    filterHigherLevelBrels,
+    relationInSupertypePaths
     )
 
 import HqdmLib (
@@ -240,7 +243,7 @@ main = do
     ----------------------------------------
     -- LOAD Pre-Joined Triples
     ----------------------------------------
-    preJoinedModel <- fmap V.toList . decode @HqdmTriple NoHeader <$> BL.readFile "joinedAllRelsTest.csv"
+    preJoinedModel <- fmap V.toList . decode @HqdmTriple NoHeader <$> BL.readFile "joinedAllRelsTestStrictUpdated2.csv"
     let allRelationIdJoinedTriples = fromRight [] preJoinedModel
 
     let exampleObjectId = "7e181b8d-0aed-46ee-928e-b08d60d0ed58"
@@ -301,13 +304,18 @@ main = do
     -- let mermaidSubBrelTree = mermaidAddTitle (mermaidTDTopAndTail (insertBRNodeName relId relationsInputModel ++ mermaidSubRelationPathsWithLayerCount [[relId]] relationsInputModel 2 "")) ("Sub-BRel graph for " ++ relId)
     -- putStr mermaidSubBrelTree
 
-    {-putStr "\n\nInput Rel Set:\n\n"
+    putStr "\n\nInput Rel Set:\n\n"
     print exampleObjectTypeBRelSets
+
+    ------------------------------------------------------
+    -- Create a list of related brels from brel ids in the test files 
+    -- Test using the rispResult variable below
+    let testBrels = findBrelsFromIds ["319ac105-0d66-4a1e-bc26-21b57dd1102f", "5df20202-283c-4273-9551-456cc182dd0d"] relationsInputModel
     
     putStr "\n\nTest of relationInSupertypePaths....\n\n"
     --let rispResult = relationInSupertypePaths "7b3caec7-7e9d-47cd-bb19-19d2872c326f" [head exampleObjectTypeBRelSets] relationsInputModel False
-    let rispResult = filterHigherLevelBrels exampleObjectTypeBRelSets relationsInputModel
-    print rispResult-}
+    let rispResult = filterHigherLevelBrels testBrels relationsInputModel
+    print rispResult
 
     -- Find the spo statements of the given object and test if any of <o> identities are connected from the object to it by a BRel in the BRel Subtree
     putStr "\n\nSubBrel Tree example:\n\n"

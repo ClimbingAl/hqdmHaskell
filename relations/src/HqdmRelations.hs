@@ -90,7 +90,9 @@ module HqdmRelations
     filterErrorsBy,
     cardinalityMet,
     rangeTestAllObjects,
-    rangeMetTest
+    rangeMetTest,
+    filterHigherLevelBrels,
+    relationInSupertypePaths
   )
 where
 
@@ -107,7 +109,7 @@ import qualified HqdmLib (
     uniqueTriples,
     stringListSort,
     headIfStringPresent,
-    tailIfStringPresent,
+    lastIfStringPresent,
     lookupHqdmOne,
     lookupHqdmType,
     lookupHqdmTypeIdFromName,
@@ -522,7 +524,7 @@ convertAnyHqdmRelationByDomainRangeAndName tpl domainTypeId rangeTypeId brels to
   where
     pureRelMatch = HqdmLib.headIfStringPresent [ pureBinaryRelationId values | values <- brels, (domainTypeId == pureDomain values) && (HqdmLib.predicate tpl ==  pureBinaryRelationName values) && (rangeTypeId == pureRange values) ]
     -- THESE PROPERTIES AND GUARDS SHOULD BE CONSIDERED TEMPORARY.  THEY CAN BE QUERIED FROM THE DATA BUT AN EXTRA GENERIC FUNCTION IS NEEDED FOR THIS
-    subtypeRangeMatch = HqdmLib.tailIfStringPresent [ pureBinaryRelationId values | values <- brels, (domainTypeId == pureDomain values) && (HqdmLib.predicate tpl ==  pureBinaryRelationName values) && (rangeTypeId `elem` concat (HqdmLib.findSubtypeTree [[pureRange values]] topTpls)) ]
+    subtypeRangeMatch = [ pureBinaryRelationId values | values <- brels, (domainTypeId == pureDomain values) && (HqdmLib.predicate tpl ==  pureBinaryRelationName values) && (rangeTypeId `elem` concat (HqdmLib.findSubtypeTree [[pureRange values]] topTpls)) ]
     hqdmTypeBR = HqdmLib.headIfStringPresent [ pureBinaryRelationId values | values <- brels, hqdmType == pureBinaryRelationName values ]
     hqdmHasSupertypeBR = HqdmLib.headIfStringPresent [ pureBinaryRelationId values | values <- brels, hqdmHasSupertype == pureBinaryRelationName values ]
     hqdmHasSuperclassBR = HqdmLib.headIfStringPresent [ pureBinaryRelationId values | values <- brels, hqdmHasSuperclass == pureBinaryRelationName values ]
@@ -539,7 +541,7 @@ convertAnyHqdmRelationByDomainRangeAndName tpl domainTypeId rangeTypeId brels to
       | HqdmLib.predicate tpl==hqdmEntityName  = HqdmLib.HqdmTriple (HqdmLib.subject tpl) hqdmHasEntityNameBR (HqdmLib.object tpl)
       | HqdmLib.predicate tpl==hqdmRecordCreated  = HqdmLib.HqdmTriple (HqdmLib.subject tpl) hqdmHasRecordCreatedBR (HqdmLib.object tpl)
       | HqdmLib.predicate tpl==hqdmRecordCreator  = HqdmLib.HqdmTriple (HqdmLib.subject tpl) hqdmHasRecordCreatorBR (HqdmLib.object tpl)
-      | subtypeRangeMatch /= "" = HqdmLib.HqdmTriple (HqdmLib.subject tpl) subtypeRangeMatch (HqdmLib.object tpl) -- This is for the case that there is a 
+      | not (null subtypeRangeMatch) = HqdmLib.HqdmTriple (HqdmLib.subject tpl) ( getPureRelationId (head $ filterHigherLevelBrels (findBrelsFromIds subtypeRangeMatch brels) brels)) (HqdmLib.object tpl) -- This is for the case that there is a 
       | pureRelMatch == "" = HqdmLib.HqdmTriple (HqdmLib.subject tpl) hqdmAttributeBR (HqdmLib.object tpl)
       | otherwise = HqdmLib.HqdmTriple (HqdmLib.subject tpl) pureRelMatch (HqdmLib.object tpl)
 

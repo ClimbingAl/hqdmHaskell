@@ -89,6 +89,7 @@ main = do
     let hqdmModelToMap = fromRight [] triplesToMap
 
     putStr "Now strip IRI path parts.\n"
+    
     let joinInputModel = removeIriPathsFromAll hqdmModelToMap
 
     let uniqueJoinNodes = uniqueIds $ getSubjects joinInputModel

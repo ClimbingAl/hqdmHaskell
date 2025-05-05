@@ -85,6 +85,7 @@ executable relations
         , text
         , unique
         , vector
+        , time
 
     -- Directories containing source files.
     hs-source-dirs:   app, src, ../hqdm/src

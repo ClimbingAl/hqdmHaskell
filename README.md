@@ -160,7 +160,8 @@ Notes on relations, cardinalities, etc
     - [ ] calculate the inverse relations
     - [ ] perform predicate searches that include inverse relations
     - [ ] dictionary for strings using uuid type5 
-    - [ ] perform transitive searches for given relation set (e.g. part_of includes all of the sub-brel sets)
+    - [x] perform transitive searches for given relation set (e.g. part_of includes all of the sub-brel sets). Notes, zig-zag search could be a useful variant of FromLeft and FromRight searches (e.g. FromLeft -> FromRight -> FromLeft -> FromRight -> ...  This may need temporal bounds)
+    - [ ] temporal bounds (before, after, at)
     - [x] calculate all allowed relations (based on inheritance, not the sets of all possible relations)
     - [ ] introduce the powerset?... probably best to miss this out, but could be useful to think it through
 

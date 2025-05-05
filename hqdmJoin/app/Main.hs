@@ -149,7 +149,7 @@ import Data.Either
 
 -- Constants
 hqdmRelationsInputFilename::String
-hqdmRelationsInputFilename = "../PureHqdmRelations_v9.csv"
+hqdmRelationsInputFilename = "../PureHqdmRelations_v91.csv"
 
 hqdmInputFilename::String
 hqdmInputFilename = "../HqdmAllAsDataFormal4Short.csv"
@@ -243,7 +243,7 @@ main = do
     ----------------------------------------
     -- LOAD Pre-Joined Triples
     ----------------------------------------
-    preJoinedModel <- fmap V.toList . decode @HqdmTriple NoHeader <$> BL.readFile "joinedAllRelsTestStrictUpdated2.csv"
+    preJoinedModel <- fmap V.toList . decode @HqdmTriple NoHeader <$> BL.readFile "joinedAllRelsTestStrict.csv"
     let allRelationIdJoinedTriples = fromRight [] preJoinedModel
 
     let exampleObjectId = "7e181b8d-0aed-46ee-928e-b08d60d0ed58"
@@ -323,13 +323,20 @@ main = do
     print targetSubBrelTree
 
     -- Do a transitive parthood query for a given node
-    putStr "\n\nParthood transitive query from Right:\n\n"
-    let queryNode = "a46c340b-640a-443c-9b46-fd57a2690c9e"   --"04c63471-7073-4e6d-8adf-2bfb9c890ba8" -- R1 "b6663c0f-73ac-42a4-a027-333047618cb9" -- Installed Line Card 1 in R1 "a46c340b-640a-443c-9b46-fd57a2690c9e"
-    let transitiveResults = tail $ transitiveQueryFromRight targetSubBrelTree allRelationIdJoinedTriples [queryNode] [[]]
+    let queryNode = "b6663c0f-73ac-42a4-a027-333047618cb9"   --"04c63471-7073-4e6d-8adf-2bfb9c890ba8" -- R1 "b6663c0f-73ac-42a4-a027-333047618cb9" -- Installed Line Card 1 in R1 "a46c340b-640a-443c-9b46-fd57a2690c9e"
+    putStr "\n\n"
+    print (HqdmLib.findHqdmNamesInList [queryNode] allRelationIdJoinedTriples)
+    putStr "\n\nParthood transitive query from Left: \n\n"
+    let transitiveResults = transitiveQueryFromLeft targetSubBrelTree allRelationIdJoinedTriples [queryNode] []
     print transitiveResults
-    
     let namesOfNodes = HqdmLib.findHqdmNamesInList (concat transitiveResults) allRelationIdJoinedTriples
     print namesOfNodes
+
+    putStr "\n\nParthood transitive query from Right: \n\n"
+    let transitiveResults2 = transitiveQueryFromRight targetSubBrelTree allRelationIdJoinedTriples [queryNode] []
+    print transitiveResults2
+    let namesOfNodes2 = HqdmLib.findHqdmNamesInList (concat transitiveResults2) allRelationIdJoinedTriples
+    print namesOfNodes2
 
     putStr "\n\nDONE\n\n"
 

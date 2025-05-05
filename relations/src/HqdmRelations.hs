@@ -138,6 +138,7 @@ import qualified HqdmLib (
 import GHC.Generics (Generic)
 import Data.Csv (FromRecord)
 import Data.List (isPrefixOf, sortOn)
+import Data.Maybe (maybe, isJust)
 
 -- | In a RelationPairSet xR'y the  is a list of [R'y] for x, where R' can be any allowed 
 --   number of instances of permitted Relations
@@ -202,12 +203,12 @@ data HqdmBinaryRelationSet = HqdmBinaryRelationSet
   }
   deriving (Show, Eq, Generic)
 
-data RelationCheck = 
-  Valid | 
-  Invalid | 
-  MaxCardinalityViolation | 
-  MinCardinalityViolation | 
-  RangeTypeViolation | 
+data RelationCheck =
+  Valid |
+  Invalid |
+  MaxCardinalityViolation |
+  MinCardinalityViolation |
+  RangeTypeViolation |
   RelationMissing |
   RelationInstanceNotPresent |
   UnexpectedRelation
@@ -461,7 +462,7 @@ convertTopRelationByDomainAndName tpl brels = go tpl
 
 -- | This finds the domain type Id from an object Id and List of accopmanying triples
 hqdmDomainTypeFromIdInList :: HqdmLib.HqdmTriple -> [HqdmLib.HqdmTriple] -> [HqdmLib.HqdmTriple] -> HqdmLib.Id
-hqdmDomainTypeFromIdInList tpl datasetTpls topTpls = go 
+hqdmDomainTypeFromIdInList tpl datasetTpls topTpls = go
   where
     typeOfSubject = HqdmLib.headIfStringPresent [ HqdmLib.object values | values <- datasetTpls, (hqdmType == HqdmLib.predicate values) && (HqdmLib.subject tpl ==  HqdmLib.subject values) ]
 
@@ -469,7 +470,7 @@ hqdmDomainTypeFromIdInList tpl datasetTpls topTpls = go
 
 -- | This finds the range type Id from an object Id and List of accopmanying triples
 hqdmRangeTypeFromIdInList :: HqdmLib.HqdmTriple -> [HqdmLib.HqdmTriple] -> [HqdmLib.HqdmTriple] -> HqdmLib.Id
-hqdmRangeTypeFromIdInList tpl datasetTpls topTpls = go 
+hqdmRangeTypeFromIdInList tpl datasetTpls topTpls = go
   where
     typeOfObject = HqdmLib.headIfStringPresent [ HqdmLib.object values | values <- datasetTpls, (hqdmType == HqdmLib.predicate values) && (HqdmLib.object tpl ==  HqdmLib.subject values) ]
 
@@ -509,7 +510,7 @@ convertAnyHqdmRelationByDomainAndName tpl typeId brels = go tpl
 -- | This swaps the relation names in a HqdmAllAsData dataset (it doesn't handle instance and extended subclasses)
 -- Looks for match of domain type, relation name and range type
 hqdmSwapAnyRelationNamesForIdsStrict :: [HqdmLib.HqdmTriple] -> [HqdmLib.HqdmTriple]-> [HqdmBinaryRelationPure] -> [HqdmLib.HqdmTriple]
-hqdmSwapAnyRelationNamesForIdsStrict hqdmTpls topTpls brels = fmap (\ x -> convertAnyHqdmRelationByDomainRangeAndName x (hqdmDomainTypeFromIdInList x hqdmTpls topTpls) (hqdmRangeTypeFromIdInList x hqdmTpls topTpls) brels topTpls) hqdmTpls 
+hqdmSwapAnyRelationNamesForIdsStrict hqdmTpls topTpls brels = fmap (\ x -> convertAnyHqdmRelationByDomainRangeAndName x (hqdmDomainTypeFromIdInList x hqdmTpls topTpls) (hqdmRangeTypeFromIdInList x hqdmTpls topTpls) brels topTpls) hqdmTpls
 
 -- | This swaps the relation name in a HqdmAllAsData triple (it doesn't handle instance and extended subclass triples)
 -- Takes the triple and the Top Type from which it inherits its relations
@@ -544,6 +545,17 @@ convertAnyHqdmRelationByDomainRangeAndName tpl domainTypeId rangeTypeId brels to
       | not (null subtypeRangeMatch) = HqdmLib.HqdmTriple (HqdmLib.subject tpl) ( getPureRelationId (head $ filterHigherLevelBrels (findBrelsFromIds subtypeRangeMatch brels) brels)) (HqdmLib.object tpl) -- This is for the case that there is a 
       | pureRelMatch == "" = HqdmLib.HqdmTriple (HqdmLib.subject tpl) hqdmAttributeBR (HqdmLib.object tpl)
       | otherwise = HqdmLib.HqdmTriple (HqdmLib.subject tpl) pureRelMatch (HqdmLib.object tpl)
+
+-- | dataDateTimeToUUID1
+
+dataDateTimeToUUID1 :: HqdmLib.HqdmTriple -> HqdmLib.HqdmTriple
+dataDateTimeToUUID1 x = if isDateTime (Just (HqdmLib.object x)) then HqdmLib.HqdmTriple (HqdmLib.subject x) (HqdmLib.predicate x) "uuid"
+                          else x
+  
+  -- fmap (\x -> (maybe x (\y -> HqdmLib.HqdmTriple (HqdmLib.subject x) (HqdmLib.predicate x) (y)) ()) -- Need test for whether it is a data_EntityName predicate??
+
+isDateTime :: Maybe String -> Bool
+isDateTime = maybe False (\z -> isJust (iso8601ParseM z :: Maybe UTCTime))
 
 -- | isSubtype
 -- Boolean test to see if the first Type Id is a Subtype of the supplied second Type Id.  True if so.
@@ -713,7 +725,7 @@ printableErrorResults:: [(RelationCheck, HqdmBinaryRelationPure, HqdmLib.Id)] ->
 printableErrorResults errs hqdm tpls =
     concatMap (\ x ->
         "\n\nObject Id:" ++ show (thdOf3 x) ++ " of type '" ++ head (HqdmLib.lookupHqdmType $ HqdmLib.lookupHqdmOne (thdOf3 x) tpls) ++ "'" ++
-        "\nRelation check result: " ++ show (fstOf3 x) ++ 
+        "\nRelation check result: " ++ show (fstOf3 x) ++
         onlyPrintInvalidTypeCause x ++
         printRelationWithTypeNames ( sndOf3 x) hqdm
         ) errs
@@ -734,7 +746,7 @@ filterOutErrorsBy brel brels errs =
 -- Filter the list of cardinality results by to only include the given super Brel Set
 filterErrorsBy :: HqdmBinaryRelationPure -> [HqdmBinaryRelationPure] -> [(RelationCheck, HqdmBinaryRelationPure, HqdmLib.Id)] -> [(RelationCheck, HqdmBinaryRelationPure, HqdmLib.Id)]
 filterErrorsBy brel brels errs =
-    [ values | values <- errs, relationInSupertypePaths (getPureRelationId brel) [ sndOf3 values] brels False]
+    [ values | values <- errs, relationInSupertypePaths (getPureRelationId brel) [sndOf3 values] brels False]
 
 -- | filterHigherLevelBrels
 -- Filter an input set of Binary Relation (Sets) to remove any that are on the super-BR path of others

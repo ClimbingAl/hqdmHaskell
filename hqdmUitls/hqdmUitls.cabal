@@ -59,7 +59,7 @@ library
     import:           warnings
 
     -- Modules exported by the library.
-    exposed-modules:  TimeUtils
+    exposed-modules:  TimeUtils, StringUtils
 
     -- Modules included in this library but not exported.
     -- other-modules:
@@ -82,6 +82,8 @@ library
         , network-info
         , uuid
         , uuid-types
+        , utf8-string
+        , containers
 
     -- Directories containing source files.
     hs-source-dirs:   src
@@ -108,7 +110,8 @@ executable hqdmUitls
         hqdmUitls,
         network-info,
         time,
-        uuid
+        uuid,
+        containers
 
     -- Directories containing source files.
     hs-source-dirs:   app

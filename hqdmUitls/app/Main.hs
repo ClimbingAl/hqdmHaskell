@@ -1,4 +1,4 @@
-module Main where
+module Main (main) where
 
 import qualified TimeUtils (
   hundredsOfNanosSinceGregorianReform,
@@ -6,6 +6,13 @@ import qualified TimeUtils (
   utcTimeFromUuid
   )
 
+import qualified StringUtils (
+  addNewEntryIfNotInMap,
+  createEmptyUuidMap,
+  uuidV5FromString
+ )
+
+import qualified Data.Map as Map
 import Data.Maybe
 import Data.Time (UTCTime)
 import Data.Time.Format.ISO8601
@@ -39,3 +46,12 @@ main = do
   putStr "\n\nRegenerate the original time from the uuid: \n\n"
   let utcFromUuid = TimeUtils.utcTimeFromUuid myUuid1
   print utcFromUuid
+
+  putStr "\n\nNow generate a uuidV5 from a String:\n\n"
+  let testString = "This is an arbitrary string with a load of £$%^&*1234567890_+-=:@~?><,.// and so on\n\n and more and more"
+  let uuid5 = StringUtils.uuidV5FromString testString
+  print uuid5
+
+  let uuidV5Map = StringUtils.createEmptyUuidMap
+  let uuidV5Map1 = StringUtils.addNewEntryIfNotInMap uuidV5Map (uuid5,testString)
+  print (Map.toList uuidV5Map1)

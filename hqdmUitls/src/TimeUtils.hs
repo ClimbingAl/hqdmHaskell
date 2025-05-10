@@ -32,13 +32,13 @@ import Network.Info
 
 import Data.UUID.Types.Internal.Builder
 
-
+-- Add acknowledgements to the source for these functions
 makeUUID :: Word64 -> Word16 -> MAC -> UUID
 makeUUID time clock mac' =
-    buildFromBytes 1 /-/ tLow /-/ tMid /-/ tHigh /-/ clock /-/ (MACSource mac')
-    where tLow = (fromIntegral time) :: Word32
-          tMid = (fromIntegral (time `shiftR` 32)) :: Word16
-          tHigh = (fromIntegral (time `shiftR` 48)) :: Word16
+    buildFromBytes 1 /-/ tLow /-/ tMid /-/ tHigh /-/ clock /-/ MACSource mac'
+    where tLow = fromIntegral time :: Word32
+          tMid = fromIntegral (time `shiftR` 32) :: Word16
+          tHigh = fromIntegral (time `shiftR` 48) :: Word16
 
 -- uuidv1 needs the time in hundreds of ns from 00:00hrs 15 October 1582
 hundredsOfNanosSinceGregorianReform :: UTCTime -> Word64

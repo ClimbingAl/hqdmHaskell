@@ -20,8 +20,8 @@
 module HqdmRelations
   (
     RelationId,
-    HqdmRelationSet,
     RelationPair,
+    HqdmRelationSet,
     HqdmBinaryRelation,
     HqdmBinaryRelationSet,
     HqdmBinaryRelationPure,
@@ -144,7 +144,7 @@ import Data.Maybe (maybe, isJust)
 --   number of instances of permitted Relations
 data HqdmRelationSet = HqdmRelationSet
   { relationshipId :: !HqdmLib.Id,
-    relationPairs :: ![RelationPair]
+    relationPairs :: ![HqdmLib.RelationPair]
   }
   deriving (Show, Eq, Generic)
 
@@ -546,16 +546,14 @@ convertAnyHqdmRelationByDomainRangeAndName tpl domainTypeId rangeTypeId brels to
       | pureRelMatch == "" = HqdmLib.HqdmTriple (HqdmLib.subject tpl) hqdmAttributeBR (HqdmLib.object tpl)
       | otherwise = HqdmLib.HqdmTriple (HqdmLib.subject tpl) pureRelMatch (HqdmLib.object tpl)
 
--- | dataDateTimeToUUID1
+-- | attributeStringsToUUIds
 
-dataDateTimeToUUID1 :: HqdmLib.HqdmTriple -> HqdmLib.HqdmTriple
-dataDateTimeToUUID1 x = if isDateTime (Just (HqdmLib.object x)) then HqdmLib.HqdmTriple (HqdmLib.subject x) (HqdmLib.predicate x) "uuid"
+attributeStringsToUUIds :: HqdmLib.HqdmTriple -> HqdmLib.HqdmTriple
+attributeStringsToUUIds x = if isDateTime (Just (HqdmLib.object x)) then HqdmLib.HqdmTriple (HqdmLib.subject x) (HqdmLib.predicate x) "uuid"
                           else x
   
   -- fmap (\x -> (maybe x (\y -> HqdmLib.HqdmTriple (HqdmLib.subject x) (HqdmLib.predicate x) (y)) ()) -- Need test for whether it is a data_EntityName predicate??
 
-isDateTime :: Maybe String -> Bool
-isDateTime = maybe False (\z -> isJust (iso8601ParseM z :: Maybe UTCTime))
 
 -- | isSubtype
 -- Boolean test to see if the first Type Id is a Subtype of the supplied second Type Id.  True if so.

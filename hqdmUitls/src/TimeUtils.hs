@@ -16,9 +16,10 @@
 
 
 module TimeUtils (
-    hundredsOfNanosSinceGregorianReform,
-    makeUUID,
-    utcTimeFromUuid
+    hundredsOfNanosSinceGregorianReform, -- Remove from export when ready
+    makeUUID, -- Remove from export when ready
+    utcTimeFromUuid,
+    uuidFromUTCTime
     ) where
 
 import Data.Bits
@@ -55,14 +56,18 @@ utcTimeFromUuid uuid = dt
   dt = ((hnsgr / 10000000) :: NominalDiffTime) `addUTCTime` gregorianReform
 
 {- Some random MAC addresses.  Last one chosen for this project.
-
 a3:15:e2:19:fe:2b
 b3:39:d6:53:cc:9e
 17:12:7b:b2:4c:cd
 f4:ec:22:44:d9:43
 bb:32:09:de:79:c0
-
 -}
+hqdmHaskellMac = MAC 0xBB 0x32 0x09 0xDE 0x79 0xC0
+
+-- uuidFromUTCTime
+-- Unsafe. Only use if it is passed a Just
+uuidFromUTCTime :: UTCTime -> String
+uuidFromUTCTime t = toString $ makeUUID (hundredsOfNanosSinceGregorianReform t) 0x0000 hqdmHaskellMac
 
 
 newtype MACSource = MACSource MAC

@@ -1,3 +1,6 @@
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE TypeApplications #-}
+
 module Main (main) where
 
 import qualified TimeUtils (
@@ -9,15 +12,32 @@ import qualified TimeUtils (
 import qualified StringUtils (
   addNewEntryIfNotInMap,
   createEmptyUuidMap,
+  listRemoveDuplicates,
+  stringToDateOrHashUuid,
+  stringTuplesFromTriples,
   uuidV5FromString
  )
 
+import qualified HqdmLib ( 
+  HqdmTriple(..),
+  HqdmTriple(subject, predicate, object),
+  nodeIdentityTest )
+
 import qualified Data.Map as Map
 import Data.Maybe
+import Data.List (nub)
 import Data.Time (UTCTime)
 import Data.Time.Format.ISO8601
 import Network.Info
 import Data.UUID.Util
+
+import qualified Data.ByteString.Lazy as BL
+import Data.Csv (HasHeader( NoHeader ), decode)
+import qualified Data.Vector as V
+import Data.Either
+
+joinModelFilename::String
+joinModelFilename = "../hqdmJoin/joinedAllRelsTestStrict.csv"
 
 main :: IO ()
 main = do
@@ -32,11 +52,11 @@ main = do
   print dateTime
 
   putStr "\n\nCalculate the number of 100ns units singe Grevorian Refore time: \n\n"
-  let hnsSingeGregorianReform = TimeUtils.hundredsOfNanosSinceGregorianReform (fromJust dateTime) -- Don't use fromJust beyond this illustration
-  print hnsSingeGregorianReform
+  let hnsSinceGregorianReform = TimeUtils.hundredsOfNanosSinceGregorianReform (fromJust dateTime) 
+  print hnsSinceGregorianReform
 
   putStr "\n\nMake the uuid V1 from the time value and MAC: \n\n"
-  let myUuid1 = TimeUtils.makeUUID hnsSingeGregorianReform 0x0000 myHqdmMac
+  let myUuid1 = TimeUtils.makeUUID hnsSinceGregorianReform 0x0000 myHqdmMac
   print myUuid1
 
   putStr "\n\nRe-calculate the numerber of 100ns Units from the uuid: \n\n"
@@ -53,5 +73,23 @@ main = do
   print uuid5
 
   let uuidV5Map = StringUtils.createEmptyUuidMap
-  let uuidV5Map1 = StringUtils.addNewEntryIfNotInMap uuidV5Map (uuid5,testString)
+  let uuidV1Map = StringUtils.createEmptyUuidMap
+  let uuidV5Map1 = snd $ StringUtils.stringToDateOrHashUuid testString (uuidV1Map, uuidV5Map)
+  let uuidV1Map1 = fst $ StringUtils.stringToDateOrHashUuid "2021-07-05T14:40:25.4368657Z" (uuidV1Map, uuidV5Map)
   print (Map.toList uuidV5Map1)
+  print (Map.toList uuidV1Map1)
+
+  -- Now test the conversion of a mapped dataset
+  joinModelTriples <- fmap V.toList . decode @HqdmLib.HqdmTriple NoHeader <$> BL.readFile joinModelFilename
+  let joinInputModel = fromRight [] joinModelTriples
+  let convertedStrings = StringUtils.listRemoveDuplicates $ StringUtils.stringTuplesFromTriples joinInputModel []
+
+  -- Add it to a Map
+  let uuidMap = StringUtils.createEmptyUuidMap
+  let finalMap = Map.fromList convertedStrings
+
+  putStr "\n\nWrite finalMap of the uuids and theis strings (v1&v5 mixed):\n\n"
+  print finalMap
+
+  -- Now replace the original strings with their uuid keys
+  

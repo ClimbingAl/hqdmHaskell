@@ -16,6 +16,7 @@
 module StringUtils (
     addNewEntryIfNotInMap,
     createEmptyUuidMap,
+    joinStringsFromMap,
     listRemoveDuplicates,
     stringToDateOrHashUuid,
     stringTuplesFromTriples,
@@ -84,3 +85,21 @@ listRemoveDuplicates [b] = [b]
 listRemoveDuplicates (x:xs) = nub (if (fst x,snd x) `elem` xs then
         listRemoveDuplicates xs else [x] ++ listRemoveDuplicates xs)
 
+-- Replace strings in joinModel from Map
+joinStringsFromMap :: [HqdmLib.HqdmTriple] -> Map.Map String String -> [HqdmLib.HqdmTriple]
+joinStringsFromMap [] strMap = []
+joinStringsFromMap (tpl:tpls) strMap 
+        | isUuid = tpl : joinStringsFromMap tpls strMap 
+        | otherwise = HqdmLib.HqdmTriple (HqdmLib.subject tpl) (HqdmLib.predicate tpl) (head val) : joinStringsFromMap tpls strMap
+    where
+        isUuid = HqdmLib.nodeIdentityTest (HqdmLib.object tpl)
+        val = lookupKey (HqdmLib.object tpl) strMap
+
+-- Obtained from:
+-- https://stackoverflow.com/questions/58263235/find-a-key-by-having-its-value-using-data-map-in-haskell
+lookupKey :: Eq v => v -> Map.Map k v -> [k]
+lookupKey val = Map.foldrWithKey go [] where
+  go key value found =
+    if value == val
+    then key:found
+    else found

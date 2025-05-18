@@ -62,7 +62,11 @@ library
     exposed-modules:  TimeUtils, StringUtils
 
     -- Modules included in this library but not exported.
-    other-modules: HqdmLib, HqdmIds
+    other-modules: 
+        HqdmLib
+        HqdmIds
+        HqdmRelations
+        HqdmQueries
 
     -- LANGUAGE extensions used by modules in this package.
     -- other-extensions:
@@ -86,7 +90,7 @@ library
         , containers
 
     -- Directories containing source files.
-    hs-source-dirs:   app, src, ../hqdm/src
+    hs-source-dirs:   app, src, ../hqdm/src, ../relations/src
 
     -- Base language which the package is written in.
     default-language: Haskell2010
@@ -99,7 +103,13 @@ executable hqdmUitls
     main-is:          Main.hs
 
     -- Modules included in this executable, other than Main.
-    other-modules: HqdmLib, StringUtils, TimeUtils
+    other-modules: 
+        HqdmLib
+        StringUtils
+        TimeUtils
+        HqdmIds
+        HqdmRelations
+        HqdmQueries
 
     -- LANGUAGE extensions used by modules in this package.
     -- other-extensions:
@@ -123,7 +133,7 @@ executable hqdmUitls
         , containers
 
     -- Directories containing source files.
-    hs-source-dirs:   app, src, ../hqdm/src
+    hs-source-dirs:   app, src, ../hqdm/src, ../relations/src
 
     -- Base language which the package is written in.
     default-language: Haskell2010

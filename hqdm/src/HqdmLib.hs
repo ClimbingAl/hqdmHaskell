@@ -21,7 +21,6 @@ module HqdmLib
     HqdmTriple(..),
     HqdmTriple(subject, predicate, object),
     RelationPair,
-    Relation,
     HqdmHasSupertype,
     getSubjects,
     getPredicates,
@@ -78,11 +77,6 @@ instance FromRecord HqdmTriple
 data RelationPair = RelationPair
   { p :: !Id,
     o :: !Id
-  }
-  deriving (Show, Eq, Generic)
-
-newtype Relation = Relation
-  { rel :: Id
   }
   deriving (Show, Eq, Generic)
 

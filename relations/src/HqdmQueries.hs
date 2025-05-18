@@ -23,6 +23,8 @@ module HqdmQueries (
     order,
     emergent,
     filterRelsBy,
+    filterRelsByBeginning,
+    filterRelsByEnding,
     filterRelsByPart,
     filterRelsBySet,
     transitiveQueryFromLeft,
@@ -45,6 +47,16 @@ order = "cfb37186-d2d6-48de-a418-6197bdf0a7b0"
 emergent::HqdmRelations.RelationId
 emergent = "f533fac8-d228-4c10-8799-a26fe6ea16a4"
 
+attribute::HqdmRelations.RelationId
+attribute = ""
+
+beginning::HqdmRelations.RelationId
+beginning = "96c965a9-ec3e-47f2-b18e-b67147bc0873"
+
+ending::HqdmRelations.RelationId
+ending = "aee002be-0529-4b80-82b0-0a6bcca34e48"
+
+
 -- | filterRelsBy
 -- Filter the given HqdmAllAsData joined triples by a given set of relations (relSet)
 -- This filtering is done by finding the all the sub-binary relation sets of the given set
@@ -61,6 +73,12 @@ filterRelsByPart = filterRelsBy part
 
 filterRelsBySet::[HqdmLib.HqdmTriple] -> [HqdmRelations.HqdmBinaryRelationPure] -> [HqdmLib.HqdmTriple]
 filterRelsBySet = filterRelsBy set
+
+filterRelsByBeginning::[HqdmLib.HqdmTriple] -> [HqdmRelations.HqdmBinaryRelationPure] -> [HqdmLib.HqdmTriple]
+filterRelsByBeginning = filterRelsBy beginning
+
+filterRelsByEnding::[HqdmLib.HqdmTriple] -> [HqdmRelations.HqdmBinaryRelationPure] -> [HqdmLib.HqdmTriple]
+filterRelsByEnding = filterRelsBy ending
 
 -- | transitiveQueryFromLeft
 -- Recursively find all the connected ids based on a specified list of binary relations with nodeIds applied from the left (e.g. <a rel b>, the node given is treated as a)

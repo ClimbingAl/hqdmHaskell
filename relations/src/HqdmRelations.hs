@@ -101,7 +101,6 @@ import qualified HqdmLib (
     HqdmTriple(..),
     HqdmTriple(subject, predicate, object),
     RelationPair,
-    Relation,
     HqdmHasSupertype,
     getSubjects,
     getPredicates,
@@ -548,12 +547,12 @@ convertAnyHqdmRelationByDomainRangeAndName tpl domainTypeId rangeTypeId brels to
 
 -- | attributeStringsToUUIds
 
-attributeStringsToUUIds :: HqdmLib.HqdmTriple -> HqdmLib.HqdmTriple
+{- attributeStringsToUUIds :: HqdmLib.HqdmTriple -> HqdmLib.HqdmTriple
 attributeStringsToUUIds x = if isDateTime (Just (HqdmLib.object x)) then HqdmLib.HqdmTriple (HqdmLib.subject x) (HqdmLib.predicate x) "uuid"
                           else x
   
   -- fmap (\x -> (maybe x (\y -> HqdmLib.HqdmTriple (HqdmLib.subject x) (HqdmLib.predicate x) (y)) ()) -- Need test for whether it is a data_EntityName predicate??
-
+-}
 
 -- | isSubtype
 -- Boolean test to see if the first Type Id is a Subtype of the supplied second Type Id.  True if so.

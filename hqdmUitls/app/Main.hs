@@ -4,6 +4,9 @@
 module Main (main) where
 
 import qualified TimeUtils (
+  after,
+  before,
+  orderTest,
   hundredsOfNanosSinceGregorianReform,
   makeUUID,
   utcTimeFromUuid
@@ -12,6 +15,7 @@ import qualified TimeUtils (
 import qualified StringUtils (
   addNewEntryIfNotInMap,
   createEmptyUuidMap,
+  joinStringsFromMap,
   listRemoveDuplicates,
   stringToDateOrHashUuid,
   stringTuplesFromTriples,
@@ -29,6 +33,7 @@ import Data.List (nub)
 import Data.Time (UTCTime)
 import Data.Time.Format.ISO8601
 import Network.Info
+import Data.UUID
 import Data.UUID.Util
 
 import qualified Data.ByteString.Lazy as BL
@@ -51,6 +56,8 @@ main = do
   let dateTime =  iso8601ParseM "2021-07-05T14:40:25.4368657Z" :: Maybe UTCTime -- Only times to 100ns increments are supported.  This is a constraint of uuid Version1
   print dateTime
 
+  let dateTime2 =  iso8601ParseM "2022-07-05T14:40:25.4368657Z" :: Maybe UTCTime
+
   putStr "\n\nCalculate the number of 100ns units singe Grevorian Refore time: \n\n"
   let hnsSinceGregorianReform = TimeUtils.hundredsOfNanosSinceGregorianReform (fromJust dateTime) 
   print hnsSinceGregorianReform
@@ -58,6 +65,13 @@ main = do
   putStr "\n\nMake the uuid V1 from the time value and MAC: \n\n"
   let myUuid1 = TimeUtils.makeUUID hnsSinceGregorianReform 0x0000 myHqdmMac
   print myUuid1
+
+  let myUuid1_2 = TimeUtils.makeUUID (TimeUtils.hundredsOfNanosSinceGregorianReform (fromJust dateTime2)) 0x0000 myHqdmMac
+  print myUuid1_2
+
+  print ("Now compare the uuidV1s: " ++ (show $ TimeUtils.before (toString myUuid1_2) (toString myUuid1)))
+  putStr "\n\n"
+  print ("Now compare using orderTest: < :" ++ (show $ TimeUtils.orderTest (toString myUuid1) (<=) (toString myUuid1_2)))
 
   putStr "\n\nRe-calculate the numerber of 100ns Units from the uuid: \n\n"
   let hnsTimeFromUuid1 = extractTime myUuid1
@@ -71,7 +85,7 @@ main = do
   let testString = "This is an arbitrary string with a load of £$%^&*1234567890_+-=:@~?><,.// and so on\n\n and more and more"
   let uuid5 = StringUtils.uuidV5FromString testString
   print uuid5
-
+{-
   let uuidV5Map = StringUtils.createEmptyUuidMap
   let uuidV1Map = StringUtils.createEmptyUuidMap
   let uuidV5Map1 = snd $ StringUtils.stringToDateOrHashUuid testString (uuidV1Map, uuidV5Map)
@@ -92,4 +106,7 @@ main = do
   print finalMap
 
   -- Now replace the original strings with their uuid keys
-  
+  let fullyJoinedInputModel = StringUtils.joinStringsFromMap joinInputModel finalMap
+  putStr "\n\nWrite converted dataset to terminal\n\n"
+  print fullyJoinedInputModel
+-}

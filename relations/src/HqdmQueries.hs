@@ -23,6 +23,7 @@ module HqdmQueries (
     order,
     emergent,
     filterRelsBy,
+    filterRelsByAttribute,
     filterRelsByBeginning,
     filterRelsByEnding,
     filterRelsByPart,
@@ -48,7 +49,7 @@ emergent::HqdmRelations.RelationId
 emergent = "f533fac8-d228-4c10-8799-a26fe6ea16a4"
 
 attribute::HqdmRelations.RelationId
-attribute = ""
+attribute = "fe987366-a8ad-48fa-8821-73f54f6df180"
 
 beginning::HqdmRelations.RelationId
 beginning = "96c965a9-ec3e-47f2-b18e-b67147bc0873"
@@ -79,6 +80,9 @@ filterRelsByBeginning = filterRelsBy beginning
 
 filterRelsByEnding::[HqdmLib.HqdmTriple] -> [HqdmRelations.HqdmBinaryRelationPure] -> [HqdmLib.HqdmTriple]
 filterRelsByEnding = filterRelsBy ending
+
+filterRelsByAttribute::[HqdmLib.HqdmTriple] -> [HqdmRelations.HqdmBinaryRelationPure] -> [HqdmLib.HqdmTriple]
+filterRelsByAttribute = filterRelsBy attribute
 
 -- | transitiveQueryFromLeft
 -- Recursively find all the connected ids based on a specified list of binary relations with nodeIds applied from the left (e.g. <a rel b>, the node given is treated as a)

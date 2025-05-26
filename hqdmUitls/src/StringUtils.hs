@@ -23,15 +23,13 @@ module StringUtils (
     uuidV5FromString
     ) where
 
-import Data.Bits
 import Data.List (nub)
 import Data.Maybe
 import qualified Data.Map as Map -- Perhaps use StringMap in the future
-import Data.Word
 import Data.UUID.Types ( toString )
 import Data.UUID.V5 ( generateNamed )
 import Codec.Binary.UTF8.String ( encode )
-import Data.UUID ( UUID (..), nil, toString )
+import Data.UUID ( nil )
 import TimeUtils ( uuidFromUTCTime )
 import Data.Time.Format.ISO8601 ( iso8601ParseM )
 import Data.Time.Clock
@@ -44,6 +42,7 @@ import qualified  HqdmLib (
 --unsafeFromString = fromJust . fromString
 
 -- Add acknowledgements to the source for these functions
+
 uuidV5FromString :: String -> String
 uuidV5FromString str = toString $ generateNamed namespaceUuid (encode str)
 
@@ -87,7 +86,7 @@ listRemoveDuplicates (x:xs) = nub (if (fst x,snd x) `elem` xs then
 
 -- Replace strings in joinModel from Map
 joinStringsFromMap :: [HqdmLib.HqdmTriple] -> Map.Map String String -> [HqdmLib.HqdmTriple]
-joinStringsFromMap [] strMap = []
+joinStringsFromMap [] _ = []
 joinStringsFromMap (tpl:tpls) strMap 
         | isUuid = tpl : joinStringsFromMap tpls strMap 
         | otherwise = HqdmLib.HqdmTriple (HqdmLib.subject tpl) (HqdmLib.predicate tpl) (head val) : joinStringsFromMap tpls strMap

@@ -7,9 +7,10 @@ import qualified TimeUtils (
   after,
   before,
   orderTest,
-  hundredsOfNanosSinceGregorianReform,
-  makeUUID,
-  utcTimeFromUuid
+  headObjectIfTriplePresent,
+  pointInTimeCompareWithState,
+  utcTimeFromUuid,
+  uuidFromUTCTime
   )
 
 import qualified StringUtils (
@@ -25,7 +26,19 @@ import qualified StringUtils (
 import qualified HqdmLib ( 
   HqdmTriple(..),
   HqdmTriple(subject, predicate, object),
+  lookupHqdmOne,
   nodeIdentityTest )
+
+import HqdmRelations ( 
+    HqdmBinaryRelation,
+    csvRelationsToPure
+  )
+
+import HqdmQueries (
+    filterRelsByAttribute,
+    filterRelsByBeginning,
+    filterRelsByEnding
+    )
 
 import qualified Data.Map as Map
 import Data.Maybe
@@ -44,21 +57,28 @@ import Data.Either
 joinModelFilename::String
 joinModelFilename = "../hqdmJoin/joinedAllRelsTestStrict.csv"
 
+hqdmRelationsInputFilename::String
+hqdmRelationsInputFilename = "../PureHqdmRelations_v91.csv"
+
 main :: IO ()
 main = do
   putStrLn "Experimental Time to uuid1 package."
+
+  hqdmRelationSets <- fmap V.toList . decode @HqdmBinaryRelation NoHeader <$> BL.readFile hqdmRelationsInputFilename
+  let relationsInputModel =  csvRelationsToPure $ fromRight [] hqdmRelationSets
 
   putStr "\n\nCreate a fixed MAC address to be used in the generated uuid V1s (0xBB 0x32 0x09 0xDE 0x79 0xC0):\n\n"
   let myHqdmMac = MAC 0xBB 0x32 0x09 0xDE 0x79 0xC0
   print myHqdmMac
 
   putStr "\n\nCreate a valid ISO8601 dateTime to do round-trip test with: \n\n"
-  let dateTime =  iso8601ParseM "2021-07-05T14:40:25.4368657Z" :: Maybe UTCTime -- Only times to 100ns increments are supported.  This is a constraint of uuid Version1
-  print dateTime
+  let dateTime1 = fromJust $ (iso8601ParseM "2021-07-05T14:40:25.4368657Z" :: Maybe UTCTime) -- Only times to 100ns increments are supported.  This is a constraint of uuid Version1
+  let dateTime2 = fromJust $ (iso8601ParseM "2022-07-05T14:40:25.4368657Z" :: Maybe UTCTime)
+  let uuid1 = TimeUtils.uuidFromUTCTime dateTime1
+  let uuid2 = TimeUtils.uuidFromUTCTime dateTime2
 
-  let dateTime2 =  iso8601ParseM "2022-07-05T14:40:25.4368657Z" :: Maybe UTCTime
-
-  putStr "\n\nCalculate the number of 100ns units singe Grevorian Refore time: \n\n"
+  {- Removed exports from TimeUtils.  This code block is left for reference only. 
+  putStr "\n\nCalculate the number of 100ns units singe Gregorian Refore time: \n\n"
   let hnsSinceGregorianReform = TimeUtils.hundredsOfNanosSinceGregorianReform (fromJust dateTime) 
   print hnsSinceGregorianReform
 
@@ -80,12 +100,13 @@ main = do
   putStr "\n\nRegenerate the original time from the uuid: \n\n"
   let utcFromUuid = TimeUtils.utcTimeFromUuid myUuid1
   print utcFromUuid
+  -}
 
   putStr "\n\nNow generate a uuidV5 from a String:\n\n"
   let testString = "This is an arbitrary string with a load of £$%^&*1234567890_+-=:@~?><,.// and so on\n\n and more and more"
   let uuid5 = StringUtils.uuidV5FromString testString
   print uuid5
-{-
+
   let uuidV5Map = StringUtils.createEmptyUuidMap
   let uuidV1Map = StringUtils.createEmptyUuidMap
   let uuidV5Map1 = snd $ StringUtils.stringToDateOrHashUuid testString (uuidV1Map, uuidV5Map)
@@ -99,14 +120,24 @@ main = do
   let convertedStrings = StringUtils.listRemoveDuplicates $ StringUtils.stringTuplesFromTriples joinInputModel []
 
   -- Add it to a Map
-  let uuidMap = StringUtils.createEmptyUuidMap
   let finalMap = Map.fromList convertedStrings
-
-  putStr "\n\nWrite finalMap of the uuids and theis strings (v1&v5 mixed):\n\n"
-  print finalMap
 
   -- Now replace the original strings with their uuid keys
   let fullyJoinedInputModel = StringUtils.joinStringsFromMap joinInputModel finalMap
-  putStr "\n\nWrite converted dataset to terminal\n\n"
-  print fullyJoinedInputModel
--}
+  --putStr "\n\nWrite converted dataset to terminal\n\n"
+  --print fullyJoinedInputModel
+
+  -- Fetch the relations for a single HQDM object
+  let testId = "9ffa0fc1-3365-4f63-801d-63ef72bda8e1" 
+  let testObject = HqdmLib.lookupHqdmOne testId fullyJoinedInputModel
+  print testObject
+
+  let cmpResult = TimeUtils.pointInTimeCompareWithState (TimeUtils.uuidFromUTCTime $ TimeUtils.utcTimeFromUuid uuid2) testObject fullyJoinedInputModel relationsInputModel
+  putStr "\n\nCompare testUuidv1 with provided state: "
+  print cmpResult
+
+  {-
+  let b = TimeUtils.headObjectIfTriplePresent $ HqdmQueries.filterRelsByBeginning testObject relationsInputModel
+  let beginningObj = HqdmLib.lookupHqdmOne b fullyJoinedInputModel
+  let beginningUuid = TimeUtils.headObjectIfTriplePresent $ HqdmQueries.filterRelsByAttribute beginningObj relationsInputModel
+  -}

@@ -52,7 +52,7 @@ extra-doc-files:    CHANGELOG.md
 -- extra-source-files:
 
 common warnings
-    ghc-options: -Wall
+    ghc-options: -Wall -Wno-name-shadowing
 
 library
     -- Import common warning flags.
@@ -147,6 +147,14 @@ test-suite hqdmUitls-test
 
     -- Modules included in this executable, other than Main.
     other-modules: 
+        HqdmLib
+        StringUtils
+        TimeUtils
+        HqdmIds
+        HqdmRelations
+        HqdmQueries
+
+    ghc-options: -threaded -rtsopts -with-rtsopts=-N
 
     -- LANGUAGE extensions used by modules in this package.
     -- other-extensions:
@@ -155,12 +163,29 @@ test-suite hqdmUitls-test
     type:             exitcode-stdio-1.0
 
     -- Directories containing source files.
-    hs-source-dirs:   test
+    hs-source-dirs:   test, app, src, ../hqdm/src, ../relations/src
 
     -- The entrypoint to the test suite.
     main-is:          Main.hs
 
     -- Test dependencies.
     build-depends:
-        base ^>=4.17.2.1,
-        hqdmUitls
+        base ^>=4.17.2.1
+        , bytestring
+        , cassava
+        , directory
+        , text
+        , unique
+        , vector
+        , split
+        , time
+        , random
+        , network-info
+        , uuid
+        , uuid-types
+        , utf8-string
+        , containers
+        , QuickCheck
+        , tasty
+        , tasty-hunit
+        , hspec

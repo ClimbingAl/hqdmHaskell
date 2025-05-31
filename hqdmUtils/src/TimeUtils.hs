@@ -29,6 +29,7 @@ module TimeUtils (
     orderTest,
     headObjectIfTriplePresent,
     pointInTimeCompareWithState,
+    temporalOverlapTest,
     utcTimeFromUuid,
     uuidFromUTCTime
     ) where

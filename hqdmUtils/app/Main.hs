@@ -9,6 +9,7 @@ import qualified TimeUtils (
   orderTest,
   headObjectIfTriplePresent,
   pointInTimeCompareWithState,
+  temporalOverlapTest,
   utcTimeFromUuid,
   uuidFromUTCTime
   )
@@ -56,6 +57,9 @@ import Data.Either
 
 joinModelFilename::String
 joinModelFilename = "../hqdmJoin/joinedAllRelsTestStrict.csv"
+
+temporalAlgebraTestFilename::String 
+temporalAlgebraTestFilename = "./test/temporalAlgebraMapped.csv"
 
 hqdmRelationsInputFilename::String
 hqdmRelationsInputFilename = "../PureHqdmRelations_v91.csv"
@@ -141,3 +145,30 @@ main = do
   let beginningObj = HqdmLib.lookupHqdmOne b fullyJoinedInputModel
   let beginningUuid = TimeUtils.headObjectIfTriplePresent $ HqdmQueries.filterRelsByAttribute beginningObj relationsInputModel
   -}
+
+ -- Now trial the temporalAlgebra test dataset and functionj
+  temporalAlgrbraTestTriples <- fmap V.toList . decode @HqdmLib.HqdmTriple NoHeader <$> BL.readFile temporalAlgebraTestFilename
+  let temporalAlgebraTestModel = fromRight [] temporalAlgrbraTestTriples
+  let convertedTAStrings = StringUtils.listRemoveDuplicates $ StringUtils.stringTuplesFromTriples temporalAlgebraTestModel []
+  let finalTAMap = Map.fromList convertedTAStrings
+  let fullyJoinedTAInputModel = StringUtils.joinStringsFromMap temporalAlgebraTestModel finalTAMap
+
+  putStr "\n\nNow explore the Temporal Algebra Test Dataset and Function:\n\n"
+
+  -- Fetch the relations for Object A
+  let testTAObjectA = HqdmLib.lookupHqdmOne "6dec78f4-4c61-4c60-8bca-22fc280ce997" fullyJoinedTAInputModel
+  print testTAObjectA
+
+  -- Fetch the relations for Object B
+  let testTAObjectB = HqdmLib.lookupHqdmOne "013273a5-8510-4e83-8ed9-2b730978c58e" fullyJoinedTAInputModel
+  print testTAObjectB
+
+  let dateTime3 = fromJust $ (iso8601ParseM "2026-07-30T17:11:06.752173Z" :: Maybe UTCTime)
+  let uuid3 = TimeUtils.uuidFromUTCTime dateTime3
+  let cmpTAResult = TimeUtils.pointInTimeCompareWithState (TimeUtils.uuidFromUTCTime $ TimeUtils.utcTimeFromUuid uuid3) testTAObjectA fullyJoinedTAInputModel relationsInputModel
+  putStr "\n\nCompare uuid3 with provided state: "
+  print cmpTAResult
+
+  putStr "\n\nNow try the temporal algebra function: \n\n"
+  let taTest1 = TimeUtils.temporalOverlapTest testTAObjectA testTAObjectB fullyJoinedTAInputModel relationsInputModel
+  print taTest1

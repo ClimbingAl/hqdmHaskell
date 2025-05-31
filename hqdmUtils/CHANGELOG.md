@@ -1,4 +1,4 @@
-# Revision history for hqdmUitls
+# Revision history for hqdmUtils
 
 ## 0.1.0.0 -- YYYY-mm-dd
 

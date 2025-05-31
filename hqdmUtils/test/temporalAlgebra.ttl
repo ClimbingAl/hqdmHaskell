@@ -1,0 +1,247 @@
+@prefix hqdm:                <https://hqdmtop.github.io/hqdm#> .
+@prefix temporalAlgebra:     <https://github.com/ClimbingAl/code-for-hqdm-patterns/temporalAlgebra#> .
+@prefix temporalAlgebra-rdl: <https://github.com/ClimbingAl/code-for-hqdm-patterns/temporalAlgebra-rdl#> .
+
+temporalAlgebra-rdl:dc3f1af4-dd03-4aa9-9e8a-24743bba65f2
+        a                            hqdm:kind_of_individual;
+        temporalAlgebra-rdl:comment  "Allen_Algebra_Test_Kind_Of_Individual";
+        temporalAlgebra-rdl:record_created
+                "2025-05-30T17:11:06.752576606Z";
+        temporalAlgebra-rdl:record_creator
+                "HqdmPatternProject_User1";
+        hqdm:data_EntityName         "KindOfIndividual_AllenAlgebraTestKindOfIndividual" .
+
+temporalAlgebra:bbf9d3c3-0862-45f5-a43f-ea0ea7b24419
+        a                            hqdm:point_in_time;
+        temporalAlgebra-rdl:record_created
+                "2025-05-30T17:11:06.798008735Z";
+        temporalAlgebra-rdl:record_creator
+                "HqdmPatternProject_User1";
+        hqdm:data_EntityName         "2026-08-30T17:11:06.752173Z";
+        hqdm:member_of               temporalAlgebra-rdl:764110f0-1ec1-4552-a31f-cf7209aa2da1;
+        hqdm:part_of_possible_world  temporalAlgebra:d7e34c0d-da0a-4486-8aa6-bbf630b865f8 .
+
+temporalAlgebra:c9b24228-8361-4a25-889c-8d96ec615e0d
+        a                            hqdm:state;
+        temporalAlgebra-rdl:record_created
+                "2025-05-30T17:11:06.798862701Z";
+        temporalAlgebra-rdl:record_creator
+                "HqdmPatternProject_User1";
+        hqdm:beginning               temporalAlgebra:da6174ff-6ba8-4147-8938-9fefa44d4f03;
+        hqdm:data_EntityName         "Object_D";
+        hqdm:ending                  temporalAlgebra:8b0bef3d-06f3-4911-9a73-100b6a50e2ce;
+        hqdm:member_of               temporalAlgebra-rdl:dd359b13-d8a8-4310-8862-450e1466de44;
+        hqdm:part_of_possible_world  temporalAlgebra:d7e34c0d-da0a-4486-8aa6-bbf630b865f8 .
+
+temporalAlgebra:86a568f0-be92-47e4-af8d-701729331dde
+        a                            hqdm:individual;
+        temporalAlgebra-rdl:record_created
+                "2025-05-30T17:11:06.798092842Z";
+        temporalAlgebra-rdl:record_creator
+                "HqdmPatternProject_User1";
+        hqdm:data_EntityName         "Object_Z";
+        hqdm:member_of_kind          temporalAlgebra-rdl:dc3f1af4-dd03-4aa9-9e8a-24743bba65f2;
+        hqdm:part_of_possible_world  temporalAlgebra:d7e34c0d-da0a-4486-8aa6-bbf630b865f8 .
+
+temporalAlgebra-rdl:dd359b13-d8a8-4310-8862-450e1466de44
+        a                            hqdm:class_of_state;
+        temporalAlgebra-rdl:comment  "Allen_Algebra_Test_Class_Of_State";
+        temporalAlgebra-rdl:record_created
+                "2025-05-30T17:11:06.794810487Z";
+        temporalAlgebra-rdl:record_creator
+                "HqdmPatternProject_User1";
+        hqdm:data_EntityName         "ClassOfState_AllenAlgebraTestClassOfState" .
+
+temporalAlgebra:da6174ff-6ba8-4147-8938-9fefa44d4f03
+        a                            hqdm:point_in_time;
+        temporalAlgebra-rdl:record_created
+                "2025-05-30T17:11:06.797613904Z";
+        temporalAlgebra-rdl:record_creator
+                "HqdmPatternProject_User1";
+        hqdm:data_EntityName         "2025-08-30T17:11:06.751130Z";
+        hqdm:member_of               temporalAlgebra-rdl:764110f0-1ec1-4552-a31f-cf7209aa2da1;
+        hqdm:part_of_possible_world  temporalAlgebra:d7e34c0d-da0a-4486-8aa6-bbf630b865f8 .
+
+temporalAlgebra:291833e3-4281-4274-8195-921598abcbc7
+        a                            hqdm:point_in_time;
+        temporalAlgebra-rdl:record_created
+                "2025-05-30T17:11:06.797109665Z";
+        temporalAlgebra-rdl:record_creator
+                "HqdmPatternProject_User1";
+        hqdm:data_EntityName         "2025-05-30T17:11:06.750547849Z";
+        hqdm:member_of               temporalAlgebra-rdl:764110f0-1ec1-4552-a31f-cf7209aa2da1;
+        hqdm:part_of_possible_world  temporalAlgebra:d7e34c0d-da0a-4486-8aa6-bbf630b865f8 .
+
+temporalAlgebra:40d24c14-8fef-4257-99b5-77249ee3e139
+        a                            hqdm:state;
+        temporalAlgebra-rdl:record_created
+                "2025-05-30T17:11:06.799294735Z";
+        temporalAlgebra-rdl:record_creator
+                "HqdmPatternProject_User1";
+        hqdm:data_EntityName         "Object_J";
+        hqdm:ending                  temporalAlgebra:da6174ff-6ba8-4147-8938-9fefa44d4f03;
+        hqdm:member_of               temporalAlgebra-rdl:dd359b13-d8a8-4310-8862-450e1466de44;
+        hqdm:part_of_possible_world  temporalAlgebra:d7e34c0d-da0a-4486-8aa6-bbf630b865f8 .
+
+temporalAlgebra:97a06964-7fc2-4a57-8460-b34f1f43ea6a
+        a                            hqdm:state;
+        temporalAlgebra-rdl:record_created
+                "2025-05-30T17:11:06.798951608Z";
+        temporalAlgebra-rdl:record_creator
+                "HqdmPatternProject_User1";
+        hqdm:beginning               temporalAlgebra:291833e3-4281-4274-8195-921598abcbc7;
+        hqdm:data_EntityName         "Object_E";
+        hqdm:ending                  temporalAlgebra:bbf9d3c3-0862-45f5-a43f-ea0ea7b24419;
+        hqdm:member_of               temporalAlgebra-rdl:dd359b13-d8a8-4310-8862-450e1466de44;
+        hqdm:part_of_possible_world  temporalAlgebra:d7e34c0d-da0a-4486-8aa6-bbf630b865f8 .
+
+temporalAlgebra:e3c20eb6-e738-4891-83e1-64e6efc87bfd
+        a                            hqdm:state;
+        temporalAlgebra-rdl:record_created
+                "2025-05-30T17:11:06.799403343Z";
+        temporalAlgebra-rdl:record_creator
+                "HqdmPatternProject_User1";
+        hqdm:beginning               temporalAlgebra:291833e3-4281-4274-8195-921598abcbc7;
+        hqdm:data_EntityName         "Object_K";
+        hqdm:member_of               temporalAlgebra-rdl:dd359b13-d8a8-4310-8862-450e1466de44;
+        hqdm:part_of_possible_world  temporalAlgebra:d7e34c0d-da0a-4486-8aa6-bbf630b865f8 .
+
+temporalAlgebra:5213bd4f-ec37-4040-8316-85af3241e145
+        a                            hqdm:state;
+        temporalAlgebra-rdl:record_created
+                "2025-05-30T17:11:06.799033015Z";
+        temporalAlgebra-rdl:record_creator
+                "HqdmPatternProject_User1";
+        hqdm:beginning               temporalAlgebra:291833e3-4281-4274-8195-921598abcbc7;
+        hqdm:data_EntityName         "Object_F";
+        hqdm:member_of               temporalAlgebra-rdl:dd359b13-d8a8-4310-8862-450e1466de44;
+        hqdm:part_of_possible_world  temporalAlgebra:d7e34c0d-da0a-4486-8aa6-bbf630b865f8 .
+
+temporalAlgebra:6dec78f4-4c61-4c60-8bca-22fc280ce997
+        a                            hqdm:state;
+        temporalAlgebra-rdl:record_created
+                "2025-05-30T17:11:06.798338461Z";
+        temporalAlgebra-rdl:record_creator
+                "HqdmPatternProject_User1";
+        hqdm:beginning               temporalAlgebra:291833e3-4281-4274-8195-921598abcbc7;
+        hqdm:data_EntityName         "Object_A";
+        hqdm:ending                  temporalAlgebra:da6174ff-6ba8-4147-8938-9fefa44d4f03;
+        hqdm:member_of               temporalAlgebra-rdl:dd359b13-d8a8-4310-8862-450e1466de44;
+        hqdm:part_of_possible_world  temporalAlgebra:d7e34c0d-da0a-4486-8aa6-bbf630b865f8;
+        hqdm:temporal_part_of        temporalAlgebra:86a568f0-be92-47e4-af8d-701729331dde .
+
+temporalAlgebra:2350bc3f-2fb0-4fde-a04a-a83e6ab9ab1c
+        a                            hqdm:state;
+        temporalAlgebra-rdl:record_created
+                "2025-05-30T17:11:06.799179826Z";
+        temporalAlgebra-rdl:record_creator
+                "HqdmPatternProject_User1";
+        hqdm:beginning               temporalAlgebra:291833e3-4281-4274-8195-921598abcbc7;
+        hqdm:data_EntityName         "Object_H";
+        hqdm:ending                  temporalAlgebra:da6174ff-6ba8-4147-8938-9fefa44d4f03;
+        hqdm:member_of               temporalAlgebra-rdl:dd359b13-d8a8-4310-8862-450e1466de44;
+        hqdm:part_of_possible_world  temporalAlgebra:d7e34c0d-da0a-4486-8aa6-bbf630b865f8 .
+
+temporalAlgebra:12b56f76-8024-46d5-9c4e-4657deee9b14
+        a                            hqdm:state;
+        temporalAlgebra-rdl:record_created
+                "2025-05-30T17:11:06.799108020Z";
+        temporalAlgebra-rdl:record_creator
+                "HqdmPatternProject_User1";
+        hqdm:beginning               temporalAlgebra:291833e3-4281-4274-8195-921598abcbc7;
+        hqdm:data_EntityName         "Object_G";
+        hqdm:ending                  temporalAlgebra:41f40411-a81d-4299-82d9-d795a6266fe5;
+        hqdm:member_of               temporalAlgebra-rdl:dd359b13-d8a8-4310-8862-450e1466de44;
+        hqdm:part_of_possible_world  temporalAlgebra:d7e34c0d-da0a-4486-8aa6-bbf630b865f8 .
+
+temporalAlgebra:41f40411-a81d-4299-82d9-d795a6266fe5
+        a                            hqdm:point_in_time;
+        temporalAlgebra-rdl:record_created
+                "2025-05-30T17:11:06.797923328Z";
+        temporalAlgebra-rdl:record_creator
+                "HqdmPatternProject_User1";
+        hqdm:data_EntityName         "2026-05-30T17:11:06.752147Z";
+        hqdm:member_of               temporalAlgebra-rdl:764110f0-1ec1-4552-a31f-cf7209aa2da1;
+        hqdm:part_of_possible_world  temporalAlgebra:d7e34c0d-da0a-4486-8aa6-bbf630b865f8 .
+
+temporalAlgebra:0cc1c062-428e-4cb3-bc43-18165b04c060
+        a                            hqdm:state;
+        temporalAlgebra-rdl:record_created
+                "2025-05-30T17:11:06.798803797Z";
+        temporalAlgebra-rdl:record_creator
+                "HqdmPatternProject_User1";
+        hqdm:beginning               temporalAlgebra:da6174ff-6ba8-4147-8938-9fefa44d4f03;
+        hqdm:data_EntityName         "Object_C";
+        hqdm:ending                  temporalAlgebra:41f40411-a81d-4299-82d9-d795a6266fe5;
+        hqdm:member_of               temporalAlgebra-rdl:dd359b13-d8a8-4310-8862-450e1466de44;
+        hqdm:part_of_possible_world  temporalAlgebra:d7e34c0d-da0a-4486-8aa6-bbf630b865f8 .
+
+temporalAlgebra:013273a5-8510-4e83-8ed9-2b730978c58e
+        a                            hqdm:state;
+        temporalAlgebra-rdl:record_created
+                "2025-05-30T17:11:06.798695588Z";
+        temporalAlgebra-rdl:record_creator
+                "HqdmPatternProject_User1";
+        hqdm:beginning               temporalAlgebra:bdb64002-ac5b-4ba7-abb8-050dc5bdf6e5;
+        hqdm:data_EntityName         "Object_B";
+        hqdm:ending                  temporalAlgebra:bbf9d3c3-0862-45f5-a43f-ea0ea7b24419;
+        hqdm:member_of               temporalAlgebra-rdl:dd359b13-d8a8-4310-8862-450e1466de44;
+        hqdm:part_of_possible_world  temporalAlgebra:d7e34c0d-da0a-4486-8aa6-bbf630b865f8 .
+
+temporalAlgebra-rdl:764110f0-1ec1-4552-a31f-cf7209aa2da1
+        a                            hqdm:class_of_point_in_time;
+        temporalAlgebra-rdl:comment  "4D_Allen_Algebra_Test_Class_Of_Point_In_Time";
+        temporalAlgebra-rdl:record_created
+                "2025-05-30T17:11:06.795191416Z";
+        temporalAlgebra-rdl:record_creator
+                "HqdmPatternProject_User1";
+        hqdm:data_EntityName         "ClassOfPointInTime_4DAllenAlgebraTestClassOfPointInTime" .
+
+temporalAlgebra:3fd594a9-b112-44db-8b2e-6fb4cf087963
+        a                            hqdm:state;
+        temporalAlgebra-rdl:record_created
+                "2025-05-30T17:11:06.799221229Z";
+        temporalAlgebra-rdl:record_creator
+                "HqdmPatternProject_User1";
+        hqdm:data_EntityName         "Object_I";
+        hqdm:ending                  temporalAlgebra:da6174ff-6ba8-4147-8938-9fefa44d4f03;
+        hqdm:member_of               temporalAlgebra-rdl:dd359b13-d8a8-4310-8862-450e1466de44;
+        hqdm:part_of_possible_world  temporalAlgebra:d7e34c0d-da0a-4486-8aa6-bbf630b865f8 .
+
+temporalAlgebra:8b0bef3d-06f3-4911-9a73-100b6a50e2ce
+        a                            hqdm:point_in_time;
+        temporalAlgebra-rdl:record_created
+                "2025-05-30T17:11:06.797779617Z";
+        temporalAlgebra-rdl:record_creator
+                "HqdmPatternProject_User1";
+        hqdm:data_EntityName         "2026-02-28T17:11:06.752118Z";
+        hqdm:member_of               temporalAlgebra-rdl:764110f0-1ec1-4552-a31f-cf7209aa2da1;
+        hqdm:part_of_possible_world  temporalAlgebra:d7e34c0d-da0a-4486-8aa6-bbf630b865f8 .
+
+temporalAlgebra:d7e34c0d-da0a-4486-8aa6-bbf630b865f8
+        a                     hqdm:possible_world;
+        temporalAlgebra-rdl:record_created
+                "2025-05-30T17:11:06.795728158Z";
+        temporalAlgebra-rdl:record_creator
+                "HqdmPatternProject_User1";
+        hqdm:data_EntityName  "Possible_World_for_4D_Allen_Algebra_Test_Framework";
+        hqdm:member_of        temporalAlgebra-rdl:c13682b7-b449-4326-b807-754929b97a89 .
+
+temporalAlgebra-rdl:c13682b7-b449-4326-b807-754929b97a89
+        a                            hqdm:class_of_possible_world;
+        temporalAlgebra-rdl:comment  "4D_Allen_Algebra_Test_Class_Of_Possible_World";
+        temporalAlgebra-rdl:record_created
+                "2025-05-30T17:11:06.795434535Z";
+        temporalAlgebra-rdl:record_creator
+                "HqdmPatternProject_User1";
+        hqdm:data_EntityName         "ClassOfPossibleWorld__4DAllenAlgebraTestClassOfPossibleWorld" .
+
+temporalAlgebra:bdb64002-ac5b-4ba7-abb8-050dc5bdf6e5
+        a                            hqdm:point_in_time;
+        temporalAlgebra-rdl:record_created
+                "2025-05-30T17:11:06.797701211Z";
+        temporalAlgebra-rdl:record_creator
+                "HqdmPatternProject_User1";
+        hqdm:data_EntityName         "2025-11-30T17:11:06.752082Z";
+        hqdm:member_of               temporalAlgebra-rdl:764110f0-1ec1-4552-a31f-cf7209aa2da1;
+        hqdm:part_of_possible_world  temporalAlgebra:d7e34c0d-da0a-4486-8aa6-bbf630b865f8 .

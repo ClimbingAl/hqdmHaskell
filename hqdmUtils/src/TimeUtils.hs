@@ -21,6 +21,7 @@
 -- new state was introduced to a dataset. 
 
 module TimeUtils (
+    TemporalExtentCmp(..),
     PointInTimeTemporalExtentCmp,
     after,
     before,
@@ -134,9 +135,9 @@ orderTest uid1 tst uid2 = (utcTimeFromUuid uid1 :: UTCTime) `tst` (utcTimeFromUu
 -- Note, this assumes "" represents an unbounded time (i.e. assumes infinite extent)
 between :: String -> String -> String -> Bool 
 between "" _ _ = False 
-between uidToTest "" b = before b uidToTest
-between uidToTest a "" = after a uidToTest
-between uidToTest a b = after a uidToTest && before b uidToTest 
+between uidToTest "" b = before uidToTest b
+between uidToTest a "" = after uidToTest a
+between uidToTest a b = after uidToTest a && before uidToTest b
 
 -- A short-cut to equals would be to test for string match.  However, this wouldn't check the time value.  If a different MAC had been used to 
 -- generate each of the uuidv1 values then the string match would fail to resolve times even when they are equal. 
@@ -198,12 +199,12 @@ data TemporalExtentCmp =
     | EndsFst 
     | EqualExtent               -- Allen's is equal to.  Temporal extents match.
     | AllenNull                 -- Some input condition is not met (e.g. no temporal bounds present or time format unresolvable)
-    deriving (Enum, Show)
+    deriving (Eq, Enum, Show)
 
 getObjectAttribute :: String -> [HqdmLib.HqdmTriple] -> [HqdmRelations.HqdmBinaryRelationPure] -> String 
 getObjectAttribute obj tpls brels = headObjectIfTriplePresent $ HqdmQueries.filterRelsByAttribute (HqdmLib.lookupHqdmOne obj tpls) brels 
 
-isUuidV1 :: String -> Bool 
+isUuidV1 :: String -> Bool
 isUuidV1 "" = True  -- Empty string represents unbounded time value
 isUuidV1 str = go 
     where
@@ -237,21 +238,21 @@ temporalOverlapTest state1 state2 tpls brels = go
         go 
             | v1Test == False = AllenNull
             | (state1beginUuid == "" && state1endUuid == "") || (state2beginUuid == "" && state2endUuid == "") = AllenNull
-            | (equals state1beginUuid state2beginUuid) && (equals state1endUuid state2endUuid) = EqualExtent -- This is here to catch it before the StartsSnd and StartsFst.
-            | before state1endUuid state2beginUuid = PrecedesSnd
-            | before state2endUuid state1beginUuid = PrecedesFst
-            | equals state1endUuid state2beginUuid = MeetsSnd
-            | equals state2endUuid state1beginUuid = MeetsFst
+            | (equals state1beginUuid state2beginUuid) && (equals state1endUuid state2endUuid)  = EqualExtent -- This is here to catch it before the StartsSnd and StartsFst.
+            | before state1endUuid state2beginUuid                                              = PrecedesSnd
+            | before state2endUuid state1beginUuid                                              = PrecedesFst
+            | equals state1endUuid state2beginUuid                                              = MeetsSnd
+            | equals state2endUuid state1beginUuid                                              = MeetsFst
             | (between state1beginUuid state2beginUuid state2endUuid) && (between state1endUuid state2beginUuid state2endUuid) = DuringSnd
             | (between state2beginUuid state1beginUuid state1endUuid) && (between state2endUuid state1beginUuid state1endUuid) = DuringFst 
             -- |  = DuringSndUnbounded 
             -- |  = DuringFstUnbounded 
             -- |  = DuringSndBothUnbounded 
             -- |  = DuringFstBothUnbounded 
-            | between state1endUuid state2beginUuid state2endUuid = OverlapsSnd
-            | between state2endUuid state1beginUuid state1endUuid = OverlapsFst
-            | equals state1beginUuid state2beginUuid = StartsSnd -- This will be true if both are unbounded ""
-            -- | StartsFst -- Not sure if this is a valid outcome when accommodating unbounded states.  Revisit this if it causes issues. 
-            | equals state1endUuid state2endUuid = EndsSnd
-            -- | EndsFst -- Not sure if this is a valid outcome when accommodating unbounded states.  Revisit this if it causes issues. 
-            | otherwise = AllenNull
+            | (equals state1beginUuid state2beginUuid) && (before state1endUuid state2endUuid)  = StartsSnd 
+            | (equals state1beginUuid state2beginUuid) && (after state1endUuid state2endUuid)   = StartsFst -- Not sure if this is a valid outcome when accommodating unbounded states.  Revisit this if it causes issues. 
+            | between state1endUuid state2beginUuid state2endUuid                               = OverlapsSnd
+            | between state2endUuid state1beginUuid state1endUuid                               = OverlapsFst            
+            | (equals state1endUuid state2endUuid) && (before state2beginUuid state1beginUuid)  = EndsSnd
+            | (equals state1endUuid state2endUuid) && (after state2beginUuid state1beginUuid)   = EndsFst -- Not sure if this is a valid outcome when accommodating unbounded states.  Revisit this if it causes issues. 
+            | otherwise = AllenNull 

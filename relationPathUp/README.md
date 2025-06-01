@@ -4,7 +4,7 @@ A command line tool to query the functional specification files of HQDM for the 
 
 ## Example
 
-`relationPathUp -a PureHqdmRelations_v5.csv HqdmAllAsDataFormal4Short.csv 6e23c714-9241-4132-aa7b-82391c6a60b7`
+`relationPathUp -a PureHqdmRelations_v9.csv HqdmAllAsDataFormal4Short.csv 6e23c714-9241-4132-aa7b-82391c6a60b7`
 
 ## General Command pattern
 
@@ -15,7 +15,7 @@ It is recommended to use the Relation File and Entity Type Files provided in thi
 ## Running the command
 This runs on any Linux command line as:
 
-`./relationPathUp -a PureHqdmRelations_v5.csv HqdmAllAsDataFormal4Short.csv 6e23c714-9241-4132-aa7b-82391c6a60b7`
+`./relationPathUp -a PureHqdmRelations_v9.csv HqdmAllAsDataFormal4Short.csv 6e23c714-9241-4132-aa7b-82391c6a60b7`
 
 It may run on macOS (could be straightforward) and Windows (likely non-trivial), I haven't tried it.  The binary for this is included in the repo so that youy don't have to build it.  If you don't like trusting binaries then you can rebuild it by installing the Haskell GHC and Cabal build system. The command `stack build` will then build this command line tool and all of its dependencies.  The tool can then be used using `stack` itself like this:
 
@@ -36,6 +36,25 @@ This will copy the binary to the local bin path (you can then use it locally or 
 `-m` Mermaid output - Initial implementation - waiting for Mermaid Euler chart feature ([#5932](https://github.com/mermaid-js/mermaid/pull/5932))
 
 ## Example output
+
+Binary Relation set inheritance path from **6e23c714-9241-4132-aa7b-82391c6a60b7** ([individual] member_of_kind(6e23c714-9241-4132-aa7b-82391c6a60b7) [kind_of_individual]) to the **universal_relation_set**:
+
+```mermaid
+graph TD
+classDef stdSize padding:125px,stroke-width:6px,font-size:20pt,stroke:#000
+classDef specialSize padding:125px,stroke-width:6px,font-size:20pt,stroke:#000, fill:#e38952
+classDef foundationSize padding:125px,stroke-width:6px,font-size:20pt,stroke:#000, fill:#52a4e3
+        6e23c714-9241-4132-aa7b-82391c6a60b7[6e23c714-9241-4132-aa7b-82391c6a60b7 <BR> member_of_kind]:::stdSize;
+        85e78ac0-ec72-478f-9aac-cacb520290a0[85e78ac0-ec72-478f-9aac-cacb520290a0 <BR> universal_relation_set]:::stdSize;
+        85e78ac0-ec72-478f-9aac-cacb520290a0-->|superBinaryRel_of|2db5490e-01d0-491e-bd64-67ac616f65a0;
+        2db5490e-01d0-491e-bd64-67ac616f65a0[2db5490e-01d0-491e-bd64-67ac616f65a0 <BR> universal_set_relation_set]:::stdSize;
+        2db5490e-01d0-491e-bd64-67ac616f65a0-->|superBinaryRel_of|e052b90c-13c3-4fea-8289-0c995656ed8f;
+        e052b90c-13c3-4fea-8289-0c995656ed8f[e052b90c-13c3-4fea-8289-0c995656ed8f <BR> member_of]:::stdSize;
+        e052b90c-13c3-4fea-8289-0c995656ed8f-->|superBinaryRel_of|65553ab0-e43d-4f6c-8f1d-76dad4610a54;
+        65553ab0-e43d-4f6c-8f1d-76dad4610a54[65553ab0-e43d-4f6c-8f1d-76dad4610a54 <BR> member_of]:::stdSize;
+        65553ab0-e43d-4f6c-8f1d-76dad4610a54-->|superBinaryRel_of|6e23c714-9241-4132-aa7b-82391c6a60b7;
+```
+The ASCII form of output for the same Binary Relation set:
 
 ```
 ASCII Relation Inheritance Path To Universal Binary Relation Set (6e23c714-9241-4132-aa7b-82391c6a60b7):

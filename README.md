@@ -153,28 +153,27 @@ Note: The `hqdm` and `inheritance` folders use different versions of Cabal, whic
 Done but not documented:   Re-create triples (using collapsed sets) and compare with original set.
 
 Notes on relations, cardinalities, etc
-    - [x] compute/identify the missing relations from the pre-constructed hqdmRelations
-        -- Add handling of pureRedeclaredFromRange
-    - [x] compute all relations and their relation-supersubset relationships
-    - [x] test mc datasets to see that they conform to cardinalities
-    - [ ] calculate the inverse relations
-    - [ ] perform predicate searches that include inverse relations
-    - [x] dictionary for strings using uuid type5 and convert timestamps to uuid type 1
-    - [x] perform transitive searches for given relation set (e.g. part_of includes all of the sub-brel sets). Notes, zig-zag search could be a useful variant of FromLeft and FromRight searches (e.g. FromLeft -> FromRight -> FromLeft -> FromRight -> ...  This may need temporal bounds)
-    - [x] temporal event checks (before, after, equals, between and operator-based checks) plus Allen Interval Algebra checks between two HQDM state objects using test data generated from [this](https://github.com/ClimbingAl/code-for-hqdm-patterns/blob/testOfTemporalFunctions/temporalAlgebra/src/main/java/patterns/hqdm/temporal/TemporalAlgebraExamples.java) (Test cases itemised in the comments of that file)
-    - [x] calculate all allowed relations (based on inheritance, not the sets of all possible relations)
-    - [ ] introduce the powerset?... probably best to miss this out, but could be useful to think it through
 
-    - Functions to parse hqdm patterns on mapped user data:
-        - set & parts (inc. specializations of them)
-        - temporal parts and their cardinalities (as optional test)
-        - activity and association
-        - system and component
-        - representation_by_sign
-        - possible worlds
-        - specialization of associations
-
-    - [ ] Aspire to make this a DSL
+- [x] compute/identify the missing relations from the pre-constructed hqdmRelations
+    -- Add handling of pureRedeclaredFromRange
+- [x] compute all relations and their relation-supersubset relationships
+- [x] test mc datasets to see that they conform to cardinalities
+- [ ] calculate the inverse relations
+- [ ] perform predicate searches that include inverse relations
+- [x] dictionary for strings using uuid type5 and convert timestamps to uuid type 1
+- [x] perform transitive searches for given relation set (e.g. part_of includes all of the sub-brel sets). Notes, zig-zag search could be a useful variant of FromLeft and FromRight searches (e.g. FromLeft -> FromRight -> FromLeft -> FromRight -> ...  This may need temporal bounds)
+- [x] temporal event checks (before, after, equals, between and operator-based checks) plus Allen Interval Algebra checks between two HQDM state objects using test data generated from [this](https://github.com/ClimbingAl/code-for-hqdm-patterns/blob/testOfTemporalFunctions/temporalAlgebra/src/main/java/patterns/hqdm/temporal/TemporalAlgebraExamples.java) (Test cases itemised in the comments of that file)
+- [x] calculate all allowed relations (based on inheritance, not the sets of all possible relations)
+- [ ] introduce the powerset?... probably best to miss this out, but could be useful to think it through
+- [ ]Functions to parse hqdm patterns on mapped user data:
+    - set & parts (inc. specializations of them)
+    - temporal parts and their cardinalities (as optional test)
+    - activity and association
+    - system and component
+    - representation_by_sign
+    - possible worlds
+    - specialization of associations
+- [ ] Aspire to make this a DSL
 
 
 ## Caveats

@@ -63,7 +63,7 @@ temporalAlgebraTestFilename::String
 temporalAlgebraTestFilename = "./test/temporalAlgebraMapped.csv"
 
 hqdmRelationsInputFilename::String
-hqdmRelationsInputFilename = "../PureHqdmRelations_v91.csv"
+hqdmRelationsInputFilename = "../PureHqdmRelations_v92.csv"
 
 main :: IO ()
 main = do 
@@ -71,8 +71,8 @@ main = do
   hqdmRelationSets <- fmap V.toList . decode @HqdmBinaryRelation NoHeader <$> BL.readFile hqdmRelationsInputFilename
   let relationsInputModel =  csvRelationsToPure $ fromRight [] hqdmRelationSets
 
-  temporalAlgrbraTestTriples <- fmap V.toList . decode @HqdmLib.HqdmTriple NoHeader <$> BL.readFile temporalAlgebraTestFilename
-  let temporalAlgebraTestModel = fromRight [] temporalAlgrbraTestTriples
+  temporalAlgebraTestTriples <- fmap V.toList . decode @HqdmLib.HqdmTriple NoHeader <$> BL.readFile temporalAlgebraTestFilename
+  let temporalAlgebraTestModel = fromRight [] temporalAlgebraTestTriples
   let convertedTAStrings = StringUtils.listRemoveDuplicates $ StringUtils.stringTuplesFromTriples temporalAlgebraTestModel []
   let finalTAMap = Map.fromList convertedTAStrings
   let fullyJoinedTAInputModel = StringUtils.joinStringsFromMap temporalAlgebraTestModel finalTAMap

@@ -28,11 +28,13 @@ module TimeUtils (
     between,
     equals,
     orderTest,
+    generateOrderRelations,
     headObjectIfTriplePresent,
     pointInTimeCompareWithState,
     temporalOverlapTest,
     utcTimeFromUuid,
-    uuidFromUTCTime
+    uuidFromUTCTime,
+    uuidV1Sort
     ) where
 
 import Data.Bits
@@ -58,6 +60,7 @@ import HqdmQueries (
     )
 
 import HqdmRelations (
+    RelationId,
     HqdmBinaryRelationPure
     )
 
@@ -146,6 +149,17 @@ equals "" "" = True -- this assumes "" represents an unbounded time (i.e. assume
 equals "" _ = False 
 equals _ "" = False
 equals uid1 uid2 = (utcTimeFromUuid uid1 :: UTCTime) == (utcTimeFromUuid uid2 :: UTCTime)
+
+---------------------------- SORT UUID Tuples -------------------------------
+uuidV1Sort :: [(String,String)] -> [(String,String)] -> [(String,String)]
+uuidV1Sort [] y     = y
+uuidV1Sort [x] y    = insertUuid1 x y
+uuidV1Sort (x:xs) y = uuidV1Sort xs (insertUuid1 x y)
+
+insertUuid1 :: (String, String) -> [(String,String)] -> [(String,String)]
+insertUuid1 a [] = [a]
+insertUuid1 a (x:xs)    | before (snd a) (snd x) = a : insertUuid1 x xs
+                        | otherwise = x : insertUuid1 a xs
 
 ----------------------------- BASIC SPATIO-TEMPORAL STATE COMPARISON FUNCTIONS -----------------------------
 
@@ -256,3 +270,22 @@ temporalOverlapTest state1 state2 tpls brels = go
             | (equals state1endUuid state2endUuid) && (before state2beginUuid state1beginUuid)  = EndsSnd
             | (equals state1endUuid state2endUuid) && (after state2beginUuid state1beginUuid)   = EndsFst -- Not sure if this is a valid outcome when accommodating unbounded states.  Revisit this if it causes issues. 
             | otherwise = AllenNull 
+
+----------------------- After and Before Triples -----------------------
+
+successor::HqdmRelations.RelationId 
+successor = "53bac663-f7b4-4357-99ff-d5b41fa7e1bc"
+
+predecessor::HqdmRelations.RelationId 
+predecessor = "a39eb5aa-dacc-4477-9562-bf329f5df34d"
+
+generateSuccessorRelations :: [(String, String)] -> [HqdmLib.HqdmTriple] -> [HqdmLib.HqdmTriple]
+generateSuccessorRelations [ ] y = y
+generateSuccessorRelations (x:xs) y = y ++ (concatMap (\z -> [HqdmLib.HqdmTriple (fst x) successor (fst z)]) xs) ++ generateSuccessorRelations xs y
+
+generatePredecessorRelations :: [(String, String)] -> [HqdmLib.HqdmTriple] -> [HqdmLib.HqdmTriple]
+generatePredecessorRelations [ ] y = y
+generatePredecessorRelations (x:xs) y = y ++ (concatMap (\z -> [HqdmLib.HqdmTriple (fst x) predecessor (fst z)]) xs) ++ generatePredecessorRelations xs y
+
+generateOrderRelations :: [(String, String)] -> [HqdmLib.HqdmTriple]
+generateOrderRelations ordTimeIds = (generateSuccessorRelations ordTimeIds []) ++ (generatePredecessorRelations (reverse ordTimeIds) [])

@@ -70,6 +70,8 @@ executable hqdmJoin
         HqdmIds
         HqdmQueries
         HqdmMermaid
+        StringUtils
+        TimeUtils
 
     -- LANGUAGE extensions used by modules in this package.
     -- other-extensions:
@@ -86,9 +88,14 @@ executable hqdmJoin
         , split
         , time
         , random
+        , network-info
+        , uuid
+        , uuid-types
+        , utf8-string
+        , containers
 
     -- Directories containing source files.
-    hs-source-dirs:   app, ../hqdm/src, ../relations/src
+    hs-source-dirs:   app, ../hqdm/src, ../relations/src, ../hqdmUtils/src
 
     -- Base language which the package is written in.
     default-language: Haskell2010

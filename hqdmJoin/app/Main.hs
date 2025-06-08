@@ -94,7 +94,6 @@ import HqdmLib (
     HqdmTriple(..),
     HqdmTriple(subject, predicate, object),
     RelationPair,
-    Relation,
     HqdmHasSupertype,
     getSubjects,
     getPredicates,
@@ -130,7 +129,9 @@ import HqdmQueries (
     set,
     order,
     emergent,
+    filterForObjectOfType,
     filterRelsBy,
+    filterRelsByAttribute,
     filterRelsByPart,
     filterRelsBySet,
     transitiveQueryFromLeft,
@@ -138,18 +139,33 @@ import HqdmQueries (
     )
 
 import HqdmIds
-import HqdmMermaid
 
+import StringUtils (
+    joinStringsFromMap,
+    listRemoveDuplicates,
+    uuidV5FromString,
+    stringTuplesFromTriples
+    )
+
+import TimeUtils (
+    generateOrderRelations,
+    headObjectIfTriplePresent,
+    uuidV1Sort
+    )
+
+import qualified Data.Map as Map -- Perhaps use StringMap in the future
 -- from bytestring
 import qualified Data.ByteString.Lazy as BL
 -- from cassava
 import Data.Csv (HasHeader( NoHeader ), decode)
+import Data.List (sortBy)
 import qualified Data.Vector as V
 import Data.Either
+import qualified Control.Monad as Map
 
 -- Constants
 hqdmRelationsInputFilename::String
-hqdmRelationsInputFilename = "../PureHqdmRelations_v91.csv"
+hqdmRelationsInputFilename = "../PureHqdmRelations_v92.csv"
 
 hqdmInputFilename::String
 hqdmInputFilename = "../HqdmAllAsDataFormal4Short.csv"
@@ -157,14 +173,20 @@ hqdmInputFilename = "../HqdmAllAsDataFormal4Short.csv"
 joinModelFilename::String
 joinModelFilename = "./input/networksBasic1converted.csv"
 
-elementOfType::String
+elementOfType::HqdmRelations.RelationId
 elementOfType = "8130458f-ae96-4ab3-89b9-21f06a2aac78"
 
-hasSuperclass::String
+hasSuperclass::HqdmRelations.RelationId
 hasSuperclass = "7d11b956-0014-43be-9a3e-f89e2b31ec4f"
 
-partOf::String
+partOf::HqdmRelations.RelationId
 partOf = "be900942-8601-4254-9a12-d87a5bfa05d3"
+
+successor::HqdmRelations.RelationId 
+successor = "53bac663-f7b4-4357-99ff-d5b41fa7e1bc"
+
+predecessor::HqdmRelations.RelationId 
+predecessor = "a39eb5aa-dacc-4477-9562-bf329f5df34d"
 
 main :: IO ()
 main = do
@@ -236,9 +258,8 @@ main = do
 
     let allRelationIdJoinedTriples =  sortOnUuid $ hqdmSwapAnyRelationNamesForIdsStrict joinedResults hqdmInputModel relationsInputModel
 
-    --putStr "\nExport the joined model all with predicates as Relation Ids:\n\n"
-    putStr (concat $ HqdmLib.csvTriplesFromHqdmTriples allRelationIdJoinedTriples )
-
+    -- putStr "\nExport the joined model all with predicates as Relation Ids:\n\n"
+    -- putStr (concat $ HqdmLib.csvTriplesFromHqdmTriples allRelationIdJoinedTriples )    
 
     ----------------------------------------
     -- LOAD Pre-Joined Triples
@@ -304,8 +325,8 @@ main = do
     -- let mermaidSubBrelTree = mermaidAddTitle (mermaidTDTopAndTail (insertBRNodeName relId relationsInputModel ++ mermaidSubRelationPathsWithLayerCount [[relId]] relationsInputModel 2 "")) ("Sub-BRel graph for " ++ relId)
     -- putStr mermaidSubBrelTree
 
-    putStr "\n\nInput Rel Set:\n\n"
-    print exampleObjectTypeBRelSets
+    -- putStr "\n\nInput Rel Set:\n\n"
+    -- print exampleObjectTypeBRelSets
 
     ------------------------------------------------------
     -- Create a list of related brels from brel ids in the test files 
@@ -318,9 +339,9 @@ main = do
     print rispResult
 
     -- Find the spo statements of the given object and test if any of <o> identities are connected from the object to it by a BRel in the BRel Subtree
-    putStr "\n\nSubBrel Tree example:\n\n"
+    -- putStr "\n\nSubBrel Tree example:\n\n"
     let targetSubBrelTree = uniqueIds $ concat (findSubBRelTreeWithCount [[partOf]] relationsInputModel 100)
-    print targetSubBrelTree
+    -- print targetSubBrelTree
 
     -- Do a transitive parthood query for a given node
     let queryNode = "b6663c0f-73ac-42a4-a027-333047618cb9"   --"04c63471-7073-4e6d-8adf-2bfb9c890ba8" -- R1 "b6663c0f-73ac-42a4-a027-333047618cb9" -- Installed Line Card 1 in R1 "a46c340b-640a-443c-9b46-fd57a2690c9e"
@@ -338,5 +359,32 @@ main = do
     let namesOfNodes2 = HqdmLib.findHqdmNamesInList (concat transitiveResults2) allRelationIdJoinedTriples
     print namesOfNodes2
 
+    --------- Add a conversion of dates and strings to uuids (export list of uuidv5-String pairs to console) to hqdmMapToPure
+    let finalMap = Map.fromList (StringUtils.listRemoveDuplicates $ StringUtils.stringTuplesFromTriples allRelationIdJoinedTriples [])
+    let fullyJoinedInputModel = StringUtils.joinStringsFromMap allRelationIdJoinedTriples finalMap
+
+    putStr "\n\nFiltered point_in_time objects: \n\n"
+    -- Now model is fully in uuid form, get the point_in_time objects; order them; generate the n^2-n after & before relations
+    let pointInTimeIds = HqdmQueries.filterForObjectOfType fullyJoinedInputModel (StringUtils.uuidV5FromString "point_in_time") -- list of ids of point_in_time objects
+    print pointInTimeIds
+    print ("Number of points in time = " ++ show (length pointInTimeIds) )
+
+
+    putStr "\n\n(Point_in_time ids, uuidv1 time) pairs: \n\n"
+    let pointTimePairs = Map.fmap (\x -> (x, TimeUtils.headObjectIfTriplePresent $ HqdmQueries.filterRelsByAttribute (HqdmLib.lookupHqdmOne x fullyJoinedInputModel) relationsInputModel)) pointInTimeIds
+    print pointTimePairs
+
+    -- Now order from earliest to latest
+    putStr "\n\nOrdered (Point_in_time ids, uuidv1 time) pairs: \n\n"
+    let orderedTimePairs = TimeUtils.uuidV1Sort pointTimePairs []
+    print orderedTimePairs
+
+    -- Generate the after relations (a,b,c) (b after a), (c after a), (c after b)
+    putStr "\n\nOrder triples: \n\n"
+    let afterRels = generateOrderRelations orderedTimePairs
+    print afterRels
+    print ("Number of order rels = " ++ show ( length afterRels) )
     putStr "\n\nDONE\n\n"
 
+
+                    

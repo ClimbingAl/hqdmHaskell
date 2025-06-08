@@ -109,6 +109,8 @@ main = do
     
     let joinedResultsAllIds =  hqdmSwapAnyRelationNamesForIdsStrict joinedResults hqdmInputModel relationsInputModel
 
+    -- TODO: Add a conversion of dates and strings to uuids (export list of uuidv5-String pairs to console) to hqdmMapToPure
+
     writeFile outputFile ( concat $ csvTriplesFromHqdmTriples joinedResultsAllIds ) 
    
     putStr "Export to file output file complete.\n\n**DONE**\n\n"

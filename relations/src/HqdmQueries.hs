@@ -22,6 +22,7 @@ module HqdmQueries (
     set,
     order,
     emergent,
+    filterForObjectOfType,
     filterRelsBy,
     filterRelsByAttribute,
     filterRelsByBeginning,
@@ -34,7 +35,7 @@ module HqdmQueries (
 where
 
 import qualified HqdmRelations
-import qualified HqdmLib 
+import qualified HqdmLib
 
 part::HqdmRelations.RelationId
 part = "be900942-8601-4254-9a12-d87a5bfa05d3"
@@ -57,6 +58,8 @@ beginning = "96c965a9-ec3e-47f2-b18e-b67147bc0873"
 ending::HqdmRelations.RelationId
 ending = "aee002be-0529-4b80-82b0-0a6bcca34e48"
 
+hqdmTypeRel::String 
+hqdmTypeRel = "7e249a64-9f13-47d3-a232-562a3d080198"
 
 -- | filterRelsBy
 -- Filter the given HqdmAllAsData joined triples by a given set of relations (relSet)
@@ -83,6 +86,10 @@ filterRelsByEnding = filterRelsBy ending
 
 filterRelsByAttribute::[HqdmLib.HqdmTriple] -> [HqdmRelations.HqdmBinaryRelationPure] -> [HqdmLib.HqdmTriple]
 filterRelsByAttribute = filterRelsBy attribute
+
+-- Named Object Type Filter
+filterForObjectOfType::[HqdmLib.HqdmTriple] -> String -> [String] 
+filterForObjectOfType tpls typeName = [HqdmLib.subject values | values <- tpls, (typeName == HqdmLib.object values) && (hqdmTypeRel == HqdmLib.predicate values)]
 
 -- | transitiveQueryFromLeft
 -- Recursively find all the connected ids based on a specified list of binary relations with nodeIds applied from the left (e.g. <a rel b>, the node given is treated as a)

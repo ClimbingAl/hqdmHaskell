@@ -72,6 +72,7 @@ executable relations
         HqdmInspection
         HqdmLib
         HqdmIds
+        StringUtils
 
     -- LANGUAGE extensions used by modules in this package.
     -- other-extensions:
@@ -88,7 +89,7 @@ executable relations
         , time
 
     -- Directories containing source files.
-    hs-source-dirs:   app, src, ../hqdm/src
+    hs-source-dirs:   app, src, ../hqdm/src, ../hqdmUtils/src
 
     -- Base language which the package is written in.
     default-language: Haskell2010

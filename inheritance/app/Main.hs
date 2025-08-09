@@ -20,7 +20,6 @@ import HqdmLib (
     Id,
     HqdmTriple,
     RelationPair,
-    Relation,
     HqdmHasSupertype,
     getSubjects,
     getPredicates,

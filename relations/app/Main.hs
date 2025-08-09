@@ -67,7 +67,6 @@ import HqdmLib (
     Id,
     HqdmTriple,
     RelationPair,
-    Relation,
     getSubjects,
     getPredicates,
     uniqueIds,

@@ -79,7 +79,7 @@ executable relations
 
     -- Other library packages from which modules are imported.
     build-depends: 
-        base ^>=4.17.2.1
+        base >=4.7 && <5
         , bytestring
         , cassava
         , directory
@@ -87,6 +87,11 @@ executable relations
         , unique
         , vector
         , time
+        , network-info
+        , uuid
+        , uuid-types
+        , utf8-string
+        , containers
 
     -- Directories containing source files.
     hs-source-dirs:   app, src, ../hqdm/src, ../hqdmUtils/src

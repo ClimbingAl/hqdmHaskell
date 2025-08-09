@@ -78,7 +78,7 @@ executable hqdmJoin
 
     -- Other library packages from which modules are imported.
     build-depends:
-        base ^>=4.17.2.1
+        base >=4.7 && <5
         , bytestring
         , cassava
         , directory
@@ -124,4 +124,4 @@ test-suite hqdmJoin-test
 
     -- Test dependencies.
     build-depends:
-        base ^>=4.17.2.1
+        base >=4.7 && <5

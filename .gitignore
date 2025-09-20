@@ -10,6 +10,8 @@
 ./relationInheritance/dist-newstyle/*
 ./relations/.stack-work/*
 ./relations/dist-newstyle/*
+./hqdmUtils/.stack-work/*
+./hqdmUtils/dist-newstyle/*
 ./inheritance/.stack-work/*
 ./inheritance/dist-newstyle/*
 ./hqdm/.stack-work/*

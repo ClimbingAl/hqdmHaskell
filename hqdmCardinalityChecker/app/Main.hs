@@ -1,4 +1,3 @@
---{-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE TypeApplications #-}
 
 -- |
@@ -12,7 +11,7 @@
 -- Portability :  portable (albeit for HQDM All As Data applications)
 --
 -- Executable Main that implements the command line tool functionality.
---  HqdmCardinalityChecker -spoe hqdmRelations.scv hqdmEntityTypes.csv inputFile.csv 
+-- HqdmCardinalityChecker -spoe hqdmRelations.scv hqdmEntityTypes.csv inputFile.csv 
 
 module Main (main) where
 

@@ -189,7 +189,7 @@ data HqdmBinaryRelation = HqdmBinaryRelation
     hasSuperBR :: String,             -- SuperBR Set Id (empty if none?)... Should be HqdmLib.Id
     cardinalityMin :: Int,            -- 0,1,...
     cardinalityMax :: Int,            -- -1 (no max!),0,1,2,...
-    redeclaredBR :: String,              -- True means superBRtypes are abstract?
+    redeclaredBR :: String,           -- True means superBRtypes are abstract?
     redeclaredFromRange :: String
   }
   deriving (Show, Eq, Generic)

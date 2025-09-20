@@ -1,4 +1,3 @@
-./.stack-work/*
-./dist-newstyle/*
+dist-newstyle/
 .stack-work/
 *~

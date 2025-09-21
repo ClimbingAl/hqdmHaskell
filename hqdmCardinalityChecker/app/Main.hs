@@ -192,7 +192,7 @@ flags =
     ,Option ['w'] []       (NoArg PossibleWorld)
         "Specifies that the output includes relationships of the part_of_possible_world Relation Set."
     ,Option []    ["help"] (NoArg Help)
-        "The command should have the general form: hqdmCardinalityChecker -psoerw hqdmRelations.csv hqdmEntityTypes.csv inputTriples.csv outputTriplesFilename.csv"
+        "The command should have the general form: hqdmCardinalityChecker -psoerw hqdmRelations.csv hqdmEntityTypes.csv inputTriples.csv"
    ]
 
 parse :: [String] -> IO ([Flag], [String])
@@ -208,5 +208,5 @@ parse argv = case getOpt Permute flags argv of
         hPutStrLn stderr (concat errs ++ usageInfo header flags)
         exitWith (ExitFailure 1)
 
-    where header = "Usage: hqdmCardinalityChecker -psoerw <hqdmRelations.csv> <hqdmEntityTypes.csv> <inputProcessedTriples.csv> <outputFilename.csv>"
+    where header = "Usage: hqdmCardinalityChecker -psoerw <hqdmRelations.csv> <hqdmEntityTypes.csv> <inputProcessedTriples.csv>"
           set f      = [f]

@@ -120,10 +120,14 @@ main = do
 
   let uuidV5Map = StringUtils.createEmptyUuidMap
   let uuidV1Map = StringUtils.createEmptyUuidMap
+  let uuidV1MapPOSIX = StringUtils.createEmptyUuidMap
+
   let uuidV5Map1 = snd $ StringUtils.stringToDateOrHashUuid testString (uuidV1Map, uuidV5Map)
   let uuidV1Map1 = fst $ StringUtils.stringToDateOrHashUuid "2021-07-05T14:40:25.4368657Z" (uuidV1Map, uuidV5Map)
+  let uuidV1Map1POSIX1 = fst $ StringUtils.stringToDateOrHashUuid "1758412800" (uuidV1MapPOSIX, uuidV5Map) -- 21 Sept 2025 00:00:00hrs
   print (Map.toList uuidV5Map1)
   print (Map.toList uuidV1Map1)
+  print (Map.toList uuidV1Map1POSIX1)
 
   -- Now test the conversion of a mapped dataset
   joinModelTriples <- fmap V.toList . decode @HqdmLib.HqdmTriple NoHeader <$> BL.readFile joinModelFilename

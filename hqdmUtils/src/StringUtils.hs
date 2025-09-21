@@ -31,9 +31,11 @@ import Data.UUID.V5 ( generateNamed )
 import Codec.Binary.UTF8.String ( encode )
 import Data.UUID ( nil )
 import TimeUtils ( uuidFromUTCTime )
+import Text.Read ( readMaybe )
 import Data.Time.Format.ISO8601 ( iso8601ParseM )
 import Data.Time.Clock
-import qualified  HqdmLib ( 
+import Data.Time.Clock.POSIX ( posixSecondsToUTCTime, POSIXTime )
+import qualified  HqdmLib (
     HqdmTriple(..),
     HqdmTriple(subject, predicate, object),
     nodeIdentityTest )
@@ -57,14 +59,17 @@ addNewEntryIfNotInMap m t = if Map.member (fst t) m then m else uncurry Map.inse
 createEmptyUuidMap :: Map.Map k a
 createEmptyUuidMap = Map.empty
 
--- If ISO 8601 dateTime string then process as uuidV1 else uuidV5
+-- If ISO 8601 dateTime string then process as uuidV1, or if an Int treat as a POSIX time, else uuidV5
 stringToDateOrHashUuid :: String -> (Map.Map String String, Map.Map String String) -> (Map.Map String String, Map.Map String String)
 stringToDateOrHashUuid str uidMaps = go str uidMaps
     where
         dateTime = iso8601ParseM str :: Maybe UTCTime
+        unixTimeInt = readMaybe str 
 
         go str uidMaps
-         | HqdmLib.nodeIdentityTest str = uidMaps -- Defence against re-uuid-'ing anu uuid that is passed to this function
+         | HqdmLib.nodeIdentityTest str = uidMaps -- Defence against re-uuid-'ing a uuid that is passed to this function
+         | isJust unixTimeInt = ( addNewEntryIfNotInMap (fst uidMaps) ( TimeUtils.uuidFromUTCTime ( posixSecondsToUTCTime $ fromIntegral (fromJust unixTimeInt) ), str ),
+             snd uidMaps )
          | isNothing dateTime = ( fst uidMaps, addNewEntryIfNotInMap (snd uidMaps) ( uuidV5FromString str, str ))
          | otherwise = ( addNewEntryIfNotInMap (fst uidMaps) ( TimeUtils.uuidFromUTCTime ( fromJust dateTime ), str ), snd uidMaps )
 
@@ -74,9 +79,13 @@ stringTuplesFromTriples :: [HqdmLib.HqdmTriple] -> [(String, String)] -> [(Strin
 stringTuplesFromTriples [] tupls = tupls
 stringTuplesFromTriples (tpl:tpls) tupls
         | HqdmLib.nodeIdentityTest (HqdmLib.object tpl) = stringTuplesFromTriples tpls tupls
-        | isNothing maybeTime = stringTuplesFromTriples tpls (tupls ++ [( uuidV5FromString (HqdmLib.object tpl), (HqdmLib.object tpl) )])
-        | otherwise = stringTuplesFromTriples tpls (tupls ++ [( TimeUtils.uuidFromUTCTime ( fromJust maybeTime ), (HqdmLib.object tpl) )])
-    where maybeTime = ( iso8601ParseM (HqdmLib.object tpl) :: Maybe UTCTime )
+        | isJust unixTimeInt = stringTuplesFromTriples tpls (tupls ++
+                [( TimeUtils.uuidFromUTCTime ( posixSecondsToUTCTime $ fromIntegral (fromJust unixTimeInt) ), HqdmLib.object tpl )])
+        | isNothing maybeTime = stringTuplesFromTriples tpls (tupls ++ [( uuidV5FromString (HqdmLib.object tpl), HqdmLib.object tpl )])
+        | otherwise = stringTuplesFromTriples tpls (tupls ++ [( TimeUtils.uuidFromUTCTime ( fromJust maybeTime ), HqdmLib.object tpl )])
+    where
+        maybeTime = iso8601ParseM (HqdmLib.object tpl) :: Maybe UTCTime
+        unixTimeInt = readMaybe (HqdmLib.object tpl) 
 
 listRemoveDuplicates :: (Eq a) => [(a,a)] -> [(a,a)]
 listRemoveDuplicates [] = []
@@ -87,8 +96,8 @@ listRemoveDuplicates (x:xs) = nub (if (fst x,snd x) `elem` xs then
 -- Replace strings in joinModel from Map
 joinStringsFromMap :: [HqdmLib.HqdmTriple] -> Map.Map String String -> [HqdmLib.HqdmTriple]
 joinStringsFromMap [] _ = []
-joinStringsFromMap (tpl:tpls) strMap 
-        | isUuid = tpl : joinStringsFromMap tpls strMap 
+joinStringsFromMap (tpl:tpls) strMap
+        | isUuid = tpl : joinStringsFromMap tpls strMap
         | otherwise = HqdmLib.HqdmTriple (HqdmLib.subject tpl) (HqdmLib.predicate tpl) (head val) : joinStringsFromMap tpls strMap
     where
         isUuid = HqdmLib.nodeIdentityTest (HqdmLib.object tpl)

@@ -71,9 +71,11 @@ headObjectIfTriplePresent x
 
 ---------------------------------------------------------------------------------------------------------
 -- Functions obtained from: https://hackage.haskell.org/package/uuid-1.3.16/docs/src/Data.UUID.V1.html --
+-- Reason for copying them: They are not exported but are necessary for the time conversion actions in --
+-- this project.                                                                                       --
 ---------------------------------------------------------------------------------------------------------
 
--- Add acknowledgements to the source for these functions
+-- Acknowledgements to the source for these functions are in the header comments of this module
 makeUUID :: Word64 -> Word16 -> MAC -> UUID
 makeUUID time clock mac' =
     buildFromBytes 1 /-/ tLow /-/ tMid /-/ tHigh /-/ clock /-/ MACSource mac'

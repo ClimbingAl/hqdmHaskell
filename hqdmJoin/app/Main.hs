@@ -360,8 +360,10 @@ main = do
     print namesOfNodes2
 
     --------- Add a conversion of dates and strings to uuids (export list of uuidv5-String pairs to console) to hqdmMapToPure
+    putStr "\n\nFully joined Input Model with mapped strings: \n\n"
     let finalMap = Map.fromList (StringUtils.listRemoveDuplicates $ StringUtils.stringTuplesFromTriples allRelationIdJoinedTriples [])
     let fullyJoinedInputModel = StringUtils.joinStringsFromMap allRelationIdJoinedTriples finalMap
+    print fullyJoinedInputModel
 
     putStr "\n\nFiltered point_in_time objects: \n\n"
     -- Now model is fully in uuid form, get the point_in_time objects; order them; generate the n^2-n after & before relations
@@ -380,10 +382,10 @@ main = do
     print orderedTimePairs
 
     -- Generate the after relations (a,b,c) (b after a), (c after a), (c after b)
-    putStr "\n\nOrder triples: \n\n"
+    --putStr "\n\nOrder triples: \n\n"
     let afterRels = generateOrderRelations orderedTimePairs
-    print afterRels
-    print ("Number of order rels = " ++ show ( length afterRels) )
+    --print afterRels
+    --print ("Number of order rels = " ++ show ( length afterRels) )
     putStr "\n\nDONE\n\n"
 
 

@@ -40,6 +40,20 @@ import HqdmLib (
 
 import HqdmIds
 
+import StringUtils (
+    joinStringsFromMap,
+    listRemoveDuplicates,
+    uuidV5FromString,
+    stringTuplesFromTriples
+    )
+
+import TimeUtils (
+    generateOrderRelations,
+    headObjectIfTriplePresent,
+    uuidV1Sort
+    )
+
+import qualified Data.Map as Map 
 import qualified Data.ByteString.Lazy as BL
 import Data.Csv (HasHeader( NoHeader ), decode)
 import qualified Data.Vector as V
@@ -109,11 +123,13 @@ main = do
     
     let joinedResultsAllIds =  hqdmSwapAnyRelationNamesForIdsStrict joinedResults hqdmInputModel relationsInputModel
 
-    -- TODO: Add a conversion of dates and strings to uuids (export list of uuidv5-String pairs to console) to hqdmMapToPure
+    let finalMap = Map.fromList (StringUtils.listRemoveDuplicates $ StringUtils.stringTuplesFromTriples joinedResultsAllIds [])
+    let fullyJoinedInputModel = StringUtils.joinStringsFromMap joinedResultsAllIds finalMap
 
-    writeFile outputFile ( concat $ csvTriplesFromHqdmTriples joinedResultsAllIds ) 
+    writeFile outputFile ( concat $ csvTriplesFromHqdmTriples fullyJoinedInputModel ) 
+    print finalMap -- TODO: Add an export of dates and strings to uuids (export list of uuidv5-String pairs to csv file) to hqdmMapToPure instead of console
    
-    putStr "Export to file output file complete.\n\n**DONE**\n\n"
+    putStr "\n\nExport to file output file complete.\n\n**DONE**\n\n"
 
 removeIriPathsFromAll :: [HqdmTriple] -> [HqdmTriple]
 removeIriPathsFromAll tpls = 

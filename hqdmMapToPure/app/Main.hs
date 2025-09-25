@@ -128,8 +128,7 @@ main = do
 
     writeFile outputFile ( concat $ csvTriplesFromHqdmTriples fullyJoinedInputModel )
     writeFile ("idStrMAPList" ++ outputFile) ( concatMap (\ x -> (fst x) ++ "," ++ (snd x) ++ "\n") finalMap ) 
-    print finalMap -- TODO: Add an export of dates and strings to uuids (export list of uuidv5-String pairs to csv file) to hqdmMapToPure instead of console
-   
+       
     putStr "\n\nExport to file output file complete.\n\n**DONE**\n\n"
 
 removeIriPathsFromAll :: [HqdmTriple] -> [HqdmTriple]

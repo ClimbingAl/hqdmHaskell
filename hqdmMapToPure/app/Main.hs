@@ -77,13 +77,17 @@ main = do
     args <- getArgs >>= parse
 
     let fileList = snd args
-    
-    if length fileList == 4
+
+    if (length fileList == 4) || (length fileList == 5)
         then do
-            putStr "\n"
+            putStr "\n\n"
         else do
-            hPutStrLn stderr "\n\n\4 Arguments should follow the options in the order <hqdmRelations.csv> <hqdmEntityTypes.csv> <inputFile.csv> <outputFile.csv>\n\n"
+            hPutStrLn stderr "\n\n\4 Arguments should follow the options in the \
+            \order <hqdmRelations.csv> <hqdmEntityTypes.csv> <inputFile.csv> \
+            \<outputFile.csv> <stringMapFile.csv> (The last argument is optional)\n\n"
             exitWith (ExitFailure 1)
+
+    let stringMapFile = constructStringMapFilename fileList
 
     putStr "**hqdmMapToPure**\n\nLoading model files and the supplied input file of processed Triples.\n"
 
@@ -101,6 +105,11 @@ main = do
 
     triplesToMap <- fmap V.toList . decode @HqdmTriple NoHeader <$> BL.readFile inputFile
     let hqdmModelToMap = fromRight [] triplesToMap
+
+    -- This allows a Master Map to be submitted and added to.  This file is added to (by overwriting it 
+    -- with the consolodated input Map and the newly generated Map).
+    inputMap <- fmap V.toList . decode @(String, String) NoHeader <$> BL.readFile stringMapFile
+    let inputStringsMap = fromRight [] inputMap
 
     putStr "Now strip IRI path parts.\n"
     
@@ -123,11 +132,11 @@ main = do
     
     let joinedResultsAllIds =  hqdmSwapAnyRelationNamesForIdsStrict joinedResults hqdmInputModel relationsInputModel
 
-    let finalMap = (StringUtils.listRemoveDuplicates $ StringUtils.stringTuplesFromTriples joinedResultsAllIds [])
+    let finalMap = (StringUtils.listRemoveDuplicates $ (inputStringsMap ++ StringUtils.stringTuplesFromTriples joinedResultsAllIds []))
     let fullyJoinedInputModel = StringUtils.joinStringsFromMap joinedResultsAllIds (Map.fromList finalMap)
 
     writeFile outputFile ( concat $ csvTriplesFromHqdmTriples fullyJoinedInputModel )
-    writeFile ("idStrMAPList" ++ outputFile) ( concatMap (\ x -> (fst x) ++ "," ++ (snd x) ++ "\n") finalMap ) 
+    writeFile ( stringMapFile ) ( concatMap (\ x -> (fst x) ++ "," ++ (snd x) ++ "\n") finalMap ) 
        
     putStr "\n\nExport to file output file complete.\n\n**DONE**\n\n"
 
@@ -140,6 +149,11 @@ removeIriPathIfPresent str
     | elem '#' str && isInfixOf "://" str = last (splitOn "#" str)
     | otherwise = str
 
+constructStringMapFilename :: [String] -> String 
+constructStringMapFilename args 
+    | length args == 4 = "stringMap_" ++ args!!3
+    | otherwise = args!!4
+
 ------------------------------------------------------------------------------------
 -- Argument handling functions
 ------------------------------------------------------------------------------------
@@ -151,7 +165,11 @@ data Flag
 flags :: [OptDescr Flag]
 flags =
    [Option []    ["help"] (NoArg Help)
-        "The command should have the general form: hqdmMapToPure hqdmRelations.csv hqdmEntityTypes.csv inputTriples.csv outputTriplesFilename.csv"
+        "The command should have the general form: hqdmMapToPure hqdmRelations.csv \
+        \hqdmEntityTypes.csv inputTriples.csv outputTriplesFilename.csv \
+        \[OPTIONAL]masterUuidStringMap.csv\nNote: [OPTIONAL] means that that \
+        \argument doesn't need to be supplied.  It allows a master [uuid, \
+        \string] map to be added to."
    ]
 
 parse :: [String] -> IO ([Flag], [String])
@@ -167,7 +185,7 @@ parse argv = case getOpt Permute flags argv of
         hPutStrLn stderr (concat errs ++ usageInfo header flags)
         exitWith (ExitFailure 1)
 
-    where header = "Usage: hqdmMapToPure <hqdmRelations.csv> <hqdmEntityTypes.csv> <inputProcessedTriples.csv> <outputFilename.csv>"
+    where header = "Usage: hqdmMapToPure <hqdmRelations.csv> <hqdmEntityTypes.csv> <inputProcessedTriples.csv> <outputFilename.csv> [OPTIONAL]<masterUuidStringMap.csv>"
           set f      = [f]
 
 

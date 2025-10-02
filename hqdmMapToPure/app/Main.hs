@@ -3,7 +3,8 @@
 
 -- |
 -- Module      :  HqdmMapToPure Main
--- Description :  Maps a CSV dataset of Magma Core Triples to a pure hqdmHaskell dataset and writes to file
+-- Description :  Maps a CSV dataset of Magma Core or Activity Modeller
+--                Triples to a pure hqdmHaskell dataset and writes to file
 -- Copyright   :  (c) CIS Ltd
 -- License     :  Apache-2.0
 --
@@ -12,9 +13,16 @@
 -- Portability :  portable (albeit for HQDM All As Data applications)
 --
 -- Executable Main that implements the command line tool functionality.
---  hqdmMapToPure hqdmRelations.csv hqdmEntityTypes.csv inputFile.csv outputFile.csv 
+--  hqdmMapToPure hqdmRelations.csv hqdmEntityTypes.csv inputFile.csv 
+--      outputFile.csv stringMapFile.csv (the last argument is optional)
 --
--- TEMPORARY SHORT-CUT, hqdmSwapAnyRelationNamesForIds IS USED INSTEAD OF hqdmSwapAnyRelationNamesForIdsStrict due to range subtypes not being strictly checked in it
+-- This function converts all RDF triples (S,p,o) to strict binary relation
+-- pairs that are identifiers ONLY (as uuids).  Where there is a string
+-- literal in an input object (o), either a ISO8601 date-time string or 
+-- an arbitrary string, they are converted to the appropriate uuid (1 or 5
+-- respectively) and the resulting map (as a list of unique tuple pairs) 
+-- is exported along with the (pure) map of the binary relation pairs as 
+-- a list of [uuid, uuid, uuid].
 
 module Main (main) where
 
@@ -117,7 +125,8 @@ main = do
 
     let uniqueJoinNodes = uniqueIds $ getSubjects joinInputModel
     let nodeTypeStatements = fmap (\ x -> head $ lookupHqdmOne x joinInputModel) uniqueJoinNodes
-    let typeIdsOfJoinObjects = zip uniqueJoinNodes (fmap (head . lookupHqdmIdsFromTypePredicates hqdmInputModel . object)  nodeTypeStatements)
+    let typeIdsOfJoinObjects = 
+        zip uniqueJoinNodes (fmap (head . lookupHqdmIdsFromTypePredicates hqdmInputModel . object)  nodeTypeStatements)
 
     let subtypes = lookupSubtypes hqdmInputModel
     let onlySubtypesOfSte = subtypesOfFilter typeIdsOfJoinObjects spatio_temporal_extent subtypes
@@ -130,9 +139,11 @@ main = do
     
     let joinedResults = sortOnUuid $ joinInputModel ++ hasSuperclassTriples ++ elementOfTypeTriples
     
-    let joinedResultsAllIds =  hqdmSwapAnyRelationNamesForIdsStrict joinedResults hqdmInputModel relationsInputModel
+    let joinedResultsAllIds =  
+        hqdmSwapAnyRelationNamesForIdsStrict joinedResults hqdmInputModel relationsInputModel
 
-    let finalMap = (StringUtils.listRemoveDuplicates $ (inputStringsMap ++ StringUtils.stringTuplesFromTriples joinedResultsAllIds []))
+    let finalMap = (StringUtils.listRemoveDuplicates $ 
+        (inputStringsMap ++ StringUtils.stringTuplesFromTriples joinedResultsAllIds []))
     let fullyJoinedInputModel = StringUtils.joinStringsFromMap joinedResultsAllIds (Map.fromList finalMap)
 
     writeFile outputFile ( concat $ csvTriplesFromHqdmTriples fullyJoinedInputModel )
@@ -142,7 +153,8 @@ main = do
 
 removeIriPathsFromAll :: [HqdmTriple] -> [HqdmTriple]
 removeIriPathsFromAll tpls = 
-    [ HqdmTriple (removeIriPathIfPresent (subject values)) (removeIriPathIfPresent (predicate values)) (removeIriPathIfPresent (object values)) | values <- tpls ]
+    [ HqdmTriple (removeIriPathIfPresent (subject values)) (removeIriPathIfPresent (predicate values)) 
+        (removeIriPathIfPresent (object values)) | values <- tpls ]
 
 removeIriPathIfPresent :: String -> String 
 removeIriPathIfPresent str 
@@ -185,7 +197,8 @@ parse argv = case getOpt Permute flags argv of
         hPutStrLn stderr (concat errs ++ usageInfo header flags)
         exitWith (ExitFailure 1)
 
-    where header = "Usage: hqdmMapToPure <hqdmRelations.csv> <hqdmEntityTypes.csv> <inputProcessedTriples.csv> <outputFilename.csv> [OPTIONAL]<masterUuidStringMap.csv>"
+    where header = "Usage: hqdmMapToPure <hqdmRelations.csv> <hqdmEntityTypes.csv> \
+    \<inputProcessedTriples.csv> <outputFilename.csv> [OPTIONAL]<masterUuidStringMap.csv>"
           set f      = [f]
 
 

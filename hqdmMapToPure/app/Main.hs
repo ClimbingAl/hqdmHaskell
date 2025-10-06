@@ -66,6 +66,7 @@ import qualified Data.ByteString.Lazy as BL
 import Data.Csv (HasHeader( NoHeader ), decode)
 import qualified Data.Vector as V
 import System.Console.GetOpt
+--import System.Directory
 import System.IO
 import System.Exit
 import System.Environment
@@ -116,17 +117,16 @@ main = do
 
     -- This allows a Master Map to be submitted and added to.  This file is added to (by overwriting it 
     -- with the consolodated input Map and the newly generated Map).
-    inputMap <- fmap V.toList . decode @(String, String) NoHeader <$> BL.readFile stringMapFile
-    let inputStringsMap = fromRight [] inputMap
+    inputStringsMap <- loadTupleMap stringMapFile
 
-    putStr "Now strip IRI path parts.\n"
+    putStr "Now strip IRI path parts and map to pure ids.\n"
     
     let joinInputModel = removeIriPathsFromAll hqdmModelToMap
 
     let uniqueJoinNodes = uniqueIds $ getSubjects joinInputModel
     let nodeTypeStatements = fmap (\ x -> head $ lookupHqdmOne x joinInputModel) uniqueJoinNodes
     let typeIdsOfJoinObjects = 
-        zip uniqueJoinNodes (fmap (head . lookupHqdmIdsFromTypePredicates hqdmInputModel . object)  nodeTypeStatements)
+            zip uniqueJoinNodes (fmap (head . lookupHqdmIdsFromTypePredicates hqdmInputModel . object)  nodeTypeStatements)
 
     let subtypes = lookupSubtypes hqdmInputModel
     let onlySubtypesOfSte = subtypesOfFilter typeIdsOfJoinObjects spatio_temporal_extent subtypes
@@ -140,10 +140,10 @@ main = do
     let joinedResults = sortOnUuid $ joinInputModel ++ hasSuperclassTriples ++ elementOfTypeTriples
     
     let joinedResultsAllIds =  
-        hqdmSwapAnyRelationNamesForIdsStrict joinedResults hqdmInputModel relationsInputModel
+            hqdmSwapAnyRelationNamesForIdsStrict joinedResults hqdmInputModel relationsInputModel
 
     let finalMap = (StringUtils.listRemoveDuplicates $ 
-        (inputStringsMap ++ StringUtils.stringTuplesFromTriples joinedResultsAllIds []))
+            (inputStringsMap ++ StringUtils.stringTuplesFromTriples joinedResultsAllIds []))
     let fullyJoinedInputModel = StringUtils.joinStringsFromMap joinedResultsAllIds (Map.fromList finalMap)
 
     writeFile outputFile ( concat $ csvTriplesFromHqdmTriples fullyJoinedInputModel )
@@ -165,6 +165,21 @@ constructStringMapFilename :: [String] -> String
 constructStringMapFilename args 
     | length args == 4 = "stringMap_" ++ args!!3
     | otherwise = args!!4
+
+{-openStringMapIfFileExists :: String -> IO [(String, String)]
+openStringMapIfFileExists fileName
+        | not (doesFileExist fileName) = []
+        | otherwise = do
+            loadTupleMap fileName-}
+
+loadTupleMap :: String -> IO [(String, String)]
+loadTupleMap fileName =
+    do 
+        inputMap <- fmap V.toList . decode @(String, String) NoHeader <$> BL.readFile fileName 
+        let tupleMap = fromRight [] inputMap
+        return tupleMap
+-------------- Add error handling above
+
 
 ------------------------------------------------------------------------------------
 -- Argument handling functions
@@ -200,5 +215,3 @@ parse argv = case getOpt Permute flags argv of
     where header = "Usage: hqdmMapToPure <hqdmRelations.csv> <hqdmEntityTypes.csv> \
     \<inputProcessedTriples.csv> <outputFilename.csv> [OPTIONAL]<masterUuidStringMap.csv>"
           set f      = [f]
-
-

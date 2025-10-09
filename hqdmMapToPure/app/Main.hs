@@ -51,14 +51,7 @@ import HqdmIds
 import StringUtils (
     joinStringsFromMap,
     listRemoveDuplicates,
-    uuidV5FromString,
     stringTuplesFromTriples
-    )
-
-import TimeUtils (
-    generateOrderRelations,
-    headObjectIfTriplePresent,
-    uuidV1Sort
     )
 
 import qualified Data.Map as Map 
@@ -66,7 +59,7 @@ import qualified Data.ByteString.Lazy as BL
 import Data.Csv (HasHeader( NoHeader ), decode)
 import qualified Data.Vector as V
 import System.Console.GetOpt
---import System.Directory
+import System.Directory
 import System.IO
 import System.Exit
 import System.Environment
@@ -117,7 +110,7 @@ main = do
 
     -- This allows a Master Map to be submitted and added to.  This file is added to (by overwriting it 
     -- with the consolodated input Map and the newly generated Map).
-    inputStringsMap <- loadTupleMap stringMapFile
+    inputStringsMap <- openStringMapIfFileExists stringMapFile
 
     putStr "Now strip IRI path parts and map to pure ids.\n"
     
@@ -166,20 +159,21 @@ constructStringMapFilename args
     | length args == 4 = "stringMap_" ++ args!!3
     | otherwise = args!!4
 
-{-openStringMapIfFileExists :: String -> IO [(String, String)]
-openStringMapIfFileExists fileName
-        | not (doesFileExist fileName) = []
-        | otherwise = do
-            loadTupleMap fileName-}
-
+openStringMapIfFileExists :: String -> IO [(String, String)]
+openStringMapIfFileExists fileName = do
+    x <- doesFileExist fileName
+    if not x
+        then error ("String Map file named: " ++ fileName ++ ", was not found. \
+            \Please create an empty instance with that name if you wish to start \
+            \with a clean file.")
+        else do loadTupleMap fileName
+        
 loadTupleMap :: String -> IO [(String, String)]
 loadTupleMap fileName =
     do 
         inputMap <- fmap V.toList . decode @(String, String) NoHeader <$> BL.readFile fileName 
         let tupleMap = fromRight [] inputMap
         return tupleMap
--------------- Add error handling above
-
 
 ------------------------------------------------------------------------------------
 -- Argument handling functions

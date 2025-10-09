@@ -4,11 +4,11 @@ A command line tool to query the functional specification files of HQDM for the 
 
 ## Example
 
-`entityTypeSpec -a PureHqdmRelations_v5.csv HqdmAllAsDataFormal4Short.csv spatio_temporal_extent`
+`entityTypeSpec -a PureHqdmRelations_v5.csv HqdmTypes_v4.csv spatio_temporal_extent`
 
 or
 
-`entityTypeSpec -a PureHqdmRelations_v5.csv HqdmAllAsDataFormal4Short.csv dd8359c4-0a2b-416a-af27-3bcb0551b41a`
+`entityTypeSpec -a PureHqdmRelations_v5.csv HqdmTypes_v4.csv dd8359c4-0a2b-416a-af27-3bcb0551b41a`
 
 Both entity name and entity type id are accepted as arguments for the HQDM Entity Type being queried.
 
@@ -21,11 +21,11 @@ It is recommended to use the Relation File and Entity Type Files provided in thi
 ## Running the command
 This runs on any Linux command line as:
 
-`./entityTypeSpec -ac PureHqdmRelations_v5.csv HqdmAllAsDataFormal4Short.csv spatio_temporal_extent`
+`./entityTypeSpec -ac PureHqdmRelations_v5.csv HqdmTypes_v4.csv spatio_temporal_extent`
 
 It may run on macOS (could be straightforward) and Windows (likely non-trivial), I haven't tried it.  The binary for this is included in the repo so that youy don't have to build it.  If you don't like trusting binaries then you can rebuild it by installing the Haskell GHC and Cabal build system. The command `stack build` will then build this command line tool and all of its dependencies.  The tool can then be used using `stack` itself like this:
 
-`stack exec -- entityTypeSpec -a PureHqdmRelations_v9.csv HqdmAllAsDataFormal4Short.csv functional_system`
+`stack exec -- entityTypeSpec -a PureHqdmRelations_v9.csv HqdmTypes_v4.csv functional_system`
 
 If you wish to use it without `stack` then you can build it with th `--copy-bins` switch. 
 

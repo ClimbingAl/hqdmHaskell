@@ -165,10 +165,10 @@ import qualified Control.Monad as Map
 
 -- Constants
 hqdmRelationsInputFilename::String
-hqdmRelationsInputFilename = "../PureHqdmRelations_v92.csv"
+hqdmRelationsInputFilename = "../HqdmBinaryRelations_v4.csv"
 
 hqdmInputFilename::String
-hqdmInputFilename = "../HqdmAllAsDataFormal4Short.csv"
+hqdmInputFilename = "../HqdmTypes_v4.csv"
 
 joinModelFilename::String
 joinModelFilename = "./input/networksBasic1converted.csv"

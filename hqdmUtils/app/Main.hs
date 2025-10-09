@@ -64,7 +64,7 @@ temporalAlgebraTestFilename::String
 temporalAlgebraTestFilename = "./test/temporalAlgebraMapped.csv"
 
 hqdmRelationsInputFilename::String
-hqdmRelationsInputFilename = "../PureHqdmRelations_v92.csv"
+hqdmRelationsInputFilename = "../HqdmBinaryRelations_v4.csv"
 
 main :: IO ()
 main = do

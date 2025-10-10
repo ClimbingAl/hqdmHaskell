@@ -52,7 +52,7 @@ When processed these triples are loaded using the following new data type, with 
       deriving (Show, Eq, Generic)
 ```
 
-It turns out that relations (Binary Relations) are more complex to address than Entity Types.  Entity Types are taken to be collections of records that are all of a common 'type' (we'll avoid calling them sets because sets and their elements have a place within the Entity Type model itself).  The _relationship_ lines between the Entity Type boxes in the original EXPRESS-G version of [HQDM](https://github.com/hqdmTop/hqdmFramework/wiki/) are under-specified as the EXPRESS standard does not accommodate relationships between.... other relationships.  This means that these sets of relationships.  We are not violating anything here by calling them sets because we are talking about [Binary Relation](https://en.wikipedia.org/wiki/Binary_relation) Sets and not the 2-sorted sets that are introduced within the HQDM Entity Type hierarchy.  Matthew West used a naming convention to notate correspondence between relationships in the EXPRESS version of HQDM.  This approach was not easy to use, was incomplete and required analysis (and debate) to work out what some of them likely meant.  Attempts to represent these relationships in other languages (e.g. RDFS & SHACL) had to work round these issues, adopt the ambiguous representation of relationships or avoid them altogether.  This project takes a ground-up approach to Binary Relations as Binary Relation Sets, all of which are sub-binaryRelationSets of a top level Binary Relation Set called:
+It turns out that relations (Binary Relations) are more complex to address than Entity Types.  Entity Types are taken to be collections of records that are all of a common 'type' (we'll avoid calling them sets because sets and their elements have a place within the Entity Type model itself).  The _relationship_ lines between the Entity Type boxes in the original EXPRESS-G version of [HQDM](https://github.com/hqdmTop/hqdmFramework/wiki/) are under-specified as the EXPRESS standard does not accommodate relationships between.... other relationships.  This means that these sets of relationships can't be collectively managed in a rigorous way.  Note, we are not violating anything here by calling them sets because we are talking about [Binary Relation](https://en.wikipedia.org/wiki/Binary_relation) Sets and not the 2-sorted sets that are introduced within the HQDM Entity Type hierarchy.  Matthew West used a naming convention to notate correspondence between relationships in the EXPRESS version of HQDM.  This approach was not easy to use, was incomplete and required analysis (and debate) to work out what some of them likely meant.  Attempts to represent these relationships in other languages (e.g. RDFS & SHACL) had to work round these issues, adopt the ambiguous representation of relationships or avoid them altogether.  This project takes a ground-up approach to Binary Relations as Binary Relation Sets, all of which are sub-binaryRelationSets of a top level Binary Relation Set called:
 
 _`universal_relation_set`_
 
@@ -126,18 +126,17 @@ Install Haskell Glasgow Haskell Compiler with Cabal & Stack: https://www.haskell
 
 After cloning the repo first go to the `hqdm` folder and run the following 2 commands:
 
-    `stack build`
-    `stack exec hqdm-exe` (this runs the Haskell executable resulting from building the Main.hs file)
+    `cabal build`
+    `cabal exec hqdm` (this runs the Haskell executable resulting from building the Main.hs file)
 
 This should result in a number of illustrative results for most of the functions in HqdmLib being written to the console.
 
 The `inheritance` folder contains a Haskell Main.hs file to calculate the inherited relations for each of the HQDM Entity Types.  It is best to pipe the output to a file as the console may not cope with the size of the output.  Run the following 2 commands:
 
-  `stack build`
-  `stack exec inheritance > HqdmTypesAndInheritedRels.txt`
+  `cabal build`
+  `cabal exec inheritance > HqdmTypesAndInheritedRels.txt`
 
 This text file should match the text file of that name in this repo.  
-Note: The `hqdm` and `inheritance` folders use different versions of Cabal, which explains why the `inheritance` one doesn't need `-exe` to post-fix the folder name when executing it.  I'll clean this up sometime.
 
 ## ToDo
 
@@ -165,7 +164,7 @@ Notes on relations, cardinalities, etc
 - [x] temporal event checks (before, after, equals, between and operator-based checks) plus Allen Interval Algebra checks between two HQDM state objects using test data generated from [this](https://github.com/ClimbingAl/code-for-hqdm-patterns/blob/testOfTemporalFunctions/temporalAlgebra/src/main/java/patterns/hqdm/temporal/TemporalAlgebraExamples.java) (Test cases itemised in the comments of that file)
 - [x] calculate all allowed relations (based on inheritance, not the sets of all possible relations)
 - [ ] introduce the powerset?... probably best to miss this out, but could be useful to think it through
-- [ ]Functions to parse hqdm patterns on mapped user data:
+- [ ] Functions to parse hqdm patterns on mapped user data:
     - set & parts (inc. specializations of them)
     - temporal parts and their cardinalities (as optional test)
     - activity and association

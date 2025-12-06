@@ -68,6 +68,7 @@ executable inheritance
     other-modules:
         HqdmInspection
         HqdmLib
+        HqdmIds
     -- LANGUAGE extensions used by modules in this package.
     -- other-extensions:
 

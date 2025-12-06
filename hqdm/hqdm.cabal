@@ -1,4 +1,4 @@
-cabal-version: 2.2
+cabal-version: 3.0
 
 -- This file has been generated from package.yaml by hpack version 0.36.0.
 --
@@ -30,11 +30,11 @@ library
       HqdmInspection
       HqdmLib
       HqdmMermaid
-  other-modules:
-      Paths_hqdm
       HqdmRelations
+  other-modules:
+      
   autogen-modules:
-      Paths_hqdm
+      
   hs-source-dirs:
       src, ../relations/src
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints
@@ -52,11 +52,15 @@ library
 executable hqdm-exe
   main-is: Main.hs
   other-modules:
-      Paths_hqdm
+      HqdmIds
+      HqdmInspection
+      HqdmLib
+      HqdmMermaid
+      HqdmRelations
   autogen-modules:
-      Paths_hqdm
+      
   hs-source-dirs:
-      app
+      app, src, ../relations/src
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       array
@@ -68,17 +72,21 @@ executable hqdm-exe
     , text
     , unique
     , vector
+    , split
   default-language: Haskell2010
 
 test-suite hqdm-test
   type: exitcode-stdio-1.0
   main-is: Spec.hs
   other-modules:
-      Paths_hqdm
+      HqdmIds
+      HqdmInspection
+      HqdmLib
+      HqdmMermaid
   autogen-modules:
-      Paths_hqdm
+      
   hs-source-dirs:
-      test
+      test, src
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       array
@@ -90,4 +98,5 @@ test-suite hqdm-test
     , text
     , unique
     , vector
+    , split
   default-language: Haskell2010

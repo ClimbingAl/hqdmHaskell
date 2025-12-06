@@ -58,6 +58,48 @@ extra-doc-files:    CHANGELOG.md
 common warnings
     ghc-options: -Wall
 
+library
+    -- Import common warning flags.
+    import:           warnings
+
+    -- Modules exported by the library.
+    exposed-modules:  
+        HqdmRelations
+        HqdmQueries
+
+    -- Modules included in this library but not exported.
+    other-modules: 
+        HqdmInspection
+        HqdmLib
+        HqdmIds
+        StringUtils
+        TimeUtils
+
+    -- LANGUAGE extensions used by modules in this package.
+    -- other-extensions:
+
+    -- Other library packages from which modules are imported.
+    build-depends:    
+        base >=4.7 && <5
+        , bytestring
+        , cassava
+        , directory
+        , text
+        , unique
+        , vector
+        , time
+        , network-info
+        , uuid
+        , uuid-types
+        , utf8-string
+        , containers
+
+    -- Directories containing source files.
+    hs-source-dirs:   src, ../hqdm/src, ../hqdmUtils/src
+
+    -- Base language which the package is written in.
+    default-language: Haskell2010
+
 executable relations
     -- Import common warning flags.
     import:           warnings
@@ -73,6 +115,7 @@ executable relations
         HqdmLib
         HqdmIds
         StringUtils
+        TimeUtils
 
     -- LANGUAGE extensions used by modules in this package.
     -- other-extensions:

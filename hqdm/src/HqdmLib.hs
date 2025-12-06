@@ -18,7 +18,6 @@
 
 module HqdmLib
   ( Id,
-    HqdmTriple(..),
     HqdmTriple(subject, predicate, object),
     RelationPair,
     HqdmHasSupertype,

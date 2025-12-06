@@ -57,7 +57,6 @@ import HqdmRelations (
     findBrelsAndNamesWithDomains,
     findSuperBinaryRelation,
     findSuperBinaryRelation',
-
     printablePureRelation,
     csvRelationsFromPure,
     lookupSuperBinaryRelsOf,

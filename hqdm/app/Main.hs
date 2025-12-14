@@ -18,41 +18,44 @@
 
 module Main (main) where
 
-import HqdmLib (
-    Id,
-    HqdmTriple,
-    RelationPair,
-    getSubjects,
-    getPredicates,
-    uniqueIds,
-    stringListSort,
-    lookupHqdmOne,
-    lookupHqdmType,
-    lookupHqdmIdsFromTypePredicates,
-    lookupSubtypes,
-    lookupSubtypeOf,
-    lookupSubtypesOf,
-    lookupSupertypeOf,
-    lookupSupertypesOf,
-    findHqdmTypesInList,
-    findSupertypeTree,
-    printableTypeTree,
-    findSubtypeTree,
-    findInheritedRels,
-    collapseInheritedRels,
-    printableRelationPairs,
-    lookupHqdmTypeFromAll,
-    headIfStringPresent
-    )
+import HqdmLib
+    ( Id,
+      HqdmTriple,
+      getSubjects,
+      getPredicates,
+      uniqueIds,
+      headIfStringPresent,
+      stringListSort,
+      lookupHqdmOne,
+      lookupHqdmTypeFromAll,
+      lookupHqdmType,
+      lookupHqdmIdsFromTypePredicates,
+      lookupSubtypes,
+      lookupSubtypeOf,
+      lookupSupertypeOf,
+      lookupSupertypesOf,
+      findHqdmTypesInList,
+      findSupertypeTree,
+      printableTypeTree,
+      findSubtypeTree,
+      findInheritedRels,
+      collapseInheritedRels,
+      printableRelationPairs ) 
 import HqdmInspection (howmanyNodes)
 import HqdmIds
+    ( individual,
+      class_of_spatio_temporal_extent,
+      biological_object,
+      state_of_physical_object,
+      hqdmClass,
+      thing )
 
 -- from bytestring
 import qualified Data.ByteString.Lazy as BL
 -- from cassava
 import Data.Csv (HasHeader( NoHeader ), decode)
 import qualified Data.Vector as V
-import Data.Either
+import Data.Either ( fromRight )
 --import qualified Data.Text as Text (take, drop)
 
 -- Constants

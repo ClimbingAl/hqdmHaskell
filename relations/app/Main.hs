@@ -16,7 +16,7 @@
 module Main (main) where
 
 import HqdmRelations (
-        RelationId,
+    RelationId,
     HqdmRelationSet,
     RelationPair,
     HqdmBinaryRelation,
@@ -48,16 +48,12 @@ import HqdmRelations (
     findBrelsAndNamesWithDomains,
     findSuperBinaryRelation,
     findSuperBinaryRelation',
-    --addStRelationToPure,
     printablePureRelation,
     csvRelationsFromPure,
-    --lookupSuperBinaryRelOf,
     hqdmSwapTopRelationNamesForIds,
     convertTopRelationByDomainAndName,
     headListIfPresent,
     addNewCardinalitiesToPure,
-    --correctCardinalities,
-    --correctAllCardinalities,
     findMaxMaxCardinality,
     findMaxMinCardinality,
     hqdmSwapAnyRelationNamesForIds

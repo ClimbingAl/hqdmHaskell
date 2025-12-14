@@ -27,10 +27,26 @@ module HqdmMermaid (
 ) where
 
 import HqdmLib
+    ( Id,
+      HqdmTriple,
+      uniqueIds,
+      headIfStringPresent,
+      deleteItemsFromList,
+      lookupHqdmTypeFromAll,
+      lookupSupertypeOf,
+      lookupSupertypesOf )
 import HqdmRelations
-import Data.List.Split
+    ( HqdmBinaryRelationPure,
+      RelationId,
+      universalRelationSet,
+      getPureRelationName,
+      getPureSuperRelation,
+      getPureSuperRelations,
+      findBrelFromId,
+      findBrelsFromIds,
+      lookupSubBRelsOf )
+import Data.List.Split ( splitOn )
 import HqdmIds (thing)
-import Data.String (IsString)
 
 mermaidMkdnStart :: String
 mermaidMkdnStart = "``` mermaid\n"

@@ -1,0 +1,12 @@
+packages:
+  hqdm/
+  relations/
+  relationInheritance/
+  hqdmUtils/
+  inheritance/ 
+  entityTypeSpec/
+  hqdmCardinalityChecker/
+  hqdmJoin/
+  hqdmMapToPure/
+  relationPathUp/
+

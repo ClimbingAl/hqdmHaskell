@@ -90,7 +90,7 @@ library
         , containers
 
     -- Directories containing source files.
-    hs-source-dirs:   app, src, ../hqdm/src, ../relations/src
+    hs-source-dirs:   src, ../hqdm/src, ../relations/src
 
     -- Base language which the package is written in.
     default-language: Haskell2010

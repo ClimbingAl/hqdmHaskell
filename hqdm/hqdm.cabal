@@ -29,8 +29,7 @@ library
       HqdmIds
       HqdmInspection
       HqdmLib
-      HqdmMermaid
-      HqdmRelations
+
   other-modules:
       
   autogen-modules:
@@ -46,7 +45,7 @@ library
     , text
     , unique
     , vector
-    , split
+    
   default-language: Haskell2010
 
 executable hqdm-exe
@@ -55,8 +54,7 @@ executable hqdm-exe
       HqdmIds
       HqdmInspection
       HqdmLib
-      HqdmMermaid
-      HqdmRelations
+
   autogen-modules:
       
   hs-source-dirs:
@@ -72,7 +70,7 @@ executable hqdm-exe
     , text
     , unique
     , vector
-    , split
+
   default-language: Haskell2010
 
 test-suite hqdm-test
@@ -82,7 +80,7 @@ test-suite hqdm-test
       HqdmIds
       HqdmInspection
       HqdmLib
-      HqdmMermaid
+
   autogen-modules:
       
   hs-source-dirs:
@@ -98,5 +96,5 @@ test-suite hqdm-test
     , text
     , unique
     , vector
-    , split
+
   default-language: Haskell2010

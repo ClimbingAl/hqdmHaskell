@@ -66,6 +66,7 @@ library
     exposed-modules:  
         HqdmRelations
         HqdmQueries
+        HqdmMermaid
 
     -- Modules included in this library but not exported.
     other-modules: 
@@ -93,6 +94,7 @@ library
         , uuid-types
         , utf8-string
         , containers
+        , split
 
     -- Directories containing source files.
     hs-source-dirs:   src, ../hqdm/src, ../hqdmUtils/src
@@ -135,6 +137,7 @@ executable relations
         , uuid-types
         , utf8-string
         , containers
+        , split
 
     -- Directories containing source files.
     hs-source-dirs:   app, src, ../hqdm/src, ../hqdmUtils/src

@@ -140,6 +140,9 @@ This text file should match the text file of that name in this repo.
 
 ## ToDo
 
+i. Add successor and predecesor relations from hqdmJoin into the mapToHqdmPure
+ii. ??
+
 - [x] Regenerate the triples to find any missing ones from the input data (there will be some).
 - [x] Add Cardinalities that are in the original [HQDM EXPRESS file](https://github.com/hqdmTop/hqdmFramework/blob/main/hqdm_framework.txt).
 - [x] Add relation specialisation (i.e. implement functions to apply the specialisation of one predicate being a specialisation of another).

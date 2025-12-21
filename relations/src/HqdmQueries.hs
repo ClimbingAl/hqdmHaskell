@@ -25,6 +25,7 @@ module HqdmQueries (
     filterForObjectOfType,
     filterRelsBy,
     filterRelsByAttribute,
+    filterRelsByNameAttribute,
     filterRelsByBeginning,
     filterRelsByEnding,
     filterRelsByPart,
@@ -58,6 +59,9 @@ beginning = "96c965a9-ec3e-47f2-b18e-b67147bc0873"
 ending::HqdmRelations.RelationId
 ending = "aee002be-0529-4b80-82b0-0a6bcca34e48"
 
+nameAttribute::HqdmRelations.RelationId
+nameAttribute = "fe987366-a8ad-48fa-8821-73f54f6df180"
+
 hqdmTypeRel::String 
 hqdmTypeRel = "7e249a64-9f13-47d3-a232-562a3d080198"
 
@@ -86,6 +90,9 @@ filterRelsByEnding = filterRelsBy ending
 
 filterRelsByAttribute::[HqdmLib.HqdmTriple] -> [HqdmRelations.HqdmBinaryRelationPure] -> [HqdmLib.HqdmTriple]
 filterRelsByAttribute = filterRelsBy attribute
+
+filterRelsByNameAttribute::[HqdmLib.HqdmTriple] -> [HqdmRelations.HqdmBinaryRelationPure] -> [HqdmLib.HqdmTriple]
+filterRelsByNameAttribute = filterRelsBy nameAttribute
 
 -- Named Object Type Filter
 filterForObjectOfType::[HqdmLib.HqdmTriple] -> String -> [String] 

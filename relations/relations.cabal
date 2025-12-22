@@ -70,11 +70,6 @@ library
 
     -- Modules included in this library but not exported.
     other-modules: 
-        HqdmInspection
-        HqdmLib
-        HqdmIds
-        StringUtils
-        TimeUtils
 
     -- LANGUAGE extensions used by modules in this package.
     -- other-extensions:
@@ -95,9 +90,10 @@ library
         , utf8-string
         , containers
         , split
+        , hqdm
 
     -- Directories containing source files.
-    hs-source-dirs:   src, ../hqdm/src, ../hqdmUtils/src
+    hs-source-dirs:   src
 
     -- Base language which the package is written in.
     default-language: Haskell2010
@@ -113,11 +109,7 @@ executable relations
     other-modules:
         HqdmRelations
         HqdmQueries
-        HqdmInspection
-        HqdmLib
-        HqdmIds
-        StringUtils
-        TimeUtils
+        HqdmMermaid
 
     -- LANGUAGE extensions used by modules in this package.
     -- other-extensions:
@@ -138,6 +130,7 @@ executable relations
         , utf8-string
         , containers
         , split
+        , hqdm
 
     -- Directories containing source files.
     hs-source-dirs:   app, src, ../hqdm/src, ../hqdmUtils/src

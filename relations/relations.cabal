@@ -55,8 +55,9 @@ extra-doc-files:    CHANGELOG.md
 -- Extra source files to be distributed with the package, such as examples, or a tutorial module.
 -- extra-source-files:
 
+-- Removed -Wall to supress warnings, most of which are acceptable for me now
 common warnings
-    ghc-options: -Wall
+    ghc-options: 
 
 library
     -- Import common warning flags.

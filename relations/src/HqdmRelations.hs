@@ -98,6 +98,7 @@ where
 
 import qualified HqdmLib (
     Id,
+    HqdmTriple,
     HqdmTriple(..),
     HqdmTriple(subject, predicate, object),
     RelationPair,

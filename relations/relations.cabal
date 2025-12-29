@@ -70,6 +70,8 @@ library
 
     -- Modules included in this library but not exported.
     other-modules: 
+        HqdmIds
+        HqdmLib
 
     -- LANGUAGE extensions used by modules in this package.
     -- other-extensions:
@@ -93,7 +95,7 @@ library
         , hqdm
 
     -- Directories containing source files.
-    hs-source-dirs:   src
+    hs-source-dirs:   src, ../hqdm/src, ../hqdmUtils/src
 
     -- Base language which the package is written in.
     default-language: Haskell2010
@@ -110,6 +112,8 @@ executable relations
         HqdmRelations
         HqdmQueries
         HqdmMermaid
+        HqdmIds
+        HqdmLib
 
     -- LANGUAGE extensions used by modules in this package.
     -- other-extensions:

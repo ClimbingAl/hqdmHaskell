@@ -172,9 +172,9 @@ main = do
 
     -- Generate Haskell constants from input data for HqdmIds Module
     -- Make list of pairs... [[UniqueNodes], [nodeTypeNames]]
-    let namedUniqueNodes = fmap (\ x -> take 1 (lookupHqdmType $ lookupHqdmOne x hqdmInputModel)) uniqueNodes
-    let unlistedNamedUniqueNodes = fmap concat namedUniqueNodes
-    let slicedNamedNodes = fmap (\ x -> slice 5 (length x) x) unlistedNamedUniqueNodes
+    let namedUniqueNodes = fmap (\ x -> (lookupHqdmType $ lookupHqdmOne x hqdmInputModel)) uniqueNodes
+    --let unlistedNamedUniqueNodes = concat namedUniqueNodes
+    let slicedNamedNodes = fmap (\ x -> slice 5 (length x) x) namedUniqueNodes
     let hqdmTypeIdsAndNames = zip uniqueNodes slicedNamedNodes
     let hqdmConstants = exportHqdmConstants hqdmTypeIdsAndNames
 

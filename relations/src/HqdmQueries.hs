@@ -22,6 +22,7 @@ module HqdmQueries (
     set,
     order,
     emergent,
+    nameAttribute,
     filterForObjectOfType,
     filterRelsBy,
     filterRelsByAttribute,
@@ -51,7 +52,7 @@ emergent::HqdmRelations.RelationId
 emergent = "f533fac8-d228-4c10-8799-a26fe6ea16a4"
 
 attribute::HqdmRelations.RelationId
-attribute = "fe987366-a8ad-48fa-8821-73f54f6df180"
+attribute = "69b0e5b9-3be2-4ec3-a9a6-bb5b523d4b32"
 
 beginning::HqdmRelations.RelationId
 beginning = "96c965a9-ec3e-47f2-b18e-b67147bc0873"

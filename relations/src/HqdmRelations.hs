@@ -309,10 +309,10 @@ printRelation rel = "RELATION SPECIFICATION:\n\tDomain: " ++ getPureDomain rel +
   "\n\tMax Cardinality: " ++ show (getPureCardinalityMax rel) ++ "\n"
 
 printRelationWithTypeNames :: HqdmBinaryRelationPure -> [HqdmLib.HqdmTriple] -> String
-printRelationWithTypeNames rel tpls = "RELATION SPECIFICATION:\n\tDomain: " ++ getPureDomain rel ++ " type `" ++ head (HqdmLib.lookupHqdmType $ HqdmLib.lookupHqdmOne (getPureDomain rel) tpls) ++ "'" ++
+printRelationWithTypeNames rel tpls = "RELATION SPECIFICATION:\n\tDomain: " ++ getPureDomain rel ++ " type `" ++ (HqdmLib.lookupHqdmType $ HqdmLib.lookupHqdmOne (getPureDomain rel) tpls) ++ "'" ++
   "\n\tRelation UUID: " ++ getPureRelationId rel ++
   "\n\tOriginal Relation Name: " ++ getPureRelationName rel ++
-  "\n\tRange: " ++ getPureRange rel ++ " type `" ++ head (HqdmLib.lookupHqdmType $ HqdmLib.lookupHqdmOne (getPureRange rel) tpls) ++ "'" ++
+  "\n\tRange: " ++ getPureRange rel ++ " type `" ++ (HqdmLib.lookupHqdmType $ HqdmLib.lookupHqdmOne (getPureRange rel) tpls) ++ "'" ++
   "\n\tMin Cardinality: " ++ show (getPureCardinalityMin rel) ++
   "\n\tMax Cardinality: " ++ show (getPureCardinalityMax rel) ++ "\n"
 
@@ -722,7 +722,7 @@ findSubBinaryRelationTree ids hqdmBrels = go ids hqdmBrels
 printableErrorResults:: [(RelationCheck, HqdmBinaryRelationPure, HqdmLib.Id)] -> [HqdmLib.HqdmTriple] -> [HqdmLib.HqdmTriple] -> String
 printableErrorResults errs hqdm tpls =
     concatMap (\ x ->
-        "\n\nObject Id:" ++ show (thdOf3 x) ++ " of type '" ++ head (HqdmLib.lookupHqdmType $ HqdmLib.lookupHqdmOne (thdOf3 x) tpls) ++ "'" ++
+        "\n\nObject Id:" ++ show (thdOf3 x) ++ " of type '" ++ (HqdmLib.lookupHqdmType $ HqdmLib.lookupHqdmOne (thdOf3 x) tpls) ++ "'" ++
         "\nRelation check result: " ++ show (fstOf3 x) ++
         onlyPrintInvalidTypeCause x ++
         printRelationWithTypeNames ( sndOf3 x) hqdm
@@ -797,7 +797,7 @@ cardinalityTestAllObjects uuids tplsAll hqdm brels results = go uuids tplsAll hq
 -- | getTypeIdFromObject
 -- Get the Id of the Hqdm Type from a supplied set of triples for a joined Hqdm object ### Implement test for this?
 getTypeIdFromObject:: [HqdmLib.HqdmTriple] -> [HqdmLib.HqdmTriple] -> HqdmLib.Id
-getTypeIdFromObject objTpls hqdm = head $ HqdmLib.lookupHqdmIdsFromTypePredicates hqdm ( head $ HqdmLib.lookupHqdmType objTpls )
+getTypeIdFromObject objTpls hqdm = head $ HqdmLib.lookupHqdmIdsFromTypePredicates hqdm ( HqdmLib.lookupHqdmType objTpls )
 
 -- | cardinalityMetAllRels
 -- Tests whether the collection of triples for a single Hqdm Node (object) satisfies 

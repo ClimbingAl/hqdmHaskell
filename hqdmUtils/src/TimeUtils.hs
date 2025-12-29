@@ -34,7 +34,8 @@ module TimeUtils (
     temporalOverlapTest,
     utcTimeFromUuid,
     uuidFromUTCTime,
-    uuidV1Sort
+    uuidV1Sort,
+    isoString
     ) where
 
 import Data.Bits
@@ -43,6 +44,7 @@ import Data.Word
 import Data.Time
 import Data.UUID
 import Data.UUID.Util
+import Data.Time.Format.ISO8601 (iso8601Show)
 import Data.UUID.Types.Internal
 import Data.UUID.Types.Internal.Builder
 import Network.Info
@@ -68,6 +70,10 @@ headObjectIfTriplePresent :: [HqdmLib.HqdmTriple] -> String
 headObjectIfTriplePresent x
   | not (Prelude.null x)   = HqdmLib.object $ head x
   | otherwise      = ""
+
+-- Produces "2025-12-28T12:34:56Z"
+isoString :: UTCTime -> String
+isoString = iso8601Show 
 
 ---------------------------------------------------------------------------------------------------------
 -- Functions obtained from: https://hackage.haskell.org/package/uuid-1.3.16/docs/src/Data.UUID.V1.html --
@@ -289,5 +295,7 @@ generatePredecessorRelations :: [(String, String)] -> [HqdmLib.HqdmTriple] -> [H
 generatePredecessorRelations [ ] y = y
 generatePredecessorRelations (x:xs) y = y ++ (concatMap (\z -> [HqdmLib.HqdmTriple (fst x) predecessor (fst z)]) xs) ++ generatePredecessorRelations xs y
 
+-- | Ordered (Point_in_time ids, uuidv1 time) pairs used to generate Order relation triples
 generateOrderRelations :: [(String, String)] -> [HqdmLib.HqdmTriple]
 generateOrderRelations ordTimeIds = (generateSuccessorRelations ordTimeIds []) ++ (generatePredecessorRelations (reverse ordTimeIds) [])
+

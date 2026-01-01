@@ -35,6 +35,7 @@ module TimeUtils (
     utcTimeFromUuid,
     uuidFromUTCTime,
     uuidV1Sort,
+    isUuidV1Strict,
     isoString
     ) where
 
@@ -229,6 +230,15 @@ getObjectAttribute obj tpls brels = headObjectIfTriplePresent $ HqdmQueries.filt
 isUuidV1 :: String -> Bool
 isUuidV1 "" = True  -- Empty string represents unbounded time value
 isUuidV1 str = go 
+    where
+        uuid = fromString str
+        go 
+            | isNothing uuid = False
+            | otherwise = version (fromJust uuid) == 1
+
+isUuidV1Strict :: String -> Bool
+isUuidV1Strict "" = False
+isUuidV1Strict str = go 
     where
         uuid = fromString str
         go 

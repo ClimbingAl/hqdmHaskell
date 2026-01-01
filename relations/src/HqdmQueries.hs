@@ -31,6 +31,7 @@ module HqdmQueries (
     filterRelsByEnding,
     filterRelsByPart,
     filterRelsBySet,
+    filterRelsByBrelAndRangeId,
     transitiveQueryFromLeft,
     transitiveQueryFromRight
 )
@@ -94,6 +95,14 @@ filterRelsByAttribute = filterRelsBy attribute
 
 filterRelsByNameAttribute::[HqdmLib.HqdmTriple] -> [HqdmRelations.HqdmBinaryRelationPure] -> [HqdmLib.HqdmTriple]
 filterRelsByNameAttribute = filterRelsBy nameAttribute
+
+-- filterRelsBy BrelId and RangeId
+filterRelsByBrelAndRangeId :: HqdmRelations.RelationId -> HqdmLib.Id -> [HqdmLib.HqdmTriple] -> [HqdmRelations.HqdmBinaryRelationPure] -> [HqdmLib.HqdmTriple]
+filterRelsByBrelAndRangeId relSet rangeId tpls brels = go tpls
+    where
+        subBrels = concat $ HqdmRelations.findSubBinaryRelationTree [[relSet]] brels
+
+        go tpls = [values | values <- tpls, (HqdmLib.predicate values `elem` subBrels) && (HqdmLib.object values == rangeId)]
 
 -- Named Object Type Filter
 filterForObjectOfType::[HqdmLib.HqdmTriple] -> String -> [String] 

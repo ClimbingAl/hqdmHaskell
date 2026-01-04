@@ -75,7 +75,7 @@ main = do
     let entityId = uuidOrEntityName (fileList!!2) hqdmInputModel
 
     let entityObj = lookupHqdmOne entityId  hqdmInputModel
-    let entityType = head $ lookupHqdmType entityObj
+    let entityType = lookupHqdmType entityObj
     let rList = zip [1 .. ] (findBrelsFromDomain entityId relationsInputModel)
     
     let subtypes = lookupSubtypes hqdmInputModel

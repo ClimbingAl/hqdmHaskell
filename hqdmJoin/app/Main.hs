@@ -157,7 +157,6 @@ import qualified Data.Map as Map -- Perhaps use StringMap in the future
 import qualified Data.ByteString.Lazy as BL
 -- from cassava
 import Data.Csv (HasHeader( NoHeader ), decode)
-import Data.List (sortBy)
 import qualified Data.Vector as V
 import Data.Either
 import qualified Control.Monad as Map
@@ -191,8 +190,8 @@ main :: IO ()
 main = do
     --putStrLn ("Start HqdmJoin, load relations from " ++ hqdmRelationsInputFilename)
 
-    hqdmRelationSets <- fmap V.toList . decode @HqdmBinaryRelation NoHeader <$> BL.readFile hqdmRelationsInputFilename
-    let relationsInputModel =  csvRelationsToPure $ fromRight [] hqdmRelationSets
+    hqdmRelationSets <- fmap V.toList . decode @HqdmRelations.HqdmBinaryRelation NoHeader <$> BL.readFile hqdmRelationsInputFilename
+    let relationsInputModel =  HqdmRelations.csvRelationsToPure $ fromRight [] hqdmRelationSets
     -- print relationsInputModel
 
     --putStr ("\nLoaded Relation SET Data.  Now load HQDM types and their relations all as data from " ++ hqdmInputFilename)
@@ -221,10 +220,10 @@ main = do
 
     let typeIdsOfJoinObjects = zip uniqueJoinNodes (fmap (head . lookupHqdmIdsFromTypePredicates hqdmInputModel . object)  nodeTypeStatements)
     -- Now filter the objects to join to be only those that are subtypes of ste
-    let onlySubtypesOfSte = subtypesOfFilter typeIdsOfJoinObjects spatio_temporal_extent subtypes
+    let onlySubtypesOfSte = HqdmRelations.subtypesOfFilter typeIdsOfJoinObjects spatio_temporal_extent subtypes
     --print(isSubtype (snd $ head typeIdsOfJoinObjects) spatio_temporal_extent subtypes )
 
-    let elementOfTypeName = getRelationNameFromRels elementOfType relationsInputModel
+    let elementOfTypeName = HqdmRelations.getRelationNameFromRels elementOfType relationsInputModel
     let elementOfTypeTriples = fmap (\ x -> HqdmTriple (fst x) elementOfTypeName (snd x)) onlySubtypesOfSte
 
     --putStr "\nNew element_of_type triples\n\n"
@@ -233,8 +232,8 @@ main = do
     --putStr "\nNumber of element_of_type predicates is:\n\n"
     --print (length elementOfTypeTriples)
 
-    let onlySubtypesOfClass = subtypesOfFilter typeIdsOfJoinObjects hqdmClass subtypes
-    let hasSuperClassName = getRelationNameFromRels hasSuperclass relationsInputModel
+    let onlySubtypesOfClass = HqdmRelations.subtypesOfFilter typeIdsOfJoinObjects hqdmClass subtypes
+    let hasSuperClassName = HqdmRelations.getRelationNameFromRels hasSuperclass relationsInputModel
     let hasSuperclassTriples = fmap (\ x -> HqdmTriple (fst x) hasSuperClassName (snd x)) onlySubtypesOfClass
 
     --putStr "\nNew class triples\n\n"
@@ -249,13 +248,13 @@ main = do
 
     --putStr "\nNow do the join and show the results:\n\n"
 
-    let joinedResults = sortOnUuid $ joinInputModel ++ hasSuperclassTriples ++ elementOfTypeTriples
+    let joinedResults = HqdmRelations.sortOnUuid $ joinInputModel ++ hasSuperclassTriples ++ elementOfTypeTriples
     --putStr (concat $ HqdmLib.csvTriplesFromHqdmTriples joinedResults)
 
     --putStr "\nResults length:"
     --print (length joinedResults)
 
-    let allRelationIdJoinedTriples =  sortOnUuid $ hqdmSwapAnyRelationNamesForIdsStrict joinedResults hqdmInputModel relationsInputModel
+    let allRelationIdJoinedTriples =  HqdmRelations.sortOnUuid $ HqdmRelations.hqdmSwapAnyRelationNamesForIdsStrict joinedResults hqdmInputModel relationsInputModel
 
     -- putStr "\nExport the joined model all with predicates as Relation Ids:\n\n"
     -- putStr (concat $ HqdmLib.csvTriplesFromHqdmTriples allRelationIdJoinedTriples )    
@@ -270,11 +269,11 @@ main = do
     let exampleObjectTriples = lookupHqdmOne exampleObjectId allRelationIdJoinedTriples
 
     -- Type
-    let exampleObjectType = getTypeIdFromObject exampleObjectTriples hqdmInputModel
+    let exampleObjectType = HqdmRelations.getTypeIdFromObject exampleObjectTriples hqdmInputModel
     --putStr ("\n\nExample object type id: " ++ exampleObjectType ++ "\n\n")
 
     -- What BR sets apply to this type?
-    let exampleObjectTypeBRelSets = findBrelsFromDomain exampleObjectType relationsInputModel
+    let exampleObjectTypeBRelSets = HqdmRelations.findBrelsFromDomain exampleObjectType relationsInputModel
     --print exampleObjectTypeBRelSets
 
     -- Query for set membership of an element
@@ -293,29 +292,29 @@ main = do
 
     --- Check for Cardiality violations
 
-    let testResult = relationSetCheck (cardinalityMet exampleObjectTriples (head exampleObjectTypeBRelSets)) (head exampleObjectTypeBRelSets)
+    let testResult = HqdmRelations.relationSetCheck (HqdmRelations.cardinalityMet exampleObjectTriples (head exampleObjectTypeBRelSets)) (head exampleObjectTypeBRelSets)
     --putStr ("\n\nCardinality Check:\n\n" ++  show testResult)
 
     --let testResultSet = cardinalityMetAllRels exampleObjectTriples exampleObjectTypeBRelSets
     --putStr ("\n\nCardinality Check Set:\n\n" ++  show testResultSet)
 
-    let testResultAll = cardinalityTestAllObjects uniqueJoinNodes allRelationIdJoinedTriples hqdmInputModel relationsInputModel []
-    let invalidResuls = validityFilter testResultAll
-    let filteredResults = filterOutErrorsBy (head $ findBrelFromId "7b3caec7-7e9d-47cd-bb19-19d2872c326f" relationsInputModel) relationsInputModel invalidResuls
+    let testResultAll = HqdmRelations.cardinalityTestAllObjects uniqueJoinNodes allRelationIdJoinedTriples hqdmInputModel relationsInputModel []
+    let invalidResuls = HqdmRelations.validityFilter testResultAll
+    let filteredResults = HqdmRelations.filterOutErrorsBy (head $ HqdmRelations.findBrelFromId "7b3caec7-7e9d-47cd-bb19-19d2872c326f" relationsInputModel) relationsInputModel invalidResuls
     --putStr "\n\nFailed tests filtered to remove parthood relations = \n"
     --putStr (printableErrorResults filteredResults hqdmInputModel allRelationIdJoinedTriples)
 
     putStr "\n\nRange Check:\n\n"
 
-    let rangeTestResultsAll = rangeTestAllObjects uniqueJoinNodes allRelationIdJoinedTriples hqdmInputModel relationsInputModel []
-    let invalidRangeResults = validityFilter rangeTestResultsAll
+    let rangeTestResultsAll = HqdmRelations.rangeTestAllObjects uniqueJoinNodes allRelationIdJoinedTriples hqdmInputModel relationsInputModel []
+    let invalidRangeResults = HqdmRelations.validityFilter rangeTestResultsAll
     
     putStr "\n\nFailed range tests = \n"
     --putStr (printableErrorResults invalidRangeResults hqdmInputModel allRelationIdJoinedTriples)
 
     putStr "\n\nSingle test of rangeMetTest:\n\n"
     -- point_in_time 6bb0b0b6-41cd-4bb3-a0e8-d483b25f6cf1
-    let simpleRangeTest = rangeMetTest (HqdmLib.lookupHqdmOne "8883c70b-bc98-4c5f-b65d-92a21658947c" allRelationIdJoinedTriples) allRelationIdJoinedTriples hqdmInputModel (head $ findBrelFromId "8ea62706-fa07-40d7-8586-a8768403c01e" relationsInputModel)
+    let simpleRangeTest = HqdmRelations.rangeMetTest (HqdmLib.lookupHqdmOne "8883c70b-bc98-4c5f-b65d-92a21658947c" allRelationIdJoinedTriples) allRelationIdJoinedTriples hqdmInputModel (head $ HqdmRelations.findBrelFromId "8ea62706-fa07-40d7-8586-a8768403c01e" relationsInputModel)
     print simpleRangeTest
 
     putStr "\n\nSubBrel Tree mermaid example:\n\n"
@@ -330,16 +329,16 @@ main = do
     ------------------------------------------------------
     -- Create a list of related brels from brel ids in the test files 
     -- Test using the rispResult variable below
-    let testBrels = findBrelsFromIds ["319ac105-0d66-4a1e-bc26-21b57dd1102f", "5df20202-283c-4273-9551-456cc182dd0d"] relationsInputModel
+    let testBrels = HqdmRelations.findBrelsFromIds ["319ac105-0d66-4a1e-bc26-21b57dd1102f", "5df20202-283c-4273-9551-456cc182dd0d"] relationsInputModel
     
     putStr "\n\nTest of relationInSupertypePaths....\n\n"
     --let rispResult = relationInSupertypePaths "7b3caec7-7e9d-47cd-bb19-19d2872c326f" [head exampleObjectTypeBRelSets] relationsInputModel False
-    let rispResult = filterHigherLevelBrels testBrels relationsInputModel
+    let rispResult = HqdmRelations.filterHigherLevelBrels testBrels relationsInputModel
     print rispResult
 
     -- Find the spo statements of the given object and test if any of <o> identities are connected from the object to it by a BRel in the BRel Subtree
     -- putStr "\n\nSubBrel Tree example:\n\n"
-    let targetSubBrelTree = uniqueIds $ concat (findSubBRelTreeWithCount [[partOf]] relationsInputModel 100)
+    let targetSubBrelTree = uniqueIds $ concat (HqdmRelations.findSubBRelTreeWithCount [[partOf]] relationsInputModel 100)
     -- print targetSubBrelTree
 
     -- Do a transitive parthood query for a given node

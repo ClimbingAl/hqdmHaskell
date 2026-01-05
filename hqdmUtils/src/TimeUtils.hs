@@ -35,6 +35,7 @@ module TimeUtils (
     utcTimeFromUuid,
     uuidFromUTCTime,
     uuidV1Sort,
+    uuidV4Test,
     isUuidV1Strict,
     isoString
     ) where
@@ -66,6 +67,7 @@ import HqdmRelations (
     RelationId,
     HqdmBinaryRelationPure
     )
+import Data.Bool (Bool (False))
 
 headObjectIfTriplePresent :: [HqdmLib.HqdmTriple] -> String
 headObjectIfTriplePresent x
@@ -244,6 +246,15 @@ isUuidV1Strict str = go
         go 
             | isNothing uuid = False
             | otherwise = version (fromJust uuid) == 1
+
+uuidV4Test :: String -> Bool
+uuidV4Test "" = False
+uuidV4Test str = go 
+    where
+        uuid = fromString str
+        go 
+            | isNothing uuid = False
+            | otherwise = version (fromJust uuid) == 4
 
 -- | temporalOverlapTest
 -- Full state temporal-extent overlap test (based on Allen's Interval Agebra BUT also allowing for unbounded states)

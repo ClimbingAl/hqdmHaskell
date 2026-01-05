@@ -23,6 +23,10 @@ module HqdmQueries (
     order,
     emergent,
     nameAttribute,
+    aggregatedInto,
+    componentOf,
+    memberOfKind,
+    represents,
     filterForObjectOfType,
     filterRelsBy,
     filterRelsByAttribute,
@@ -39,6 +43,7 @@ where
 
 import qualified HqdmRelations
 import qualified HqdmLib
+import Data.String (String)
 
 part::HqdmRelations.RelationId
 part = "be900942-8601-4254-9a12-d87a5bfa05d3"
@@ -66,6 +71,19 @@ nameAttribute = "fe987366-a8ad-48fa-8821-73f54f6df180"
 
 hqdmTypeRel::String 
 hqdmTypeRel = "7e249a64-9f13-47d3-a232-562a3d080198"
+
+represents::String
+represents = "e24858f8-1966-41e8-8e07-ccfe138c4757"
+
+componentOf::String
+componentOf = "5df20202-283c-4273-9551-456cc182dd0d"
+
+aggregatedInto::String
+aggregatedInto = "5ec56b95-7945-45ce-b3eb-c96bda096cc9"
+
+memberOfKind::String
+memberOfKind = "6e23c714-9241-4132-aa7b-82391c6a60b7"
+
 
 -- | filterRelsBy
 -- Filter the given HqdmAllAsData joined triples by a given set of relations (relSet)
@@ -105,7 +123,7 @@ filterRelsByBrelAndRangeId relSet rangeId tpls brels = go tpls
         go tpls = [values | values <- tpls, (HqdmLib.predicate values `elem` subBrels) && (HqdmLib.object values == rangeId)]
 
 -- Named Object Type Filter
-filterForObjectOfType::[HqdmLib.HqdmTriple] -> String -> [String] 
+filterForObjectOfType::[HqdmLib.HqdmTriple] -> HqdmLib.Id -> [String] 
 filterForObjectOfType tpls typeName = [HqdmLib.subject values | values <- tpls, (typeName == HqdmLib.object values) && (hqdmTypeRel == HqdmLib.predicate values)]
 
 -- | transitiveQueryFromLeft

@@ -31,6 +31,7 @@ module HqdmLib
     lastIfStringPresent,
     lookupHqdmOne,
     lookupHqdmName,
+    lookupAllRelsToId,
     lookupHqdmTypeIdFromName,
     relationPairs,
     lookupHqdmType,
@@ -182,7 +183,13 @@ deleteItemsFromList fromList itemsToRemove = [x | x <- fromList, x `notElem` ite
 -- | lookupHqdmOne
 -- Find all the triples that have the given node Id (subject).
 lookupHqdmOne :: Id -> [HqdmTriple] -> [HqdmTriple]
-lookupHqdmOne x list = [values | values <- list, x == subject values]
+lookupHqdmOne x tpls = [values | values <- tpls, x == subject values]
+
+-- | lookupAllRelsToId
+-- Find all the triples that have the given node Id in the object position.
+-- i.e. Obtain all relationships to the given node Id. 
+lookupAllRelsToId :: Id -> [HqdmTriple] -> [HqdmTriple]
+lookupAllRelsToId x tpls = [values | values <- tpls, x == object values]
 
 -- | relationPairs
 -- Take a list of triples (typically with the same node Id from lookupHqdmOne) and return a list of the relation pairs.

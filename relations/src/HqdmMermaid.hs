@@ -19,11 +19,13 @@ module HqdmMermaid (
   mermaidTDTopAndTail,
   mermaidAddTitle,
   insertEntityNodeName,
+  insertBRsinString,
   insertBRNodeName,
   mermaidSubRelationPathsWithLayerCount,
   mermaidEulerCentralClassDef,
   mermaidEntityEulerTree,
-  mermaidAddEulerTitle
+  mermaidAddEulerTitle,
+  mermaidNodePaddingClassName
 ) where
 
 import HqdmLib
@@ -159,7 +161,7 @@ mermaidEntitySupertypeTree ids hqdm mmNodes= go ids hqdm mmNodes
 -- (supplied as a [[id]]). This takes hqdm type triples as [HqdmTriple].
 -- The ouput is a list of mermaid nodes and connections between them.
 mermaidEntityEulerTree :: [[HqdmLib.Id]] -> [HqdmLib.HqdmTriple] -> String -> String
-mermaidEntityEulerTree ids hqdm mmNodes= go ids hqdm mmNodes
+mermaidEntityEulerTree ids hqdm mmNodes = go ids hqdm mmNodes
   where
     nextLayer = last ids
     possibleNewLayer = HqdmLib.uniqueIds $ concat (HqdmLib.lookupSupertypesOf nextLayer hqdm)
@@ -237,3 +239,4 @@ mermaidSubRelationPathsWithLayerCount relIds brels cnt mmNodes = go relIds brels
     * ```
     * 
     */-}
+

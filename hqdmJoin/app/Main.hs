@@ -152,6 +152,12 @@ import TimeUtils (
     uuidV1Sort
     )
 
+import HqdmMermaid
+    ( mermaidAddTitle,
+      mermaidTDTopAndTail,
+      insertBRNodeName,
+      mermaidSubRelationPathsWithLayerCount ) 
+
 import qualified Data.Map as Map -- Perhaps use StringMap in the future
 -- from bytestring
 import qualified Data.ByteString.Lazy as BL
@@ -166,10 +172,10 @@ hqdmRelationsInputFilename::String
 hqdmRelationsInputFilename = "../HqdmBinaryRelations_v4.csv"
 
 hqdmInputFilename::String
-hqdmInputFilename = "../HqdmTypes_v4.csv"
+hqdmInputFilename = "../HqdmTypes_v4Mapped.csv"
 
 joinModelFilename::String
-joinModelFilename = "./input/networksBasic1converted.csv"
+joinModelFilename = "./input/routersWithConnectionsMapped.csv"
 
 elementOfType::HqdmRelations.RelationId
 elementOfType = "8130458f-ae96-4ab3-89b9-21f06a2aac78"
@@ -204,7 +210,7 @@ main = do
 
     joinModelTriples <- fmap V.toList . decode @HqdmTriple NoHeader <$> BL.readFile joinModelFilename
     let joinInputModel = fromRight [] joinModelTriples
-    --putStr ("\n\nLoaded Model to Join: " ++ joinModelFilename)
+    putStr ("\n\nLoaded Model to Join: " ++ joinModelFilename)
 
     -- Get the unique node ids of the input model
     let uniqueJoinNodes = uniqueIds $ getSubjects joinInputModel
@@ -262,19 +268,22 @@ main = do
     ----------------------------------------
     -- LOAD Pre-Joined Triples
     ----------------------------------------
-    preJoinedModel <- fmap V.toList . decode @HqdmTriple NoHeader <$> BL.readFile "joinedAllRelsTestStrict.csv"
-    let allRelationIdJoinedTriples = fromRight [] preJoinedModel
+    let allRelationIdJoinedTriples = joinInputModel
 
-    let exampleObjectId = "7e181b8d-0aed-46ee-928e-b08d60d0ed58"
-    let exampleObjectTriples = lookupHqdmOne exampleObjectId allRelationIdJoinedTriples
+    let exampleObjectId = "01812a37-ee77-4912-ab9d-d99468fe4fd7"
+    let exampleObjectTriples = lookupHqdmOne exampleObjectId joinInputModel
+    putStr "\n--Sample object from input dataset--\n\n"
+    print exampleObjectTriples
 
+    putStr "\n--Start Cardinality Check section--\n\n"
     -- Type
     let exampleObjectType = HqdmRelations.getTypeIdFromObject exampleObjectTriples hqdmInputModel
-    --putStr ("\n\nExample object type id: " ++ exampleObjectType ++ "\n\n")
+    putStr ("\n\nExample object type id: " ++ exampleObjectType ++ "\n\n")
 
     -- What BR sets apply to this type?
+    putStr "\n\nBRel Sets that apply:\n\n"
     let exampleObjectTypeBRelSets = HqdmRelations.findBrelsFromDomain exampleObjectType relationsInputModel
-    --print exampleObjectTypeBRelSets
+    print exampleObjectTypeBRelSets
 
     -- Query for set membership of an element
     --putStr "\n\nSet membership predicates:\n\n"
@@ -293,15 +302,16 @@ main = do
     --- Check for Cardiality violations
 
     let testResult = HqdmRelations.relationSetCheck (HqdmRelations.cardinalityMet exampleObjectTriples (head exampleObjectTypeBRelSets)) (head exampleObjectTypeBRelSets)
-    --putStr ("\n\nCardinality Check:\n\n" ++  show testResult)
+    putStr ("\n\nCardinality Check:\n\n" ++  show testResult)
 
-    --let testResultSet = cardinalityMetAllRels exampleObjectTriples exampleObjectTypeBRelSets
-    --putStr ("\n\nCardinality Check Set:\n\n" ++  show testResultSet)
+    let testResultSet = cardinalityMetAllRels exampleObjectTriples exampleObjectTypeBRelSets
+    putStr ("\n\nCardinality Check Set:\n\n" ++  show testResultSet)
 
     let testResultAll = HqdmRelations.cardinalityTestAllObjects uniqueJoinNodes allRelationIdJoinedTriples hqdmInputModel relationsInputModel []
     let invalidResuls = HqdmRelations.validityFilter testResultAll
     let filteredResults = HqdmRelations.filterOutErrorsBy (head $ HqdmRelations.findBrelFromId "7b3caec7-7e9d-47cd-bb19-19d2872c326f" relationsInputModel) relationsInputModel invalidResuls
-    --putStr "\n\nFailed tests filtered to remove parthood relations = \n"
+    putStr "\n\nFailed tests filtered to remove parthood relations = \n"
+    putStr "\nCommented out for now.\n\n"
     --putStr (printableErrorResults filteredResults hqdmInputModel allRelationIdJoinedTriples)
 
     putStr "\n\nRange Check:\n\n"
@@ -310,7 +320,7 @@ main = do
     let invalidRangeResults = HqdmRelations.validityFilter rangeTestResultsAll
     
     putStr "\n\nFailed range tests = \n"
-    --putStr (printableErrorResults invalidRangeResults hqdmInputModel allRelationIdJoinedTriples)
+    putStr (printableErrorResults invalidRangeResults hqdmInputModel allRelationIdJoinedTriples)
 
     putStr "\n\nSingle test of rangeMetTest:\n\n"
     -- point_in_time 6bb0b0b6-41cd-4bb3-a0e8-d483b25f6cf1
@@ -318,14 +328,14 @@ main = do
     print simpleRangeTest
 
     putStr "\n\nSubBrel Tree mermaid example:\n\n"
-    --let subBrelTree = findSubBRelTreeWithCount [[universalRelationSet]] relationsInputModel 2
+    let subBrelTree = findSubBRelTreeWithCount [[universalRelationSet]] relationsInputModel 2
     let relId = "be900942-8601-4254-9a12-d87a5bfa05d3" -- "7b3caec7-7e9d-47cd-bb19-19d2872c326f" Part --"69b0e5b9-3be2-4ec3-a9a6-bb5b523d4b32" Attr --"85e78ac0-ec72-478f-9aac-cacb520290a0" Top --"2db5490e-01d0-491e-bd64-67ac616f65a0" Set -- "f533fac8-d228-4c10-8799-a26fe6ea16a4" Emergent -- "cfb37186-d2d6-48de-a418-6197bdf0a7b0" Order
-    -- let mermaidSubBrelTree = mermaidAddTitle (mermaidTDTopAndTail (insertBRNodeName relId relationsInputModel ++ mermaidSubRelationPathsWithLayerCount [[relId]] relationsInputModel 2 "")) ("Sub-BRel graph for " ++ relId)
-    -- putStr mermaidSubBrelTree
+    let mermaidSubBrelTree = mermaidAddTitle (mermaidTDTopAndTail (insertBRNodeName relId relationsInputModel ++ mermaidSubRelationPathsWithLayerCount [[relId]] relationsInputModel 2 "")) ("Sub-BRel graph for " ++ relId)
+    putStr mermaidSubBrelTree
 
-    -- putStr "\n\nInput Rel Set:\n\n"
-    -- print exampleObjectTypeBRelSets
-
+    putStr "\n\nInput Rel Set:\n\n"
+    print exampleObjectTypeBRelSets
+{-
     ------------------------------------------------------
     -- Create a list of related brels from brel ids in the test files 
     -- Test using the rispResult variable below
@@ -384,6 +394,7 @@ main = do
     let afterRels = generateOrderRelations orderedTimePairs
     --print afterRels
     --print ("Number of order rels = " ++ show ( length afterRels) )
+-}
     putStr "\n\nDONE\n\n"
 
 

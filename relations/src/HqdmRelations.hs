@@ -138,7 +138,18 @@ import qualified HqdmLib (
 import GHC.Generics (Generic)
 import Data.Csv (FromRecord)
 import Data.List (isPrefixOf, sortOn)
-import Data.Maybe (maybe, isJust)
+import Data.Maybe (isNothing, fromJust)
+import Data.UUID.Util (version)
+import Data.UUID.Types.Internal (fromString)
+
+uuidV5Test :: String -> Bool
+uuidV5Test "" = False
+uuidV5Test str = go 
+    where
+        uuid = Data.UUID.Types.Internal.fromString str
+        go 
+            | isNothing uuid = False
+            | otherwise = Data.UUID.Util.version (fromJust uuid) == 5
 
 -- | In a RelationPairSet xR'y the  is a list of [R'y] for x, where R' can be any allowed 
 --   number of instances of permitted Relations
@@ -797,7 +808,13 @@ cardinalityTestAllObjects uuids tplsAll hqdm brels results = go uuids tplsAll hq
 -- | getTypeIdFromObject
 -- Get the Id of the Hqdm Type from a supplied set of triples for a joined Hqdm object ### Implement test for this?
 getTypeIdFromObject:: [HqdmLib.HqdmTriple] -> [HqdmLib.HqdmTriple] -> HqdmLib.Id
-getTypeIdFromObject objTpls hqdm = head $ HqdmLib.lookupHqdmIdsFromTypePredicates hqdm ( HqdmLib.lookupHqdmType objTpls )
+getTypeIdFromObject objTpls hqdm = go hqdm
+  where 
+    typeIdOrNameHash = head $ HqdmLib.lookupHqdmIdsFromTypePredicates hqdm ( HqdmLib.lookupHqdmType objTpls )
+
+    go hqdm
+      | version (fromJust $ fromString typeIdOrNameHash) == 5 = HqdmLib.lookupHqdmTypeIdFromName hqdm typeIdOrNameHash
+      | otherwise = typeIdOrNameHash
 
 -- | cardinalityMetAllRels
 -- Tests whether the collection of triples for a single Hqdm Node (object) satisfies 
@@ -868,7 +885,7 @@ rangeMetAllRels _ [] _ _ = []
 rangeMetAllRels [] _ _ _ = []
 rangeMetAllRels tpls tplsAll hqdm (brel : brels) = relationSetAndIdCheck (rangeMet tpls tplsAll hqdm brel) brel (HqdmLib.subject $ head tpls) : rangeMetAllRels tpls tplsAll hqdm brels
 
--- | cardinalityMet
+-- | rangeMet
 -- Tests whether the collection of triples for a single Hqdm Node (object) satisfies the
 -- supplied HqdmBinaryRelationPureheadIfStringPresent tpls
 -- Take the following arguments:
@@ -883,7 +900,7 @@ rangeMet tpls tplsAll hqdm brel = go
         rangeInstanceOfBrel = HqdmLib.headIfStringPresent [HqdmLib.object values | values <- tpls, getPureRelationId brel == HqdmLib.predicate values]
         tplsForRangeObject = HqdmLib.lookupHqdmOne rangeInstanceOfBrel tplsAll
         typeOfInstanceOfBrel = HqdmLib.headIfStringPresent $ HqdmLib.lookupHqdmTypeFromAll tplsForRangeObject rangeInstanceOfBrel --- Maybe need to lookupHqdmOne here
-        idOfType = HqdmLib.lookupHqdmTypeIdFromName hqdm typeOfInstanceOfBrel
+        idOfType = getTypeIdFromObject hqdm tplsForRangeObject
         subTypeTreeOfRange = concat $ HqdmLib.findSubtypeTree [[brelRange]] hqdm
 
         go

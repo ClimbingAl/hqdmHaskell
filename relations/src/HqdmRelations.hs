@@ -733,7 +733,7 @@ findSubBinaryRelationTree ids hqdmBrels = go ids hqdmBrels
 printableErrorResults:: [(RelationCheck, HqdmBinaryRelationPure, HqdmLib.Id)] -> [HqdmLib.HqdmTriple] -> [HqdmLib.HqdmTriple] -> String
 printableErrorResults errs hqdm tpls =
     concatMap (\ x ->
-        "\n\nObject Id:" ++ show (thdOf3 x) ++ " representing type '" ++ HqdmLib.lookupHqdmType (HqdmLib.lookupHqdmOne (thdOf3 x) tpls) ++ "'" ++
+        "\n\nObject Id:" ++ show (thdOf3 x) ++ " of type '" ++ HqdmLib.lookupHqdmType (HqdmLib.lookupHqdmOne (thdOf3 x) tpls) ++ "'" ++
         "\nRelation check result: " ++ show (fstOf3 x) ++
         onlyPrintInvalidTypeCause x ++
         printRelationWithTypeNames ( sndOf3 x) hqdm

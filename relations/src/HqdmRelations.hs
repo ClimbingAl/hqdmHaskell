@@ -144,10 +144,10 @@ import Data.UUID.Types.Internal (fromString)
 
 uuidV5Test :: String -> Bool
 uuidV5Test "" = False
-uuidV5Test str = go 
+uuidV5Test str = go
     where
         uuid = Data.UUID.Types.Internal.fromString str
-        go 
+        go
             | isNothing uuid = False
             | otherwise = Data.UUID.Util.version (fromJust uuid) == 5
 
@@ -733,7 +733,7 @@ findSubBinaryRelationTree ids hqdmBrels = go ids hqdmBrels
 printableErrorResults:: [(RelationCheck, HqdmBinaryRelationPure, HqdmLib.Id)] -> [HqdmLib.HqdmTriple] -> [HqdmLib.HqdmTriple] -> String
 printableErrorResults errs hqdm tpls =
     concatMap (\ x ->
-        "\n\nObject Id:" ++ show (thdOf3 x) ++ " of type '" ++ (HqdmLib.lookupHqdmType $ HqdmLib.lookupHqdmOne (thdOf3 x) tpls) ++ "'" ++
+        "\n\nObject Id:" ++ show (thdOf3 x) ++ " representing type '" ++ HqdmLib.lookupHqdmType (HqdmLib.lookupHqdmOne (thdOf3 x) tpls) ++ "'" ++
         "\nRelation check result: " ++ show (fstOf3 x) ++
         onlyPrintInvalidTypeCause x ++
         printRelationWithTypeNames ( sndOf3 x) hqdm
@@ -809,7 +809,7 @@ cardinalityTestAllObjects uuids tplsAll hqdm brels results = go uuids tplsAll hq
 -- Get the Id of the Hqdm Type from a supplied set of triples for a joined Hqdm object ### Implement test for this?
 getTypeIdFromObject:: [HqdmLib.HqdmTriple] -> [HqdmLib.HqdmTriple] -> HqdmLib.Id
 getTypeIdFromObject objTpls hqdm = go hqdm
-  where 
+  where
     typeIdOrNameHash = head $ HqdmLib.lookupHqdmIdsFromTypePredicates hqdm ( HqdmLib.lookupHqdmType objTpls )
 
     go hqdm

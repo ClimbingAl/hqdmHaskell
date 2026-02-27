@@ -62,7 +62,7 @@ module HqdmLib
   )
 where
 
-import Data.Csv (FromRecord)
+import Data.Csv (FromRecord, ToRecord)
 import Data.List (elemIndices)
 import GHC.Generics (Generic)
 import HqdmIds (thing)
@@ -75,6 +75,7 @@ data HqdmTriple = HqdmTriple
   deriving (Show, Eq, Generic)
 
 instance FromRecord HqdmTriple
+instance ToRecord HqdmTriple
 
 data RelationPair = RelationPair
   { p :: !Id,

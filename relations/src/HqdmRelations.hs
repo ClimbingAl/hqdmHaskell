@@ -24,7 +24,7 @@ module HqdmRelations
     HqdmRelationSet,
     HqdmBinaryRelation,
     HqdmBinaryRelationSet,
-    HqdmBinaryRelationPure,
+    HqdmBinaryRelationPure(..),
     RelationCheck (Valid, Invalid),
     relationSetCheck,
     relationSetAndIdCheck,

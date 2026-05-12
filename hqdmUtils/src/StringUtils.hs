@@ -18,12 +18,14 @@ module StringUtils (
     createEmptyUuidMap,
     joinStringsFromMap,
     listRemoveDuplicates,
-    stringToDateOrHashUuid,
+    lookupValueFromDateOrHashUuid,
+    reverseLookupDateOrHashUuid,
+    stringToDateOrHashUuid',
     stringTuplesFromTriples,
     uuidV5FromString
     ) where
 
-import Data.List (nub)
+import Data.List (nub, find)
 import Data.Maybe
 import qualified Data.Map as Map -- Perhaps use StringMap in the future
 import Data.UUID.Types ( toString )
@@ -64,7 +66,7 @@ stringToDateOrHashUuid :: String -> (Map.Map String String, Map.Map String Strin
 stringToDateOrHashUuid str uidMaps = go str uidMaps
     where
         dateTime = iso8601ParseM str :: Maybe UTCTime
-        unixTimeInt = readMaybe str 
+        unixTimeInt = readMaybe str
 
         go str uidMaps
          | HqdmLib.nodeIdentityTest str = uidMaps -- Defence against re-uuid-'ing a uuid that is passed to this function
@@ -72,6 +74,30 @@ stringToDateOrHashUuid str uidMaps = go str uidMaps
              snd uidMaps )
          | isNothing dateTime = ( fst uidMaps, addNewEntryIfNotInMap (snd uidMaps) ( uuidV5FromString str, str ))
          | otherwise = ( addNewEntryIfNotInMap (fst uidMaps) ( TimeUtils.uuidFromUTCTime ( fromJust dateTime ), str ), snd uidMaps )
+
+stringToDateOrHashUuid' :: String -> Map.Map String String -> Map.Map String String
+stringToDateOrHashUuid' str uidMap = go str uidMap
+    where
+        dateTime = iso8601ParseM str :: Maybe UTCTime
+        unixTimeInt = readMaybe str
+
+        go str uidMap
+         | HqdmLib.nodeIdentityTest str = uidMap -- Defence against re-uuid-'ing a uuid that is passed to this function
+         | isJust unixTimeInt = addNewEntryIfNotInMap uidMap ( TimeUtils.uuidFromUTCTime ( posixSecondsToUTCTime $ fromIntegral (fromJust unixTimeInt) ), str )
+         | isNothing dateTime = addNewEntryIfNotInMap uidMap (uuidV5FromString str, str )
+         | otherwise = addNewEntryIfNotInMap uidMap ( TimeUtils.uuidFromUTCTime ( fromJust dateTime ), str )
+
+lookupValueFromDateOrHashUuid :: String -> Map.Map String String -> String
+lookupValueFromDateOrHashUuid key uidMap =
+    case Map.lookup key uidMap of
+        Just val -> fromMaybe "" (Just val)
+        Nothing  -> ""
+
+reverseLookupDateOrHashUuid :: String -> Map.Map String String -> String
+reverseLookupDateOrHashUuid val uidMap =
+    fromMaybe "" (findKey val uidMap)
+  where
+    findKey target m = fst <$> find (\(_, v) -> v == target) (Map.toList m)
 
 
 -- Extract strings from s-p-o triples into list
@@ -85,7 +111,7 @@ stringTuplesFromTriples (tpl:tpls) tupls
         | otherwise = stringTuplesFromTriples tpls (tupls ++ [( TimeUtils.uuidFromUTCTime ( fromJust maybeTime ), HqdmLib.object tpl )])
     where
         maybeTime = iso8601ParseM (HqdmLib.object tpl) :: Maybe UTCTime
-        unixTimeInt = readMaybe (HqdmLib.object tpl) 
+        unixTimeInt = readMaybe (HqdmLib.object tpl)
 
 listRemoveDuplicates :: (Eq a) => [(a,a)] -> [(a,a)]
 listRemoveDuplicates [] = []

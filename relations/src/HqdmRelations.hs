@@ -45,6 +45,7 @@ module HqdmRelations
     printRelation,
     printRelationWithTypeNames,
     getBrelDomainFromRels,
+    getBrelRangeFromRels,
     findBrelDomainSupertypes,
     findBrelFromId,
     findBrelsFromIds,
@@ -367,6 +368,9 @@ getRelationNameFromRels relId brels = HqdmLib.headIfStringPresent [pureBinaryRel
 
 getBrelDomainFromRels :: RelationId -> [HqdmBinaryRelationPure] -> HqdmLib.Id
 getBrelDomainFromRels relId brels = HqdmLib.headIfStringPresent [pureDomain values | values <- brels, relId == pureBinaryRelationId values]
+
+getBrelRangeFromRels :: RelationId -> [HqdmBinaryRelationPure] -> HqdmLib.Id
+getBrelRangeFromRels relId brels = HqdmLib.headIfStringPresent [pureRange values | values <- brels, relId == pureBinaryRelationId values]
 
 findBrelDomainSupertypes :: RelationId -> [HqdmBinaryRelationPure] -> [HqdmLib.HqdmTriple] -> [HqdmLib.Id]
 findBrelDomainSupertypes relId brels = HqdmLib.lookupSupertypeOf (getBrelDomainFromRels relId brels)

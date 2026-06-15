@@ -34,6 +34,7 @@ import Codec.Binary.UTF8.String ( encode )
 import Data.UUID ( nil )
 import TimeUtils ( uuidFromUTCTime )
 import Text.Read ( readMaybe )
+import Data.Time.LocalTime (ZonedTime, zonedTimeToUTC) 
 import Data.Time.Format.ISO8601 ( iso8601ParseM )
 import Data.Time.Clock
 import Data.Time.Clock.POSIX ( posixSecondsToUTCTime, POSIXTime )
@@ -65,7 +66,10 @@ createEmptyUuidMap = Map.empty
 stringToDateOrHashUuid :: String -> (Map.Map String String, Map.Map String String) -> (Map.Map String String, Map.Map String String)
 stringToDateOrHashUuid str uidMaps = go str uidMaps
     where
-        dateTime = iso8601ParseM str :: Maybe UTCTime
+        -- Parse to ZonedTime first, which supports both 'Z' and '+01:00' offsets safely
+        zonedTime = iso8601ParseM str :: Maybe ZonedTime
+        -- Extract UTCTime out of the successful parse structure
+        dateTime  = zonedTimeToUTC <$> zonedTime 
         unixTimeInt = readMaybe str
 
         go str uidMaps
@@ -78,7 +82,10 @@ stringToDateOrHashUuid str uidMaps = go str uidMaps
 stringToDateOrHashUuid' :: String -> Map.Map String String -> Map.Map String String
 stringToDateOrHashUuid' str uidMap = go str uidMap
     where
-        dateTime = iso8601ParseM str :: Maybe UTCTime
+        -- Parse to ZonedTime first, which supports both 'Z' and '+01:00' offsets safely
+        zonedTime = iso8601ParseM str :: Maybe ZonedTime
+        -- Extract UTCTime out of the successful parse structure
+        dateTime  = zonedTimeToUTC <$> zonedTime 
         unixTimeInt = readMaybe str
 
         go str uidMap

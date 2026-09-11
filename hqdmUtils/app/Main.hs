@@ -129,27 +129,44 @@ main = do
   print (Map.toList uuidV1Map1)
   print (Map.toList uuidV1Map1POSIX1)
 
-  -- Now test the conversion of a mapped dataset
+  putStr "\n\nGenerate replacement string maps: \n\n"
+  let hyperbro = snd $ StringUtils.stringToDateOrHashUuid "Association of this IP address and its description:HYPERBRO C2" (uuidV1Map, uuidV5Map)
+  print (Map.toList hyperbro)
+  let hyperbro1 = snd $ StringUtils.stringToDateOrHashUuid "Association 1 of participant IP address and malware name:HYPERBRO C2" (uuidV1Map, uuidV5Map)
+  print (Map.toList hyperbro1)
+  let hyperbro2 = snd $ StringUtils.stringToDateOrHashUuid "Association 2 of participant IP address and malware name:HYPERBRO C2" (uuidV1Map, uuidV5Map)
+  print (Map.toList hyperbro2)
+  let hyperbro3= snd $ StringUtils.stringToDateOrHashUuid "Association 3 of participant IP address and malware name:HYPERBRO C2" (uuidV1Map, uuidV5Map)
+  print (Map.toList hyperbro3)
+
+  let ascentKofSC = snd $ StringUtils.stringToDateOrHashUuid "KindOfSystemComponent__Kind_of_Lunar_Lander_Ascent_System_Component" (uuidV1Map, uuidV5Map)
+  print (Map.toList ascentKofSC)
+  let descentKofSC= snd $ StringUtils.stringToDateOrHashUuid "KindOfSystemComponent__Kind_of_Lunar_Lander_Descent_System_Component" (uuidV1Map, uuidV5Map)
+  print (Map.toList descentKofSC)
+  
+
+  {--- Now test the conversion of a mapped dataset
   joinModelTriples <- fmap V.toList . decode @HqdmLib.HqdmTriple NoHeader <$> BL.readFile joinModelFilename
   let joinInputModel = fromRight [] joinModelTriples
   let convertedStrings = StringUtils.listRemoveDuplicates $ StringUtils.stringTuplesFromTriples joinInputModel []
-
+  -}
   -- Add it to a Map
-  let finalMap = Map.fromList convertedStrings
+  --let finalMap = Map.fromList convertedStrings
 
   -- Now replace the original strings with their uuid keys
-  let fullyJoinedInputModel = StringUtils.joinStringsFromMap joinInputModel finalMap
+  --let fullyJoinedInputModel = StringUtils.joinStringsFromMap joinInputModel finalMap
   --putStr "\n\nWrite converted dataset to terminal\n\n"
   --print fullyJoinedInputModel
 
   -- Fetch the relations for a single HQDM object
-  let testId = "9ffa0fc1-3365-4f63-801d-63ef72bda8e1" 
-  let testObject = HqdmLib.lookupHqdmOne testId fullyJoinedInputModel
-  print testObject
+  --let testId = "9ffa0fc1-3365-4f63-801d-63ef72bda8e1" 
+  --let testObject = HqdmLib.lookupHqdmOne testId fullyJoinedInputModel
+  --print testObject
 
-  let cmpResult = TimeUtils.pointInTimeCompareWithState (TimeUtils.uuidFromUTCTime $ TimeUtils.utcTimeFromUuid uuid2) testObject fullyJoinedInputModel relationsInputModel
+  -- ERROR RAISED BELOW BUT HAVEN'T HAD TIME TO LOOK INTO IT YET. PREVIOUSLY WORKED
+  {-let cmpResult = TimeUtils.pointInTimeCompareWithState (TimeUtils.uuidFromUTCTime $ TimeUtils.utcTimeFromUuid uuid2) testObject fullyJoinedInputModel relationsInputModel
   putStr "\n\nCompare testUuidv1 with provided state: "
-  print cmpResult
+  print cmpResult-}
 
   {-
   let b = TimeUtils.headObjectIfTriplePresent $ HqdmQueries.filterRelsByBeginning testObject relationsInputModel
@@ -157,7 +174,8 @@ main = do
   let beginningUuid = TimeUtils.headObjectIfTriplePresent $ HqdmQueries.filterRelsByAttribute beginningObj relationsInputModel
   -}
 
- -- Now trial the temporalAlgebra test dataset and functionj
+  {-
+  -- Now trial the temporalAlgebra test dataset and functionj
   temporalAlgebraTestTriples <- fmap V.toList . decode @HqdmLib.HqdmTriple NoHeader <$> BL.readFile temporalAlgebraTestFilename
   let temporalAlgebraTestModel = fromRight [] temporalAlgebraTestTriples
   let convertedTAStrings = StringUtils.listRemoveDuplicates $ StringUtils.stringTuplesFromTriples temporalAlgebraTestModel []
@@ -204,5 +222,5 @@ main = do
   print ("17 " ++ show (TimeUtils.temporalOverlapTest testTAObjectI testTAObjectJ fullyJoinedTAInputModel relationsInputModel))
   print ("18 " ++ show (TimeUtils.temporalOverlapTest testTAObjectK testTAObjectK fullyJoinedTAInputModel relationsInputModel))
   print ("19 " ++ show (TimeUtils.temporalOverlapTest testTAObjectA testTAObjectA fullyJoinedTAInputModel relationsInputModel))
- 
+ -}
   

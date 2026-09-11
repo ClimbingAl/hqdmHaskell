@@ -33,6 +33,7 @@ module HqdmLib
     lookupHqdmName,
     lookupAllRelsToId,
     lookupHqdmTypeIdFromName,
+    lookupHqdmTypeNameFromId,
     relationPairs,
     lookupHqdmType,
     lookupHqdmIdsFromTypePredicates,
@@ -62,7 +63,7 @@ module HqdmLib
   )
 where
 
-import Data.Csv (FromRecord)
+import Data.Csv (FromRecord, ToRecord)
 import Data.List (elemIndices)
 import GHC.Generics (Generic)
 import HqdmIds (thing)
@@ -75,6 +76,7 @@ data HqdmTriple = HqdmTriple
   deriving (Show, Eq, Generic)
 
 instance FromRecord HqdmTriple
+instance ToRecord HqdmTriple
 
 data RelationPair = RelationPair
   { p :: !Id,
@@ -206,10 +208,13 @@ lookupHqdmTypeFromAll hqdmAll nodeId = [object values | values <- hqdmAll, ((hqd
 lookupHqdmTypeIdFromName :: [HqdmTriple] -> String -> String
 lookupHqdmTypeIdFromName hqdmAll typeName = headIfStringPresent [subject values | values <- hqdmAll, ((hqdmType == predicate values) || ( hqdmTypeId == predicate values)) && (typeName == object values)]
 
+lookupHqdmTypeNameFromId :: [HqdmTriple] -> String -> String
+lookupHqdmTypeNameFromId hqdmAll typeId = headIfStringPresent [object values | values <- hqdmAll, ((hqdmType == predicate values) || ( hqdmTypeId == predicate values)) && (typeId == subject values)]
+
 -- | lookupHqdmType
 -- From the triples with a given node Id (subject), from lookupHqdmOne, find the object with the predicate type.
 lookupHqdmType :: [HqdmTriple] -> String
-lookupHqdmType obj = headIfStringPresent $ ([object values | values <- obj, (hqdmType == predicate values) || ( hqdmTypeId == predicate values)])
+lookupHqdmType obj = headIfStringPresent ([object values | values <- obj, (hqdmType == predicate values) || ( hqdmTypeId == predicate values)])
 
 -- | lookupHqdmName
 -- From the triples with a given node Id (subject), from lookupHqdmOne, find the object with the predicate type.

@@ -30,6 +30,7 @@ import Data.Maybe
 import qualified Data.Map as Map -- Perhaps use StringMap in the future
 import Data.UUID.Types ( toString )
 import Data.UUID.V5 ( generateNamed )
+import Data.UUID.V4 ( nextRandom )
 import Codec.Binary.UTF8.String ( encode )
 import Data.UUID ( nil )
 import TimeUtils ( uuidFromUTCTime )

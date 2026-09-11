@@ -50,6 +50,7 @@ module HqdmRelations
     findBrelFromId,
     findBrelsFromIds,
     findBrelsFromDomain,
+    findBrelsFromRange,
     superRelationPathsToUniversalRelation,
     relIdNameTupleLayers,
     relIdNameTuples,
@@ -380,6 +381,9 @@ findBrelFromId relId brels = take 1 [values | values <- brels, relId == pureBina
 
 findBrelsFromDomain :: HqdmLib.Id -> [HqdmBinaryRelationPure] -> [HqdmBinaryRelationPure]
 findBrelsFromDomain domId brels = [values | values <- brels, domId == pureDomain values]
+
+findBrelsFromRange :: HqdmLib.Id -> [HqdmBinaryRelationPure] -> [HqdmBinaryRelationPure]
+findBrelsFromRange rangeId brels = [values | values <- brels, rangeId == pureRange values]
 
 findBrelsFromIds :: [RelationId] -> [HqdmBinaryRelationPure] -> [HqdmBinaryRelationPure]
 findBrelsFromIds relIds brels = concatMap ( \ x -> take 1 [values | values <- brels, x == pureBinaryRelationId values] ) relIds

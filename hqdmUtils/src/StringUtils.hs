@@ -20,6 +20,7 @@ module StringUtils (
     listRemoveDuplicates,
     lookupValueFromDateOrHashUuid,
     reverseLookupDateOrHashUuid,
+    stringToDateOrHashUuid,
     stringToDateOrHashUuid',
     stringTuplesFromTriples,
     uuidV5FromString

@@ -1,6 +1,10 @@
 # Haskell parser for HQDM notated in a functionally-compatible form
 
-:new: :star:
+:new: :star: :star:
+This is the final version before a major upgrade to migrate hqdmHaskell away from (notoriously slow) string data types for the ids to a more suitable, fundamental base type.
+The status of this version is that it supports pure ids (albeit as strings) for Binary Relations in addition to the `subject` and `object` ids.  The examples below are now unrepresentative of this change but they are more meaningful to a human reader as they are.  I will make updates to this once the migration away from the Haskell string data types has been done. :star: :star: :new:
+
+:star:
 Command line tools for querying the functionally-compatible specification information of HQDM using the functions from this project: [`entityTypeSpec`](https://github.com/ClimbingAl/hqdmHaskell/tree/main/entityTypeSpec), [`relationPathUp`](https://github.com/ClimbingAl/hqdmHaskell/tree/main/relationPathUp), [`hqdmMapToPure`](https://github.com/ClimbingAl/hqdmHaskell/tree/main/hqdmMapToPure) and [`hqdmCardinalityChecker`](https://github.com/ClimbingAl/hqdmHaskell/tree/main/hqdmCardinalityChecker). :star:
 
 This is an experiment in the functional parsing (and ultimately querying) of the HQDM data model.  This project started with another experiment to represent HQDM model itself as RDF triples - _subject_ <- _predicate_ -> _object_ statements, without the description logic baggage of RDFS and OWL.  The source data for that orgininal experiment model itself is the master HQDM AllAsData used in some of my other projects, such as [HQDM Patterns](https://climbingal.github.io/HqdmPatterns/).  That dataset has been used as the input to the representation of HQDM for functional parsing.  One of the goals of the work has been to see if compatability with other uses of HQDM can be achieved while removing any dependencies on them.  Any project that uses Magma Core is likely compatible with what I have done although my fork of it is the best place to look for some tweaks that help [Magma Core](https://github.com/ClimbingAl/MagmaCore/).  All that Magma Core-based datasets need is a binding to the [HqdmAllAsData](https://github.com/ClimbingAl/code-for-hqdm-patterns/blob/main/source-files/hqdmAllAsData.ttl) dataset that represents the model used for this functional parser.  This binding can be done with the `hqdmJoin` package in this repo.
@@ -34,7 +38,7 @@ The first 2 lines of the original hqdmAllAsData triples relevant to having a rec
 |hqdm:f5ac9254-2b93-4ed7-b89e-70994842b438|rdf:type|hqdm:state_of_biological_object|
 |hqdm:f5ac9254-2b93-4ed7-b89e-70994842b438|hqdm:has_supertype|hqdm:f9cb048d-a2f7-4ff6-b824-c59b44e2aabe|
 
-The original generation of hqdmAllAsData was done using MaggmaCore and pseudo-reliance on RDF but the principles for _hqdmHaskell_ demanded independence of external standards.  The namespace prefixes are therefore removed for use in hqdmHaskell
+The original generation of hqdmAllAsData was done using MagmaCore and pseudo-reliance on RDF but the principles for _hqdmHaskell_ demanded independence of external standards.  The namespace prefixes are therefore removed for use in hqdmHaskell
 
 | subject | predicate | object|
 | --- | --- | --- |

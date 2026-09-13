@@ -45,6 +45,7 @@ module HqdmLib
     lookupSubtypesOf,
     lookupSupertypeOf,
     lookupSupertypesOf,
+    findHqdmTypesInList,
     findHqdmTypeNamesInList,
     findHqdmNamesInList,
     findSupertypeTree,
@@ -288,6 +289,11 @@ lookupSupertypesOf :: [Id] -> [HqdmHasSupertype] -> [[Id]]
 lookupSupertypesOf [] _ = []
 lookupSupertypesOf _ [] = []
 lookupSupertypesOf (id : ids) list = lookupSupertypeOf id list : lookupSupertypesOf ids list
+
+-- | findHqdmTypesInList
+-- Find the type names of the Node Ids supplied as a list of Strings.  Takes HQDM AllAsData as input.
+findHqdmTypesInList :: [Id] -> [HqdmTriple] -> [Id]
+findHqdmTypesInList xs hqdmIn = fmap (\ x -> fromJust $ lookupHqdmType (lookupHqdmOne x hqdmIn)) xs
 
 -- | findSupertypeTree
 -- From all the triples given by lookupSupertypes find all the supertypes of a given node Id

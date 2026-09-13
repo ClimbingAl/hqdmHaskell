@@ -44,45 +44,47 @@ where
 import qualified HqdmRelations
 import qualified HqdmLib
 import Data.String (String)
+import Data.UUID (UUID, fromString, toString)
+import Data.Maybe (fromJust)
 
 part::HqdmRelations.RelationId
-part = "be900942-8601-4254-9a12-d87a5bfa05d3"
+part = fromJust $ fromString "be900942-8601-4254-9a12-d87a5bfa05d3"
 
 set::HqdmRelations.RelationId
-set = "2db5490e-01d0-491e-bd64-67ac616f65a0"
+set = fromJust $ fromString "2db5490e-01d0-491e-bd64-67ac616f65a0"
 
 order::HqdmRelations.RelationId
-order = "cfb37186-d2d6-48de-a418-6197bdf0a7b0"
+order = fromJust $ fromString "cfb37186-d2d6-48de-a418-6197bdf0a7b0"
 
 emergent::HqdmRelations.RelationId
-emergent = "f533fac8-d228-4c10-8799-a26fe6ea16a4"
+emergent = fromJust $ fromString "f533fac8-d228-4c10-8799-a26fe6ea16a4"
 
 attribute::HqdmRelations.RelationId
-attribute = "69b0e5b9-3be2-4ec3-a9a6-bb5b523d4b32"
+attribute = fromJust $ fromString "69b0e5b9-3be2-4ec3-a9a6-bb5b523d4b32"
 
 beginning::HqdmRelations.RelationId
-beginning = "96c965a9-ec3e-47f2-b18e-b67147bc0873"
+beginning = fromJust $ fromString "96c965a9-ec3e-47f2-b18e-b67147bc0873"
 
 ending::HqdmRelations.RelationId
-ending = "aee002be-0529-4b80-82b0-0a6bcca34e48"
+ending = fromJust $ fromString "aee002be-0529-4b80-82b0-0a6bcca34e48"
 
 nameAttribute::HqdmRelations.RelationId
-nameAttribute = "fe987366-a8ad-48fa-8821-73f54f6df180"
+nameAttribute = fromJust $ fromString "fe987366-a8ad-48fa-8821-73f54f6df180"
 
-hqdmTypeRel::String 
-hqdmTypeRel = "7e249a64-9f13-47d3-a232-562a3d080198"
+hqdmTypeRel::UUID 
+hqdmTypeRel = fromJust $ fromString "7e249a64-9f13-47d3-a232-562a3d080198"
 
-represents::String
-represents = "e24858f8-1966-41e8-8e07-ccfe138c4757"
+represents::UUID
+represents = fromJust $ fromString "e24858f8-1966-41e8-8e07-ccfe138c4757"
 
-componentOf::String
-componentOf = "5df20202-283c-4273-9551-456cc182dd0d"
+componentOf::UUID
+componentOf = fromJust $ fromString "5df20202-283c-4273-9551-456cc182dd0d"
 
-aggregatedInto::String
-aggregatedInto = "5ec56b95-7945-45ce-b3eb-c96bda096cc9"
+aggregatedInto::UUID
+aggregatedInto = fromJust $ fromString "5ec56b95-7945-45ce-b3eb-c96bda096cc9"
 
-memberOfKind::String
-memberOfKind = "6e23c714-9241-4132-aa7b-82391c6a60b7"
+memberOfKind::UUID
+memberOfKind = fromJust $ fromString "6e23c714-9241-4132-aa7b-82391c6a60b7"
 
 
 -- | filterRelsBy
@@ -123,7 +125,7 @@ filterRelsByBrelAndRangeId relSet rangeId tpls brels = go tpls
         go tpls = [values | values <- tpls, (HqdmLib.predicate values `elem` subBrels) && (HqdmLib.object values == rangeId)]
 
 -- Named Object Type Filter
-filterForObjectOfType::[HqdmLib.HqdmTriple] -> HqdmLib.Id -> [String] 
+filterForObjectOfType::[HqdmLib.HqdmTriple] -> HqdmLib.Id -> [UUID] 
 filterForObjectOfType tpls typeName = [HqdmLib.subject values | values <- tpls, (typeName == HqdmLib.object values) && (hqdmTypeRel == HqdmLib.predicate values)]
 
 -- | transitiveQueryFromLeft

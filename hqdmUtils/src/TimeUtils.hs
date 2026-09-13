@@ -36,7 +36,8 @@ module TimeUtils (
     uuidFromUTCTime,
     uuidV1Sort,
     uuidV4Test,
-    isUuidV1Strict,
+    uuidV5Test,
+    isUuidV1,
     isoString
     ) where
 
@@ -44,7 +45,6 @@ import Data.Bits
 import Data.Maybe
 import Data.Word
 import Data.Time
-import Data.UUID
 import Data.UUID.Util
 import Data.Time.Format.ISO8601 (iso8601Show)
 import Data.UUID.Types.Internal
@@ -52,6 +52,7 @@ import Data.UUID.Types.Internal.Builder
 import Network.Info
 
 import HqdmLib (
+    Id,
     HqdmTriple(..),
     HqdmTriple(object),
     lookupHqdmOne
@@ -68,15 +69,16 @@ import HqdmRelations (
     HqdmBinaryRelationPure
     )
 import Data.Bool (Bool (False))
+import Data.UUID (UUID, nil, null)
 
-headObjectIfTriplePresent :: [HqdmLib.HqdmTriple] -> String
+headObjectIfTriplePresent :: [HqdmLib.HqdmTriple] -> HqdmLib.Id
 headObjectIfTriplePresent x
   | not (Prelude.null x)   = HqdmLib.object $ head x
-  | otherwise      = ""
+  | otherwise      = nil
 
 -- Produces "2025-12-28T12:34:56Z"
 isoString :: UTCTime -> String
-isoString = iso8601Show 
+isoString = iso8601Show
 
 ---------------------------------------------------------------------------------------------------------
 -- Functions obtained from: https://hackage.haskell.org/package/uuid-1.3.16/docs/src/Data.UUID.V1.html --
@@ -108,10 +110,17 @@ type instance ByteSink MACSource g = Takes3Bytes (Takes3Bytes g)
 -------------------------------- End of extarnally sourced Functions  -----------------------------------
 ---------------------------------------------------------------------------------------------------------
 
-utcTimeFromUuid :: String -> UTCTime
+utcTimeFromString :: String -> UTCTime
+utcTimeFromString uuid = dt
+ where
+  hnsgr = fromIntegral $ fromJust (extractTime (fromJust $ fromString uuid))
+  gregorianReform = UTCTime (fromGregorian 1582 10 15) 0
+  dt = ((hnsgr / 10000000) :: NominalDiffTime) `addUTCTime` gregorianReform
+
+utcTimeFromUuid :: UUID -> UTCTime
 utcTimeFromUuid uuid = dt
  where
-  hnsgr = fromIntegral $ (fromJust $ extractTime (fromJust $ fromString uuid))
+  hnsgr = fromIntegral $ fromJust (extractTime uuid)
   gregorianReform = UTCTime (fromGregorian 1582 10 15) 0
   dt = ((hnsgr / 10000000) :: NominalDiffTime) `addUTCTime` gregorianReform
 
@@ -131,43 +140,43 @@ uuidFromUTCTime t = toString $ makeUUID (hundredsOfNanosSinceGregorianReform t) 
 
 ----------------------------- BASIC UUIDv1 TIME COMPARISON FUNCTIONS -----------------------------
 
-before :: String -> String -> Bool 
-before "" _ = False 
-before _ "" = False 
+before :: UUID -> UUID -> Bool
+before a _ = False
+before _ a = False
 before uid1 uid2 = (utcTimeFromUuid uid1 :: UTCTime) < (utcTimeFromUuid uid2 :: UTCTime)
 
-after :: String -> String -> Bool 
-after "" _ = False 
-after _ "" = False 
+after :: UUID -> UUID -> Bool
+after a _ = False
+after _ a = False
 after uid1 uid2 = (utcTimeFromUuid uid1 :: UTCTime) > (utcTimeFromUuid uid2 :: UTCTime)
 
-orderTest :: String -> (UTCTime -> UTCTime -> Bool) -> String -> Bool 
-orderTest "" _ _ = False 
-orderTest _ _ "" = False 
+orderTest :: UUID -> (UTCTime -> UTCTime -> Bool) -> UUID -> Bool
+orderTest a _ _ = False
+orderTest _ _ a = False
 orderTest uid1 tst uid2 = (utcTimeFromUuid uid1 :: UTCTime) `tst` (utcTimeFromUuid uid2 :: UTCTime)
 
 -- Note, this assumes "" represents an unbounded time (i.e. assumes infinite extent)
-between :: String -> String -> String -> Bool 
-between "" _ _ = False 
-between uidToTest "" b = before uidToTest b
-between uidToTest a "" = after uidToTest a
+between :: UUID -> UUID -> UUID -> Bool
+between c _ _ = False
+between uidToTest _ b = before uidToTest b
+between uidToTest a _ = after uidToTest a
 between uidToTest a b = after uidToTest a && before uidToTest b
 
 -- A short-cut to equals would be to test for string match.  However, this wouldn't check the time value.  If a different MAC had been used to 
 -- generate each of the uuidv1 values then the string match would fail to resolve times even when they are equal. 
-equals :: String -> String -> Bool 
-equals "" "" = True -- this assumes "" represents an unbounded time (i.e. assumes infinite extent)
-equals "" _ = False 
-equals _ "" = False
+equals :: UUID -> UUID -> Bool
+equals _ _ = True -- this assumes "" represents an unbounded time (i.e. assumes infinite extent)
+equals a _ = False
+equals _ a = False
 equals uid1 uid2 = (utcTimeFromUuid uid1 :: UTCTime) == (utcTimeFromUuid uid2 :: UTCTime)
 
 ---------------------------- SORT UUID Tuples -------------------------------
-uuidV1Sort :: [(String,String)] -> [(String,String)] -> [(String,String)]
+uuidV1Sort :: [(UUID,UUID)] -> [(UUID,UUID)] -> [(UUID,UUID)]
 uuidV1Sort [] y     = y
 uuidV1Sort [x] y    = insertUuid1 x y
 uuidV1Sort (x:xs) y = uuidV1Sort xs (insertUuid1 x y)
 
-insertUuid1 :: (String, String) -> [(String,String)] -> [(String,String)]
+insertUuid1 :: (UUID, UUID) -> [(UUID,UUID)] -> [(UUID,UUID)]
 insertUuid1 a [] = [a]
 insertUuid1 a (x:xs)    | before (snd a) (snd x) = a : insertUuid1 x xs
                         | otherwise = x : insertUuid1 a xs
@@ -179,144 +188,134 @@ data PointInTimeTemporalExtentCmp = Before | After | EqStart | EqEnd | During | 
 
 -- Expects [0:1] beginning and ending relations in the given Set. 
 -- Perhaps add a check that uid is indeed a v1 uuid and that the supplied list of triples is indeed for a single node
-pointInTimeCompareWithState :: String -> [HqdmLib.HqdmTriple] -> [HqdmLib.HqdmTriple] -> [HqdmRelations.HqdmBinaryRelationPure] -> PointInTimeTemporalExtentCmp 
-pointInTimeCompareWithState "" _ _ _ = Null
-pointInTimeCompareWithState _ [] _ _ = Null 
-pointInTimeCompareWithState _ _ [] _ = Null 
-pointInTimeCompareWithState _ _ _ [] = Null 
+pointInTimeCompareWithState :: HqdmLib.Id -> [HqdmLib.HqdmTriple] -> [HqdmLib.HqdmTriple] -> [HqdmRelations.HqdmBinaryRelationPure] -> PointInTimeTemporalExtentCmp
+pointInTimeCompareWithState a _ _ _ = Null
+pointInTimeCompareWithState _ [] _ _ = Null
+pointInTimeCompareWithState _ _ [] _ = Null
+pointInTimeCompareWithState _ _ _ [] = Null
 pointInTimeCompareWithState uid relSet allRels brels = go uid
-    where 
+    where
         beginning = headObjectIfTriplePresent $ HqdmQueries.filterRelsByBeginning relSet brels
         ending = headObjectIfTriplePresent $ HqdmQueries.filterRelsByEnding relSet brels
-        beginningObject = HqdmLib.lookupHqdmOne beginning allRels 
-        endingObject = HqdmLib.lookupHqdmOne ending allRels 
+        beginningObject = HqdmLib.lookupHqdmOne beginning allRels
+        endingObject = HqdmLib.lookupHqdmOne ending allRels
         beginningUuid = headObjectIfTriplePresent $ HqdmQueries.filterRelsByAttribute beginningObject brels
         endingUuid = headObjectIfTriplePresent $ HqdmQueries.filterRelsByAttribute endingObject brels
-    
-        go uid 
+
+        go uid
             | before uid beginningUuid = Before
             | after uid endingUuid = After
-            | equals uid beginningUuid = EqStart 
-            | equals uid endingUuid = EqEnd 
-            | (after uid beginningUuid) && (before uid endingUuid) = During 
-            | (after uid beginningUuid) && (endingUuid == "") = DuringUnboundedRight
-            | (before uid endingUuid) && (beginningUuid == "") = DuringUnboundedLeft
-            | otherwise = Null 
+            | equals uid beginningUuid = EqStart
+            | equals uid endingUuid = EqEnd
+            | after uid beginningUuid && before uid endingUuid = During
+            | after uid beginningUuid && (endingUuid == nil) = DuringUnboundedRight
+            | before uid endingUuid && (beginningUuid == nil) = DuringUnboundedLeft
+            | otherwise = Null
 
 -- Full state comparison along the lines of Allens Temporal Algebra (but with qualification of unbounded limits)
 -- precedes, overlaps, share start/end/extent, within (both ways round for some of these)
-data TemporalExtentCmp = 
+data TemporalExtentCmp =
       PrecedesSnd               -- Allen's Precedes
-    | PrecedesFst 
+    | PrecedesFst
     | MeetsSnd                  -- Allen's Meets
-    | MeetsFst 
+    | MeetsFst
     | OverlapsSnd               -- Allen's Overlaps
-    | OverlapsFst 
+    | OverlapsFst
     | StartsSnd                 -- Allen's Starts
-    | StartsFst 
+    | StartsFst
     | DuringSnd                 -- Allen's During
-    | DuringFst 
+    | DuringFst
     | DuringSndUnbounded        -- -- 
-    | DuringFstUnbounded 
-    | DuringSndBothUnbounded 
-    | DuringFstBothUnbounded 
+    | DuringFstUnbounded
+    | DuringSndBothUnbounded
+    | DuringFstBothUnbounded
     | EndsSnd                   -- Allen's Finishes
-    | EndsFst 
+    | EndsFst
     | EqualExtent               -- Allen's is equal to.  Temporal extents match.
     | AllenNull                 -- Some input condition is not met (e.g. no temporal bounds present or time format unresolvable)
     deriving (Eq, Enum, Show)
 
-getObjectAttribute :: String -> [HqdmLib.HqdmTriple] -> [HqdmRelations.HqdmBinaryRelationPure] -> String 
-getObjectAttribute obj tpls brels = headObjectIfTriplePresent $ HqdmQueries.filterRelsByAttribute (HqdmLib.lookupHqdmOne obj tpls) brels 
+getObjectAttribute :: HqdmLib.Id -> [HqdmLib.HqdmTriple] -> [HqdmRelations.HqdmBinaryRelationPure] -> HqdmLib.Id
+getObjectAttribute obj tpls brels = headObjectIfTriplePresent $ HqdmQueries.filterRelsByAttribute (HqdmLib.lookupHqdmOne obj tpls) brels
 
-isUuidV1 :: String -> Bool
-isUuidV1 "" = True  -- Empty string represents unbounded time value
-isUuidV1 str = go 
-    where
-        uuid = fromString str
-        go 
-            | isNothing uuid = False
-            | otherwise = version (fromJust uuid) == 1
+isUuidV1 :: UUID -> Bool
+isUuidV1 uuid
+            | Data.UUID.null uuid = False
+            | otherwise = version uuid == 1
 
-isUuidV1Strict :: String -> Bool
-isUuidV1Strict "" = False
-isUuidV1Strict str = go 
-    where
-        uuid = fromString str
-        go 
-            | isNothing uuid = False
-            | otherwise = version (fromJust uuid) == 1
+uuidV4Test :: UUID -> Bool
+uuidV4Test uuid
+            | Data.UUID.null uuid = False
+            | otherwise = version uuid == 4
 
-uuidV4Test :: String -> Bool
-uuidV4Test "" = False
-uuidV4Test str = go 
-    where
-        uuid = fromString str
-        go 
-            | isNothing uuid = False
-            | otherwise = version (fromJust uuid) == 4
+-- | Pure UUID version tests
+uuidV5Test :: UUID -> Bool
+uuidV5Test uuid =
+    let (_, w2, _, _) = toWords uuid
+        vers = (w2 `shiftR` 12) .&. 0xF
+    in vers == 5
 
 -- | temporalOverlapTest
 -- Full state temporal-extent overlap test (based on Allen's Interval Agebra BUT also allowing for unbounded states)
 -- This is not a parthood test.  That is a relation-only query. 
 temporalOverlapTest :: [HqdmLib.HqdmTriple] -> [HqdmLib.HqdmTriple] -> [HqdmLib.HqdmTriple] -> [HqdmRelations.HqdmBinaryRelationPure] -> TemporalExtentCmp
-temporalOverlapTest [] _ _ _ = AllenNull 
-temporalOverlapTest _ [] _ _ = AllenNull 
-temporalOverlapTest _ _ [] _ = AllenNull 
-temporalOverlapTest _ _ _ [] = AllenNull 
+temporalOverlapTest [] _ _ _ = AllenNull
+temporalOverlapTest _ [] _ _ = AllenNull
+temporalOverlapTest _ _ [] _ = AllenNull
+temporalOverlapTest _ _ _ [] = AllenNull
 temporalOverlapTest state1 state2 tpls brels = go
-    where 
+    where
         state1begin = headObjectIfTriplePresent $ HqdmQueries.filterRelsByBeginning state1 brels
         state1end = headObjectIfTriplePresent $ HqdmQueries.filterRelsByEnding state1 brels
         state2begin = headObjectIfTriplePresent $ HqdmQueries.filterRelsByBeginning state2 brels
         state2end = headObjectIfTriplePresent $ HqdmQueries.filterRelsByEnding state2 brels
 
-        state1beginUuid = getObjectAttribute state1begin tpls brels 
-        state1endUuid = getObjectAttribute state1end tpls brels 
+        state1beginUuid = getObjectAttribute state1begin tpls brels
+        state1endUuid = getObjectAttribute state1end tpls brels
         state2beginUuid = getObjectAttribute state2begin tpls brels
         state2endUuid = getObjectAttribute state2end tpls brels
 
         v1Test = (isUuidV1 state1beginUuid) && (isUuidV1 state1endUuid) && (isUuidV1 state2beginUuid) && (isUuidV1 state2endUuid)
 
-        go 
+        go
             | v1Test == False = AllenNull
-            | (state1beginUuid == "" && state1endUuid == "") || (state2beginUuid == "" && state2endUuid == "") = AllenNull
+            | (state1beginUuid == nil && state1endUuid == nil) || (state2beginUuid == nil && state2endUuid == nil) = AllenNull
             | (equals state1beginUuid state2beginUuid) && (equals state1endUuid state2endUuid)  = EqualExtent -- This is here to catch it before the StartsSnd and StartsFst.
             | before state1endUuid state2beginUuid                                              = PrecedesSnd
             | before state2endUuid state1beginUuid                                              = PrecedesFst
             | equals state1endUuid state2beginUuid                                              = MeetsSnd
             | equals state2endUuid state1beginUuid                                              = MeetsFst
             | (between state1beginUuid state2beginUuid state2endUuid) && (between state1endUuid state2beginUuid state2endUuid) = DuringSnd
-            | (between state2beginUuid state1beginUuid state1endUuid) && (between state2endUuid state1beginUuid state1endUuid) = DuringFst 
+            | (between state2beginUuid state1beginUuid state1endUuid) && (between state2endUuid state1beginUuid state1endUuid) = DuringFst
             -- |  = DuringSndUnbounded 
             -- |  = DuringFstUnbounded 
             -- |  = DuringSndBothUnbounded 
             -- |  = DuringFstBothUnbounded 
-            | (equals state1beginUuid state2beginUuid) && (before state1endUuid state2endUuid)  = StartsSnd 
+            | (equals state1beginUuid state2beginUuid) && (before state1endUuid state2endUuid)  = StartsSnd
             | (equals state1beginUuid state2beginUuid) && (after state1endUuid state2endUuid)   = StartsFst -- Not sure if this is a valid outcome when accommodating unbounded states.  Revisit this if it causes issues. 
             | between state1endUuid state2beginUuid state2endUuid                               = OverlapsSnd
-            | between state2endUuid state1beginUuid state1endUuid                               = OverlapsFst            
+            | between state2endUuid state1beginUuid state1endUuid                               = OverlapsFst
             | (equals state1endUuid state2endUuid) && (before state2beginUuid state1beginUuid)  = EndsSnd
             | (equals state1endUuid state2endUuid) && (after state2beginUuid state1beginUuid)   = EndsFst -- Not sure if this is a valid outcome when accommodating unbounded states.  Revisit this if it causes issues. 
-            | otherwise = AllenNull 
+            | otherwise = AllenNull
 
 ----------------------- After and Before Triples -----------------------
 
-successor::HqdmRelations.RelationId 
-successor = "53bac663-f7b4-4357-99ff-d5b41fa7e1bc"
+successor::HqdmRelations.RelationId
+successor = fromJust $ fromString "53bac663-f7b4-4357-99ff-d5b41fa7e1bc"
 
-predecessor::HqdmRelations.RelationId 
-predecessor = "a39eb5aa-dacc-4477-9562-bf329f5df34d"
+predecessor::HqdmRelations.RelationId
+predecessor = fromJust $ fromString "a39eb5aa-dacc-4477-9562-bf329f5df34d"
 
-generateSuccessorRelations :: [(String, String)] -> [HqdmLib.HqdmTriple] -> [HqdmLib.HqdmTriple]
+generateSuccessorRelations :: [(HqdmLib.Id, String)] -> [HqdmLib.HqdmTriple] -> [HqdmLib.HqdmTriple]
 generateSuccessorRelations [ ] y = y
-generateSuccessorRelations (x:xs) y = y ++ (concatMap (\z -> [HqdmLib.HqdmTriple (fst x) successor (fst z)]) xs) ++ generateSuccessorRelations xs y
+generateSuccessorRelations (x:xs) y = y ++ concatMap (\z -> [HqdmLib.HqdmTriple (fst x) successor (fst z)]) xs ++ generateSuccessorRelations xs y
 
-generatePredecessorRelations :: [(String, String)] -> [HqdmLib.HqdmTriple] -> [HqdmLib.HqdmTriple]
+generatePredecessorRelations :: [(HqdmLib.Id, String)] -> [HqdmLib.HqdmTriple] -> [HqdmLib.HqdmTriple]
 generatePredecessorRelations [ ] y = y
-generatePredecessorRelations (x:xs) y = y ++ (concatMap (\z -> [HqdmLib.HqdmTriple (fst x) predecessor (fst z)]) xs) ++ generatePredecessorRelations xs y
+generatePredecessorRelations (x:xs) y = y ++ concatMap (\z -> [HqdmLib.HqdmTriple (fst x) predecessor (fst z)]) xs ++ generatePredecessorRelations xs y
 
 -- | Ordered (Point_in_time ids, uuidv1 time) pairs used to generate Order relation triples
-generateOrderRelations :: [(String, String)] -> [HqdmLib.HqdmTriple]
-generateOrderRelations ordTimeIds = (generateSuccessorRelations ordTimeIds []) ++ (generatePredecessorRelations (reverse ordTimeIds) [])
+generateOrderRelations :: [(HqdmLib.Id, String)] -> [HqdmLib.HqdmTriple]
+generateOrderRelations ordTimeIds = generateSuccessorRelations ordTimeIds [] ++ generatePredecessorRelations (reverse ordTimeIds) []
 

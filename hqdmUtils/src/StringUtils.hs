@@ -16,24 +16,23 @@
 module StringUtils (
     addNewEntryIfNotInMap,
     createEmptyUuidMap,
-    joinStringsFromMap,
     listRemoveDuplicates,
     lookupValueFromDateOrHashUuid,
     reverseLookupDateOrHashUuid,
     stringToDateOrHashUuid,
     stringToDateOrHashUuid',
-    stringTuplesFromTriples,
-    uuidV5FromString
+    uuidV5FromString,
+    uuidV5StringTest
     ) where
 
 import Data.List (nub, find)
 import Data.Maybe
 import qualified Data.Map as Map -- Perhaps use StringMap in the future
-import Data.UUID.Types ( toString )
 import Data.UUID.V5 ( generateNamed )
 import Data.UUID.V4 ( nextRandom )
 import Codec.Binary.UTF8.String ( encode )
-import Data.UUID ( nil )
+import Data.UUID ( nil, fromString, toString )
+import Data.UUID.Util (version)
 import TimeUtils ( uuidFromUTCTime )
 import Text.Read ( readMaybe )
 import Data.Time.LocalTime (ZonedTime, zonedTimeToUTC) 
@@ -110,7 +109,7 @@ reverseLookupDateOrHashUuid val uidMap =
 
 
 -- Extract strings from s-p-o triples into list
-stringTuplesFromTriples :: [HqdmLib.HqdmTriple] -> [(String, String)] -> [(String, String)]
+{-stringTuplesFromTriples :: [HqdmLib.HqdmTriple] -> [(String, String)] -> [(String, String)]
 stringTuplesFromTriples [] tupls = tupls
 stringTuplesFromTriples (tpl:tpls) tupls
         | HqdmLib.nodeIdentityTest (HqdmLib.object tpl) = stringTuplesFromTriples tpls tupls
@@ -120,7 +119,7 @@ stringTuplesFromTriples (tpl:tpls) tupls
         | otherwise = stringTuplesFromTriples tpls (tupls ++ [( TimeUtils.uuidFromUTCTime ( fromJust maybeTime ), HqdmLib.object tpl )])
     where
         maybeTime = iso8601ParseM (HqdmLib.object tpl) :: Maybe UTCTime
-        unixTimeInt = readMaybe (HqdmLib.object tpl)
+        unixTimeInt = readMaybe (HqdmLib.object tpl)-}
 
 listRemoveDuplicates :: (Eq a) => [(a,a)] -> [(a,a)]
 listRemoveDuplicates [] = []
@@ -129,14 +128,14 @@ listRemoveDuplicates (x:xs) = nub (if (fst x,snd x) `elem` xs then
         listRemoveDuplicates xs else [x] ++ listRemoveDuplicates xs)
 
 -- Replace strings in joinModel from Map
-joinStringsFromMap :: [HqdmLib.HqdmTriple] -> Map.Map String String -> [HqdmLib.HqdmTriple]
+{-joinStringsFromMap :: [HqdmLib.HqdmTriple] -> Map.Map String String -> [HqdmLib.HqdmTriple]
 joinStringsFromMap [] _ = []
 joinStringsFromMap (tpl:tpls) strMap
         | isUuid = tpl : joinStringsFromMap tpls strMap
         | otherwise = HqdmLib.HqdmTriple (HqdmLib.subject tpl) (HqdmLib.predicate tpl) (head val) : joinStringsFromMap tpls strMap
     where
         isUuid = HqdmLib.nodeIdentityTest (HqdmLib.object tpl)
-        val = lookupKey (HqdmLib.object tpl) strMap
+        val = lookupKey (HqdmLib.object tpl) strMap-}
 
 -- Obtained from:
 -- https://stackoverflow.com/questions/58263235/find-a-key-by-having-its-value-using-data-map-in-haskell
@@ -146,3 +145,12 @@ lookupKey val = Map.foldrWithKey go [] where
     if value == val
     then key:found
     else found
+
+uuidV5StringTest :: String -> Bool
+uuidV5StringTest "" = False
+uuidV5StringTest str = go
+    where
+        uuid = Data.UUID.fromString str
+        go
+            | isNothing uuid = False
+            | otherwise = Data.UUID.Util.version (fromJust uuid) == 5

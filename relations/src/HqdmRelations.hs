@@ -22,7 +22,6 @@ module HqdmRelations
     RelationId,
     RelationPair,
     HqdmRelationSet,
-    HqdmBinaryRelation,
     HqdmBinaryRelationSet,
     HqdmBinaryRelationPure(..),
     RelationCheck (Valid, Invalid),
@@ -30,8 +29,6 @@ module HqdmRelations
     relationSetAndIdCheck,
     universalRelationSet,
     getRelationNameFromRels,
-    hqdmRelationsToPure,
-    csvRelationsToPure,
     getPureDomain,
     getPureRelationId,
     getPureRelationName,
@@ -41,7 +38,6 @@ module HqdmRelations
     getPureCardinalityMin,
     getPureCardinalityMax,
     getPureRedeclared,
-    getPureRedeclaredFromRange,
     printRelation,
     printRelationWithTypeNames,
     getBrelDomainFromRels,
@@ -62,21 +58,15 @@ module HqdmRelations
     findBrelsAndNamesWithDomains,
     findSuperBinaryRelation,
     findSuperBinaryRelation',
-    --addStRelationToPure,
     printablePureRelation,
     csvRelationsFromPure,
     lookupSuperBinaryRelsOf,
-    hqdmSwapTopRelationNamesForIds,
-    convertTopRelationByDomainAndName,
-    convertAnyHqdmRelationByDomainRangeAndName,
     headListIfPresent,
     addNewCardinalitiesToPure,
     correctCardinalities,
     correctAllCardinalities,
     findMaxMaxCardinality,
     findMaxMinCardinality,
-    hqdmSwapAnyRelationNamesForIds,
-    hqdmSwapAnyRelationNamesForIdsStrict,
     printableLayerWithDomainAndRange,
     printablePathFromTuplesWithDomainAndRange,
     findSubBinaryRelationTree,
@@ -100,18 +90,13 @@ where
 
 import qualified HqdmLib (
     Id,
-    HqdmTriple,
     HqdmTriple(..),
-    HqdmTriple(subject, predicate, object),
     RelationPair,
     HqdmHasSupertype,
     getSubjects,
     getPredicates,
     uniqueIds,
     uniqueTriples,
-    stringListSort,
-    headIfStringPresent,
-    lastIfStringPresent,
     lookupHqdmOne,
     lookupHqdmType,
     lookupHqdmTypeIdFromName,
@@ -121,8 +106,8 @@ import qualified HqdmLib (
     lookupSubtypesOf,
     lookupSupertypeOf,
     lookupSupertypesOf,
-    findHqdmTypesInList,
     findSupertypeTree,
+    findHqdmTypesInList,
     printableTypeTree,
     findSubtypeTree,
     findInheritedRels,
@@ -134,24 +119,19 @@ import qualified HqdmLib (
     screenCharOffset,
     fmtString,
     deleteItemsFromList,
-    lookupHqdmTypeFromAll
+    lookupHqdmTypeFromAll,
+    headIfUUIDPresent
     )
 
 import GHC.Generics (Generic)
 import Data.Csv (FromRecord)
 import Data.List (isPrefixOf, sortOn)
 import Data.Maybe (isNothing, fromJust)
+import Data.UUID (UUID, fromString, toString, toWords, null)
 import Data.UUID.Util (version)
 import Data.UUID.Types.Internal (fromString)
-
-uuidV5Test :: String -> Bool
-uuidV5Test "" = False
-uuidV5Test str = go
-    where
-        uuid = Data.UUID.Types.Internal.fromString str
-        go
-            | isNothing uuid = False
-            | otherwise = Data.UUID.Util.version (fromJust uuid) == 5
+import Data.Bits ((.&.), shiftR)
+import Data.Word (Word32)
 
 -- | In a RelationPairSet xR'y the  is a list of [R'y] for x, where R' can be any allowed 
 --   number of instances of permitted Relations
@@ -173,7 +153,7 @@ data RelationPair = RelationPair
   }
   deriving (Show, Eq, Generic)
 
--- | HqdmBinaryRelation is structured to be compatable with the original HQDM EXPRESS 
+-- | HqdmBinaryRelationPure is structured to be compatable with the original HQDM EXPRESS 
 --   documentation (hqdm.exp) and the python extractor created to extract the following
 --   properties of each relation specified in the EXPRESS data file.  A uuid is applied
 --   to each specification for a binary relation in HQDM EXPRESS.  This should remain
@@ -183,36 +163,38 @@ data RelationPair = RelationPair
 --       This is because the EXPRESS notation handles super/sub-types as a separate 
 --       keyword (e.g. "SUBTYPE OF")
 --
---  class Relation:
---        self.domain = ""            # Name of node that is the x in xR'y Binary Relation
---
---        self.relationId = ""        # !RelationId,-- Relation unique Id (hqdmRel:uuid)
---        self.relationName = ""      # Name of Binary Relation Set (doesn't need to be unique?)
---        self.rangeSet = ""          # Range Set id that is the y in xR'y ()
---        self.hasSuperBR = ""        # SuperBR Set Id (empty if none?)
---        self.cardinalityMin = 0     # 0,1,...
---        self.cardinalityMax = -1    # -1 (no max!),0,1,2,...
---        self.redeclaredBR = False   # True means superBRtypes are abstract?
---        self.inverseOf = ""         # Inverse of named relation
+--  data HqdmBinaryRelationPure:
+--        domain = UUID           # Name of node that is the x in xR'y Binary Relation
+--        relationId = RelationId # !RelationId,-- Relation unique Id (hqdmRel:uuid)
+--        relationName = ""       # Name of Binary Relation Set (doesn't need to be unique?)
+--        rangeSet = UUID         # Range Set id that is the y in xR'y ()
+--        hasSuperBR = [UUID]     # SuperBR Set Id (empty if none?)
+--        cardinalityMin = 0      # 0,1,...
+--        cardinalityMax = -1     # -1 (no max!),0,1,2,...
+--        redeclaredBR = False    # True means superBRtypes are abstract?
+--        inverseOf = RelationId  # Inverse of named relation
 
-data HqdmBinaryRelation = HqdmBinaryRelation
-  { domain :: String,
-    binaryRelationId :: !RelationId,  -- Relation unique Id (hqdmRel:uuid)
-    binaryRelationName :: String,     -- Name of Binary Relation Set (doesn't need to be unique?)
-    range:: String,                   -- Range Set ids.  Does this need to be a list?
-    hasSuperBR :: String,             -- SuperBR Set Id (empty if none?)... Should be HqdmLib.Id
-    cardinalityMin :: Int,            -- 0,1,...
-    cardinalityMax :: Int,            -- -1 (no max!),0,1,2,...
-    redeclaredBR :: String,           -- True means superBRtypes are abstract?
-    redeclaredFromRange :: String
+type RelationId = UUID
+
+-- | HqdmBinaryRelationPure
+-- A data type that uses only identities to specify the xR'y of a HQDM Binary 
+data HqdmBinaryRelationPure = HqdmBinaryRelationPure
+  {
+    pureDomain :: !HqdmLib.Id,            -- Must be present
+    pureBinaryRelationId :: !RelationId,  -- Relation unique Id (hqdmRel:uuid)
+    pureBinaryRelationName :: String,     -- Name of Binary Relation Set (doesn't need to be unique or even present)
+    pureRange:: HqdmLib.Id,               -- Range Set ids.  Does this need to be a list? Not yet, however, can be empty as range can be out-of-model (i.e. a uuidv5 string hash)
+    pureHasSuperBR :: [RelationId],       -- SuperBR Set Id (empty if none?)... Should be HqdmLib.Id
+    pureCardinalityMin :: Int,            -- 0,1,...
+    pureCardinalityMax :: Int,            -- -1 (indicates no max!),0,1,2,...
+    pureRedeclaredBR :: Bool,             -- True means superBRtypes are abstract?
+    pureInverseOf :: HqdmLib.Id
   }
   deriving (Show, Eq, Generic)
 
-instance FromRecord HqdmBinaryRelation
-
 data HqdmBinaryRelationSet = HqdmBinaryRelationSet
   { nodeId :: !HqdmLib.Id,
-    binaryRelationPairs :: [HqdmBinaryRelation]
+    binaryRelationPairs :: [HqdmBinaryRelationPure]
   }
   deriving (Show, Eq, Generic)
 
@@ -233,55 +215,32 @@ relationSetCheck chk rel = (chk, rel)
 relationSetAndIdCheck:: RelationCheck -> HqdmBinaryRelationPure -> HqdmLib.Id -> (RelationCheck, HqdmBinaryRelationPure, HqdmLib.Id)
 relationSetAndIdCheck chk rel uid = (chk, rel, uid)
 
-type RelationId = String
+{-hqdmType::String
+hqdmType = "type"-}
 
--- | HqdmBinaryRelationPure
--- A data type that uses only identities to specify the xR'y of a HQDM Binary 
-data HqdmBinaryRelationPure = HqdmBinaryRelationPure
-  { pureDomain :: !HqdmLib.Id,
-    pureBinaryRelationId :: !RelationId,  -- Relation unique Id (hqdmRel:uuid)
-    pureBinaryRelationName :: String,     -- Name of Binary Relation Set (doesn't need to be unique?)
-    pureRange:: !HqdmLib.Id,              -- Range Set ids.  Does this need to be a list?
-    pureHasSuperBR :: [RelationId],       -- SuperBR Set Id (empty if none?)... Should be HqdmLib.Id
-    pureCardinalityMin :: Int,            -- 0,1,...
-    pureCardinalityMax :: Int,            -- -1 (indicates no max!),0,1,2,...
-    pureRedeclaredBR :: Bool,             -- True means superBRtypes are abstract?
-    pureRedeclaredFromRange :: HqdmLib.Id
-  }
-  deriving (Show, Eq, Generic)
+universalRelationSet::UUID
+universalRelationSet = fromJust $ fromString "85e78ac0-ec72-478f-9aac-cacb520290a0"
 
-universalRelationSet::String
-universalRelationSet = "85e78ac0-ec72-478f-9aac-cacb520290a0"
+hqdmAttributeBR::UUID
+hqdmAttributeBR = fromJust $ fromString "69b0e5b9-3be2-4ec3-a9a6-bb5b523d4b32"
 
-hqdmAttributeBR::String
-hqdmAttributeBR = "69b0e5b9-3be2-4ec3-a9a6-bb5b523d4b32"
+hqdmHasSupertypeId::UUID
+hqdmHasSupertypeId = fromJust $ fromString "1f983e8a-7db1-4374-8fb1-7e8a432a967e"
 
-hqdmType::String
-hqdmType = "type"
+hqdmHasSuperclassId::UUID
+hqdmHasSuperclassId = fromJust $ fromString "7d11b956-0014-43be-9a3e-f89e2b31ec4f"
 
-hqdmHasSupertype::String
-hqdmHasSupertype = "has_supertype"
+hqdmElementOfType::UUID
+hqdmElementOfType = fromJust $ fromString "8130458f-ae96-4ab3-89b9-21f06a2aac78"
 
-hqdmHasSupertypeId::String
-hqdmHasSupertypeId = "1f983e8a-7db1-4374-8fb1-7e8a432a967e"
+hqdmEntityName::UUID
+hqdmEntityName = fromJust $ fromString "fe987366-a8ad-48fa-8821-73f54f6df180"
 
-hqdmHasSuperclass::String
-hqdmHasSuperclass = "has_superclass"
+hqdmRecordCreated::UUID
+hqdmRecordCreated = fromJust $ fromString "919a3f90-b681-422c-8481-fe313daa0044"
 
-hqdmHasSuperclassId::String
-hqdmHasSuperclassId = "7d11b956-0014-43be-9a3e-f89e2b31ec4f"
-
-hqdmElementOfType::String
-hqdmElementOfType = "element_of_type"
-
-hqdmEntityName::String
-hqdmEntityName = "data_EntityName"
-
-hqdmRecordCreated::String
-hqdmRecordCreated = "record_created"
-
-hqdmRecordCreator::String
-hqdmRecordCreator = "record_creator"
+hqdmRecordCreator::UUID
+hqdmRecordCreator = fromJust $ fromString "972bdd5f-5f8c-42d1-a47f-1ac08d1da48e"
 
 getPureDomain :: HqdmBinaryRelationPure -> RelationId
 getPureDomain = pureDomain
@@ -310,24 +269,30 @@ getPureCardinalityMax = pureCardinalityMax
 getPureRedeclared :: HqdmBinaryRelationPure -> Bool
 getPureRedeclared = pureRedeclaredBR
 
-getPureRedeclaredFromRange :: HqdmBinaryRelationPure -> RelationId
-getPureRedeclaredFromRange = pureRedeclaredFromRange
+getPureInverseOf :: HqdmBinaryRelationPure -> RelationId
+getPureInverseOf = pureInverseOf
 
 printRelation :: HqdmBinaryRelationPure -> String
-printRelation rel = "RELATION SPECIFICATION:\n\tDomain: " ++ getPureDomain rel ++
-  "\n\tRelation UUID: " ++ getPureRelationId rel ++
+printRelation rel = "RELATION SPECIFICATION:\n\tDomain: " ++ toString (getPureDomain rel) ++
+  "\n\tRelation UUID: " ++ toString (getPureRelationId rel) ++
   "\n\tOriginal Relation Name: " ++ getPureRelationName rel ++
-  "\n\tRange: " ++ getPureRange rel ++
+  "\n\tRange: " ++ toString (getPureRange rel) ++
+  "\n\tMin Cardinality: " ++ show (getPureCardinalityMin rel) ++
+  "\n\tMax Cardinality: " ++ show (getPureCardinalityMax rel) ++
+  "\n\tInverse: " ++ toString (getPureInverseOf rel) ++ "\n"
+
+
+printRelationWithTypeNames :: HqdmBinaryRelationPure -> [HqdmLib.HqdmTriple] -> String
+printRelationWithTypeNames rel tpls = "RELATION SPECIFICATION:\n\tDomain: " ++
+  toString (getPureDomain rel) ++ " type `" ++
+  toString (fromJust (HqdmLib.lookupHqdmType $ HqdmLib.lookupHqdmOne (getPureDomain rel) tpls)) ++ "'" ++
+  "\n\tRelation UUID: " ++ toString (getPureRelationId rel) ++
+  "\n\tOriginal Relation Name: " ++ getPureRelationName rel ++
+  "\n\tRange: " ++ toString (getPureRange rel) ++ " type `" ++
+  toString (fromJust (HqdmLib.lookupHqdmType $ HqdmLib.lookupHqdmOne (getPureRange rel) tpls)) ++ "'" ++
   "\n\tMin Cardinality: " ++ show (getPureCardinalityMin rel) ++
   "\n\tMax Cardinality: " ++ show (getPureCardinalityMax rel) ++ "\n"
 
-printRelationWithTypeNames :: HqdmBinaryRelationPure -> [HqdmLib.HqdmTriple] -> String
-printRelationWithTypeNames rel tpls = "RELATION SPECIFICATION:\n\tDomain: " ++ getPureDomain rel ++ " type `" ++ (HqdmLib.lookupHqdmType $ HqdmLib.lookupHqdmOne (getPureDomain rel) tpls) ++ "'" ++
-  "\n\tRelation UUID: " ++ getPureRelationId rel ++
-  "\n\tOriginal Relation Name: " ++ getPureRelationName rel ++
-  "\n\tRange: " ++ getPureRange rel ++ " type `" ++ (HqdmLib.lookupHqdmType $ HqdmLib.lookupHqdmOne (getPureRange rel) tpls) ++ "'" ++
-  "\n\tMin Cardinality: " ++ show (getPureCardinalityMin rel) ++
-  "\n\tMax Cardinality: " ++ show (getPureCardinalityMax rel) ++ "\n"
 
 stringToBool :: String -> Bool
 stringToBool x
@@ -336,42 +301,19 @@ stringToBool x
 
 idListFromString :: String -> [String] -> [String]
 idListFromString x lst
-  | null x = lst
+  | Prelude.null x = lst
   | length x == 36 = lst ++ [x]
   | length x >= 37 = idListFromString (drop 37 x) (lst ++ [take 36 x])
 
-hqdmRelationsToPure :: [HqdmBinaryRelation] -> [HqdmLib.HqdmTriple] -> [HqdmBinaryRelationPure]
-hqdmRelationsToPure brels tpls = fmap ( \ x -> HqdmBinaryRelationPure
-  ( HqdmLib.headIfStringPresent (HqdmLib.lookupHqdmIdsFromTypePredicates tpls (domain x) ) )
-  ( binaryRelationId x)
-  ( binaryRelationName x)
-  ( range x  )
-  ( idListFromString (hasSuperBR x) [] )
-  ( cardinalityMin x)
-  ( cardinalityMax x)
-  ( stringToBool (redeclaredBR x))
-  ( HqdmLib.headIfStringPresent (HqdmLib.lookupHqdmIdsFromTypePredicates tpls (redeclaredFromRange x) )) )  brels
-
-csvRelationsToPure :: [HqdmBinaryRelation] -> [HqdmBinaryRelationPure]
-csvRelationsToPure = fmap ( \ x -> HqdmBinaryRelationPure
-  ( domain x )
-  ( binaryRelationId x)
-  ( binaryRelationName x)
-  ( range x )
-  ( idListFromString (hasSuperBR x) []  )
-  ( cardinalityMin x)
-  ( cardinalityMax x)
-  ( stringToBool (redeclaredBR x))
-  ( redeclaredFromRange x ))
 
 getRelationNameFromRels :: RelationId -> [HqdmBinaryRelationPure] -> String
-getRelationNameFromRels relId brels = HqdmLib.headIfStringPresent [pureBinaryRelationName values | values <- brels, relId == pureBinaryRelationId values]
+getRelationNameFromRels relId brels = head ([pureBinaryRelationName values | values <- brels, relId == pureBinaryRelationId values])
 
 getBrelDomainFromRels :: RelationId -> [HqdmBinaryRelationPure] -> HqdmLib.Id
-getBrelDomainFromRels relId brels = HqdmLib.headIfStringPresent [pureDomain values | values <- brels, relId == pureBinaryRelationId values]
+getBrelDomainFromRels relId brels = fromJust $ HqdmLib.headIfUUIDPresent [pureDomain values | values <- brels, relId == pureBinaryRelationId values]
 
 getBrelRangeFromRels :: RelationId -> [HqdmBinaryRelationPure] -> HqdmLib.Id
-getBrelRangeFromRels relId brels = HqdmLib.headIfStringPresent [pureRange values | values <- brels, relId == pureBinaryRelationId values]
+getBrelRangeFromRels relId brels = fromJust $ HqdmLib.headIfUUIDPresent [pureRange values | values <- brels, relId == pureBinaryRelationId values]
 
 findBrelDomainSupertypes :: RelationId -> [HqdmBinaryRelationPure] -> [HqdmLib.HqdmTriple] -> [HqdmLib.Id]
 findBrelDomainSupertypes relId brels = HqdmLib.lookupSupertypeOf (getBrelDomainFromRels relId brels)
@@ -402,7 +344,7 @@ superRelationPathsToUniversalRelation relIds brels = go relIds brels
     -- newLayer is formed from a defence against circularity.  Remove elements of newLayer that are in nextLayer.
 
     go relIds brels
-      | null newLayer = init relIds
+      | Prelude.null newLayer = init relIds
       | newLayer == [[]] = relIds
       | sum [length $ filter (== universalRelationSet) yl | yl <- newLayer] > 0 = relIds ++ newLayer
       | otherwise = superRelationPathsToUniversalRelation (relIds ++ newLayer) brels
@@ -418,7 +360,7 @@ findSubBRelTreeWithCount ids hqdmBrels cnt = go ids hqdmBrels cnt
 
     go ids brels cnt
       | cnt == 0 = ids
-      | null (head newLayer) = ids
+      | Prelude.null (head newLayer) = ids
       | otherwise = findSubBRelTreeWithCount (ids ++ newLayer) brels (subtract 1 cnt)
 
 -- | relIdNameTupleLayers
@@ -442,25 +384,25 @@ printablePathFromTuplesWithDomainAndRange :: [[(RelationId, String)]] -> [HqdmBi
 printablePathFromTuplesWithDomainAndRange tuples brels tpls  = reverse $ drop 303 (reverse $ concatMap (\ x -> printableLayerWithDomainAndRange x brels tpls ++ HqdmLib.fmtString "^\n" ++ HqdmLib.fmtString "/|\\\n" ++ HqdmLib.fmtString "|\n")  (reverse tuples))
 
 getDomainName :: RelationId -> [HqdmBinaryRelationPure] -> [HqdmLib.HqdmTriple] -> String
-getDomainName rid brels tpls = HqdmLib.headIfStringPresent $ HqdmLib.findHqdmTypesInList [pureDomain $ head (findBrelFromId rid brels)] tpls
+getDomainName rid brels tpls = maybe "" toString (HqdmLib.headIfUUIDPresent $ HqdmLib.findHqdmTypesInList [pureDomain $ head (findBrelFromId rid brels)] tpls)
 
 getRangeName :: RelationId -> [HqdmBinaryRelationPure] -> [HqdmLib.HqdmTriple] -> String
-getRangeName rid brels tpls = HqdmLib.headIfStringPresent $ HqdmLib.findHqdmTypesInList [pureRange $ head (findBrelFromId rid brels)] tpls
+getRangeName rid brels tpls = maybe "" toString (HqdmLib.headIfUUIDPresent $ HqdmLib.findHqdmTypesInList [pureRange $ head (findBrelFromId rid brels)] tpls)
 
 printableLayerWithDomainAndRange :: [(RelationId, String)] -> [HqdmBinaryRelationPure] -> [HqdmLib.HqdmTriple] -> String
 printableLayerWithDomainAndRange tuples brels tpls =
-  concatMap (\ x -> HqdmLib.fmtString ("[" ++ getDomainName (fst x) brels tpls ++ "] " ++ snd x ++ "(" ++ fst x ++ ") [" ++ getRangeName (fst x) brels tpls ++ "]\n" )) tuples
+  concatMap (\ x -> HqdmLib.fmtString ("[" ++ getDomainName (fst x) brels tpls ++ "] " ++ snd x ++ "(" ++ toString (fst x) ++ ") [" ++ getRangeName (fst x) brels tpls ++ "]\n" )) tuples
 
 printableLayer :: [(RelationId, String)] -> String
-printableLayer = concatMap (\ x -> HqdmLib.fmtString (snd x ++ "," ++ fst x) ++ "\n")
+printableLayer = concatMap (\ x -> HqdmLib.fmtString (snd x ++ "," ++ toString (fst x)) ++ "\n")
 
 -- | This swaps the relation names in a HqdmAllAsData dataset (it doesn't handle instance and extended subclasses)
-hqdmSwapTopRelationNamesForIds :: [HqdmLib.HqdmTriple] -> [HqdmBinaryRelationPure] -> [HqdmLib.HqdmTriple]
+{-hqdmSwapTopRelationNamesForIds :: [HqdmLib.HqdmTriple] -> [HqdmBinaryRelationPure] -> [HqdmLib.HqdmTriple]
 hqdmSwapTopRelationNamesForIds hqdmTpls brels =
-  fmap (`convertTopRelationByDomainAndName` brels) hqdmTpls
+  fmap (`convertTopRelationByDomainAndName` brels) hqdmTpls-}
 
 -- | This swaps the relation name in a HqdmAllAsData triple (it doesn't handle instance and extended subclass triples)
-convertTopRelationByDomainAndName :: HqdmLib.HqdmTriple -> [HqdmBinaryRelationPure] -> HqdmLib.HqdmTriple
+{-convertTopRelationByDomainAndName :: HqdmLib.HqdmTriple -> [HqdmBinaryRelationPure] -> HqdmLib.HqdmTriple
 convertTopRelationByDomainAndName tpl brels = go tpl
   where
     pureRelMatch = HqdmLib.headIfStringPresent [ pureBinaryRelationId values | values <- brels, (HqdmLib.subject tpl == pureDomain values) && (HqdmLib.predicate tpl ==  pureBinaryRelationName values) ]
@@ -472,7 +414,7 @@ convertTopRelationByDomainAndName tpl brels = go tpl
       | HqdmLib.predicate tpl==hqdmType = HqdmLib.HqdmTriple (HqdmLib.subject tpl) hqdmTypeBR (HqdmLib.object tpl)
       | HqdmLib.predicate tpl==hqdmHasSupertype = HqdmLib.HqdmTriple (HqdmLib.subject tpl)  hqdmHasSupertypeBR (HqdmLib.object tpl)
       | HqdmLib.predicate tpl==hqdmHasSuperclass  = HqdmLib.HqdmTriple (HqdmLib.subject tpl) hqdmHasSuperclassBR (HqdmLib.object tpl)
-      | otherwise = HqdmLib.HqdmTriple (HqdmLib.subject tpl) pureRelMatch (HqdmLib.object tpl)
+      | otherwise = HqdmLib.HqdmTriple (HqdmLib.subject tpl) pureRelMatch (HqdmLib.object tpl)-}
 
 {-convertRelationByDomainRangeAndName tpl brels = HqdmLib.HqdmTriple
   (HqdmLib.subject tpl)
@@ -480,29 +422,29 @@ convertTopRelationByDomainAndName tpl brels = go tpl
   (HqdmLib.object tpl)-}
 
 -- | This finds the domain type Id from an object Id and List of accopmanying triples
-hqdmDomainTypeFromIdInList :: HqdmLib.HqdmTriple -> [HqdmLib.HqdmTriple] -> [HqdmLib.HqdmTriple] -> HqdmLib.Id
+{-hqdmDomainTypeFromIdInList :: HqdmLib.HqdmTriple -> [HqdmLib.HqdmTriple] -> [HqdmLib.HqdmTriple] -> HqdmLib.Id
 hqdmDomainTypeFromIdInList tpl datasetTpls topTpls = go
   where
     typeOfSubject = HqdmLib.headIfStringPresent [ HqdmLib.object values | values <- datasetTpls, (hqdmType == HqdmLib.predicate values) && (HqdmLib.subject tpl ==  HqdmLib.subject values) ]
 
-    go = HqdmLib.headIfStringPresent [ HqdmLib.subject values | values <- topTpls, (hqdmType == HqdmLib.predicate values) && (typeOfSubject ==  HqdmLib.object values) ]
+    go = HqdmLib.headIfStringPresent [ HqdmLib.subject values | values <- topTpls, (hqdmType == HqdmLib.predicate values) && (typeOfSubject ==  HqdmLib.object values) ]-}
 
 -- | This finds the range type Id from an object Id and List of accopmanying triples
-hqdmRangeTypeFromIdInList :: HqdmLib.HqdmTriple -> [HqdmLib.HqdmTriple] -> [HqdmLib.HqdmTriple] -> HqdmLib.Id
+{-hqdmRangeTypeFromIdInList :: HqdmLib.HqdmTriple -> [HqdmLib.HqdmTriple] -> [HqdmLib.HqdmTriple] -> HqdmLib.Id
 hqdmRangeTypeFromIdInList tpl datasetTpls topTpls = go
   where
     typeOfObject = HqdmLib.headIfStringPresent [ HqdmLib.object values | values <- datasetTpls, (hqdmType == HqdmLib.predicate values) && (HqdmLib.object tpl ==  HqdmLib.subject values) ]
 
-    go = HqdmLib.headIfStringPresent [ HqdmLib.subject values | values <- topTpls, (hqdmType == HqdmLib.predicate values) && (typeOfObject ==  HqdmLib.object values) ]
+    go = HqdmLib.headIfStringPresent [ HqdmLib.subject values | values <- topTpls, (hqdmType == HqdmLib.predicate values) && (typeOfObject ==  HqdmLib.object values) ]-}
 
 -- | This swaps the relation names in a HqdmAllAsData dataset (it doesn't handle instance and extended subclasses)
 -- The first two lists should be the same input dataset(!?!?!)
-hqdmSwapAnyRelationNamesForIds :: [HqdmLib.HqdmTriple] -> [HqdmLib.HqdmTriple]-> [HqdmBinaryRelationPure] -> [HqdmLib.HqdmTriple]
-hqdmSwapAnyRelationNamesForIds hqdmTpls topTpls brels = fmap (\ x -> convertAnyHqdmRelationByDomainAndName x (hqdmDomainTypeFromIdInList x hqdmTpls topTpls) brels) hqdmTpls
+{-hqdmSwapAnyRelationNamesForIds :: [HqdmLib.HqdmTriple] -> [HqdmLib.HqdmTriple]-> [HqdmBinaryRelationPure] -> [HqdmLib.HqdmTriple]
+hqdmSwapAnyRelationNamesForIds hqdmTpls topTpls brels = fmap (\ x -> convertAnyHqdmRelationByDomainAndName x (hqdmDomainTypeFromIdInList x hqdmTpls topTpls) brels) hqdmTpls-}
 
 -- | This swaps the relation name in a HqdmAllAsData triple (it doesn't handle instance and extended subclass triples)
 -- Takes the triple and the Top Type from which it inherits its relations
-convertAnyHqdmRelationByDomainAndName :: HqdmLib.HqdmTriple -> HqdmLib.Id -> [HqdmBinaryRelationPure] -> HqdmLib.HqdmTriple
+{-convertAnyHqdmRelationByDomainAndName :: HqdmLib.HqdmTriple -> HqdmLib.Id -> [HqdmBinaryRelationPure] -> HqdmLib.HqdmTriple
 convertAnyHqdmRelationByDomainAndName tpl typeId brels = go tpl
   where
     pureRelMatch = HqdmLib.headIfStringPresent [ pureBinaryRelationId values | values <- brels, (typeId == pureDomain values) && (HqdmLib.predicate tpl ==  pureBinaryRelationName values) ]
@@ -524,12 +466,12 @@ convertAnyHqdmRelationByDomainAndName tpl typeId brels = go tpl
       | HqdmLib.predicate tpl==hqdmRecordCreated  = HqdmLib.HqdmTriple (HqdmLib.subject tpl) hqdmHasRecordCreatedBR (HqdmLib.object tpl)
       | HqdmLib.predicate tpl==hqdmRecordCreator  = HqdmLib.HqdmTriple (HqdmLib.subject tpl) hqdmHasRecordCreatorBR (HqdmLib.object tpl)
       | pureRelMatch == "" = HqdmLib.HqdmTriple (HqdmLib.subject tpl) hqdmAttributeBR (HqdmLib.object tpl)
-      | otherwise = HqdmLib.HqdmTriple (HqdmLib.subject tpl) pureRelMatch (HqdmLib.object tpl)
+      | otherwise = HqdmLib.HqdmTriple (HqdmLib.subject tpl) pureRelMatch (HqdmLib.object tpl)-}
 
 -- | This swaps the relation names in a HqdmAllAsData dataset (it doesn't handle instance and extended subclasses)
 -- Looks for match of domain type, relation name and range type
-hqdmSwapAnyRelationNamesForIdsStrict :: [HqdmLib.HqdmTriple] -> [HqdmLib.HqdmTriple]-> [HqdmBinaryRelationPure] -> [HqdmLib.HqdmTriple]
-hqdmSwapAnyRelationNamesForIdsStrict hqdmTpls topTpls brels = fmap (\ x -> convertAnyHqdmRelationByDomainRangeAndName x (hqdmDomainTypeFromIdInList x hqdmTpls topTpls) (hqdmRangeTypeFromIdInList x hqdmTpls topTpls) brels topTpls) hqdmTpls
+{-hqdmSwapAnyRelationNamesForIdsStrict :: [HqdmLib.HqdmTriple] -> [HqdmLib.HqdmTriple]-> [HqdmBinaryRelationPure] -> [HqdmLib.HqdmTriple]
+hqdmSwapAnyRelationNamesForIdsStrict hqdmTpls topTpls brels = fmap (\ x -> convertAnyHqdmRelationByDomainRangeAndName x (hqdmDomainTypeFromIdInList x hqdmTpls topTpls) (hqdmRangeTypeFromIdInList x hqdmTpls topTpls) brels topTpls) hqdmTpls-}
 
 -- | This swaps the relation name in a HqdmAllAsData triple (it doesn't handle instance and extended subclass triples)
 -- Takes the triple and the Top Type from which it inherits its relations
@@ -539,7 +481,7 @@ hqdmSwapAnyRelationNamesForIdsStrict hqdmTpls topTpls brels = fmap (\ x -> conve
 --    rangeTypeId   The type of the object (Right)
 --    brels         The list of binary relation sets
 --    topTpls       The full collection of hqdm supertype-subtype statements
-convertAnyHqdmRelationByDomainRangeAndName :: HqdmLib.HqdmTriple -> HqdmLib.Id -> HqdmLib.Id -> [HqdmBinaryRelationPure] -> [HqdmLib.HqdmHasSupertype] -> HqdmLib.HqdmTriple
+{-convertAnyHqdmRelationByDomainRangeAndName :: HqdmLib.HqdmTriple -> HqdmLib.Id -> HqdmLib.Id -> [HqdmBinaryRelationPure] -> [HqdmLib.HqdmHasSupertype] -> HqdmLib.HqdmTriple
 convertAnyHqdmRelationByDomainRangeAndName tpl domainTypeId rangeTypeId brels topTpls = go tpl
   where
     pureRelMatch = HqdmLib.headIfStringPresent [ pureBinaryRelationId values | values <- brels, (domainTypeId == pureDomain values) && (HqdmLib.predicate tpl ==  pureBinaryRelationName values) && (rangeTypeId == pureRange values) ]
@@ -561,9 +503,9 @@ convertAnyHqdmRelationByDomainRangeAndName tpl domainTypeId rangeTypeId brels to
       | HqdmLib.predicate tpl==hqdmEntityName  = HqdmLib.HqdmTriple (HqdmLib.subject tpl) hqdmHasEntityNameBR (HqdmLib.object tpl)
       | HqdmLib.predicate tpl==hqdmRecordCreated  = HqdmLib.HqdmTriple (HqdmLib.subject tpl) hqdmHasRecordCreatedBR (HqdmLib.object tpl)
       | HqdmLib.predicate tpl==hqdmRecordCreator  = HqdmLib.HqdmTriple (HqdmLib.subject tpl) hqdmHasRecordCreatorBR (HqdmLib.object tpl)
-      | not (null subtypeRangeMatch) = HqdmLib.HqdmTriple (HqdmLib.subject tpl) ( getPureRelationId (head $ filterHigherLevelBrels (findBrelsFromIds subtypeRangeMatch brels) brels)) (HqdmLib.object tpl) -- This is for the case that there is a 
+      | not (Prelude.null subtypeRangeMatch) = HqdmLib.HqdmTriple (HqdmLib.subject tpl) ( getPureRelationId (head $ filterHigherLevelBrels (findBrelsFromIds subtypeRangeMatch brels) brels)) (HqdmLib.object tpl) -- This is for the case that there is a 
       | pureRelMatch == "" = HqdmLib.HqdmTriple (HqdmLib.subject tpl) hqdmAttributeBR (HqdmLib.object tpl)
-      | otherwise = HqdmLib.HqdmTriple (HqdmLib.subject tpl) pureRelMatch (HqdmLib.object tpl)
+      | otherwise = HqdmLib.HqdmTriple (HqdmLib.subject tpl) pureRelMatch (HqdmLib.object tpl)-}
 
 -- | attributeStringsToUUIds
 
@@ -610,9 +552,9 @@ findSuperBinaryRelation relId tpls brels = goFind relId tpls brels
     closestNameMatches = [x | x <- namesOfBrelsOfDomain, snd x `isPrefixOf` relName]
 
     goFind relId tpls brels
-      | null relId = []
-      | null tpls = []
-      | null brels = []
+      | Data.UUID.null relId = []
+      | Prelude.null tpls = []
+      | Prelude.null brels = []
       | otherwise = closestNameMatches
 
 
@@ -621,7 +563,7 @@ headListIfPresent []     = Nothing
 headListIfPresent (a:as) = Just a
 
 getRelationIdFromMonadTuple :: Maybe (RelationId, String) -> String
-getRelationIdFromMonadTuple = maybe "" fst
+getRelationIdFromMonadTuple = maybe "" (toString . fst)
 
 findSuperBinaryRelation' :: RelationId -> [HqdmLib.HqdmTriple] -> [HqdmBinaryRelationPure] -> Maybe (RelationId, String)
 findSuperBinaryRelation' relId tpls brels =
@@ -640,7 +582,7 @@ addNewCardinalitiesToPure cardMin cardMax x = HqdmBinaryRelationPure
     cardMin
     cardMax
   ( pureRedeclaredBR x)
-  ( pureRedeclaredFromRange x)
+  ( pureInverseOf x)
 
 comma::String
 comma = ","
@@ -653,15 +595,15 @@ boolToString False = "False"
 -- Printable pure Relation for export as CSV
 printablePureRelation :: HqdmBinaryRelationPure -> String
 printablePureRelation x =
-  pureDomain x ++ comma ++
-  pureBinaryRelationId x ++ comma ++
+  toString (pureDomain x) ++ comma ++
+  toString (pureBinaryRelationId x) ++ comma ++
   pureBinaryRelationName x ++ comma ++
-  pureRange x ++ comma ++
-  concatMap (++ " ") (pureHasSuperBR x) ++ comma ++
+  toString (pureRange x) ++ comma ++
+  concatMap (\x -> toString x ++ " ") (pureHasSuperBR x) ++ comma ++
   show (pureCardinalityMin x) ++ comma ++
   show (pureCardinalityMax x) ++ comma ++
   boolToString (pureRedeclaredBR x) ++ comma ++
-  pureRedeclaredFromRange x ++ "\n"
+  toString (pureInverseOf x) ++ "\n"
 
 csvRelationsFromPure :: [HqdmBinaryRelationPure] -> String
 csvRelationsFromPure = concatMap printablePureRelation
@@ -680,7 +622,7 @@ findMaxMinCardinality (brelId:brelIds) brels cardVal = go brelIds brels cardVal
     nextCardVal = pureCardinalityMin (head $ findBrelFromId brelId brels)
 
     go brelIds brels cardVal
-      | null brelIds = cardVal
+      | Prelude.null brelIds = cardVal
       | nextCardVal > cardVal = findMaxMinCardinality brelIds brels nextCardVal
       | nextCardVal <= cardVal = findMaxMinCardinality brelIds brels cardVal
       | otherwise = -1
@@ -694,7 +636,7 @@ findMaxMaxCardinality (brelId:brelIds) brels cardVal = go brelIds brels cardVal
     nextCardVal = pureCardinalityMax (head $ findBrelFromId brelId brels)
 
     go brelIds brels cardVal
-      | null brelIds = cardVal
+      | Prelude.null brelIds = cardVal
       | nextCardVal > cardVal = findMaxMaxCardinality brelIds brels nextCardVal
       | nextCardVal <= cardVal = findMaxMaxCardinality brelIds brels cardVal
       | otherwise = -1
@@ -735,13 +677,13 @@ findSubBinaryRelationTree ids hqdmBrels = go ids hqdmBrels
     newLayer = [HqdmLib.deleteItemsFromList possibleNewLayer (concat ids)]
 
     go ids hqdmBrel
-      | null (head newLayer) = ids
+      | Prelude.null (head newLayer) = ids
       | otherwise = findSubBinaryRelationTree (ids ++ newLayer) hqdmBrel
 
 printableErrorResults:: [(RelationCheck, HqdmBinaryRelationPure, HqdmLib.Id)] -> [HqdmLib.HqdmTriple] -> [HqdmLib.HqdmTriple] -> String
 printableErrorResults errs hqdm tpls =
     concatMap (\ x ->
-        "\n\nObject Id:" ++ show (thdOf3 x) ++ " of type '" ++ HqdmLib.lookupHqdmType (HqdmLib.lookupHqdmOne (thdOf3 x) tpls) ++ "'" ++
+        "\n\nObject Id:" ++ show (thdOf3 x) ++ " of type '" ++ toString (fromJust (HqdmLib.lookupHqdmType (HqdmLib.lookupHqdmOne (thdOf3 x) tpls))) ++ "'" ++
         "\nRelation check result: " ++ show (fstOf3 x) ++
         onlyPrintInvalidTypeCause x ++
         printRelationWithTypeNames ( sndOf3 x) hqdm
@@ -781,7 +723,7 @@ relationInSupertypePaths relId brelSet brels result = go relId brelSet brels res
         idInSuperBRels = relId `elem` tail superBRels
 
         go relId brelSet brels result
-            | null brelSet = result
+            | Prelude.null brelSet = result
             | otherwise = relationInSupertypePaths relId (tail brelSet) brels (result || idInSuperBRels)
 
 ---------------------------------------------------------------------------------------------
@@ -810,19 +752,13 @@ cardinalityTestAllObjects uuids tplsAll hqdm brels results = go uuids tplsAll hq
         filteredBrels = filterHigherLevelBrels typeBrels brels
 
         go uuids tplsAll hqdm brels results
-            | null uuids = results
+            | Prelude.null uuids = results
             | otherwise = cardinalityTestAllObjects (tail uuids) tplsAll hqdm brels (results ++ cardinalityMetAllRels objTpls filteredBrels)
 
 -- | getTypeIdFromObject
 -- Get the Id of the Hqdm Type from a supplied set of triples for a joined Hqdm object ### Implement test for this?
 getTypeIdFromObject:: [HqdmLib.HqdmTriple] -> [HqdmLib.HqdmTriple] -> HqdmLib.Id
-getTypeIdFromObject objTpls hqdm = go hqdm
-  where
-    typeIdOrNameHash = head $ HqdmLib.lookupHqdmIdsFromTypePredicates hqdm ( HqdmLib.lookupHqdmType objTpls )
-
-    go hqdm
-      | version (fromJust $ fromString typeIdOrNameHash) == 5 = HqdmLib.lookupHqdmTypeIdFromName hqdm typeIdOrNameHash
-      | otherwise = typeIdOrNameHash
+getTypeIdFromObject objTpls hqdm = head $ HqdmLib.lookupHqdmIdsFromTypePredicates hqdm (fromJust $ HqdmLib.lookupHqdmType objTpls)
 
 -- | cardinalityMetAllRels
 -- Tests whether the collection of triples for a single Hqdm Node (object) satisfies 
@@ -875,7 +811,7 @@ rangeTestAllObjects uuids tplsAll hqdm brels results = go uuids tplsAll hqdm bre
         filteredBrels = filterHigherLevelBrels typeBrels brels
 
         go uuids tplsAll hqdm brels results
-            | null uuids = results
+            | Prelude.null uuids = results
             | otherwise = rangeTestAllObjects (tail uuids) tplsAll hqdm brels (results ++ rangeMetAllRels objTpls tplsAll hqdm filteredBrels)
 
 -- | rangeMetAllRels
@@ -905,14 +841,14 @@ rangeMet:: [HqdmLib.HqdmTriple] -> [HqdmLib.HqdmTriple] -> [HqdmLib.HqdmTriple] 
 rangeMet tpls tplsAll hqdm brel = go
     where
         brelRange = getPureRange brel
-        rangeInstanceOfBrel = HqdmLib.headIfStringPresent [HqdmLib.object values | values <- tpls, getPureRelationId brel == HqdmLib.predicate values]
+        rangeInstanceOfBrel = fromJust $ HqdmLib.headIfUUIDPresent [HqdmLib.object values | values <- tpls, getPureRelationId brel == HqdmLib.predicate values]
         tplsForRangeObject = HqdmLib.lookupHqdmOne rangeInstanceOfBrel tplsAll
-        typeOfInstanceOfBrel = HqdmLib.headIfStringPresent $ HqdmLib.lookupHqdmTypeFromAll tplsForRangeObject rangeInstanceOfBrel --- Maybe need to lookupHqdmOne here
+        typeOfInstanceOfBrel = fromJust $ HqdmLib.headIfUUIDPresent (HqdmLib.lookupHqdmTypeFromAll tplsForRangeObject rangeInstanceOfBrel) --- Maybe need to lookupHqdmOne here
         idOfType = getTypeIdFromObject hqdm tplsForRangeObject
         subTypeTreeOfRange = concat $ HqdmLib.findSubtypeTree [[brelRange]] hqdm
 
         go
-            | rangeInstanceOfBrel == "" = RelationInstanceNotPresent
+            | Data.UUID.null rangeInstanceOfBrel = RelationInstanceNotPresent
             | idOfType `elem` subTypeTreeOfRange = Valid
             | otherwise = RangeTypeViolation
 
@@ -928,15 +864,15 @@ rangeMetTest:: [HqdmLib.HqdmTriple] -> [HqdmLib.HqdmTriple] -> [HqdmLib.HqdmTrip
 rangeMetTest tpls tplsAll hqdm brel = go tpls
     where
         brelRange = getPureRange brel
-        rangeInstanceOfBrel = HqdmLib.headIfStringPresent [HqdmLib.object values | values <- tpls, getPureRelationId brel == HqdmLib.predicate values]
+        rangeInstanceOfBrel = fromJust $ HqdmLib.headIfUUIDPresent [HqdmLib.object values | values <- tpls, getPureRelationId brel == HqdmLib.predicate values]
         tplsForRangeObject = HqdmLib.lookupHqdmOne rangeInstanceOfBrel tplsAll
-        typeOfInstanceOfBrel = HqdmLib.headIfStringPresent $ HqdmLib.lookupHqdmTypeFromAll tplsForRangeObject rangeInstanceOfBrel --- Maybe need to lookupHqdmOne here
-        idOfType = HqdmLib.lookupHqdmTypeIdFromName hqdm typeOfInstanceOfBrel
+        typeOfInstanceOfBrel = fromJust $ HqdmLib.headIfUUIDPresent (HqdmLib.lookupHqdmTypeFromAll tplsForRangeObject rangeInstanceOfBrel) --- Maybe need to lookupHqdmOne here
+        idOfType = fromJust $ HqdmLib.lookupHqdmTypeIdFromName hqdm typeOfInstanceOfBrel
         subTypeTreeOfRange = concat $ HqdmLib.findSubtypeTree [[brelRange]] hqdm
 
         go tpls
-            | rangeInstanceOfBrel == "" = RelationCheckTest brelRange rangeInstanceOfBrel typeOfInstanceOfBrel idOfType tpls
-            | otherwise = RelationCheckTest brelRange rangeInstanceOfBrel typeOfInstanceOfBrel idOfType tpls
+            | Data.UUID.null rangeInstanceOfBrel = RelationCheckTest (toString brelRange) "No range" (toString typeOfInstanceOfBrel) (toString idOfType) tpls -- Nugatory line now. FIX!
+            | otherwise = RelationCheckTest (toString brelRange) (toString rangeInstanceOfBrel) (toString typeOfInstanceOfBrel) (toString idOfType) tpls
 
 ---------------------------------------------------------------------------------------------
 -- Useful functions used in those above

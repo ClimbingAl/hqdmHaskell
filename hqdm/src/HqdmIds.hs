@@ -15,690 +15,693 @@
 
 module HqdmIds (module HqdmIds) where
 
-state_of_biological_object::String
-state_of_biological_object = "f5ac9254-2b93-4ed7-b89e-70994842b438"
+import Data.UUID (UUID, fromString)
+import Data.Maybe (fromJust)
 
-class_of_contract_process::String
-class_of_contract_process = "5fd88c8b-d625-45ac-93e6-664073c7de48"
+state_of_biological_object::UUID
+state_of_biological_object = fromJust $ fromString "f5ac9254-2b93-4ed7-b89e-70994842b438"
 
-state_of_sign::String
-state_of_sign = "b7fa66e2-abd4-488f-9340-3cd9420d4a9f"
+class_of_contract_process::UUID
+class_of_contract_process = fromJust $ fromString "5fd88c8b-d625-45ac-93e6-664073c7de48"
 
-state_of_sales_product_instance::String
-state_of_sales_product_instance = "98bbb226-e02a-456f-bd33-b6a4ea69e5b0"
+state_of_sign::UUID
+state_of_sign = fromJust $ fromString "b7fa66e2-abd4-488f-9340-3cd9420d4a9f"
 
-class_of_class_of_spatio_temporal_extent::String
-class_of_class_of_spatio_temporal_extent = "2ff8e41a-4586-4338-9934-52ac50fe4598"
+state_of_sales_product_instance::UUID
+state_of_sales_product_instance = fromJust $ fromString "98bbb226-e02a-456f-bd33-b6a4ea69e5b0"
 
-physical_property::String
-physical_property = "3ddc2ed0-22cb-4a5c-b71b-02f354ea3568"
+class_of_class_of_spatio_temporal_extent::UUID
+class_of_class_of_spatio_temporal_extent = fromJust $ fromString "2ff8e41a-4586-4338-9934-52ac50fe4598"
 
-relationship::String
-relationship = "6dead78a-0a96-47f1-adde-ef2edc60006d"
+physical_property::UUID
+physical_property = fromJust $ fromString "3ddc2ed0-22cb-4a5c-b71b-02f354ea3568"
 
-kind_of_functional_system_component::String
-kind_of_functional_system_component = "5ccc13dd-c63c-4502-aa0d-786410b138cd"
+relationship::UUID
+relationship = fromJust $ fromString "6dead78a-0a96-47f1-adde-ef2edc60006d"
 
-class_of_agreement_process::String
-class_of_agreement_process = "9d904f8d-8ee4-4736-adab-f46a2062cf70"
+kind_of_functional_system_component::UUID
+kind_of_functional_system_component = fromJust $ fromString "5ccc13dd-c63c-4502-aa0d-786410b138cd"
 
-reaching_agreement::String
-reaching_agreement = "85b3248b-9d92-4d03-b96c-a89ef95dcba3"
+class_of_agreement_process::UUID
+class_of_agreement_process = fromJust $ fromString "9d904f8d-8ee4-4736-adab-f46a2062cf70"
 
-period_of_time::String
-period_of_time = "cf9e810f-6717-4c60-a659-b7f1c2ac6819"
+reaching_agreement::UUID
+reaching_agreement = fromJust $ fromString "85b3248b-9d92-4d03-b96c-a89ef95dcba3"
 
-class_of_functional_system::String
-class_of_functional_system = "77784a67-f694-4a14-9be3-3aabb3dd71da"
+period_of_time::UUID
+period_of_time = fromJust $ fromString "cf9e810f-6717-4c60-a659-b7f1c2ac6819"
 
-class_of_position::String
-class_of_position = "6ad1434d-56f4-437b-a580-c41c3bf901a6"
+class_of_functional_system::UUID
+class_of_functional_system = fromJust $ fromString "77784a67-f694-4a14-9be3-3aabb3dd71da"
 
-class_of_person::String
-class_of_person = "16da19b2-f39c-46cd-afc6-70581ccf048e"
+class_of_position::UUID
+class_of_position = fromJust $ fromString "6ad1434d-56f4-437b-a580-c41c3bf901a6"
 
-physical_property_range::String
-physical_property_range = "f23b03a1-b220-42c3-950f-52be336e33fe"
+class_of_person::UUID
+class_of_person = fromJust $ fromString "16da19b2-f39c-46cd-afc6-70581ccf048e"
 
-class_of_relationship::String
-class_of_relationship = "ba210fe2-cb0d-4c39-b0a2-84ea734af444"
+physical_property_range::UUID
+physical_property_range = fromJust $ fromString "f23b03a1-b220-42c3-950f-52be336e33fe"
 
-activity::String
-activity = "7fd5d2ab-a4f2-443b-bdf9-6695fa55c01f"
+class_of_relationship::UUID
+class_of_relationship = fromJust $ fromString "ba210fe2-cb0d-4c39-b0a2-84ea734af444"
 
-class_of_physical_quantity::String
-class_of_physical_quantity = "45c59627-fca9-4ddd-b27a-e4108dec8816"
+activity::UUID
+activity = fromJust $ fromString "7fd5d2ab-a4f2-443b-bdf9-6695fa55c01f"
 
-identification_of_physical_quantity::String
-identification_of_physical_quantity = "0868e6c6-20de-4460-a49d-c2e2b6a503a9"
+class_of_physical_quantity::UUID
+class_of_physical_quantity = fromJust $ fromString "45c59627-fca9-4ddd-b27a-e4108dec8816"
 
-participant::String
-participant = "f9d69eb8-9ab7-44da-b9d0-8256de2b4497"
+identification_of_physical_quantity::UUID
+identification_of_physical_quantity = fromJust $ fromString "0868e6c6-20de-4460-a49d-c2e2b6a503a9"
 
-state_of_language_community::String
-state_of_language_community = "af99cda1-e45a-4f11-a5b1-4ad73bbc959a"
+participant::UUID
+participant = fromJust $ fromString "f9d69eb8-9ab7-44da-b9d0-8256de2b4497"
 
-point_in_time::String
-point_in_time = "6bb0b0b6-41cd-4bb3-a0e8-d483b25f6cf1"
+state_of_language_community::UUID
+state_of_language_community = fromJust $ fromString "af99cda1-e45a-4f11-a5b1-4ad73bbc959a"
 
-biological_system::String
-biological_system = "51614e28-d493-4d36-a3d1-4d92cae43b5f"
+point_in_time::UUID
+point_in_time = fromJust $ fromString "6bb0b0b6-41cd-4bb3-a0e8-d483b25f6cf1"
 
-kind_of_biological_object::String
-kind_of_biological_object = "04c18886-d1fc-4cc8-8f58-228b2b6686dc"
+biological_system::UUID
+biological_system = fromJust $ fromString "51614e28-d493-4d36-a3d1-4d92cae43b5f"
 
-socially_constructed_activity::String
-socially_constructed_activity = "bf06e797-5d00-4d7f-8737-4d7e2c709013"
+kind_of_biological_object::UUID
+kind_of_biological_object = fromJust $ fromString "04c18886-d1fc-4cc8-8f58-228b2b6686dc"
 
-class_of_representation::String
-class_of_representation = "a6fa4ee6-34d4-4a7c-9f52-d9df85cc5985"
+socially_constructed_activity::UUID
+socially_constructed_activity = fromJust $ fromString "bf06e797-5d00-4d7f-8737-4d7e2c709013"
 
-transferor::String
-transferor = "fac26d85-dd15-4d71-a259-b52782b21074"
+class_of_representation::UUID
+class_of_representation = fromJust $ fromString "a6fa4ee6-34d4-4a7c-9f52-d9df85cc5985"
 
-class_of_state_of_association::String
-class_of_state_of_association = "d1671586-74bf-4c53-adcc-d585940b661b"
+transferor::UUID
+transferor = fromJust $ fromString "fac26d85-dd15-4d71-a259-b52782b21074"
 
-kind_of_functional_system::String
-kind_of_functional_system = "69237cad-6966-4825-ba09-f1402bc93e91"
+class_of_state_of_association::UUID
+class_of_state_of_association = fromJust $ fromString "d1671586-74bf-4c53-adcc-d585940b661b"
 
-class_of_state_of_organization::String
-class_of_state_of_organization = "652d9a7e-4310-43ff-8572-2f7e963499ae"
+kind_of_functional_system::UUID
+kind_of_functional_system = fromJust $ fromString "69237cad-6966-4825-ba09-f1402bc93e91"
 
-kind_of_physical_quantity::String
-kind_of_physical_quantity = "3b4703fc-9f93-41b1-ae0b-f04a8d9345be"
+class_of_state_of_organization::UUID
+class_of_state_of_organization = fromJust $ fromString "652d9a7e-4310-43ff-8572-2f7e963499ae"
 
-state_of_activity::String
-state_of_activity = "2a7e347e-870a-40ef-974d-5f7d2565fb33"
+kind_of_physical_quantity::UUID
+kind_of_physical_quantity = fromJust $ fromString "3b4703fc-9f93-41b1-ae0b-f04a8d9345be"
 
-state_of_association::String
-state_of_association = "43ab843d-dfea-473d-bce4-72ff8c9b7e63"
+state_of_activity::UUID
+state_of_activity = fromJust $ fromString "2a7e347e-870a-40ef-974d-5f7d2565fb33"
 
-class_of_state_of_functional_system::String
-class_of_state_of_functional_system = "b3b33e0d-bdb4-42f6-a39a-2b99e8e7163c"
+state_of_association::UUID
+state_of_association = fromJust $ fromString "43ab843d-dfea-473d-bce4-72ff8c9b7e63"
 
-class_of_party::String
-class_of_party = "1f256de1-3bde-48de-862d-4be2025ec214"
+class_of_state_of_functional_system::UUID
+class_of_state_of_functional_system = fromJust $ fromString "b3b33e0d-bdb4-42f6-a39a-2b99e8e7163c"
 
-kind_of_organization_component::String
-kind_of_organization_component = "1c59d6d4-6324-4f82-92d5-61e4cf5e8d08"
+class_of_party::UUID
+class_of_party = fromJust $ fromString "1f256de1-3bde-48de-862d-4be2025ec214"
 
-class_of_state_of_ordinary_functional_object::String
-class_of_state_of_ordinary_functional_object = "a3deeac0-8add-4ca6-a761-4e0255706cb0"
+kind_of_organization_component::UUID
+kind_of_organization_component = fromJust $ fromString "1c59d6d4-6324-4f82-92d5-61e4cf5e8d08"
 
-state_of_ordinary_physical_object::String
-state_of_ordinary_physical_object = "1d81fb63-17e1-4f37-a2f6-3fb0c11b36c2"
+class_of_state_of_ordinary_functional_object::UUID
+class_of_state_of_ordinary_functional_object = fromJust $ fromString "a3deeac0-8add-4ca6-a761-4e0255706cb0"
 
-kind_of_system_component::String
-kind_of_system_component = "6ed91d58-3c29-484d-b7b2-2c9b7ad3d414"
+state_of_ordinary_physical_object::UUID
+state_of_ordinary_physical_object = fromJust $ fromString "1d81fb63-17e1-4f37-a2f6-3fb0c11b36c2"
 
-money_asset::String
-money_asset = "1689ecb3-cdfd-4f82-b0c1-302e72489288"
+kind_of_system_component::UUID
+kind_of_system_component = fromJust $ fromString "6ed91d58-3c29-484d-b7b2-2c9b7ad3d414"
 
-state_of_position::String
-state_of_position = "235c90e8-d604-4666-92cb-7677b11b9842"
+money_asset::UUID
+money_asset = fromJust $ fromString "1689ecb3-cdfd-4f82-b0c1-302e72489288"
 
-class_of_activity::String
-class_of_activity = "16b464c6-7a71-4734-88af-9e224b70784b"
+state_of_position::UUID
+state_of_position = fromJust $ fromString "235c90e8-d604-4666-92cb-7677b11b9842"
 
-intentionally_constructed_object::String
-intentionally_constructed_object = "eb620bb7-652e-45ef-bc04-31f7d7c5ee10"
+class_of_activity::UUID
+class_of_activity = fromJust $ fromString "16b464c6-7a71-4734-88af-9e224b70784b"
 
-class_of_state_of_person::String
-class_of_state_of_person = "03b7b761-5761-480c-ad6e-caa0948539a3"
+intentionally_constructed_object::UUID
+intentionally_constructed_object = fromJust $ fromString "eb620bb7-652e-45ef-bc04-31f7d7c5ee10"
 
-kind_of_biological_system_component::String
-kind_of_biological_system_component = "270ad353-89d3-40f9-a381-2d1bd47c31ab"
+class_of_state_of_person::UUID
+class_of_state_of_person = fromJust $ fromString "03b7b761-5761-480c-ad6e-caa0948539a3"
 
-class_of_period_of_time::String
-class_of_period_of_time = "3ae0e22b-31b9-48a2-8ee1-c7d2a9666b00"
+kind_of_biological_system_component::UUID
+kind_of_biological_system_component = fromJust $ fromString "270ad353-89d3-40f9-a381-2d1bd47c31ab"
 
-offer::String
-offer = "3badd42d-b024-4359-a0dd-67a49cc15fbf"
+class_of_period_of_time::UUID
+class_of_period_of_time = fromJust $ fromString "3ae0e22b-31b9-48a2-8ee1-c7d2a9666b00"
 
-kind_of_intentionally_constructed_object::String
-kind_of_intentionally_constructed_object = "55a846ab-d7c0-4b94-86f2-1a17ed3c59e0"
+offer::UUID
+offer = fromJust $ fromString "3badd42d-b024-4359-a0dd-67a49cc15fbf"
 
-class_of_state_of_system_component::String
-class_of_state_of_system_component = "a3dd76af-0812-4317-bb76-a568d9eee416"
+kind_of_intentionally_constructed_object::UUID
+kind_of_intentionally_constructed_object = fromJust $ fromString "55a846ab-d7c0-4b94-86f2-1a17ed3c59e0"
 
-temporal_composition::String
-temporal_composition = "a6713585-13a1-4593-9a1e-4f9ff1dfe8b7"
+class_of_state_of_system_component::UUID
+class_of_state_of_system_component = fromJust $ fromString "a3dd76af-0812-4317-bb76-a568d9eee416"
 
-class_of_agreement_execution::String
-class_of_agreement_execution = "7a5013ce-3cbb-4776-8677-173fc4f134c6"
+temporal_composition::UUID
+temporal_composition = fromJust $ fromString "a6713585-13a1-4593-9a1e-4f9ff1dfe8b7"
 
-transferee::String
-transferee = "931cea6c-5033-4d52-85fd-3c14fb576e39"
+class_of_agreement_execution::UUID
+class_of_agreement_execution = fromJust $ fromString "7a5013ce-3cbb-4776-8677-173fc4f134c6"
 
-event::String
-event = "545b4541-8a34-46b8-8704-2265be0244c3"
+transferee::UUID
+transferee = fromJust $ fromString "931cea6c-5033-4d52-85fd-3c14fb576e39"
 
-state_of_biological_system::String
-state_of_biological_system = "95a2da43-3cd9-4d33-aa4e-d670b5405b4e"
+event::UUID
+event = fromJust $ fromString "545b4541-8a34-46b8-8704-2265be0244c3"
 
-scale::String
-scale = "a63de5df-381c-448d-9b7b-573515d0601b"
+state_of_biological_system::UUID
+state_of_biological_system = fromJust $ fromString "95a2da43-3cd9-4d33-aa4e-d670b5405b4e"
 
-class_of_amount_of_money::String
-class_of_amount_of_money = "998230cf-1822-4000-bd58-9790845f12da"
+scale::UUID
+scale = fromJust $ fromString "a63de5df-381c-448d-9b7b-573515d0601b"
 
-class_of_possible_world::String
-class_of_possible_world = "fa589df8-5b75-4b5a-97e5-19d27f6801df"
+class_of_amount_of_money::UUID
+class_of_amount_of_money = fromJust $ fromString "998230cf-1822-4000-bd58-9790845f12da"
 
-ordinary_biological_object::String
-ordinary_biological_object = "4b4c601d-5ec9-44f4-b6b0-836fc7933830"
+class_of_possible_world::UUID
+class_of_possible_world = fromJust $ fromString "fa589df8-5b75-4b5a-97e5-19d27f6801df"
 
-sign::String
-sign = "4e292a65-9a0d-4bfa-9e4f-16ae238c2627"
+ordinary_biological_object::UUID
+ordinary_biological_object = fromJust $ fromString "4b4c601d-5ec9-44f4-b6b0-836fc7933830"
 
-class_of_socially_constructed_activity::String
-class_of_socially_constructed_activity = "48bf4338-cd99-409b-88e8-3c4d473d8fde"
+sign::UUID
+sign = fromJust $ fromString "4e292a65-9a0d-4bfa-9e4f-16ae238c2627"
 
-kind_of_system::String
-kind_of_system = "ff161f9f-ba65-4a71-9728-9bda738e7371"
+class_of_socially_constructed_activity::UUID
+class_of_socially_constructed_activity = fromJust $ fromString "48bf4338-cd99-409b-88e8-3c4d473d8fde"
 
-kind_of_association::String
-kind_of_association = "4ab749af-25a0-4906-8783-9337a543dffa"
+kind_of_system::UUID
+kind_of_system = fromJust $ fromString "ff161f9f-ba65-4a71-9728-9bda738e7371"
 
-individual::String
-individual = "58107227-267a-4f2e-a44a-25bb61c6a455"
+kind_of_association::UUID
+kind_of_association = fromJust $ fromString "4ab749af-25a0-4906-8783-9337a543dffa"
 
-defined_relationship::String
-defined_relationship = "23855152-d704-4b21-8776-366fd03a5147"
+individual::UUID
+individual = fromJust $ fromString "58107227-267a-4f2e-a44a-25bb61c6a455"
 
-class_of_abstract_object::String
-class_of_abstract_object = "febe31ec-15f4-4841-a0f7-8034e5a1e08b"
+defined_relationship::UUID
+defined_relationship = fromJust $ fromString "23855152-d704-4b21-8776-366fd03a5147"
 
-kind_of_position::String
-kind_of_position = "a87dc0c2-7f04-4e33-95eb-750bbbeb5dbd"
+class_of_abstract_object::UUID
+class_of_abstract_object = fromJust $ fromString "febe31ec-15f4-4841-a0f7-8034e5a1e08b"
 
-representation_by_pattern::String
-representation_by_pattern = "17f56403-3bbe-4529-b72e-dc47793983b9"
+kind_of_position::UUID
+kind_of_position = fromJust $ fromString "a87dc0c2-7f04-4e33-95eb-750bbbeb5dbd"
 
-class_of_ordinary_functional_object::String
-class_of_ordinary_functional_object = "6c920aab-70be-4cc5-a1a7-393f638ea5d2"
+representation_by_pattern::UUID
+representation_by_pattern = fromJust $ fromString "17f56403-3bbe-4529-b72e-dc47793983b9"
 
-functional_system_component::String
-functional_system_component = "a980b931-9769-4975-847a-5d81405b213b"
+class_of_ordinary_functional_object::UUID
+class_of_ordinary_functional_object = fromJust $ fromString "6c920aab-70be-4cc5-a1a7-393f638ea5d2"
 
-class_of_state_of_activity::String
-class_of_state_of_activity = "c00d4221-b97a-4bdb-8bd6-f7abdcebcc21"
+functional_system_component::UUID
+functional_system_component = fromJust $ fromString "a980b931-9769-4975-847a-5d81405b213b"
 
-ownership::String
-ownership = "822e4ff2-5e3a-46dd-837f-6bf1d1ad8962"
+class_of_state_of_activity::UUID
+class_of_state_of_activity = fromJust $ fromString "c00d4221-b97a-4bdb-8bd6-f7abdcebcc21"
 
-person_in_position::String
-person_in_position = "22937432-bf11-4649-b3aa-e5812a5286f4"
+ownership::UUID
+ownership = fromJust $ fromString "822e4ff2-5e3a-46dd-837f-6bf1d1ad8962"
 
-biological_system_component::String
-biological_system_component = "a6970168-65c7-49aa-8429-c2230ec69003"
+person_in_position::UUID
+person_in_position = fromJust $ fromString "22937432-bf11-4649-b3aa-e5812a5286f4"
 
-class_of_event::String
-class_of_event = "1075159b-3229-450b-ab71-3e81918f57c2"
+biological_system_component::UUID
+biological_system_component = fromJust $ fromString "a6970168-65c7-49aa-8429-c2230ec69003"
 
-class_of_state_of_functional_system_component::String
-class_of_state_of_functional_system_component = "65c798a6-a51f-4bba-872a-a60d49594ec4"
+class_of_event::UUID
+class_of_event = fromJust $ fromString "1075159b-3229-450b-ab71-3e81918f57c2"
 
-state_of_party::String
-state_of_party = "248aec75-126f-4a2a-ac31-b3ad2415bb69"
+class_of_state_of_functional_system_component::UUID
+class_of_state_of_functional_system_component = fromJust $ fromString "65c798a6-a51f-4bba-872a-a60d49594ec4"
 
-class_of_functional_object::String
-class_of_functional_object = "483944bf-ec3b-4daf-a838-a9e0eaf67b75"
+state_of_party::UUID
+state_of_party = fromJust $ fromString "248aec75-126f-4a2a-ac31-b3ad2415bb69"
 
-sale_of_goods::String
-sale_of_goods = "461f1098-a247-482d-a3b7-5afe0986d0cc"
+class_of_functional_object::UUID
+class_of_functional_object = fromJust $ fromString "483944bf-ec3b-4daf-a838-a9e0eaf67b75"
 
-contract_execution::String
-contract_execution = "6ad0921a-5bbf-4d36-98e0-64ab8a11ba70"
+sale_of_goods::UUID
+sale_of_goods = fromJust $ fromString "461f1098-a247-482d-a3b7-5afe0986d0cc"
 
-state_of_organization::String
-state_of_organization = "515a7453-0189-4147-8b4b-5b419e651adb"
+contract_execution::UUID
+contract_execution = fromJust $ fromString "6ad0921a-5bbf-4d36-98e0-64ab8a11ba70"
 
-state_of_socially_constructed_object::String
-state_of_socially_constructed_object = "024708e6-3fd4-438c-8585-b74637b9dd06"
+state_of_organization::UUID
+state_of_organization = fromJust $ fromString "515a7453-0189-4147-8b4b-5b419e651adb"
 
-class_of_state_of_intentionally_constructed_object::String
-class_of_state_of_intentionally_constructed_object = "befbebe7-5d03-4788-b6d5-f3ec513f0df4"
+state_of_socially_constructed_object::UUID
+state_of_socially_constructed_object = fromJust $ fromString "024708e6-3fd4-438c-8585-b74637b9dd06"
 
-agree_contract::String
-agree_contract = "a5e5fe62-9d87-422e-bd87-f56cab26f2f6"
+class_of_state_of_intentionally_constructed_object::UUID
+class_of_state_of_intentionally_constructed_object = fromJust $ fromString "befbebe7-5d03-4788-b6d5-f3ec513f0df4"
 
-kind_of_physical_property::String
-kind_of_physical_property = "d48184f4-4c8a-4bee-8cb7-7cb055e9c08c"
+agree_contract::UUID
+agree_contract = fromJust $ fromString "a5e5fe62-9d87-422e-bd87-f56cab26f2f6"
 
-class_of_reaching_agreement::String
-class_of_reaching_agreement = "dbe090b4-7be7-4312-a7d8-289d5ecc565a"
+kind_of_physical_property::UUID
+kind_of_physical_property = fromJust $ fromString "d48184f4-4c8a-4bee-8cb7-7cb055e9c08c"
 
-class_of_state_of_socially_constructed_object::String
-class_of_state_of_socially_constructed_object = "4b400cd1-224d-4358-9239-d060dcc8ffb2"
+class_of_reaching_agreement::UUID
+class_of_reaching_agreement = fromJust $ fromString "dbe090b4-7be7-4312-a7d8-289d5ecc565a"
 
-employment::String
-employment = "0bd0dc56-30f4-44b6-97ce-1ca61d954f97"
+class_of_state_of_socially_constructed_object::UUID
+class_of_state_of_socially_constructed_object = fromJust $ fromString "4b400cd1-224d-4358-9239-d060dcc8ffb2"
 
-acceptance_of_offer_for_goods::String
-acceptance_of_offer_for_goods = "15f2a672-930e-4101-be71-402c2c4ce65e"
+employment::UUID
+employment = fromJust $ fromString "0bd0dc56-30f4-44b6-97ce-1ca61d954f97"
 
-class_of_installed_functional_system_component::String
-class_of_installed_functional_system_component = "57d77eb1-397a-4966-8f9f-51812b2287bc"
+acceptance_of_offer_for_goods::UUID
+acceptance_of_offer_for_goods = fromJust $ fromString "15f2a672-930e-4101-be71-402c2c4ce65e"
 
-class_of_state_of_biological_object::String
-class_of_state_of_biological_object = "6beb4515-89e8-4bce-9318-77935200f9bb"
+class_of_installed_functional_system_component::UUID
+class_of_installed_functional_system_component = fromJust $ fromString "57d77eb1-397a-4966-8f9f-51812b2287bc"
 
-offer_and_acceptance_for_goods::String
-offer_and_acceptance_for_goods = "c26908a0-5b98-4ec0-ad81-1198300bd09d"
+class_of_state_of_biological_object::UUID
+class_of_state_of_biological_object = fromJust $ fromString "6beb4515-89e8-4bce-9318-77935200f9bb"
 
-class_of_ordinary_biological_object::String
-class_of_ordinary_biological_object = "46a78f8d-5470-41e3-ac04-ae68a1d55dda"
+offer_and_acceptance_for_goods::UUID
+offer_and_acceptance_for_goods = fromJust $ fromString "c26908a0-5b98-4ec0-ad81-1198300bd09d"
 
-class_of_state_of_position::String
-class_of_state_of_position = "f6a45033-f1ae-4733-851f-5c4b451c6d45"
+class_of_ordinary_biological_object::UUID
+class_of_ordinary_biological_object = fromJust $ fromString "46a78f8d-5470-41e3-ac04-ae68a1d55dda"
 
-requirement::String
-requirement = "46b71552-11c9-4be1-a118-c879db176c00"
+class_of_state_of_position::UUID
+class_of_state_of_position = fromJust $ fromString "f6a45033-f1ae-4733-851f-5c4b451c6d45"
 
-kind_of_relationship_with_restriction::String
-kind_of_relationship_with_restriction = "76499d8f-0190-4555-b8ae-8283a272ee62"
+requirement::UUID
+requirement = fromJust $ fromString "46b71552-11c9-4be1-a118-c879db176c00"
 
-class_of_organization::String
-class_of_organization = "6ab409ca-57a7-4daa-8da4-8d68945c4460"
+kind_of_relationship_with_restriction::UUID
+kind_of_relationship_with_restriction = fromJust $ fromString "76499d8f-0190-4555-b8ae-8283a272ee62"
 
-ordinary_physical_object::String
-ordinary_physical_object = "2d025173-f36f-46d5-a0fe-93e9c27ea08d"
+class_of_organization::UUID
+class_of_organization = fromJust $ fromString "6ab409ca-57a7-4daa-8da4-8d68945c4460"
 
-class_of_state::String
-class_of_state = "fabc65fd-5fe0-4f68-87bb-b4eb93eb2f1b"
+ordinary_physical_object::UUID
+ordinary_physical_object = fromJust $ fromString "2d025173-f36f-46d5-a0fe-93e9c27ea08d"
 
-class_of_state_of_biological_system::String
-class_of_state_of_biological_system = "634771cd-ca38-47e5-807d-fef99f8ee5d5"
+class_of_state::UUID
+class_of_state = fromJust $ fromString "fabc65fd-5fe0-4f68-87bb-b4eb93eb2f1b"
 
-possible_world::String
-possible_world = "a5dc8c36-56fc-44c2-909b-7592b1f44fd7"
+class_of_state_of_biological_system::UUID
+class_of_state_of_biological_system = fromJust $ fromString "634771cd-ca38-47e5-807d-fef99f8ee5d5"
 
-kind_of_person::String
-kind_of_person = "5f22208e-72cb-4098-942b-e85246b48208"
+possible_world::UUID
+possible_world = fromJust $ fromString "a5dc8c36-56fc-44c2-909b-7592b1f44fd7"
 
-state_of_functional_system::String
-state_of_functional_system = "5c790afa-c116-4721-8e7c-83624d1dd4bc"
+kind_of_person::UUID
+kind_of_person = fromJust $ fromString "5f22208e-72cb-4098-942b-e85246b48208"
 
-state_of_socially_constructed_activity::String
-state_of_socially_constructed_activity = "ff452b29-06ab-49fd-9eab-0dd822be48fe"
+state_of_functional_system::UUID
+state_of_functional_system = fromJust $ fromString "5c790afa-c116-4721-8e7c-83624d1dd4bc"
 
-pattern'::String
-pattern' = "efbfe0f6-376d-4461-9f47-f4823d8a426b"
+state_of_socially_constructed_activity::UUID
+state_of_socially_constructed_activity = fromJust $ fromString "ff452b29-06ab-49fd-9eab-0dd822be48fe"
 
-class_of_biological_system::String
-class_of_biological_system = "fc91cd5a-97f5-4748-8329-aeed9d1c7966"
+pattern'::UUID
+pattern' = fromJust $ fromString "efbfe0f6-376d-4461-9f47-f4823d8a426b"
 
-installed_object::String
-installed_object = "2ebbbc2c-8859-4909-8fb3-55545467642d"
+class_of_biological_system::UUID
+class_of_biological_system = fromJust $ fromString "fc91cd5a-97f5-4748-8329-aeed9d1c7966"
 
-ordinary_functional_object::String
-ordinary_functional_object = "22ff3254-a3d2-401e-bc2c-d8290558e708"
+installed_object::UUID
+installed_object = fromJust $ fromString "2ebbbc2c-8859-4909-8fb3-55545467642d"
 
-physical_object::String
-physical_object = "db723822-93f7-4c1d-8f17-fb094a5c10d9"
+ordinary_functional_object::UUID
+ordinary_functional_object = fromJust $ fromString "22ff3254-a3d2-401e-bc2c-d8290558e708"
 
-person::String
-person = "a49dde2f-b3f8-4d51-8fc3-12d0f185d5f3"
+physical_object::UUID
+physical_object = fromJust $ fromString "db723822-93f7-4c1d-8f17-fb094a5c10d9"
 
-kind_of_socially_constructed_object::String
-kind_of_socially_constructed_object = "cd887fc6-ed0f-418f-b209-8a20d04f2d16"
+person::UUID
+person = fromJust $ fromString "a49dde2f-b3f8-4d51-8fc3-12d0f185d5f3"
 
-contract_process::String
-contract_process = "2b18e695-e10c-4a32-9dd3-50e8768e9487"
+kind_of_socially_constructed_object::UUID
+kind_of_socially_constructed_object = fromJust $ fromString "cd887fc6-ed0f-418f-b209-8a20d04f2d16"
 
-kind_of_ordinary_functional_object::String
-kind_of_ordinary_functional_object = "73b12acd-dc2e-4b10-b574-731e07c6d049"
+contract_process::UUID
+contract_process = fromJust $ fromString "2b18e695-e10c-4a32-9dd3-50e8768e9487"
 
-employer::String
-employer = "4bc3cccc-e061-400e-9e1a-ab54a54952c6"
+kind_of_ordinary_functional_object::UUID
+kind_of_ordinary_functional_object = fromJust $ fromString "73b12acd-dc2e-4b10-b574-731e07c6d049"
 
-class_of_agree_contract::String
-class_of_agree_contract = "84c62d3f-2884-4273-a233-73713c38e987"
+employer::UUID
+employer = fromJust $ fromString "4bc3cccc-e061-400e-9e1a-ab54a54952c6"
 
-class_of_system_component::String
-class_of_system_component = "66f9dfd3-2af7-44ce-8d01-6dbce8558a47"
+class_of_agree_contract::UUID
+class_of_agree_contract = fromJust $ fromString "84c62d3f-2884-4273-a233-73713c38e987"
 
-functional_object::String
-functional_object = "130e95f1-ebc4-46f1-90ba-3f9fa21cb77b"
+class_of_system_component::UUID
+class_of_system_component = fromJust $ fromString "66f9dfd3-2af7-44ce-8d01-6dbce8558a47"
 
-sales_product_version::String
-sales_product_version = "16e86c86-f67b-41ad-82a4-1e412847ec50"
+functional_object::UUID
+functional_object = fromJust $ fromString "130e95f1-ebc4-46f1-90ba-3f9fa21cb77b"
 
-in_place_biological_component::String
-in_place_biological_component = "a9442d42-4cf5-4b2a-bc83-cdc9e0dbfbd3"
+sales_product_version::UUID
+sales_product_version = fromJust $ fromString "16e86c86-f67b-41ad-82a4-1e412847ec50"
 
-kind_of_ordinary_biological_object::String
-kind_of_ordinary_biological_object = "d1da2671-094a-4640-9fd6-0c663b7d982b"
+in_place_biological_component::UUID
+in_place_biological_component = fromJust $ fromString "a9442d42-4cf5-4b2a-bc83-cdc9e0dbfbd3"
 
-state_of_intentionally_constructed_object::String
-state_of_intentionally_constructed_object = "2878273d-20f6-434e-8aa9-99764432fd03"
+kind_of_ordinary_biological_object::UUID
+kind_of_ordinary_biological_object = fromJust $ fromString "d1da2671-094a-4640-9fd6-0c663b7d982b"
 
-transfer_of_ownership::String
-transfer_of_ownership = "3f05741d-65af-4fcd-b8cd-8c608fcf1715"
+state_of_intentionally_constructed_object::UUID
+state_of_intentionally_constructed_object = fromJust $ fromString "2878273d-20f6-434e-8aa9-99764432fd03"
 
-class_of_sales_product_instance::String
-class_of_sales_product_instance = "1934d6d0-944a-4d15-82fb-1c518cc4caae"
+transfer_of_ownership::UUID
+transfer_of_ownership = fromJust $ fromString "3f05741d-65af-4fcd-b8cd-8c608fcf1715"
 
-class_of_physical_object::String
-class_of_physical_object = "3bb531a7-acb6-4096-b44f-6a0024ec090c"
+class_of_sales_product_instance::UUID
+class_of_sales_product_instance = fromJust $ fromString "1934d6d0-944a-4d15-82fb-1c518cc4caae"
 
-class_of_contract_execution::String
-class_of_contract_execution = "9698ea51-7c2d-42ba-b840-f8f50d341a3b"
+class_of_physical_object::UUID
+class_of_physical_object = fromJust $ fromString "3bb531a7-acb6-4096-b44f-6a0024ec090c"
 
-state::String
-state = "13bebbab-ce5c-4c3b-ac77-66713f303a0a"
+class_of_contract_execution::UUID
+class_of_contract_execution = fromJust $ fromString "9698ea51-7c2d-42ba-b840-f8f50d341a3b"
 
-class_of_point_in_time::String
-class_of_point_in_time = "04f30767-7c10-47b4-a0c4-526bc846b814"
+state::UUID
+state = fromJust $ fromString "13bebbab-ce5c-4c3b-ac77-66713f303a0a"
 
-state_of_person::String
-state_of_person = "5d725880-4682-4cba-bc88-e5dde5ba3647"
+class_of_point_in_time::UUID
+class_of_point_in_time = fromJust $ fromString "04f30767-7c10-47b4-a0c4-526bc846b814"
 
-spatio_temporal_extent::String
-spatio_temporal_extent = "dd8359c4-0a2b-416a-af27-3bcb0551b41a"
+state_of_person::UUID
+state_of_person = fromJust $ fromString "5d725880-4682-4cba-bc88-e5dde5ba3647"
 
-class_of_state_of_party::String
-class_of_state_of_party = "484c2d9b-be76-4d3d-83d6-2b630c125ef3"
+spatio_temporal_extent::UUID
+spatio_temporal_extent = fromJust $ fromString "dd8359c4-0a2b-416a-af27-3bcb0551b41a"
 
-class_of_state_of_ordinary_physical_object::String
-class_of_state_of_ordinary_physical_object = "0b2bf9d2-ded9-498d-b2c4-3131af57b4bf"
+class_of_state_of_party::UUID
+class_of_state_of_party = fromJust $ fromString "484c2d9b-be76-4d3d-83d6-2b630c125ef3"
 
-class_of_spatio_temporal_extent::String
-class_of_spatio_temporal_extent = "bb6f6d3f-1ed1-41ab-942c-6b3667c5da37"
+class_of_state_of_ordinary_physical_object::UUID
+class_of_state_of_ordinary_physical_object = fromJust $ fromString "0b2bf9d2-ded9-498d-b2c4-3131af57b4bf"
 
-currency::String
-currency = "f916a5ea-6de0-4b3d-bd0a-5215421d10a8"
+class_of_spatio_temporal_extent::UUID
+class_of_spatio_temporal_extent = fromJust $ fromString "bb6f6d3f-1ed1-41ab-942c-6b3667c5da37"
 
-product_brand::String
-product_brand = "da0bbcd1-9dfc-47b5-b0b4-86c4b9104f14"
+currency::UUID
+currency = fromJust $ fromString "f916a5ea-6de0-4b3d-bd0a-5215421d10a8"
 
-sales_product::String
-sales_product = "c4f76131-66f2-4b09-bfb0-6a1aec1a5c51"
+product_brand::UUID
+product_brand = fromJust $ fromString "da0bbcd1-9dfc-47b5-b0b4-86c4b9104f14"
 
-kind_of_individual::String
-kind_of_individual = "872000dc-f6b0-41db-a564-eb8f82f7a97c"
+sales_product::UUID
+sales_product = fromJust $ fromString "c4f76131-66f2-4b09-bfb0-6a1aec1a5c51"
 
-asset::String
-asset = "f235e2b3-d6d8-4f89-93b3-d13121872563"
+kind_of_individual::UUID
+kind_of_individual = fromJust $ fromString "872000dc-f6b0-41db-a564-eb8f82f7a97c"
 
-agreement_execution::String
-agreement_execution = "ba16eba2-2a1e-46d3-913a-5826b5b2abc8"
+asset::UUID
+asset = fromJust $ fromString "f235e2b3-d6d8-4f89-93b3-d13121872563"
 
-class_of_socially_constructed_object::String
-class_of_socially_constructed_object = "e9597740-d4f6-4a71-a820-054eea06547e"
+agreement_execution::UUID
+agreement_execution = fromJust $ fromString "ba16eba2-2a1e-46d3-913a-5826b5b2abc8"
 
-class_of_state_of_sales_product_instance::String
-class_of_state_of_sales_product_instance = "69db834e-6958-4a1b-b6b8-363be1a94261"
+class_of_socially_constructed_object::UUID
+class_of_socially_constructed_object = fromJust $ fromString "e9597740-d4f6-4a71-a820-054eea06547e"
 
-kind_of_biological_system::String
-kind_of_biological_system = "3f1174ee-c8eb-4760-8176-828204a06fa8"
+class_of_state_of_sales_product_instance::UUID
+class_of_state_of_sales_product_instance = fromJust $ fromString "69db834e-6958-4a1b-b6b8-363be1a94261"
 
-description::String
-description = "bfd6843b-e61d-4cea-a2fb-cbce2280883a"
+kind_of_biological_system::UUID
+kind_of_biological_system = fromJust $ fromString "3f1174ee-c8eb-4760-8176-828204a06fa8"
 
-state_of_organization_component::String
-state_of_organization_component = "684c4991-c599-41d0-a13b-ec40ae4c974f"
+description::UUID
+description = fromJust $ fromString "bfd6843b-e61d-4cea-a2fb-cbce2280883a"
 
-class_of_sign::String
-class_of_sign = "17b9a165-a969-4871-8a7d-2b9b6c7c6168"
+state_of_organization_component::UUID
+state_of_organization_component = fromJust $ fromString "684c4991-c599-41d0-a13b-ec40ae4c974f"
 
-abstract_object::String
-abstract_object = "1c0d0bb2-63ad-4697-98e8-37586bb10dfe"
+class_of_sign::UUID
+class_of_sign = fromJust $ fromString "17b9a165-a969-4871-8a7d-2b9b6c7c6168"
 
-enumerated_class::String
-enumerated_class = "25f53d18-2107-42f4-af63-17d267935337"
+abstract_object::UUID
+abstract_object = fromJust $ fromString "1c0d0bb2-63ad-4697-98e8-37586bb10dfe"
 
-class_of_association::String
-class_of_association = "65f62d48-a12c-42f6-a4e6-ad69ff713444"
+enumerated_class::UUID
+enumerated_class = fromJust $ fromString "25f53d18-2107-42f4-af63-17d267935337"
 
-kind_of_relationship_with_signature::String
-kind_of_relationship_with_signature = "1f176e62-4a10-477e-8e55-ea36ed8b9777"
+class_of_association::UUID
+class_of_association = fromJust $ fromString "65f62d48-a12c-42f6-a4e6-ad69ff713444"
 
-biological_object::String
-biological_object = "21c1fe82-1b48-46b3-8df8-6bddcbb2d92e"
+kind_of_relationship_with_signature::UUID
+kind_of_relationship_with_signature = fromJust $ fromString "1f176e62-4a10-477e-8e55-ea36ed8b9777"
 
-state_of_functional_object::String
-state_of_functional_object = "486caeee-40d6-487d-ba45-67539e8c37b5"
+biological_object::UUID
+biological_object = fromJust $ fromString "21c1fe82-1b48-46b3-8df8-6bddcbb2d92e"
 
-state_of_physical_object::String
-state_of_physical_object = "f9cb048d-a2f7-4ff6-b824-c59b44e2aabe"
+state_of_functional_object::UUID
+state_of_functional_object = fromJust $ fromString "486caeee-40d6-487d-ba45-67539e8c37b5"
 
-system::String
-system = "dddc968c-e4e3-4776-b227-6ec6f82160c9"
+state_of_physical_object::UUID
+state_of_physical_object = fromJust $ fromString "f9cb048d-a2f7-4ff6-b824-c59b44e2aabe"
 
-class_of_functional_system_component::String
-class_of_functional_system_component = "08eef096-5390-4aba-a648-470aba6e3d4e"
+system::UUID
+system = fromJust $ fromString "dddc968c-e4e3-4776-b227-6ec6f82160c9"
 
-specialization::String
-specialization = "547a538f-722a-4753-bf74-afd11269e619"
+class_of_functional_system_component::UUID
+class_of_functional_system_component = fromJust $ fromString "08eef096-5390-4aba-a648-470aba6e3d4e"
 
-agreement_process::String
-agreement_process = "9260f8a5-7dad-40d1-89d1-91ebce71ebcb"
+specialization::UUID
+specialization = fromJust $ fromString "547a538f-722a-4753-bf74-afd11269e619"
 
-class_of_organization_component::String
-class_of_organization_component = "0ba7da14-df50-47bb-bc53-e06ec699e78f"
+agreement_process::UUID
+agreement_process = fromJust $ fromString "9260f8a5-7dad-40d1-89d1-91ebce71ebcb"
 
-physical_quantity::String
-physical_quantity = "fd536c7a-ab53-4706-9184-19df9f7d3098"
+class_of_organization_component::UUID
+class_of_organization_component = fromJust $ fromString "0ba7da14-df50-47bb-bc53-e06ec699e78f"
 
-product_offering::String
-product_offering = "431a3be2-e1f9-48c4-acf0-1a54aebb7b06"
+physical_quantity::UUID
+physical_quantity = fromJust $ fromString "fd536c7a-ab53-4706-9184-19df9f7d3098"
 
-amount_of_money::String
-amount_of_money = "623f3067-db46-40c1-9cf0-b1682fd41ed6"
+product_offering::UUID
+product_offering = fromJust $ fromString "431a3be2-e1f9-48c4-acf0-1a54aebb7b06"
 
-hqdmClass::String
-hqdmClass = "4a8cba08-035c-4902-935b-26da61ed282c"
+amount_of_money::UUID
+amount_of_money = fromJust $ fromString "623f3067-db46-40c1-9cf0-b1682fd41ed6"
 
-state_of_ordinary_functional_object::String
-state_of_ordinary_functional_object = "3e972910-5f22-4cd0-9de1-7c7af0925660"
+hqdmClass::UUID
+hqdmClass = fromJust $ fromString "4a8cba08-035c-4902-935b-26da61ed282c"
 
-system_component::String
-system_component = "2c20a948-5bc4-4da3-9b6e-a87027fe1026"
+state_of_ordinary_functional_object::UUID
+state_of_ordinary_functional_object = fromJust $ fromString "3e972910-5f22-4cd0-9de1-7c7af0925660"
 
-state_of_system_component::String
-state_of_system_component = "45c5b53c-7178-451f-a3f6-ad100daa2d8e"
+system_component::UUID
+system_component = fromJust $ fromString "2c20a948-5bc4-4da3-9b6e-a87027fe1026"
 
-state_of_system::String
-state_of_system = "4e4a8a47-3a4c-44b9-83cc-96a11041172a"
+state_of_system_component::UUID
+state_of_system_component = fromJust $ fromString "45c5b53c-7178-451f-a3f6-ad100daa2d8e"
 
-representation_by_sign::String
-representation_by_sign = "b2471599-92bc-494d-8108-6be9895128a7"
+state_of_system::UUID
+state_of_system = fromJust $ fromString "4e4a8a47-3a4c-44b9-83cc-96a11041172a"
 
-class_of_state_of_physical_object::String
-class_of_state_of_physical_object = "09ff1076-4557-48d3-b4eb-e4db4e8824ca"
+representation_by_sign::UUID
+representation_by_sign = fromJust $ fromString "b2471599-92bc-494d-8108-6be9895128a7"
 
-role::String
-role = "bbdadac6-65c2-4a03-9f74-9784b916378e"
+class_of_state_of_physical_object::UUID
+class_of_state_of_physical_object = fromJust $ fromString "09ff1076-4557-48d3-b4eb-e4db4e8824ca"
 
-class_of_in_place_biological_component::String
-class_of_in_place_biological_component = "adb7bb49-78ed-4e0a-9673-afe45d381f04"
+role::UUID
+role = fromJust $ fromString "bbdadac6-65c2-4a03-9f74-9784b916378e"
 
-socially_constructed_object::String
-socially_constructed_object = "3603c6e0-605b-48a0-ad84-47c17d98bf6b"
+class_of_in_place_biological_component::UUID
+class_of_in_place_biological_component = fromJust $ fromString "adb7bb49-78ed-4e0a-9673-afe45d381f04"
 
-exchange_of_goods_and_money::String
-exchange_of_goods_and_money = "20b38aa3-b4bb-4435-8eef-688ced81e195"
+socially_constructed_object::UUID
+socially_constructed_object = fromJust $ fromString "3603c6e0-605b-48a0-ad84-47c17d98bf6b"
 
-functional_system::String
-functional_system = "dabf85cb-c1e7-489b-aa66-0572dd1bd1dd"
+exchange_of_goods_and_money::UUID
+exchange_of_goods_and_money = fromJust $ fromString "20b38aa3-b4bb-4435-8eef-688ced81e195"
 
-kind_of_party::String
-kind_of_party = "62c4e791-099b-49b3-a665-a74731e49d78"
+functional_system::UUID
+functional_system = fromJust $ fromString "dabf85cb-c1e7-489b-aa66-0572dd1bd1dd"
 
-acceptance_of_offer::String
-acceptance_of_offer = "57defdea-3306-4304-8e64-34c4c7343e43"
+kind_of_party::UUID
+kind_of_party = fromJust $ fromString "62c4e791-099b-49b3-a665-a74731e49d78"
 
-association::String
-association = "07d5cfb9-1dc5-41ca-bd9c-a298a16e6767"
+acceptance_of_offer::UUID
+acceptance_of_offer = fromJust $ fromString "57defdea-3306-4304-8e64-34c4c7343e43"
 
-unit_of_measure::String
-unit_of_measure = "ee59b427-6b70-4dad-be46-5f53abdc566d"
+association::UUID
+association = fromJust $ fromString "07d5cfb9-1dc5-41ca-bd9c-a298a16e6767"
 
-installed_functional_system_component::String
-installed_functional_system_component = "20a6c495-a478-4b18-83b1-ab97ef909665"
+unit_of_measure::UUID
+unit_of_measure = fromJust $ fromString "ee59b427-6b70-4dad-be46-5f53abdc566d"
 
-state_of_functional_system_component::String
-state_of_functional_system_component = "7be2a6bd-cdd1-4730-a1a5-3540aae7f139"
+installed_functional_system_component::UUID
+installed_functional_system_component = fromJust $ fromString "20a6c495-a478-4b18-83b1-ab97ef909665"
 
-recognizing_language_community::String
-recognizing_language_community = "fcae9992-8838-447e-a530-5f63aab304b2"
+state_of_functional_system_component::UUID
+state_of_functional_system_component = fromJust $ fromString "7be2a6bd-cdd1-4730-a1a5-3540aae7f139"
 
-class_of_ordinary_physical_object::String
-class_of_ordinary_physical_object = "a3950bdd-ee55-4ef1-82f5-432181902751"
+recognizing_language_community::UUID
+recognizing_language_community = fromJust $ fromString "fcae9992-8838-447e-a530-5f63aab304b2"
 
-class_of_state_of_sign::String
-class_of_state_of_sign = "7ddc2bde-e95b-4825-8431-e1a2ad2ef472"
+class_of_ordinary_physical_object::UUID
+class_of_ordinary_physical_object = fromJust $ fromString "a3950bdd-ee55-4ef1-82f5-432181902751"
 
-classification::String
-classification = "528725d8-243d-41a3-b9f9-63900f76bbee"
+class_of_state_of_sign::UUID
+class_of_state_of_sign = fromJust $ fromString "7ddc2bde-e95b-4825-8431-e1a2ad2ef472"
 
-beginning_of_ownership::String
-beginning_of_ownership = "fc9185a7-9137-4150-b313-3def1dee1ae6"
+classification::UUID
+classification = fromJust $ fromString "528725d8-243d-41a3-b9f9-63900f76bbee"
 
-class_of_state_of_amount_of_money::String
-class_of_state_of_amount_of_money = "6f9af373-1be4-4938-9f4a-b7eee8fa3bf8"
+beginning_of_ownership::UUID
+beginning_of_ownership = fromJust $ fromString "fc9185a7-9137-4150-b313-3def1dee1ae6"
 
-class_of_biological_object::String
-class_of_biological_object = "174249f8-33f8-4998-b81a-bda093659982"
+class_of_state_of_amount_of_money::UUID
+class_of_state_of_amount_of_money = fromJust $ fromString "6f9af373-1be4-4938-9f4a-b7eee8fa3bf8"
 
-physical_quantity_range::String
-physical_quantity_range = "bcce4936-4387-454a-bf3b-2a7f51798f21"
+class_of_biological_object::UUID
+class_of_biological_object = fromJust $ fromString "174249f8-33f8-4998-b81a-bda093659982"
 
-kind_of_functional_object::String
-kind_of_functional_object = "cc965f1b-26da-4230-b653-752e764add9e"
+physical_quantity_range::UUID
+physical_quantity_range = fromJust $ fromString "bcce4936-4387-454a-bf3b-2a7f51798f21"
 
-aggregation::String
-aggregation = "8c49494d-9064-49e8-b56f-1cd9b46be261"
+kind_of_functional_object::UUID
+kind_of_functional_object = fromJust $ fromString "cc965f1b-26da-4230-b653-752e764add9e"
 
-sales_product_instance::String
-sales_product_instance = "a1daa215-0e0e-49e1-8d0a-4ce7056c81b4"
+aggregation::UUID
+aggregation = fromJust $ fromString "8c49494d-9064-49e8-b56f-1cd9b46be261"
 
-identification::String
-identification = "6c668919-a78c-4239-bdc1-95cf53b3ed94"
+sales_product_instance::UUID
+sales_product_instance = fromJust $ fromString "a1daa215-0e0e-49e1-8d0a-4ce7056c81b4"
 
-class_of_biological_system_component::String
-class_of_biological_system_component = "e7e9e543-5ec8-4325-9c14-f861930ee401"
+identification::UUID
+identification = fromJust $ fromString "6c668919-a78c-4239-bdc1-95cf53b3ed94"
 
-kind_of_organization::String
-kind_of_organization = "b5b606ea-c1a9-4cc0-9217-63979c082f5b"
+class_of_biological_system_component::UUID
+class_of_biological_system_component = fromJust $ fromString "e7e9e543-5ec8-4325-9c14-f861930ee401"
 
-class_of_state_of_system::String
-class_of_state_of_system = "81ab8276-e2e3-41f9-9123-59e202cd70f6"
+kind_of_organization::UUID
+kind_of_organization = fromJust $ fromString "b5b606ea-c1a9-4cc0-9217-63979c082f5b"
 
-class_of_installed_object::String
-class_of_installed_object = "16cc47aa-c8b9-42fb-8aa8-caf1b765c3a4"
+class_of_state_of_system::UUID
+class_of_state_of_system = fromJust $ fromString "81ab8276-e2e3-41f9-9123-59e202cd70f6"
 
-state_of_amount_of_money::String
-state_of_amount_of_money = "5c20e872-fea5-439f-835e-d76e8c8fa356"
+class_of_installed_object::UUID
+class_of_installed_object = fromJust $ fromString "16cc47aa-c8b9-42fb-8aa8-caf1b765c3a4"
 
-composition::String
-composition = "ebd3b042-49ca-42aa-91c6-dcc72f725ab1"
+state_of_amount_of_money::UUID
+state_of_amount_of_money = fromJust $ fromString "5c20e872-fea5-439f-835e-d76e8c8fa356"
 
-party::String
-party = "d9ab8110-1437-4ac2-82b8-f6820cfa6dc4"
+composition::UUID
+composition = fromJust $ fromString "ebd3b042-49ca-42aa-91c6-dcc72f725ab1"
 
-price::String
-price = "15def788-5158-403f-8fe0-044bc32db81d"
+party::UUID
+party = fromJust $ fromString "d9ab8110-1437-4ac2-82b8-f6820cfa6dc4"
 
-definition::String
-definition = "a348a810-bf17-4cad-81d8-b2691c2ad2d9"
+price::UUID
+price = fromJust $ fromString "15def788-5158-403f-8fe0-044bc32db81d"
 
-kind_of_physical_object::String
-kind_of_physical_object = "27cca0db-6a93-4720-881c-1a27a08e8275"
+definition::UUID
+definition = fromJust $ fromString "a348a810-bf17-4cad-81d8-b2691c2ad2d9"
 
-class_of_class::String
-class_of_class = "a202f80b-3db4-4a33-a194-155529b87af5"
+kind_of_physical_object::UUID
+kind_of_physical_object = fromJust $ fromString "27cca0db-6a93-4720-881c-1a27a08e8275"
 
-state_of_biological_system_component::String
-state_of_biological_system_component = "8ea0afa5-1e03-4bcd-a884-9c09e2498bca"
+class_of_class::UUID
+class_of_class = fromJust $ fromString "a202f80b-3db4-4a33-a194-155529b87af5"
 
-position::String
-position = "000b059d-4859-4734-a06d-42f2c43e79b4"
+state_of_biological_system_component::UUID
+state_of_biological_system_component = fromJust $ fromString "8ea0afa5-1e03-4bcd-a884-9c09e2498bca"
 
-class_of_intentionally_constructed_object::String
-class_of_intentionally_constructed_object = "c0ca71fd-5151-421a-9458-c7cd6125746a"
+position::UUID
+position = fromJust $ fromString "000b059d-4859-4734-a06d-42f2c43e79b4"
 
-function_::String
-function_ = "23fad947-1de7-418e-8d9d-c593bbb1a61e"
+class_of_intentionally_constructed_object::UUID
+class_of_intentionally_constructed_object = fromJust $ fromString "c0ca71fd-5151-421a-9458-c7cd6125746a"
 
-state_of_ordinary_biological_object::String
-state_of_ordinary_biological_object = "80ff5ac6-d73a-465c-a3eb-e133b7f3d9a4"
+function_::UUID
+function_ = fromJust $ fromString "23fad947-1de7-418e-8d9d-c593bbb1a61e"
 
-transfer_of_ownership_of_money::String
-transfer_of_ownership_of_money = "bccc14b3-e12b-4ec1-91b2-d5533ce4a886"
+state_of_ordinary_biological_object::UUID
+state_of_ordinary_biological_object = fromJust $ fromString "80ff5ac6-d73a-465c-a3eb-e133b7f3d9a4"
 
-organization_component::String
-organization_component = "6a4fef6e-eb0e-465a-bdfe-6738cf2a8b33"
+transfer_of_ownership_of_money::UUID
+transfer_of_ownership_of_money = fromJust $ fromString "bccc14b3-e12b-4ec1-91b2-d5533ce4a886"
 
-class_of_state_of_ordinary_biological_object::String
-class_of_state_of_ordinary_biological_object = "f8a515a7-1237-4a11-9915-a075da750105"
+organization_component::UUID
+organization_component = fromJust $ fromString "6a4fef6e-eb0e-465a-bdfe-6738cf2a8b33"
 
-offer_for_goods::String
-offer_for_goods = "f9ed3970-9141-471d-82e6-536e32fb6064"
+class_of_state_of_ordinary_biological_object::UUID
+class_of_state_of_ordinary_biological_object = fromJust $ fromString "f8a515a7-1237-4a11-9915-a075da750105"
 
-owner::String
-owner = "3182e918-f5db-4b23-8c37-dbe73af104f5"
+offer_for_goods::UUID
+offer_for_goods = fromJust $ fromString "f9ed3970-9141-471d-82e6-536e32fb6064"
 
-offering::String
-offering = "40c9ab6a-e4e5-41e8-9ac6-0f54e8bb4df7"
+owner::UUID
+owner = fromJust $ fromString "3182e918-f5db-4b23-8c37-dbe73af104f5"
 
-class_of_system::String
-class_of_system = "c904af87-8122-4e94-a39a-ca9ca79b0ca1"
+offering::UUID
+offering = fromJust $ fromString "40c9ab6a-e4e5-41e8-9ac6-0f54e8bb4df7"
 
-employee::String
-employee = "bad5b7e0-8a1a-46e2-8e52-23948bad1698"
+class_of_system::UUID
+class_of_system = fromJust $ fromString "c904af87-8122-4e94-a39a-ca9ca79b0ca1"
 
-class_of_person_in_position::String
-class_of_person_in_position = "c91122bc-9e29-4ef3-80a1-6061513c195d"
+employee::UUID
+employee = fromJust $ fromString "bad5b7e0-8a1a-46e2-8e52-23948bad1698"
 
-organization::String
-organization = "f19c97e0-861a-40e9-94f4-04ef71d49bdd"
+class_of_person_in_position::UUID
+class_of_person_in_position = fromJust $ fromString "c91122bc-9e29-4ef3-80a1-6061513c195d"
 
-kind_of_activity::String
-kind_of_activity = "d41c1675-8998-4796-b858-f07f1a32c520"
+organization::UUID
+organization = fromJust $ fromString "f19c97e0-861a-40e9-94f4-04ef71d49bdd"
 
-requirement_specification::String
-requirement_specification = "ee5bfb21-1a52-4e7a-ac5a-9389353a4c7f"
+kind_of_activity::UUID
+kind_of_activity = fromJust $ fromString "d41c1675-8998-4796-b858-f07f1a32c520"
 
-thing::String
-thing = "e5ec5d9e-afea-44f7-93c9-699cd5072d90"
+requirement_specification::UUID
+requirement_specification = fromJust $ fromString "ee5bfb21-1a52-4e7a-ac5a-9389353a4c7f"
 
-ending_of_ownership::String
-ending_of_ownership = "67b82398-b80b-4ee3-aa2f-4bc33074c7f4"
+thing::UUID
+thing = fromJust $ fromString "e5ec5d9e-afea-44f7-93c9-699cd5072d90"
 
-class_of_state_of_functional_object::String
-class_of_state_of_functional_object = "828b8a81-f980-4c91-b1bd-07228f20c524"
+ending_of_ownership::UUID
+ending_of_ownership = fromJust $ fromString "67b82398-b80b-4ee3-aa2f-4bc33074c7f4"
 
-class_of_individual::String
-class_of_individual = "b0432482-12dc-432c-ac56-828da404fb14"
+class_of_state_of_functional_object::UUID
+class_of_state_of_functional_object = fromJust $ fromString "828b8a81-f980-4c91-b1bd-07228f20c524"
 
-language_community::String
-language_community = "c951c5a0-4228-4c90-af97-38be3a1cd2a4"
+class_of_individual::UUID
+class_of_individual = fromJust $ fromString "b0432482-12dc-432c-ac56-828da404fb14"
 
-class_of_state_of_biological_system_component::String
-class_of_state_of_biological_system_component = "0caf53a6-6642-4067-94c4-5d240d307d90"
+language_community::UUID
+language_community = fromJust $ fromString "c951c5a0-4228-4c90-af97-38be3a1cd2a4"
 
-kind_of_ordinary_physical_object::String
-kind_of_ordinary_physical_object = "27a3a178-836a-4b42-94b9-6dbb0031a1c0"
+class_of_state_of_biological_system_component::UUID
+class_of_state_of_biological_system_component = fromJust $ fromString "0caf53a6-6642-4067-94c4-5d240d307d90"
 
-class_of_state_of_organization_component::String
-class_of_state_of_organization_component = "41489e64-4d2e-4bef-b89f-a593cab8febb"
+kind_of_ordinary_physical_object::UUID
+kind_of_ordinary_physical_object = fromJust $ fromString "27a3a178-836a-4b42-94b9-6dbb0031a1c0"
 
-class_of_participant::String
-class_of_participant = "93d2b473-f654-448f-a0ce-2bc1d6a3aec5"
+class_of_state_of_organization_component::UUID
+class_of_state_of_organization_component = fromJust $ fromString "41489e64-4d2e-4bef-b89f-a593cab8febb"
 
-class_of_state_of_socially_constructed_activity::String
-class_of_state_of_socially_constructed_activity = "bb1d073f-9de7-483b-9b78-b5d299d51b35"
+class_of_participant::UUID
+class_of_participant = fromJust $ fromString "93d2b473-f654-448f-a0ce-2bc1d6a3aec5"
 
-class_of_offer::String
-class_of_offer = "41b85748-130c-454a-8e69-8ef59d1aa25d"
+class_of_state_of_socially_constructed_activity::UUID
+class_of_state_of_socially_constructed_activity = fromJust $ fromString "bb1d073f-9de7-483b-9b78-b5d299d51b35"
 
-plan::String
-plan = "7364e2cb-0a0b-4380-a51d-3e95e888eb0c"
+class_of_offer::UUID
+class_of_offer = fromJust $ fromString "41b85748-130c-454a-8e69-8ef59d1aa25d"
 
-class_of_physical_property::String
-class_of_physical_property = "940fad16-3ff8-4a28-809e-7abe000ae140"
+plan::UUID
+plan = fromJust $ fromString "7364e2cb-0a0b-4380-a51d-3e95e888eb0c"
+
+class_of_physical_property::UUID
+class_of_physical_property = fromJust $ fromString "940fad16-3ff8-4a28-809e-7abe000ae140"
 

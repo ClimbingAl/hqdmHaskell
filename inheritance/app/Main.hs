@@ -18,9 +18,11 @@ module Main (main) where
 
 import HqdmLib (
     Id,
-    HqdmTriple,
-    RelationPair,
+    HqdmTriple(..),
+    RelationPair(..),
     HqdmHasSupertype,
+    FromRecord,
+    ToRecord,
     getSubjects,
     getPredicates,
     uniqueIds,
@@ -33,7 +35,6 @@ import HqdmLib (
     lookupSubtypesOf,
     lookupSupertypeOf,
     lookupSupertypesOf,
-    findHqdmTypesInList,
     findSupertypeTree,
     printableTypeTree,
     findSubtypeTree,
@@ -53,7 +54,7 @@ import qualified Data.Vector as V
 
 -- Constants
 hqdmInputFilename::String
-hqdmInputFilename = "../hqdm/hqdmAllAsDataFormal1_NoExtensions.csv" -- hqdmAllAsDataFormal1_NoExtensions or hqdmAllAsDataFormal1
+hqdmInputFilename = "../HqdmTypes_v5.csv"
 
 main :: IO ()
 main = do
@@ -81,10 +82,6 @@ main = do
     --let hqdmThings = fmap (`lookupHqdmOne` hqdmInputModel) uniqueNodes
     --let originalThingRels = concatMap (\ x ->  "\n\n\nTYPE: " ++ head (lookupHqdmType x) ++ "\n\nRELATIONS: " ++ concatMap ("\n    " ++) (uniqueIds $ getPredicates x)) hqdmThings
     --putStr originalThingRels
-
-    -- Print all supertypes
-    --let allTypeSupertypes = fmap (\ x ->  (x ++ "  " ++ (concat (findHqdmTypesInList (lookupSupertypeOf x subtypes) hqdmInputModel)))) uniqueNodes
-    --print allTypeSupertypes
 
     -- Write namedTypesAndRels to the console
     -- MAIN PRINTABLE OUTPUT 

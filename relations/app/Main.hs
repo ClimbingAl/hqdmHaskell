@@ -75,7 +75,6 @@ import HqdmLib (
     lookupSubtypesOf,
     lookupSupertypeOf,
     lookupSupertypesOf,
-    findHqdmTypesInList,
     findSupertypeTree,
     printableTypeTree,
     findSubtypeTree,

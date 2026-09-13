@@ -107,7 +107,6 @@ import HqdmLib (
     lookupSubtypesOf,
     lookupSupertypeOf,
     lookupSupertypesOf,
-    findHqdmTypesInList,
     findHqdmTypeNamesInList,
     findHqdmNamesInList,
     findSupertypeTree,

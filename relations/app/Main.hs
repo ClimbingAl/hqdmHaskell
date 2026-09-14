@@ -20,7 +20,7 @@ import HqdmRelations (
     HqdmRelationSet,
     RelationPair,
     HqdmBinaryRelationSet,
-    HqdmBinaryRelationPure,
+    HqdmBinaryRelationPure(..),
     universalRelationSet,
     getRelationNameFromRels,
     getPureDomain,
@@ -78,19 +78,23 @@ import HqdmLib (
 -- from bytestring
 import qualified Data.ByteString.Lazy as BL
 -- from cassava
-import Data.Csv (HasHeader( NoHeader ), decode)
+
+import Data.Csv (HasHeader( NoHeader ), decode, FromField(..), parseField)
 import qualified Data.Vector as V
-import Data.Either
+import Data.Either ( fromRight )
+import Data.UUID (UUID, toString, fromString)
+import Data.Maybe (fromJust)
+
 
 -- Constants
 hqdmRelationsInputFilename::String
-hqdmRelationsInputFilename = "../HqdmBinaryRelations_v5.csv"
+hqdmRelationsInputFilename = "../HqdmBinaryRelations_v7.csv"
 
 hqdmInputFilename::String
-hqdmInputFilename = "../HqdmTypes_v4.csv"  -- hqdmAllAsDataFormal1_NoExtensions or hqdmAllAsDataFormal1 or hqdmAllAsDataFormal4_AllRels
+hqdmInputFilename = "../HqdmTypes_v5Mapped.csv"  -- hqdmAllAsDataFormal1_NoExtensions or hqdmAllAsDataFormal1 or hqdmAllAsDataFormal4_AllRels
 
-exampleBrelId::String
-exampleBrelId = "c037270e-801f-4957-ad79-239954cedc37" -- individual hqdm:member_of class_of_individual
+exampleBrelId::UUID
+exampleBrelId = fromJust $ fromString "c037270e-801f-4957-ad79-239954cedc37" -- individual hqdm:member_of class_of_individual
 
 allSupertypeRels:: [HqdmLib.HqdmTriple] -> [HqdmBinaryRelationPure] -> [Maybe (RelationId, String)]
 allSupertypeRels hqdmTriples pureBrels = fmap (\ x -> findSuperBinaryRelation' (getPureRelationId x) hqdmTriples pureBrels) pureBrels
@@ -99,32 +103,46 @@ main :: IO ()
 main = do
     putStrLn ("Start, construct relations from " ++ hqdmRelationsInputFilename)
 
-    hqdmRelationSets <- fmap V.toList . decode @HqdmBinaryRelation NoHeader <$> BL.readFile hqdmRelationsInputFilename
+    csvData <- BL.readFile hqdmRelationsInputFilename
 
-    let relationsInputModel = fromRight [] hqdmRelationSets
+    -- Decode returns an Either String (V.Vector HqdmTriple)
+    let decodeResult = decode @HqdmBinaryRelationPure NoHeader csvData
+
+    case decodeResult of
+        Left err -> do
+            putStrLn "❌ CSV Parsing Failed!"
+            putStrLn err  -- This will print the exact failure reason
+
+        Right vectorModel -> do
+            let hqdmRelationsModel = V.toList vectorModel
+            putStr "\n\nLoaded Data Successfully\n\n"
+
+            let relationsIds = map pureBinaryRelationId hqdmRelationsModel
+            let uniqueNodes = HqdmLib.uniqueIds relationsIds
+
+            putStr "Number of relation ids is:\n\n"
+            print (length uniqueNodes)
+
+    hqdmTriples <- fmap V.toList . decode @HqdmLib.HqdmTriple NoHeader <$> BL.readFile hqdmInputFilename
+
+    let hqdmInputModel = fromRight [] hqdmTriples
+
+    putStr "\n\nLoaded HqdmAllAsData\n\n"
+
+    hqdmRelationSets <- fmap V.toList . decode @HqdmBinaryRelationPure NoHeader <$> BL.readFile hqdmRelationsInputFilename
+
+    let pureHqdmRelations = fromRight [] hqdmRelationSets
     -- print relationsInputModel
 
     putStr "\n\nLoaded Relation SET Data\n\n"
-
-    -- Load HqdmAllAsData
-    hqdmTriples <- fmap V.toList . decode @HqdmTriple NoHeader <$> BL.readFile hqdmInputFilename
-
-    let hqdmInputModel = fromRight [] hqdmTriples
-    --print hqdmInputModel
-    putStr "\n\nLoaded HqdmAllAsData\n\n"
-
-    -- Convert hqdmRelationInputSets to use ids from hqdmAllAsData instead of names
-    putStr "\n\nCalc pure Hqdm Relations!\n\n"
-    let pureHqdmRelations = hqdmRelationsToPure relationsInputModel hqdmInputModel
-    print pureHqdmRelations
 
     -- Compute relation supersets?? Leave the rigorous version of this for now. 
 
     let domainOfRel = getBrelDomainFromRels exampleBrelId pureHqdmRelations
     let nameOfRel = ( exampleBrelId, getRelationNameFromRels exampleBrelId pureHqdmRelations)
-    {-putStr "\n\nName and then Domain of a particular Relation:\n\n"
+    putStr "\n\nName and then Domain of a particular Relation:\n\n"
     print nameOfRel
-    print domainOfRel-}
+    print domainOfRel
 
     let subtypes = lookupSubtypes hqdmInputModel
     let domainSupertypesOfRel = findBrelDomainSupertypes exampleBrelId pureHqdmRelations subtypes
@@ -139,16 +157,16 @@ main = do
     --let closestNameMatches = [x | x <- namesOfBrelsOfDomain, snd x `isPrefixOf` getRelationNameFromRels exampleBrelId pureHqdmRelations]
     {-putStr "\n\nClosest relations:\n\n"
     print closestNameMatches-}
-    
-    --let supertypeBinaryRel = findSuperBinaryRelation' exampleBrelId hqdmInputModel pureHqdmRelations
-    {-putStr "\n\nAll wrapped up in findSuperBinaryRelation' function (returns a Maybe):\n\n"
-    print supertypeBinaryRel-}
+
+    let supertypeBinaryRel = findSuperBinaryRelation' exampleBrelId hqdmInputModel pureHqdmRelations
+    putStr "\n\nAll wrapped up in findSuperBinaryRelation' function (returns a Maybe):\n\n"
+    print supertypeBinaryRel
 
     -- Now find the supertype relation for all the relations
-    --let allStRels = allSupertypeRels hqdmInputModel pureHqdmRelations--fmap (\ x -> findSuperBinaryRelation' (getPureRelationId x) hqdmInputModel pureHqdmRelations)
-    --let zippedRels = zip pureHqdmRelations allStRels
-    --let addedStRelsPure = fmap (\ x -> addStRelationToPure (snd x) (fst x)) zippedRels
-    {-putStr "\n\nAll super-relations:\n\n"
+    {-let allStRels = allSupertypeRels hqdmInputModel pureHqdmRelations--fmap (\ x -> findSuperBinaryRelation' (getPureRelationId x) hqdmInputModel pureHqdmRelations)
+    let zippedRels = zip pureHqdmRelations allStRels
+    let addedStRelsPure = fmap (\ x -> addStRelationToPure (snd x) (fst x)) zippedRels
+    putStr "\n\nAll super-relations:\n\n"
     print addedStRelsPure-}
 
     --let printableStRels = csvRelationsFromPure addedStRelsPure

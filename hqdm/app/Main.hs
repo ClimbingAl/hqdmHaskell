@@ -63,9 +63,6 @@ import Data.Either ( fromRight )
 import Data.UUID (toString, fromString)
 --import qualified Data.Text as Text (take, drop)
 
-import Data.Csv (FromField(..), parseField)
-
-
 -- Constants
 hqdmInputFilename::String
 hqdmInputFilename = "../HqdmTypes_v5Mapped.csv"

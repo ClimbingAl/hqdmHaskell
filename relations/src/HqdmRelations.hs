@@ -124,14 +124,29 @@ import qualified HqdmLib (
     )
 
 import GHC.Generics (Generic)
-import Data.Csv (FromRecord)
-import Data.List (isPrefixOf, sortOn)
+import Control.Applicative (optional) 
+import Data.List (isPrefixOf, sortOn, intercalate)
 import Data.Maybe (isNothing, fromJust)
-import Data.UUID (UUID, fromString, toString, toWords, null)
+import Data.UUID (UUID, fromString, toString, toWords, null, nil)
 import Data.UUID.Util (version)
 import Data.UUID.Types.Internal (fromString)
 import Data.Bits ((.&.), shiftR)
 import Data.Word (Word32)
+import qualified Data.ByteString.Char8 as BC
+import Data.List (elemIndices)
+import qualified Data.Char (toLower)
+
+-- List and String utilities
+import qualified Data.String as STR (fromString)
+
+-- UUID libraries
+import qualified Data.UUID as UUID
+
+-- Cassava CSV library
+import Data.Csv 
+  ( FromField(..), ToField(..), FromRecord(..), ToRecord(..)
+  , Parser, record, toField, (.!)
+  )
 
 -- | In a RelationPairSet xR'y the  is a list of [R'y] for x, where R' can be any allowed 
 --   number of instances of permitted Relations
@@ -190,7 +205,79 @@ data HqdmBinaryRelationPure = HqdmBinaryRelationPure
     pureRedeclaredBR :: Bool,             -- True means superBRtypes are abstract?
     pureInverseOf :: HqdmLib.Id
   }
-  deriving (Show, Eq, Generic)
+  deriving (Show, Eq)
+
+instance ToField Bool where
+  toField True  = BC.pack "True"
+  toField False = BC.pack "False"
+
+instance FromField Bool where
+  parseField s
+    | str == "true"  = pure True
+    | str == "false" = pure False
+    | otherwise      = fail $ "Invalid Bool value: " ++ BC.unpack s
+    where
+      -- Convert to lowercase to make it case-insensitive and robust
+      str = map Data.Char.toLower (BC.unpack s)
+
+instance ToRecord HqdmBinaryRelationPure where
+  toRecord r = record
+    [ toField (pureDomain r)
+    , toField (pureBinaryRelationId r)
+    , toField (pureBinaryRelationName r)
+    , toField (pureRange r)
+    , toField (BC.pack $ intercalate " " $ map UUID.toString (pureHasSuperBR r)) -- Inline manual serialize
+    , toField (pureCardinalityMin r)
+    , toField (pureCardinalityMax r)
+    , toField (pureRedeclaredBR r)
+    , toField (pureInverseOf r)
+    ]
+
+instance FromRecord HqdmBinaryRelationPure where
+  parseRecord v
+    | length v /= 9 = fail "HqdmBinaryRelationPure requires exactly 9 fields"
+    | otherwise = do
+        pDomain     <- v .! 0
+        pRelId      <- v .! 1
+        pRelName    <- v .! 2
+        pRange      <- v .! 3
+        
+        -- 1. Extract the raw delimited ByteString for the list field
+        rawSuperBR  <- v .! 4 :: Parser BC.ByteString
+        
+        -- 2. Split and map the string parsing over the elements
+        pSuperBR    <- if BC.null rawSuperBR
+                         then pure []
+                         else mapM parseUUIDField (BC.split ' ' rawSuperBR)
+                         
+        pCardMin    <- v .! 5
+        pCardMax    <- v .! 6
+        pRedeclared <- v .! 7
+        pInverseOf  <- if length v == 9
+                         then do
+                           rawInverse <- v .! 8 :: Parser BC.ByteString
+                           if BC.null rawInverse
+                             then pure UUID.nil -- Or handle it as preferred
+                             else parseUUIDField rawInverse
+                         else pure UUID.nil -- Fallback if column completely omitted
+        
+        pure $ HqdmBinaryRelationPure 
+          { pureDomain             = pDomain
+          , pureBinaryRelationId   = pRelId
+          , pureBinaryRelationName = pRelName
+          , pureRange              = pRange
+          , pureHasSuperBR         = pSuperBR
+          , pureCardinalityMin     = pCardMin
+          , pureCardinalityMax     = pCardMax
+          , pureRedeclaredBR       = pRedeclared
+          , pureInverseOf          = pInverseOf
+          }
+
+-- Helper parser to reuse inside the split loop
+parseUUIDField :: BC.ByteString -> Parser UUID
+parseUUIDField bs = case UUID.fromString (BC.unpack bs) of
+  Just uuid -> pure uuid
+  Nothing   -> fail $ "Invalid UUID in superBR list: " ++ BC.unpack bs
 
 data HqdmBinaryRelationSet = HqdmBinaryRelationSet
   { nodeId :: !HqdmLib.Id,

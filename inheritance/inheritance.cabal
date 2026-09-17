@@ -81,6 +81,8 @@ executable inheritance
         , text
         , unique
         , vector
+        , uuid
+        , uuid-types
 
     -- Directories containing source files.
     hs-source-dirs:   app, ../hqdm/src

@@ -17,72 +17,25 @@ module Main (main) where
 
 import HqdmRelations (
     RelationId,
-    HqdmRelationSet,
-    RelationPair,
-    HqdmBinaryRelationSet,
     HqdmBinaryRelationPure(..),
-    universalRelationSet,
     getRelationNameFromRels,
-    getPureDomain,
     getPureRelationId,
-    getPureRelationName,
-    getPureRange,
-    getPureSuperRelation,
-    getPureCardinalityMin,
-    getPureCardinalityMax,
-    getPureRedeclared,
     getBrelDomainFromRels,
     findBrelDomainSupertypes,
-    findBrelFromId,
-    superRelationPathsToUniversalRelation,
-    relIdNameTuples,
-    printablePathFromTuples,
-    isSubtype,
-    subtypesOfFilter,
-    sortOnUuid,
-    findBrelsWithDomains,
     findBrelsAndNamesWithDomains,
-    findSuperBinaryRelation,
     findSuperBinaryRelation',
-    printablePureRelation,
-    csvRelationsFromPure,
-    headListIfPresent,
-    addNewCardinalitiesToPure,
-    findMaxMaxCardinality,
-    findMaxMinCardinality,
     )
 
 import HqdmLib (
-    Id,
     HqdmTriple,
-    RelationPair,
-    headIfUUIDPresent,
-    getSubjects,
-    getPredicates,
     uniqueIds,
-    lookupHqdmOne,
-    lookupHqdmType,
-    lookupHqdmIdsFromTypePredicates,
-    lookupSubtypes,
-    lookupSubtypeOf,
-    lookupSubtypesOf,
-    lookupSupertypeOf,
-    lookupSupertypesOf,
-    findSupertypeTree,
-    printableTypeTree,
-    findSubtypeTree,
-    findInheritedRels,
-    collapseInheritedRels,
-    printableRelationPairs)
+    lookupSubtypes)
 
--- from bytestring
 import qualified Data.ByteString.Lazy as BL
--- from cassava
-
-import Data.Csv (HasHeader( NoHeader ), decode, FromField(..), parseField)
+import Data.Csv (HasHeader( NoHeader ), decode)
 import qualified Data.Vector as V
 import Data.Either ( fromRight )
-import Data.UUID (UUID, toString, fromString)
+import Data.UUID (UUID, fromString)
 import Data.Maybe (fromJust)
 
 
@@ -96,8 +49,8 @@ hqdmInputFilename = "../HqdmTypes_v5Mapped.csv"  -- hqdmAllAsDataFormal1_NoExten
 exampleBrelId::UUID
 exampleBrelId = fromJust $ fromString "c037270e-801f-4957-ad79-239954cedc37" -- individual hqdm:member_of class_of_individual
 
-allSupertypeRels:: [HqdmLib.HqdmTriple] -> [HqdmBinaryRelationPure] -> [Maybe (RelationId, String)]
-allSupertypeRels hqdmTriples pureBrels = fmap (\ x -> findSuperBinaryRelation' (getPureRelationId x) hqdmTriples pureBrels) pureBrels
+allSupertypeRels:: [HqdmLib.HqdmTriple] -> [HqdmRelations.HqdmBinaryRelationPure] -> [Maybe (HqdmRelations.RelationId, String)]
+allSupertypeRels hqdmTriples pureBrels = fmap (\ x -> HqdmRelations.findSuperBinaryRelation' (HqdmRelations.getPureRelationId x) hqdmTriples pureBrels) pureBrels
 
 main :: IO ()
 main = do
@@ -106,7 +59,7 @@ main = do
     csvData <- BL.readFile hqdmRelationsInputFilename
 
     -- Decode returns an Either String (V.Vector HqdmTriple)
-    let decodeResult = decode @HqdmBinaryRelationPure NoHeader csvData
+    let decodeResult = decode @HqdmRelations.HqdmBinaryRelationPure NoHeader csvData
 
     case decodeResult of
         Left err -> do
@@ -129,7 +82,7 @@ main = do
 
     putStr "\n\nLoaded HqdmAllAsData\n\n"
 
-    hqdmRelationSets <- fmap V.toList . decode @HqdmBinaryRelationPure NoHeader <$> BL.readFile hqdmRelationsInputFilename
+    hqdmRelationSets <- fmap V.toList . decode @HqdmRelations.HqdmBinaryRelationPure NoHeader <$> BL.readFile hqdmRelationsInputFilename
 
     let pureHqdmRelations = fromRight [] hqdmRelationSets
     -- print relationsInputModel
@@ -138,19 +91,19 @@ main = do
 
     -- Compute relation supersets?? Leave the rigorous version of this for now. 
 
-    let domainOfRel = getBrelDomainFromRels exampleBrelId pureHqdmRelations
-    let nameOfRel = ( exampleBrelId, getRelationNameFromRels exampleBrelId pureHqdmRelations)
+    let domainOfRel = HqdmRelations.getBrelDomainFromRels exampleBrelId pureHqdmRelations
+    let nameOfRel = ( exampleBrelId, HqdmRelations.getRelationNameFromRels exampleBrelId pureHqdmRelations)
     putStr "\n\nName and then Domain of a particular Relation:\n\n"
     print nameOfRel
     print domainOfRel
 
-    let subtypes = lookupSubtypes hqdmInputModel
-    let domainSupertypesOfRel = findBrelDomainSupertypes exampleBrelId pureHqdmRelations subtypes
+    let subtypes = HqdmLib.lookupSubtypes hqdmInputModel
+    let domainSupertypesOfRel = HqdmRelations.findBrelDomainSupertypes exampleBrelId pureHqdmRelations subtypes
     putStr "\n\nDomain Supertypes of a particular Relation:\n\n"
     print domainSupertypesOfRel
 
     -- Find the likely superBR-set by finding supertype(s) until a match is found.
-    let namesOfBrelsOfDomain = findBrelsAndNamesWithDomains domainSupertypesOfRel pureHqdmRelations
+    let namesOfBrelsOfDomain = HqdmRelations.findBrelsAndNamesWithDomains domainSupertypesOfRel pureHqdmRelations
     putStr "\n\nIds and Names of supertype relations:\n\n"
     print namesOfBrelsOfDomain
 
@@ -158,7 +111,7 @@ main = do
     {-putStr "\n\nClosest relations:\n\n"
     print closestNameMatches-}
 
-    let supertypeBinaryRel = findSuperBinaryRelation' exampleBrelId hqdmInputModel pureHqdmRelations
+    let supertypeBinaryRel = HqdmRelations.findSuperBinaryRelation' exampleBrelId hqdmInputModel pureHqdmRelations
     putStr "\n\nAll wrapped up in findSuperBinaryRelation' function (returns a Maybe):\n\n"
     print supertypeBinaryRel
 

@@ -131,43 +131,33 @@ b3:39:d6:53:cc:9e
 f4:ec:22:44:d9:43
 bb:32:09:de:79:c0
 -}
+
+hqdmHaskellMac :: MAC
 hqdmHaskellMac = MAC 0xBB 0x32 0x09 0xDE 0x79 0xC0
 
 -- uuidFromUTCTime
 -- Unsafe. Only use if it is passed a Just
-uuidFromUTCTime :: UTCTime -> String
-uuidFromUTCTime t = toString $ makeUUID (hundredsOfNanosSinceGregorianReform t) 0x0000 hqdmHaskellMac
+uuidFromUTCTime :: UTCTime -> UUID
+uuidFromUTCTime t = makeUUID (hundredsOfNanosSinceGregorianReform t) 0x0000 hqdmHaskellMac
 
 ----------------------------- BASIC UUIDv1 TIME COMPARISON FUNCTIONS -----------------------------
 
 before :: UUID -> UUID -> Bool
-before a _ = False
-before _ a = False
 before uid1 uid2 = (utcTimeFromUuid uid1 :: UTCTime) < (utcTimeFromUuid uid2 :: UTCTime)
 
 after :: UUID -> UUID -> Bool
-after a _ = False
-after _ a = False
 after uid1 uid2 = (utcTimeFromUuid uid1 :: UTCTime) > (utcTimeFromUuid uid2 :: UTCTime)
 
 orderTest :: UUID -> (UTCTime -> UTCTime -> Bool) -> UUID -> Bool
-orderTest a _ _ = False
-orderTest _ _ a = False
 orderTest uid1 tst uid2 = (utcTimeFromUuid uid1 :: UTCTime) `tst` (utcTimeFromUuid uid2 :: UTCTime)
 
 -- Note, this assumes "" represents an unbounded time (i.e. assumes infinite extent)
 between :: UUID -> UUID -> UUID -> Bool
-between c _ _ = False
-between uidToTest _ b = before uidToTest b
-between uidToTest a _ = after uidToTest a
 between uidToTest a b = after uidToTest a && before uidToTest b
 
 -- A short-cut to equals would be to test for string match.  However, this wouldn't check the time value.  If a different MAC had been used to 
 -- generate each of the uuidv1 values then the string match would fail to resolve times even when they are equal. 
 equals :: UUID -> UUID -> Bool
-equals _ _ = True -- this assumes "" represents an unbounded time (i.e. assumes infinite extent)
-equals a _ = False
-equals _ a = False
 equals uid1 uid2 = (utcTimeFromUuid uid1 :: UTCTime) == (utcTimeFromUuid uid2 :: UTCTime)
 
 ---------------------------- SORT UUID Tuples -------------------------------
@@ -189,10 +179,6 @@ data PointInTimeTemporalExtentCmp = Before | After | EqStart | EqEnd | During | 
 -- Expects [0:1] beginning and ending relations in the given Set. 
 -- Perhaps add a check that uid is indeed a v1 uuid and that the supplied list of triples is indeed for a single node
 pointInTimeCompareWithState :: HqdmLib.Id -> [HqdmLib.HqdmTriple] -> [HqdmLib.HqdmTriple] -> [HqdmRelations.HqdmBinaryRelationPure] -> PointInTimeTemporalExtentCmp
-pointInTimeCompareWithState a _ _ _ = Null
-pointInTimeCompareWithState _ [] _ _ = Null
-pointInTimeCompareWithState _ _ [] _ = Null
-pointInTimeCompareWithState _ _ _ [] = Null
 pointInTimeCompareWithState uid relSet allRels brels = go uid
     where
         beginning = headObjectIfTriplePresent $ HqdmQueries.filterRelsByBeginning relSet brels
@@ -208,8 +194,8 @@ pointInTimeCompareWithState uid relSet allRels brels = go uid
             | equals uid beginningUuid = EqStart
             | equals uid endingUuid = EqEnd
             | after uid beginningUuid && before uid endingUuid = During
-            | after uid beginningUuid && (endingUuid == nil) = DuringUnboundedRight
-            | before uid endingUuid && (beginningUuid == nil) = DuringUnboundedLeft
+            | after uid beginningUuid && endingUuid == nil = DuringUnboundedRight
+            | before uid endingUuid && beginningUuid == nil = DuringUnboundedLeft
             | otherwise = Null
 
 -- Full state comparison along the lines of Allens Temporal Algebra (but with qualification of unbounded limits)
@@ -252,7 +238,7 @@ uuidV4Test uuid
 uuidV5Test :: UUID -> Bool
 uuidV5Test uuid =
     let (_, w2, _, _) = toWords uuid
-        vers = (w2 `shiftR` 12) .&. 0xF
+        vers = w2 `shiftR` 12 .&. 0xF
     in vers == 5
 
 -- | temporalOverlapTest
@@ -275,28 +261,28 @@ temporalOverlapTest state1 state2 tpls brels = go
         state2beginUuid = getObjectAttribute state2begin tpls brels
         state2endUuid = getObjectAttribute state2end tpls brels
 
-        v1Test = (isUuidV1 state1beginUuid) && (isUuidV1 state1endUuid) && (isUuidV1 state2beginUuid) && (isUuidV1 state2endUuid)
+        v1Test = isUuidV1 state1beginUuid && isUuidV1 state1endUuid && isUuidV1 state2beginUuid && isUuidV1 state2endUuid
 
         go
-            | v1Test == False = AllenNull
-            | (state1beginUuid == nil && state1endUuid == nil) || (state2beginUuid == nil && state2endUuid == nil) = AllenNull
-            | (equals state1beginUuid state2beginUuid) && (equals state1endUuid state2endUuid)  = EqualExtent -- This is here to catch it before the StartsSnd and StartsFst.
+            | not v1Test = AllenNull
+            | state1beginUuid == nil && state1endUuid == nil || state2beginUuid == nil && state2endUuid == nil = AllenNull
+            | equals state1beginUuid state2beginUuid && equals state1endUuid state2endUuid  = EqualExtent -- This is here to catch it before the StartsSnd and StartsFst.
             | before state1endUuid state2beginUuid                                              = PrecedesSnd
             | before state2endUuid state1beginUuid                                              = PrecedesFst
             | equals state1endUuid state2beginUuid                                              = MeetsSnd
             | equals state2endUuid state1beginUuid                                              = MeetsFst
-            | (between state1beginUuid state2beginUuid state2endUuid) && (between state1endUuid state2beginUuid state2endUuid) = DuringSnd
-            | (between state2beginUuid state1beginUuid state1endUuid) && (between state2endUuid state1beginUuid state1endUuid) = DuringFst
+            | between state1beginUuid state2beginUuid state2endUuid && between state1endUuid state2beginUuid state2endUuid = DuringSnd
+            | between state2beginUuid state1beginUuid state1endUuid && between state2endUuid state1beginUuid state1endUuid = DuringFst
             -- |  = DuringSndUnbounded 
             -- |  = DuringFstUnbounded 
             -- |  = DuringSndBothUnbounded 
             -- |  = DuringFstBothUnbounded 
-            | (equals state1beginUuid state2beginUuid) && (before state1endUuid state2endUuid)  = StartsSnd
-            | (equals state1beginUuid state2beginUuid) && (after state1endUuid state2endUuid)   = StartsFst -- Not sure if this is a valid outcome when accommodating unbounded states.  Revisit this if it causes issues. 
+            | equals state1beginUuid state2beginUuid && before state1endUuid state2endUuid      = StartsSnd
+            | equals state1beginUuid state2beginUuid && after state1endUuid state2endUuid       = StartsFst -- Not sure if this is a valid outcome when accommodating unbounded states.  Revisit this if it causes issues. 
             | between state1endUuid state2beginUuid state2endUuid                               = OverlapsSnd
             | between state2endUuid state1beginUuid state1endUuid                               = OverlapsFst
-            | (equals state1endUuid state2endUuid) && (before state2beginUuid state1beginUuid)  = EndsSnd
-            | (equals state1endUuid state2endUuid) && (after state2beginUuid state1beginUuid)   = EndsFst -- Not sure if this is a valid outcome when accommodating unbounded states.  Revisit this if it causes issues. 
+            | equals state1endUuid state2endUuid && before state2beginUuid state1beginUuid      = EndsSnd
+            | equals state1endUuid state2endUuid && after state2beginUuid state1beginUuid       = EndsFst -- Not sure if this is a valid outcome when accommodating unbounded states.  Revisit this if it causes issues. 
             | otherwise = AllenNull
 
 ----------------------- After and Before Triples -----------------------

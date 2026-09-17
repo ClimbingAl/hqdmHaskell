@@ -19,10 +19,8 @@ import qualified TimeUtils (
 import qualified StringUtils (
   addNewEntryIfNotInMap,
   createEmptyUuidMap,
-  joinStringsFromMap,
   listRemoveDuplicates,
   stringToDateOrHashUuid,
-  stringTuplesFromTriples,
   uuidV5FromString
  )
 
@@ -33,9 +31,8 @@ import qualified HqdmLib (
   nodeIdentityTest )
 
 import HqdmRelations ( 
-    HqdmBinaryRelation,
-    csvRelationsToPure
-  )
+    HqdmBinaryRelationPure
+    )
 
 import HqdmQueries (
     filterRelsByAttribute,
@@ -57,21 +54,21 @@ import Data.Csv (HasHeader( NoHeader ), decode)
 import qualified Data.Vector as V
 import Data.Either
 
-joinModelFilename::String
-joinModelFilename = "../hqdmJoin/joinedAllRelsTestStrict.csv"
+hqdmTypesFilename::String
+hqdmTypesFilename = "../HqdmTypes_v5Mapped.csv"
 
 temporalAlgebraTestFilename::String 
 temporalAlgebraTestFilename = "./test/temporalAlgebraMapped.csv"
 
 hqdmRelationsInputFilename::String
-hqdmRelationsInputFilename = "../HqdmBinaryRelations_v4.csv"
+hqdmRelationsInputFilename = "../HqdmBinaryRelations_v7.csv"
 
 main :: IO ()
 main = do
   putStrLn "Experimental Time to uuid1 package."
 
-  hqdmRelationSets <- fmap V.toList . decode @HqdmBinaryRelation NoHeader <$> BL.readFile hqdmRelationsInputFilename
-  let relationsInputModel =  csvRelationsToPure $ fromRight [] hqdmRelationSets
+  hqdmRelationSets <- fmap V.toList . decode @HqdmBinaryRelationPure NoHeader <$> BL.readFile hqdmRelationsInputFilename
+  let relationsInputModel = fromRight [] hqdmRelationSets
 
   putStr "\n\nCreate a fixed MAC address to be used in the generated uuid V1s (0xBB 0x32 0x09 0xDE 0x79 0xC0):\n\n"
   let myHqdmMac = MAC 0xBB 0x32 0x09 0xDE 0x79 0xC0
@@ -146,7 +143,7 @@ main = do
   
 
   {--- Now test the conversion of a mapped dataset
-  joinModelTriples <- fmap V.toList . decode @HqdmLib.HqdmTriple NoHeader <$> BL.readFile joinModelFilename
+  joinModelTriples <- fmap V.toList . decode @HqdmLib.HqdmTriple NoHeader <$> BL.readFile hqdmTypesFilename
   let joinInputModel = fromRight [] joinModelTriples
   let convertedStrings = StringUtils.listRemoveDuplicates $ StringUtils.stringTuplesFromTriples joinInputModel []
   -}

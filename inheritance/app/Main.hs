@@ -27,7 +27,6 @@ import HqdmLib (
     getPredicates,
     uniqueIds,
     uniqueTriples ,
-    stringListSort,
     lookupHqdmOne,
     lookupHqdmType,
     lookupSubtypes,

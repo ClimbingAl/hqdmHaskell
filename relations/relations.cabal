@@ -66,6 +66,7 @@ library
     exposed-modules:  
         HqdmRelations
         HqdmQueries
+        HqdmQueriesFast
         HqdmMermaid
 
     -- Modules included in this library but not exported.
@@ -111,6 +112,7 @@ executable relations
     other-modules:
         HqdmRelations
         HqdmQueries
+        HqdmQueriesFast
         HqdmMermaid
         StringUtils
         TimeUtils

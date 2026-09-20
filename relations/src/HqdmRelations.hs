@@ -1,4 +1,6 @@
 {-# LANGUAGE DeriveGeneric #-}
+{-# LANGUAGE BangPatterns #-}
+
 --{-# OPTIONS_GHC -Wno-incomplete-patterns #-}
 
 -- |
@@ -69,7 +71,14 @@ module HqdmRelations
     findMaxMinCardinality,
     printableLayerWithDomainAndRange,
     printablePathFromTuplesWithDomainAndRange,
-    findSubBinaryRelationTree,
+    IdMapping,
+    intToUuid,
+    uuidToInt,
+    RelationIntIndex,
+    buildIdMapping,
+    buildIndexDownFastest,
+    findSubBinaryRelationTreeFast',
+    findSubBinaryRelationTreeFastest,
     findSubBRelTreeWithCount,
     lookupSubBRelsOf,
     lookupSubBRelOf,
@@ -124,26 +133,29 @@ import qualified HqdmLib (
     )
 
 import GHC.Generics (Generic)
-import Control.Applicative (optional) 
-import Data.List (isPrefixOf, sortOn, intercalate)
+import Control.Applicative (optional)
+import Data.List
+    ( isPrefixOf, sortOn, intercalate, foldl', elemIndices )
 import Data.Maybe (isNothing, fromJust)
-import Data.UUID (UUID, fromString, toString, toWords, null, nil)
+import qualified Data.UUID as Data.UUID (UUID, fromString, toString, null, nil)
 import Data.UUID.Util (version)
 import Data.UUID.Types.Internal (fromString)
 import Data.Bits ((.&.), shiftR)
 import Data.Word (Word32)
 import qualified Data.ByteString.Char8 as BC
-import Data.List (elemIndices)
-import qualified Data.Char (toLower)
+import qualified Data.Char as Data.Char (toLower)
+
+import qualified Data.Map.Strict as Map
+import qualified Data.Set as Set
+-- Following imports are for the upgrade to use Big-Endian Patricia Tree structure
+import qualified Data.IntMap.Strict as IntMap
+import qualified Data.IntSet as IntSet
 
 -- List and String utilities
 import qualified Data.String as STR (fromString)
 
--- UUID libraries
-import qualified Data.UUID as UUID
-
 -- Cassava CSV library
-import Data.Csv 
+import Data.Csv
   ( FromField(..), ToField(..), FromRecord(..), ToRecord(..)
   , Parser, record, toField, (.!)
   )
@@ -189,7 +201,7 @@ data RelationPair = RelationPair
 --        redeclaredBR = False    # True means superBRtypes are abstract?
 --        inverseOf = RelationId  # Inverse of named relation
 
-type RelationId = UUID
+type RelationId = Data.UUID.UUID
 
 -- | HqdmBinaryRelationPure
 -- A data type that uses only identities to specify the xR'y of a HQDM Binary 
@@ -205,7 +217,7 @@ data HqdmBinaryRelationPure = HqdmBinaryRelationPure
     pureRedeclaredBR :: Bool,             -- True means superBRtypes are abstract?
     pureInverseOf :: HqdmLib.Id
   }
-  deriving (Show, Eq)
+  deriving (Show, Eq, Ord)
 
 instance ToField Bool where
   toField True  = BC.pack "True"
@@ -226,7 +238,7 @@ instance ToRecord HqdmBinaryRelationPure where
     , toField (pureBinaryRelationId r)
     , toField (pureBinaryRelationName r)
     , toField (pureRange r)
-    , toField (BC.pack $ intercalate " " $ map UUID.toString (pureHasSuperBR r)) -- Inline manual serialize
+    , toField (BC.pack $ intercalate " " $ map Data.UUID.toString (pureHasSuperBR r)) -- Inline manual serialize
     , toField (pureCardinalityMin r)
     , toField (pureCardinalityMax r)
     , toField (pureRedeclaredBR r)
@@ -241,15 +253,15 @@ instance FromRecord HqdmBinaryRelationPure where
         pRelId      <- v .! 1
         pRelName    <- v .! 2
         pRange      <- v .! 3
-        
+
         -- 1. Extract the raw delimited ByteString for the list field
         rawSuperBR  <- v .! 4 :: Parser BC.ByteString
-        
+
         -- 2. Split and map the string parsing over the elements
         pSuperBR    <- if BC.null rawSuperBR
                          then pure []
                          else mapM parseUUIDField (BC.split ' ' rawSuperBR)
-                         
+
         pCardMin    <- v .! 5
         pCardMax    <- v .! 6
         pRedeclared <- v .! 7
@@ -257,11 +269,11 @@ instance FromRecord HqdmBinaryRelationPure where
                          then do
                            rawInverse <- v .! 8 :: Parser BC.ByteString
                            if BC.null rawInverse
-                             then pure UUID.nil -- Or handle it as preferred
+                             then pure Data.UUID.nil -- Or handle it as preferred
                              else parseUUIDField rawInverse
-                         else pure UUID.nil -- Fallback if column completely omitted
-        
-        pure $ HqdmBinaryRelationPure 
+                         else pure Data.UUID.nil -- Fallback if column completely omitted
+
+        pure $ HqdmBinaryRelationPure
           { pureDomain             = pDomain
           , pureBinaryRelationId   = pRelId
           , pureBinaryRelationName = pRelName
@@ -273,9 +285,13 @@ instance FromRecord HqdmBinaryRelationPure where
           , pureInverseOf          = pInverseOf
           }
 
+type RelationIndex = Map.Map RelationId [RelationId]
+type RelationIndexNew = Map.Map RelationId (Set.Set RelationId)
+type RelationIntIndex = IntMap.IntMap IntSet.IntSet
+
 -- Helper parser to reuse inside the split loop
-parseUUIDField :: BC.ByteString -> Parser UUID
-parseUUIDField bs = case UUID.fromString (BC.unpack bs) of
+parseUUIDField :: BC.ByteString -> Parser Data.UUID.UUID
+parseUUIDField bs = case Data.UUID.fromString (BC.unpack bs) of
   Just uuid -> pure uuid
   Nothing   -> fail $ "Invalid UUID in superBR list: " ++ BC.unpack bs
 
@@ -305,29 +321,29 @@ relationSetAndIdCheck chk rel uid = (chk, rel, uid)
 {-hqdmType::String
 hqdmType = "type"-}
 
-universalRelationSet::UUID
-universalRelationSet = fromJust $ fromString "85e78ac0-ec72-478f-9aac-cacb520290a0"
+universalRelationSet::Data.UUID.UUID
+universalRelationSet = fromJust $ Data.UUID.fromString "85e78ac0-ec72-478f-9aac-cacb520290a0"
 
-hqdmAttributeBR::UUID
-hqdmAttributeBR = fromJust $ fromString "69b0e5b9-3be2-4ec3-a9a6-bb5b523d4b32"
+hqdmAttributeBR::Data.UUID.UUID
+hqdmAttributeBR = fromJust $ Data.UUID.fromString "69b0e5b9-3be2-4ec3-a9a6-bb5b523d4b32"
 
-hqdmHasSupertypeId::UUID
-hqdmHasSupertypeId = fromJust $ fromString "1f983e8a-7db1-4374-8fb1-7e8a432a967e"
+hqdmHasSupertypeId::Data.UUID.UUID
+hqdmHasSupertypeId = fromJust $ Data.UUID.fromString "1f983e8a-7db1-4374-8fb1-7e8a432a967e"
 
-hqdmHasSuperclassId::UUID
-hqdmHasSuperclassId = fromJust $ fromString "7d11b956-0014-43be-9a3e-f89e2b31ec4f"
+hqdmHasSuperclassId::Data.UUID.UUID
+hqdmHasSuperclassId = fromJust $ Data.UUID.fromString "7d11b956-0014-43be-9a3e-f89e2b31ec4f"
 
-hqdmElementOfType::UUID
-hqdmElementOfType = fromJust $ fromString "8130458f-ae96-4ab3-89b9-21f06a2aac78"
+hqdmElementOfType::Data.UUID.UUID
+hqdmElementOfType = fromJust $ Data.UUID.fromString "8130458f-ae96-4ab3-89b9-21f06a2aac78"
 
-hqdmEntityName::UUID
-hqdmEntityName = fromJust $ fromString "fe987366-a8ad-48fa-8821-73f54f6df180"
+hqdmEntityName::Data.UUID.UUID
+hqdmEntityName = fromJust $ Data.UUID.fromString "fe987366-a8ad-48fa-8821-73f54f6df180"
 
-hqdmRecordCreated::UUID
-hqdmRecordCreated = fromJust $ fromString "919a3f90-b681-422c-8481-fe313daa0044"
+hqdmRecordCreated::Data.UUID.UUID
+hqdmRecordCreated = fromJust $ Data.UUID.fromString "919a3f90-b681-422c-8481-fe313daa0044"
 
-hqdmRecordCreator::UUID
-hqdmRecordCreator = fromJust $ fromString "972bdd5f-5f8c-42d1-a47f-1ac08d1da48e"
+hqdmRecordCreator::Data.UUID.UUID
+hqdmRecordCreator = fromJust $ Data.UUID.fromString "972bdd5f-5f8c-42d1-a47f-1ac08d1da48e"
 
 getPureDomain :: HqdmBinaryRelationPure -> RelationId
 getPureDomain = pureDomain
@@ -360,23 +376,23 @@ getPureInverseOf :: HqdmBinaryRelationPure -> RelationId
 getPureInverseOf = pureInverseOf
 
 printRelation :: HqdmBinaryRelationPure -> String
-printRelation rel = "RELATION SPECIFICATION:\n\tDomain: " ++ toString (getPureDomain rel) ++
-  "\n\tRelation UUID: " ++ toString (getPureRelationId rel) ++
+printRelation rel = "RELATION SPECIFICATION:\n\tDomain: " ++ Data.UUID.toString (getPureDomain rel) ++
+  "\n\tRelation UUID: " ++ Data.UUID.toString (getPureRelationId rel) ++
   "\n\tOriginal Relation Name: " ++ getPureRelationName rel ++
-  "\n\tRange: " ++ toString (getPureRange rel) ++
+  "\n\tRange: " ++ Data.UUID.toString (getPureRange rel) ++
   "\n\tMin Cardinality: " ++ show (getPureCardinalityMin rel) ++
   "\n\tMax Cardinality: " ++ show (getPureCardinalityMax rel) ++
-  "\n\tInverse: " ++ toString (getPureInverseOf rel) ++ "\n"
+  "\n\tInverse: " ++ Data.UUID.toString (getPureInverseOf rel) ++ "\n"
 
 
 printRelationWithTypeNames :: HqdmBinaryRelationPure -> [HqdmLib.HqdmTriple] -> String
 printRelationWithTypeNames rel tpls = "RELATION SPECIFICATION:\n\tDomain: " ++
-  toString (getPureDomain rel) ++ " type `" ++
-  toString (fromJust (HqdmLib.lookupHqdmType $ HqdmLib.lookupHqdmOne (getPureDomain rel) tpls)) ++ "'" ++
-  "\n\tRelation UUID: " ++ toString (getPureRelationId rel) ++
+  Data.UUID.toString (getPureDomain rel) ++ " type `" ++
+  Data.UUID.toString (fromJust (HqdmLib.lookupHqdmType $ HqdmLib.lookupHqdmOne (getPureDomain rel) tpls)) ++ "'" ++
+  "\n\tRelation UUID: " ++ Data.UUID.toString (getPureRelationId rel) ++
   "\n\tOriginal Relation Name: " ++ getPureRelationName rel ++
-  "\n\tRange: " ++ toString (getPureRange rel) ++ " type `" ++
-  toString (fromJust (HqdmLib.lookupHqdmType $ HqdmLib.lookupHqdmOne (getPureRange rel) tpls)) ++ "'" ++
+  "\n\tRange: " ++ Data.UUID.toString (getPureRange rel) ++ " type `" ++
+  Data.UUID.toString (fromJust (HqdmLib.lookupHqdmType $ HqdmLib.lookupHqdmOne (getPureRange rel) tpls)) ++ "'" ++
   "\n\tMin Cardinality: " ++ show (getPureCardinalityMin rel) ++
   "\n\tMax Cardinality: " ++ show (getPureCardinalityMax rel) ++ "\n"
 
@@ -392,6 +408,56 @@ idListFromString x lst
   | length x == 36 = lst ++ [x]
   | length x >= 37 = idListFromString (drop 37 x) (lst ++ [take 36 x])
 
+
+buildIndexUp :: [HqdmBinaryRelationPure] -> RelationIndex
+buildIndexUp rels = Map.fromListWith (++) [ (pureBinaryRelationId r, pureHasSuperBR r) | r <- rels ]
+
+buildIndexDown :: [HqdmBinaryRelationPure] -> RelationIndex
+buildIndexDown rels = Map.fromListWith (++) 
+  [ (superId, [pureBinaryRelationId r]) 
+  | r <- rels
+  , superId <- pureHasSuperBR r  -- Loops through every superId in the list
+  ]
+
+buildIndexDownFast' :: [HqdmBinaryRelationPure] -> RelationIndexNew
+buildIndexDownFast' rels = Map.fromListWith Set.union 
+  [ (superId, Set.singleton (pureBinaryRelationId r)) 
+  | r <- rels
+  , superId <- pureHasSuperBR r  
+  ]
+
+data IdMapping = IdMapping
+  { uuidToInt :: !(Map.Map Data.UUID.UUID Int)
+  , intToUuid :: !(IntMap.IntMap Data.UUID.UUID)
+  }
+
+buildIdMapping :: [HqdmBinaryRelationPure] -> IdMapping
+buildIdMapping rels = IdMapping toInt toUuidFast
+  where
+    -- Gather every unique UUID present in both relation IDs and super lists
+    allUuids = Map.keys $ Map.fromList 
+      [ (uid, ()) 
+      | r <- rels
+      , uid <- pureBinaryRelationId r : pureHasSuperBR r 
+      ]
+    
+    -- Pair each unique UUID with a sequential integer index [0..]
+    zipped = zip allUuids [0..]
+    
+    toInt  = Map.fromList zipped
+    toUuidFast = IntMap.fromList [ (i, u) | (u, i) <- zipped ]
+
+buildIndexDownFastest :: IdMapping -> [HqdmBinaryRelationPure] -> RelationIntIndex
+buildIndexDownFastest mapping rels = IntMap.fromListWith IntSet.union
+  [ (superIntId, IntSet.singleton childIntId)
+  | r <- rels
+  , let lookupInt uid = Map.findWithDefault (-1) uid (uuidToInt mapping)
+  , let childIntId = lookupInt (pureBinaryRelationId r)
+  , childIntId /= -1 -- Safely filter out unmapped IDs if any mismatch occurs
+  , superUuid <- pureHasSuperBR r
+  , let superIntId = lookupInt superUuid
+  , superIntId /= -1
+  ]
 
 getRelationNameFromRels :: RelationId -> [HqdmBinaryRelationPure] -> String
 getRelationNameFromRels relId brels = head ([pureBinaryRelationName values | values <- brels, relId == pureBinaryRelationId values])
@@ -471,17 +537,17 @@ printablePathFromTuplesWithDomainAndRange :: [[(RelationId, String)]] -> [HqdmBi
 printablePathFromTuplesWithDomainAndRange tuples brels tpls  = reverse $ drop 303 (reverse $ concatMap (\ x -> printableLayerWithDomainAndRange x brels tpls ++ HqdmLib.fmtString "^\n" ++ HqdmLib.fmtString "/|\\\n" ++ HqdmLib.fmtString "|\n")  (reverse tuples))
 
 getDomainName :: RelationId -> [HqdmBinaryRelationPure] -> [HqdmLib.HqdmTriple] -> String
-getDomainName rid brels tpls = maybe "" toString (HqdmLib.headIfUUIDPresent $ HqdmLib.findHqdmTypesInList [pureDomain $ head (findBrelFromId rid brels)] tpls)
+getDomainName rid brels tpls = maybe "" Data.UUID.toString (HqdmLib.headIfUUIDPresent $ HqdmLib.findHqdmTypesInList [pureDomain $ head (findBrelFromId rid brels)] tpls)
 
 getRangeName :: RelationId -> [HqdmBinaryRelationPure] -> [HqdmLib.HqdmTriple] -> String
-getRangeName rid brels tpls = maybe "" toString (HqdmLib.headIfUUIDPresent $ HqdmLib.findHqdmTypesInList [pureRange $ head (findBrelFromId rid brels)] tpls)
+getRangeName rid brels tpls = maybe "" Data.UUID.toString (HqdmLib.headIfUUIDPresent $ HqdmLib.findHqdmTypesInList [pureRange $ head (findBrelFromId rid brels)] tpls)
 
 printableLayerWithDomainAndRange :: [(RelationId, String)] -> [HqdmBinaryRelationPure] -> [HqdmLib.HqdmTriple] -> String
 printableLayerWithDomainAndRange tuples brels tpls =
-  concatMap (\ x -> HqdmLib.fmtString ("[" ++ getDomainName (fst x) brels tpls ++ "] " ++ snd x ++ "(" ++ toString (fst x) ++ ") [" ++ getRangeName (fst x) brels tpls ++ "]\n" )) tuples
+  concatMap (\ x -> HqdmLib.fmtString ("[" ++ getDomainName (fst x) brels tpls ++ "] " ++ snd x ++ "(" ++ Data.UUID.toString (fst x) ++ ") [" ++ getRangeName (fst x) brels tpls ++ "]\n" )) tuples
 
 printableLayer :: [(RelationId, String)] -> String
-printableLayer = concatMap (\ x -> HqdmLib.fmtString (snd x ++ "," ++ toString (fst x)) ++ "\n")
+printableLayer = concatMap (\ x -> HqdmLib.fmtString (snd x ++ "," ++ Data.UUID.toString (fst x)) ++ "\n")
 
 -- | This swaps the relation names in a HqdmAllAsData dataset (it doesn't handle instance and extended subclasses)
 {-hqdmSwapTopRelationNamesForIds :: [HqdmLib.HqdmTriple] -> [HqdmBinaryRelationPure] -> [HqdmLib.HqdmTriple]
@@ -650,7 +716,7 @@ headListIfPresent []     = Nothing
 headListIfPresent (a:as) = Just a
 
 getRelationIdFromMonadTuple :: Maybe (RelationId, String) -> String
-getRelationIdFromMonadTuple = maybe "" (toString . fst)
+getRelationIdFromMonadTuple = maybe ""  (Data.UUID.toString . fst)
 
 findSuperBinaryRelation' :: RelationId -> [HqdmLib.HqdmTriple] -> [HqdmBinaryRelationPure] -> Maybe (RelationId, String)
 findSuperBinaryRelation' relId tpls brels =
@@ -682,15 +748,15 @@ boolToString False = "False"
 -- Printable pure Relation for export as CSV
 printablePureRelation :: HqdmBinaryRelationPure -> String
 printablePureRelation x =
-  toString (pureDomain x) ++ comma ++
-  toString (pureBinaryRelationId x) ++ comma ++
+  Data.UUID.toString (pureDomain x) ++ comma ++
+  Data.UUID.toString (pureBinaryRelationId x) ++ comma ++
   pureBinaryRelationName x ++ comma ++
-  toString (pureRange x) ++ comma ++
-  concatMap (\x -> toString x ++ " ") (pureHasSuperBR x) ++ comma ++
+  Data.UUID.toString (pureRange x) ++ comma ++
+  concatMap (\x -> Data.UUID.toString x ++ " ") (pureHasSuperBR x) ++ comma ++
   show (pureCardinalityMin x) ++ comma ++
   show (pureCardinalityMax x) ++ comma ++
   boolToString (pureRedeclaredBR x) ++ comma ++
-  toString (pureInverseOf x) ++ "\n"
+  Data.UUID.toString (pureInverseOf x) ++ "\n"
 
 csvRelationsFromPure :: [HqdmBinaryRelationPure] -> String
 csvRelationsFromPure = concatMap printablePureRelation
@@ -767,13 +833,94 @@ findSubBinaryRelationTree ids hqdmBrels = go ids hqdmBrels
       | Prelude.null (head newLayer) = ids
       | otherwise = findSubBinaryRelationTree (ids ++ newLayer) hqdmBrel
 
+-- Fully optimized, tail-recursive tree/layer traversal
+findSubBinaryRelationTreeOld' :: [[RelationId]] -> [HqdmBinaryRelationPure] -> [[RelationId]]
+findSubBinaryRelationTreeOld' initialIds hqdmBrels =
+    -- Reverse at the very end once, instead of appending (++) continuously
+    reverse (go initialLayers initialVisited (last initialLayers))
+  where
+    -- Index the relations ONCE before starting recursion
+    index = buildIndexDown hqdmBrels
+
+    -- Maintain a strict Set of everything we have seen to make 'deleteItems' O(1)
+    initialLayers  = reverse initialIds
+    initialVisited = Set.fromList (concat initialIds)
+
+    -- Accumulator-driven tail recursion
+    go :: [[RelationId]] -> Set.Set RelationId -> [RelationId] -> [[RelationId]]
+    go !accLayers !visited !currentLayer
+      | Prelude.null currentLayer = accLayers
+      | Prelude.null filteredNewLayer = accLayers
+      | otherwise = go (filteredNewLayer : accLayers) nextVisited filteredNewLayer
+      where
+        -- Instant O(log N) lookup instead of a linear scan over all relations
+        allPossibleChildren = concat [ Map.findWithDefault [] pId index | pId <- currentLayer ]
+
+        -- Deduplicate immediately using an optimized utility
+        uniqueChildren = HqdmLib.uniqueIds allPossibleChildren
+
+        -- Instant O(1) set-membership filter replaces heavy list element deletions
+        filteredNewLayer = filter (\child -> not (Set.member child visited)) uniqueChildren
+
+        -- Strictly evaluate the updated visited set to prevent thunk leak build-ups
+        nextVisited = Set.union visited (Set.fromList filteredNewLayer)
+
+findSubBinaryRelationTreeFast' :: [[RelationId]] -> [HqdmBinaryRelationPure] -> [[RelationId]]
+findSubBinaryRelationTreeFast' initialIds hqdmBrels = 
+    reverse (go initialLayers initialVisited (last initialLayers))
+  where
+    index = buildIndexDownFast' hqdmBrels
+    
+    initialLayers  = reverse initialIds
+    initialVisited = Set.fromList (concat initialIds)
+
+    go :: [[RelationId]] -> Set.Set RelationId -> [RelationId] -> [[RelationId]]
+    go !accLayers !visited !currentLayer
+      | null currentLayer = accLayers
+      | Set.null filteredNewLayerSet = accLayers
+      | otherwise = go (filteredNewLayer : accLayers) nextVisited filteredNewLayer
+      where
+        -- 1. Grab all child sets instantly and merge them into one unique Set
+        allPossibleChildren = Set.unions [ Map.findWithDefault Set.empty pId index | pId <- currentLayer ]
+        
+        -- 2. Set difference instantly removes all visited items (replaces uniqueIds & filter)
+        filteredNewLayerSet = Set.difference allPossibleChildren visited
+        
+        -- 3. Convert to list only once per layer for the final result layout
+        filteredNewLayer    = Set.toList filteredNewLayerSet
+        
+        -- 4. Fast union to track visited nodes
+        nextVisited         = Set.union visited filteredNewLayerSet
+
+findSubBinaryRelationTreeFastest :: IdMapping -> RelationIntIndex -> [Int] -> [[Int]]
+findSubBinaryRelationTreeFastest mapping index initialIntIds = 
+    reverse (go initialLayers initialVisited (last initialLayers))
+  where
+    initialLayers  = reverse [initialIntIds]
+    initialVisited = IntSet.fromList initialIntIds
+
+    go :: [[Int]] -> IntSet.IntSet -> [Int] -> [[Int]]
+    go !accLayers !visited !currentLayer
+      | null currentLayer = accLayers
+      | IntSet.null filteredNewLayerSet = accLayers
+      | otherwise = go (filteredNewLayer : accLayers) nextVisited filteredNewLayer
+      where
+        -- Instant hardware-level bitwise lookups and structural unions
+        allPossibleChildren = IntSet.unions 
+          [ IntMap.findWithDefault IntSet.empty pId index | pId <- currentLayer ]
+        
+        -- High-speed bitfield exclusion replaces heavy binary tree sorting
+        filteredNewLayerSet = IntSet.difference allPossibleChildren visited
+        filteredNewLayer    = IntSet.toList filteredNewLayerSet
+        nextVisited         = IntSet.union visited filteredNewLayerSet
+
 printableErrorResults:: [(RelationCheck, HqdmBinaryRelationPure, HqdmLib.Id)] -> [HqdmLib.HqdmTriple] -> [HqdmLib.HqdmTriple] -> String
 printableErrorResults errs hqdm tpls =
     concatMap (\ x ->
-        "\n\nObject Id:" ++ show (thdOf3 x) ++ " of type '" ++ toString (fromJust (HqdmLib.lookupHqdmType (HqdmLib.lookupHqdmOne (thdOf3 x) tpls))) ++ "'" ++
+        "\n\nObject Id:" ++ show  (Data.UUID.toString (thdOf3 x)) ++ " of type '" ++ Data.UUID.toString (fromJust (HqdmLib.lookupHqdmType (HqdmLib.lookupHqdmOne (thdOf3 x) tpls))) ++ "'" ++
         "\nRelation check result: " ++ show (fstOf3 x) ++
         onlyPrintInvalidTypeCause x ++
-        printRelationWithTypeNames ( sndOf3 x) hqdm
+        printRelationWithTypeNames (sndOf3 x) hqdm
         ) errs
 
 onlyPrintInvalidTypeCause:: (RelationCheck, HqdmBinaryRelationPure, HqdmLib.Id) -> String
@@ -958,8 +1105,8 @@ rangeMetTest tpls tplsAll hqdm brel = go tpls
         subTypeTreeOfRange = concat $ HqdmLib.findSubtypeTree [[brelRange]] hqdm
 
         go tpls
-            | Data.UUID.null rangeInstanceOfBrel = RelationCheckTest (toString brelRange) "No range" (toString typeOfInstanceOfBrel) (toString idOfType) tpls -- Nugatory line now. FIX!
-            | otherwise = RelationCheckTest (toString brelRange) (toString rangeInstanceOfBrel) (toString typeOfInstanceOfBrel) (toString idOfType) tpls
+            | Data.UUID.null rangeInstanceOfBrel = RelationCheckTest  (Data.UUID.toString brelRange) "No range"  (Data.UUID.toString typeOfInstanceOfBrel)  (Data.UUID.toString idOfType) tpls -- Nugatory line now. FIX!
+            | otherwise = RelationCheckTest  (Data.UUID.toString brelRange)  (Data.UUID.toString rangeInstanceOfBrel)  (Data.UUID.toString typeOfInstanceOfBrel)  (Data.UUID.toString idOfType) tpls
 
 ---------------------------------------------------------------------------------------------
 -- Useful functions used in those above

@@ -18,6 +18,9 @@
 -- Functions also provided to render the outputs as printable text.
 
 module HqdmQueries (
+    attribute,
+    ending,
+    beginning,
     part,
     set,
     order,
@@ -94,7 +97,7 @@ memberOfKind = fromJust $ fromString "6e23c714-9241-4132-aa7b-82391c6a60b7"
 filterRelsBy :: HqdmRelations.RelationId -> [HqdmLib.HqdmTriple] -> [HqdmRelations.HqdmBinaryRelationPure] -> [HqdmLib.HqdmTriple]
 filterRelsBy relSet tpls brels = go tpls
     where
-        subBrels = concat $ HqdmRelations.findSubBinaryRelationTree [[relSet]] brels
+        subBrels = concat $ HqdmRelations.findSubBinaryRelationTreeFast' [[relSet]] brels
 
         go tpls = [values | values <- tpls, HqdmLib.predicate values `elem` subBrels]
 
@@ -120,7 +123,7 @@ filterRelsByNameAttribute = filterRelsBy nameAttribute
 filterRelsByBrelAndRangeId :: HqdmRelations.RelationId -> HqdmLib.Id -> [HqdmLib.HqdmTriple] -> [HqdmRelations.HqdmBinaryRelationPure] -> [HqdmLib.HqdmTriple]
 filterRelsByBrelAndRangeId relSet rangeId tpls brels = go tpls
     where
-        subBrels = concat $ HqdmRelations.findSubBinaryRelationTree [[relSet]] brels
+        subBrels = concat $ HqdmRelations.findSubBinaryRelationTreeFast' [[relSet]] brels
 
         go tpls = [values | values <- tpls, (HqdmLib.predicate values `elem` subBrels) && (HqdmLib.object values == rangeId)]
 

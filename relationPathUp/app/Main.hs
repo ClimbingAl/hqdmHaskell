@@ -24,7 +24,7 @@ import HqdmRelations (
     relIdNameTupleLayers,
     csvRelationsToPure,
     printablePathFromTuplesWithDomainAndRange,
-    findSubBinaryRelationTree
+    findSubBinaryRelationTree'
     )
 
 import HqdmMermaid (
@@ -72,7 +72,7 @@ main = do
     let hqdmInputModel = fromRight [] hqdmTriples
 
     let superBRPathToUniversal = superRelationPathsToUniversalRelation [[relId]] relationsInputModel
-    let subBRTree = findSubBinaryRelationTree [[relId]] relationsInputModel
+    let subBRTree = findSubBinaryRelationTree' [[relId]] relationsInputModel
     let speifiedRelationNotPresent = null (findBrelFromId relId relationsInputModel)
 
     if speifiedRelationNotPresent

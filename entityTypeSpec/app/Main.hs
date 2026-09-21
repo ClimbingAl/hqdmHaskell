@@ -16,13 +16,12 @@
 module Main (main) where
 
 import HqdmRelations (
-    HqdmBinaryRelation,
+    HqdmBinaryRelationPure,
     printRelation,
     findBrelsFromDomain,
     findBrelFromId,
     superRelationPathsToUniversalRelation,
     relIdNameTupleLayers,
-    csvRelationsToPure,
     printablePureRelation,
     printablePathFromTuplesWithDomainAndRange
     )
@@ -39,15 +38,17 @@ import HqdmMermaid (
     mermaidAddEulerTitle
     )
 
-import qualified Data.ByteString.Lazy as BL
 import Data.Csv (HasHeader( NoHeader ), decode)
-import qualified Data.Vector as V
 import System.Console.GetOpt
 import System.IO
 import System.Exit
 import System.Environment
 import Data.List
-import Data.Either
+import qualified Data.ByteString.Lazy as BL
+import Data.Maybe (fromMaybe, fromJust)
+import qualified Data.Vector as V
+import Data.Either (fromRight)
+import Data.UUID (UUID, fromString, toString, nil)
 
 main :: IO ()
 main = do
@@ -55,29 +56,28 @@ main = do
     args <- getArgs >>= parse
 
     let fileList = snd args
-    
+
     if length fileList == 3
         then do
             putStr "\n\n"
         else do
-            hPutStrLn stderr "\n\n\3 Arguments should follow the options in the order <Relation_file.csv> <EntityType_file.csv> <uuid_or_name_of_entity_type>\n\n"
+            hPutStrLn stderr "\n\n\3 Arguments should follow the options in the order <Relations_file.csv> <EntityType_file.csv> <uuid_of_entity_type>\n\n"
             exitWith (ExitFailure 1)
 
     let inputRelationsFile = head fileList
     let inputEntityTypeFile = fileList!!1
 
-    hqdmRelationSets <- fmap V.toList . decode @HqdmBinaryRelation NoHeader <$> BL.readFile inputRelationsFile
-    let relationsInputModel =  csvRelationsToPure $ fromRight [] hqdmRelationSets
+    hqdmRelationSets <- fmap V.toList . decode @HqdmBinaryRelationPure NoHeader <$> BL.readFile inputRelationsFile
+    let relationsInputModel =  fromRight [] hqdmRelationSets
 
     hqdmTriples <- fmap V.toList . decode @HqdmTriple NoHeader <$> BL.readFile inputEntityTypeFile
     let hqdmInputModel = fromRight [] hqdmTriples
 
-    let entityId = uuidOrEntityName (fileList!!2) hqdmInputModel
+    let entityId = uuidOfEntityName (fileList!!2) hqdmInputModel
 
     let entityObj = lookupHqdmOne entityId  hqdmInputModel
-    let entityType = lookupHqdmType entityObj
+    let entityType = fromMaybe nil (lookupHqdmType entityObj)
     let rList = zip [1 .. ] (findBrelsFromDomain entityId relationsInputModel)
-    
     let subtypes = lookupSubtypes hqdmInputModel
     let stTree = findSupertypeTree [[entityId]] subtypes
     let subTree = findSubtypeTree [[entityId]] subtypes
@@ -86,53 +86,53 @@ main = do
     if specifiedEntityTypeNotPresent
         then do
             hPutStrLn stderr "Provided entity type uuid is not present in the input file.\n\n"
-            exitWith (ExitFailure 1) 
+            exitWith (ExitFailure 1)
         else do
             return ()
 
     if Ascii `elem` fst args && not specifiedEntityTypeNotPresent
-        then do 
-            putStr ("\n\nASCII Entity Type Inheritance Supertype Path To Thing from '" ++ entityType ++ "' (" ++ entityId ++ "):\n\n\n")
+        then do
+            putStr ("\n\nASCII Entity Type Inheritance Supertype Path To Thing from '" ++ fromUuid entityType ++ "' (" ++ fromUuid entityId ++ "):\n\n\n")
             putStr ( reverse $ drop 303 (reverse $ printableTypeTree (reverse stTree) hqdmInputModel ""))
             putStr ("\n\nNumber of supertypes (including the specified the specified entity type): " ++ show (length (concat stTree)))
-            putStr ("\n\nASCII Entity Type Inheritance Subtype Path from '" ++ entityType ++ "' (" ++ entityId ++ "):\n\n\n")
+            putStr ("\n\nASCII Entity Type Inheritance Subtype Path from '" ++ fromUuid entityType ++ "' (" ++ fromUuid entityId ++ "):\n\n\n")
             putStr ( reverse $ drop 303 (reverse $ printableTypeTree (init subTree) hqdmInputModel ""))
             putStr ("\n\nNumber of subtypes (including the specified the specified entity type): " ++ show (length (concat subTree)))
             putStr "\n\nHQDM Relations expressed as Binary Relation Sets:\n\n"
             putStr  (concatMap (\ x -> show (fst x) ++ " " ++ printRelation (snd x) ++ "\n\n") rList)
         else putStr ""
-    
+
     if Raw `elem` fst args && not specifiedEntityTypeNotPresent
-        then do 
+        then do
             putStr "\n\nHQDM Relations expressed as Raw Pure Binary Relation Sets:\n\n"
             print rList
             putStr "\n\n"
         else putStr ""
-    
+
     if Csv `elem` fst args && not specifiedEntityTypeNotPresent
-        then do 
+        then do
             putStr "\n\nHQDM Relations expressed in CSV form:\n\n"
             putStr (concatMap (\ x -> "\t" ++ printablePureRelation (snd x)) rList)
             putStr "\n\n"
         else putStr ""
 
     if Mermaid `elem` fst args && not specifiedEntityTypeNotPresent
-        then do 
+        then do
             putStr "\n\nMermaid TD graph of the supertypes:\n\n"
-            let mmGraph = mermaidAddTitle (mermaidTDTopAndTail (insertEntityNodeName entityId hqdmInputModel ++ mermaidEntitySupertypeTree [[entityId]] hqdmInputModel "")) ("Supertype graph for " ++ entityType)
+            let mmGraph = mermaidAddTitle (mermaidTDTopAndTail (insertEntityNodeName entityId hqdmInputModel ++ mermaidEntitySupertypeTree [[entityId]] hqdmInputModel "")) ("Supertype graph for " ++ fromUuid entityType)
             putStr mmGraph
             putStr "\n\nMermaid Euler diagram of the supertypes:\n\n"
-            let mmEulerDiagram = mermaidAddEulerTitle ("flowchart TB\n" ++ mermaidEntityEulerTree [[entityId]] hqdmInputModel (entityId ++ "[\"" ++ HqdmLib.headIfStringPresent (HqdmLib.lookupHqdmTypeFromAll hqdmInputModel entityId) ++ "\"]:::specialSize\n") ) ("Supertype Euler diagram for " ++ entityType) ++ mermaidEulerCentralClassDef ++ "\n"
+            let mmEulerDiagram = mermaidAddEulerTitle ("flowchart TB\n" ++ mermaidEntityEulerTree [[entityId]] hqdmInputModel (fromUuid entityId ++ "[\"" ++ (fromUuid $ fromJust $ HqdmLib.headIfUUIDPresent (HqdmLib.lookupHqdmTypeFromAll hqdmInputModel entityId)) ++ "\"]:::specialSize\n") ) ("Supertype Euler diagram for " ++ fromUuid entityType) ++ mermaidEulerCentralClassDef ++ "\n"
             putStr mmEulerDiagram
         else putStr ""
-    
-    putStr ("Read about it here: https://github.com/hqdmTop/hqdmFramework/wiki/" ++ entityType ++ "\n\n")
 
--- | uuidOrEntityName 
-uuidOrEntityName :: String -> [HqdmTriple] -> String
-uuidOrEntityName ip tpls
-    | nodeIdentityTest ip = ip
-    | otherwise = head $ lookupHqdmIdsFromTypePredicates tpls ip
+    putStr ("Read about it here: https://github.com/hqdmTop/hqdmFramework/wiki/" ++ fromUuid entityType ++ "\n\n")
+
+-- | uuidOfEntityName 
+uuidOfEntityName :: String -> [HqdmTriple] -> UUID
+uuidOfEntityName ip tpls
+    | nodeIdentityTest ip = fromJust $ fromString ip
+    | otherwise = head $ lookupHqdmIdsFromTypePredicates tpls (fromJust $ fromString ip)
 
 ------------------------------------------------------------------------------------
 -- Argument handling functions
@@ -157,7 +157,7 @@ flags =
     ,Option ['c'] []       (NoArg Csv)
         "Specifies that the output is in Csv form."
     ,Option []    ["help"] (NoArg Help)
-        "The command should have the general form: entityTypeSpec -a PureHqdmRelations_v5.csv HqdmAllAsDataFormal4.csv uuid_or_name_of_entity_type"
+        "The command should have the general form: entityTypeSpec -a HqdmBinaryRelations_v7.csv HqdmTypes_v5Mapped.csv uuid_of_entity_type"
    ]
 
 parse :: [String] -> IO ([Flag], [String])
@@ -176,4 +176,5 @@ parse argv = case getOpt Permute flags argv of
     where header = "Usage: entityTypeSpec [-amrc] [relFile] [entityTypeFile] [uuid_or_name_of_entity_type]"
           set f      = [f]
 
-
+fromUuid :: UUID -> String
+fromUuid = toString

@@ -54,8 +54,8 @@ import Data.Csv (HasHeader( NoHeader ), decode)
 import qualified Data.Vector as V
 import Data.Either
 
-hqdmTypesFilename::String
-hqdmTypesFilename = "../HqdmTypes_v5Mapped.csv"
+hqdmTypesFilenameUnmapped::String
+hqdmTypesFilenameUnmapped = "../HqdmTypes_v5.csv"
 
 temporalAlgebraTestFilename::String 
 temporalAlgebraTestFilename = "./test/temporalAlgebraMapped.csv"
@@ -142,13 +142,13 @@ main = do
   print (Map.toList descentKofSC)
   
 
-  {--- Now test the conversion of a mapped dataset
-  joinModelTriples <- fmap V.toList . decode @HqdmLib.HqdmTriple NoHeader <$> BL.readFile hqdmTypesFilename
+  -- Now test the conversion of a mapped dataset
+  joinModelTriples <- fmap V.toList . decode @HqdmLib.HqdmTriple NoHeader <$> BL.readFile hqdmTypesFilenameUnmapped
   let joinInputModel = fromRight [] joinModelTriples
   let convertedStrings = StringUtils.listRemoveDuplicates $ StringUtils.stringTuplesFromTriples joinInputModel []
-  -}
+  
   -- Add it to a Map
-  --let finalMap = Map.fromList convertedStrings
+  let finalMap = Map.fromList convertedStrings
 
   -- Now replace the original strings with their uuid keys
   --let fullyJoinedInputModel = StringUtils.joinStringsFromMap joinInputModel finalMap

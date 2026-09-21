@@ -15,6 +15,8 @@
 -- HqdmLib functions.  Includes querying individual HQDM Entity Types by NodeId,
 -- finding subtypes and supertypes of given NodeIds, subtype and supertype Trees
 -- and computing the inheritance of relations given in HQDM AllAsData.
+--
+-- HQDM AllAsData Triples are now handled using the Haskell Data.UUID data type.
 
 module Main (main) where
 
@@ -52,12 +54,9 @@ import HqdmIds
       hqdmClass,
       thing )
 
--- from bytestring
 import qualified Data.ByteString.Lazy as BL
 import Data.Maybe (fromJust)
-
--- from cassava
-import Data.Csv (HasHeader( NoHeader ), decode, FromField(..), parseField)
+import Data.Csv (HasHeader( NoHeader ), decode)
 import qualified Data.Vector as V
 import Data.Either ( fromRight )
 import Data.UUID (toString, fromString)

@@ -12,6 +12,9 @@
 -- Portability :  portable (albeit for HQDM All As Data applications)
 --
 -- Executable Main that generates the relation SETs for HQDM AllAsData.
+--
+-- HQDM AllAsData Triples are now handled using the Haskell Data.UUID data type.
+
 
 module Main (main) where
 

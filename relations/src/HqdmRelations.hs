@@ -18,6 +18,7 @@
 -- provided for loading the original Relation specifications from HQDM.exp. 
 --
 -- Functions also provided to render the outputs as printable text.
+-- HQDM AllAsData Triples are now handled using the Haskell Data.UUID data type.
 
 module HqdmRelations
   (
@@ -71,14 +72,9 @@ module HqdmRelations
     findMaxMinCardinality,
     printableLayerWithDomainAndRange,
     printablePathFromTuplesWithDomainAndRange,
-    IdMapping,
-    intToUuid,
-    uuidToInt,
-    RelationIntIndex,
-    buildIdMapping,
-    buildIndexDownFastest,
+    RelationIndexNew,
+    buildIndexDownFast',
     findSubBinaryRelationTreeFast',
-    findSubBinaryRelationTreeFastest,
     findSubBRelTreeWithCount,
     lookupSubBRelsOf,
     lookupSubBRelOf,
@@ -133,32 +129,18 @@ import qualified HqdmLib (
     )
 
 import GHC.Generics (Generic)
-import Control.Applicative (optional)
-import Data.List
-    ( isPrefixOf, sortOn, intercalate, foldl', elemIndices )
-import Data.Maybe (isNothing, fromJust)
-import qualified Data.UUID as Data.UUID (UUID, fromString, toString, null, nil)
-import Data.UUID.Util (version)
-import Data.UUID.Types.Internal (fromString)
-import Data.Bits ((.&.), shiftR)
-import Data.Word (Word32)
+import Data.List ( isPrefixOf, sortOn )
+import Data.Maybe ( fromJust )
+import qualified Data.UUID (UUID, fromString, toString, null, nil)
 import qualified Data.ByteString.Char8 as BC
-import qualified Data.Char as Data.Char (toLower)
-
+import qualified Data.Char (toLower)
 import qualified Data.Map.Strict as Map
 import qualified Data.Set as Set
 -- Following imports are for the upgrade to use Big-Endian Patricia Tree structure
 import qualified Data.IntMap.Strict as IntMap
 import qualified Data.IntSet as IntSet
-
--- List and String utilities
-import qualified Data.String as STR (fromString)
-
--- Cassava CSV library
-import Data.Csv
-  ( FromField(..), ToField(..), FromRecord(..), ToRecord(..)
-  , Parser, record, toField, (.!)
-  )
+import Data.Csv ( FromField(..), ToField(..), FromRecord(..), ToRecord(..),
+  Parser, record, toField, (.!) )
 
 -- | In a RelationPairSet xR'y the  is a list of [R'y] for x, where R' can be any allowed 
 --   number of instances of permitted Relations
@@ -202,6 +184,7 @@ data RelationPair = RelationPair
 --        inverseOf = RelationId  # Inverse of named relation
 
 type RelationId = Data.UUID.UUID
+type RelationIndexNew = Map.Map RelationId (Set.Set RelationId)
 
 -- | HqdmBinaryRelationPure
 -- A data type that uses only identities to specify the xR'y of a HQDM Binary 
@@ -238,7 +221,7 @@ instance ToRecord HqdmBinaryRelationPure where
     , toField (pureBinaryRelationId r)
     , toField (pureBinaryRelationName r)
     , toField (pureRange r)
-    , toField (BC.pack $ intercalate " " $ map Data.UUID.toString (pureHasSuperBR r)) -- Inline manual serialize
+    , toField (BC.pack $ unwords $ map Data.UUID.toString (pureHasSuperBR r)) -- Inline manual serialize
     , toField (pureCardinalityMin r)
     , toField (pureCardinalityMax r)
     , toField (pureRedeclaredBR r)
@@ -285,10 +268,6 @@ instance FromRecord HqdmBinaryRelationPure where
           , pureInverseOf          = pInverseOf
           }
 
-type RelationIndex = Map.Map RelationId [RelationId]
-type RelationIndexNew = Map.Map RelationId (Set.Set RelationId)
-type RelationIntIndex = IntMap.IntMap IntSet.IntSet
-
 -- Helper parser to reuse inside the split loop
 parseUUIDField :: BC.ByteString -> Parser Data.UUID.UUID
 parseUUIDField bs = case Data.UUID.fromString (BC.unpack bs) of
@@ -318,8 +297,12 @@ relationSetCheck chk rel = (chk, rel)
 relationSetAndIdCheck:: RelationCheck -> HqdmBinaryRelationPure -> HqdmLib.Id -> (RelationCheck, HqdmBinaryRelationPure, HqdmLib.Id)
 relationSetAndIdCheck chk rel uid = (chk, rel, uid)
 
-{-hqdmType::String
-hqdmType = "type"-}
+buildIndexDownFast' :: [HqdmBinaryRelationPure] -> RelationIndexNew
+buildIndexDownFast' rels = Map.fromListWith Set.union 
+  [ (superId, Set.singleton (pureBinaryRelationId r)) 
+  | r <- rels
+  , superId <- pureHasSuperBR r  
+  ]
 
 universalRelationSet::Data.UUID.UUID
 universalRelationSet = fromJust $ Data.UUID.fromString "85e78ac0-ec72-478f-9aac-cacb520290a0"
@@ -407,57 +390,6 @@ idListFromString x lst
   | Prelude.null x = lst
   | length x == 36 = lst ++ [x]
   | length x >= 37 = idListFromString (drop 37 x) (lst ++ [take 36 x])
-
-
-buildIndexUp :: [HqdmBinaryRelationPure] -> RelationIndex
-buildIndexUp rels = Map.fromListWith (++) [ (pureBinaryRelationId r, pureHasSuperBR r) | r <- rels ]
-
-buildIndexDown :: [HqdmBinaryRelationPure] -> RelationIndex
-buildIndexDown rels = Map.fromListWith (++) 
-  [ (superId, [pureBinaryRelationId r]) 
-  | r <- rels
-  , superId <- pureHasSuperBR r  -- Loops through every superId in the list
-  ]
-
-buildIndexDownFast' :: [HqdmBinaryRelationPure] -> RelationIndexNew
-buildIndexDownFast' rels = Map.fromListWith Set.union 
-  [ (superId, Set.singleton (pureBinaryRelationId r)) 
-  | r <- rels
-  , superId <- pureHasSuperBR r  
-  ]
-
-data IdMapping = IdMapping
-  { uuidToInt :: !(Map.Map Data.UUID.UUID Int)
-  , intToUuid :: !(IntMap.IntMap Data.UUID.UUID)
-  }
-
-buildIdMapping :: [HqdmBinaryRelationPure] -> IdMapping
-buildIdMapping rels = IdMapping toInt toUuidFast
-  where
-    -- Gather every unique UUID present in both relation IDs and super lists
-    allUuids = Map.keys $ Map.fromList 
-      [ (uid, ()) 
-      | r <- rels
-      , uid <- pureBinaryRelationId r : pureHasSuperBR r 
-      ]
-    
-    -- Pair each unique UUID with a sequential integer index [0..]
-    zipped = zip allUuids [0..]
-    
-    toInt  = Map.fromList zipped
-    toUuidFast = IntMap.fromList [ (i, u) | (u, i) <- zipped ]
-
-buildIndexDownFastest :: IdMapping -> [HqdmBinaryRelationPure] -> RelationIntIndex
-buildIndexDownFastest mapping rels = IntMap.fromListWith IntSet.union
-  [ (superIntId, IntSet.singleton childIntId)
-  | r <- rels
-  , let lookupInt uid = Map.findWithDefault (-1) uid (uuidToInt mapping)
-  , let childIntId = lookupInt (pureBinaryRelationId r)
-  , childIntId /= -1 -- Safely filter out unmapped IDs if any mismatch occurs
-  , superUuid <- pureHasSuperBR r
-  , let superIntId = lookupInt superUuid
-  , superIntId /= -1
-  ]
 
 getRelationNameFromRels :: RelationId -> [HqdmBinaryRelationPure] -> String
 getRelationNameFromRels relId brels = head ([pureBinaryRelationName values | values <- brels, relId == pureBinaryRelationId values])
@@ -715,9 +647,6 @@ headListIfPresent :: [a] -> Maybe a
 headListIfPresent []     = Nothing
 headListIfPresent (a:as) = Just a
 
-getRelationIdFromMonadTuple :: Maybe (RelationId, String) -> String
-getRelationIdFromMonadTuple = maybe ""  (Data.UUID.toString . fst)
-
 findSuperBinaryRelation' :: RelationId -> [HqdmLib.HqdmTriple] -> [HqdmBinaryRelationPure] -> Maybe (RelationId, String)
 findSuperBinaryRelation' relId tpls brels =
   headListIfPresent [x | x <-
@@ -822,6 +751,7 @@ lookupSubBRelsOf (id : ids) list = lookupSubBRelOf id list : lookupSubBRelsOf id
 
 -- | findSubBinaryRelationTree
 -- From all the BinaryRelations given by lookupSubBRels, find the subBrels of a given RelationId
+-- Original pure function. Very slow
 findSubBinaryRelationTree :: [[RelationId]] -> [HqdmBinaryRelationPure] -> [[RelationId]]
 findSubBinaryRelationTree ids hqdmBrels = go ids hqdmBrels
   where
@@ -833,44 +763,12 @@ findSubBinaryRelationTree ids hqdmBrels = go ids hqdmBrels
       | Prelude.null (head newLayer) = ids
       | otherwise = findSubBinaryRelationTree (ids ++ newLayer) hqdmBrel
 
--- Fully optimized, tail-recursive tree/layer traversal
-findSubBinaryRelationTreeOld' :: [[RelationId]] -> [HqdmBinaryRelationPure] -> [[RelationId]]
-findSubBinaryRelationTreeOld' initialIds hqdmBrels =
-    -- Reverse at the very end once, instead of appending (++) continuously
-    reverse (go initialLayers initialVisited (last initialLayers))
-  where
-    -- Index the relations ONCE before starting recursion
-    index = buildIndexDown hqdmBrels
-
-    -- Maintain a strict Set of everything we have seen to make 'deleteItems' O(1)
-    initialLayers  = reverse initialIds
-    initialVisited = Set.fromList (concat initialIds)
-
-    -- Accumulator-driven tail recursion
-    go :: [[RelationId]] -> Set.Set RelationId -> [RelationId] -> [[RelationId]]
-    go !accLayers !visited !currentLayer
-      | Prelude.null currentLayer = accLayers
-      | Prelude.null filteredNewLayer = accLayers
-      | otherwise = go (filteredNewLayer : accLayers) nextVisited filteredNewLayer
-      where
-        -- Instant O(log N) lookup instead of a linear scan over all relations
-        allPossibleChildren = concat [ Map.findWithDefault [] pId index | pId <- currentLayer ]
-
-        -- Deduplicate immediately using an optimized utility
-        uniqueChildren = HqdmLib.uniqueIds allPossibleChildren
-
-        -- Instant O(1) set-membership filter replaces heavy list element deletions
-        filteredNewLayer = filter (\child -> not (Set.member child visited)) uniqueChildren
-
-        -- Strictly evaluate the updated visited set to prevent thunk leak build-ups
-        nextVisited = Set.union visited (Set.fromList filteredNewLayer)
-
 findSubBinaryRelationTreeFast' :: [[RelationId]] -> [HqdmBinaryRelationPure] -> [[RelationId]]
-findSubBinaryRelationTreeFast' initialIds hqdmBrels = 
+findSubBinaryRelationTreeFast' initialIds hqdmBrels =
     reverse (go initialLayers initialVisited (last initialLayers))
   where
     index = buildIndexDownFast' hqdmBrels
-    
+
     initialLayers  = reverse initialIds
     initialVisited = Set.fromList (concat initialIds)
 
@@ -882,37 +780,15 @@ findSubBinaryRelationTreeFast' initialIds hqdmBrels =
       where
         -- 1. Grab all child sets instantly and merge them into one unique Set
         allPossibleChildren = Set.unions [ Map.findWithDefault Set.empty pId index | pId <- currentLayer ]
-        
+
         -- 2. Set difference instantly removes all visited items (replaces uniqueIds & filter)
         filteredNewLayerSet = Set.difference allPossibleChildren visited
-        
+
         -- 3. Convert to list only once per layer for the final result layout
         filteredNewLayer    = Set.toList filteredNewLayerSet
-        
+
         -- 4. Fast union to track visited nodes
         nextVisited         = Set.union visited filteredNewLayerSet
-
-findSubBinaryRelationTreeFastest :: IdMapping -> RelationIntIndex -> [Int] -> [[Int]]
-findSubBinaryRelationTreeFastest mapping index initialIntIds = 
-    reverse (go initialLayers initialVisited (last initialLayers))
-  where
-    initialLayers  = reverse [initialIntIds]
-    initialVisited = IntSet.fromList initialIntIds
-
-    go :: [[Int]] -> IntSet.IntSet -> [Int] -> [[Int]]
-    go !accLayers !visited !currentLayer
-      | null currentLayer = accLayers
-      | IntSet.null filteredNewLayerSet = accLayers
-      | otherwise = go (filteredNewLayer : accLayers) nextVisited filteredNewLayer
-      where
-        -- Instant hardware-level bitwise lookups and structural unions
-        allPossibleChildren = IntSet.unions 
-          [ IntMap.findWithDefault IntSet.empty pId index | pId <- currentLayer ]
-        
-        -- High-speed bitfield exclusion replaces heavy binary tree sorting
-        filteredNewLayerSet = IntSet.difference allPossibleChildren visited
-        filteredNewLayer    = IntSet.toList filteredNewLayerSet
-        nextVisited         = IntSet.union visited filteredNewLayerSet
 
 printableErrorResults:: [(RelationCheck, HqdmBinaryRelationPure, HqdmLib.Id)] -> [HqdmLib.HqdmTriple] -> [HqdmLib.HqdmTriple] -> String
 printableErrorResults errs hqdm tpls =

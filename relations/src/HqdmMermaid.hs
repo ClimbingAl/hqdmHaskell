@@ -49,7 +49,7 @@ import HqdmRelations
       lookupSubBRelsOf )
 import Data.List.Split ( splitOn )
 import HqdmIds (thing)
-import Data.UUID (UUID, fromString, toString)
+import Data.UUID (toString)
 import Data.Maybe (fromJust)
 
 mermaidMkdnStart :: String

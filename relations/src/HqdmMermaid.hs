@@ -15,7 +15,7 @@
 
 module HqdmMermaid (
   mermaidEntitySupertypeTree,
-  --mermaidSuperRelationPathsToUniversalRelation,
+  mermaidSuperRelationPathsToUniversalRelation,
   mermaidTDTopAndTail,
   mermaidAddTitle,
   insertEntityNodeName,
@@ -49,7 +49,7 @@ import HqdmRelations
       lookupSubBRelsOf )
 import Data.List.Split ( splitOn )
 import HqdmIds (thing)
-import Data.UUID (toString)
+import Data.UUID (UUID, toString)
 import Data.Maybe (fromJust)
 
 mermaidMkdnStart :: String
@@ -182,16 +182,18 @@ mermaidEntityEulerTree ids hqdm mmNodes = go ids hqdm mmNodes
 -- (supplied as a [[RelationId]]). This takes only has_supertype statements as [HqdmTriple].
 -- The ouput is a list of mermaid nodes and connections between them.
 -- Scratch: HqdmRelations.getPureRelationId $ head (HqdmRelations.findBrelFromId y brels)
-{-mermaidSuperRelationPathsToUniversalRelation :: [[RelationId]] -> [HqdmBinaryRelationPure] -> String -> String
+mermaidSuperRelationPathsToUniversalRelation :: [[RelationId]] -> [HqdmBinaryRelationPure] -> String -> String
 mermaidSuperRelationPathsToUniversalRelation relIds brels mmNodes = go relIds brels mmNodes
   where
     nextLayer = last relIds
     superBRs = HqdmRelations.getPureSuperRelations $ HqdmRelations.findBrelsFromIds nextLayer brels
-    newLayer = [ HqdmLib.uniqueIds $ HqdmLib.deleteItemsFromList superBRs nextLayer]
+    newLayer = [HqdmLib.uniqueIds $ HqdmLib.deleteItemsFromList superBRs nextLayer]
     nextMmNodes = concat $ concatMap (\ x ->
         fmap (\ y ->
-            "\t" ++ y ++ "[" ++ y ++ " <BR> " ++ HqdmRelations.getPureRelationName (head $ HqdmRelations.findBrelFromId y brels) ++ "]" ++ mermaidNodePaddingClassName ++ ";\n"
-                ++ "\t" ++ y ++ "-->|superBinaryRel_of|" ++ x ++ ";\n"
+            let xStr = fromUuid x -- Or your custom UUID-to-String function
+                yStr = fromUuid y
+            in "\t" ++ yStr ++ "[" ++ yStr ++ " <BR> " ++ HqdmRelations.getPureRelationName (head $ HqdmRelations.findBrelFromId y brels) ++ "]" ++ mermaidNodePaddingClassName ++ ";\n"
+                ++ "\t" ++ yStr ++ "-->|superBinaryRel_of|" ++ xStr ++ ";\n"
             ) (HqdmRelations.getPureSuperRelation (head $ HqdmRelations.findBrelFromId x brels))) nextLayer
     -- newLayer is formed from a defence against circularity.  Remove elements of newLayer that are in nextLayer.
 
@@ -199,7 +201,10 @@ mermaidSuperRelationPathsToUniversalRelation relIds brels mmNodes = go relIds br
       | null newLayer = init mmNodes
       | newLayer == [[]] = mmNodes
       | sum [length $ filter (== HqdmRelations.universalRelationSet) yl | yl <- newLayer] > 0 = nextMmNodes ++ mmNodes
-      | otherwise = mermaidSuperRelationPathsToUniversalRelation (relIds ++ newLayer) brels ( nextMmNodes ++ mmNodes )-}
+      | otherwise = mermaidSuperRelationPathsToUniversalRelation (relIds ++ newLayer) brels ( nextMmNodes ++ mmNodes )
+
+fromUuid :: UUID -> String
+fromUuid = toString
 
 -- | mermaidSubRelationPathsWithLayerCount
 -- From all the Binary Relations given find all the BR supertypes of a given RelationId

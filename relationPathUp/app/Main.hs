@@ -17,14 +17,13 @@
 module Main (main) where
 
 import HqdmRelations (
-    HqdmBinaryRelation,
+    HqdmBinaryRelationPure,
     printRelation,
     findBrelFromId,
     superRelationPathsToUniversalRelation,
     relIdNameTupleLayers,
-    csvRelationsToPure,
     printablePathFromTuplesWithDomainAndRange,
-    findSubBinaryRelationTree'
+    findSubBinaryRelationTree
     )
 
 import HqdmMermaid (
@@ -38,13 +37,15 @@ import HqdmLib (HqdmTriple(..))
 
 import qualified Data.ByteString.Lazy as BL
 import Data.Csv (HasHeader( NoHeader ), decode)
-import qualified Data.Vector as V
 import System.Console.GetOpt
 import System.IO
 import System.Exit
 import System.Environment
 import Data.List
-import Data.Either
+import qualified Data.Vector as V
+import Data.Either (fromRight)
+import Data.Maybe (fromJust)
+import Data.UUID (UUID, fromString, toString)
 
 main :: IO ()
 main = do
@@ -63,16 +64,16 @@ main = do
 
     let inputRelationsFile = head fileList
     let inputEntityTypeFile = fileList!!1
-    let relId = fileList!!2
+    let relId = fromJust (fromString $ fileList!!2)
 
-    hqdmRelationSets <- fmap V.toList . decode @HqdmBinaryRelation NoHeader <$> BL.readFile inputRelationsFile
-    let relationsInputModel =  csvRelationsToPure $ fromRight [] hqdmRelationSets
+    hqdmRelationSets <- fmap V.toList . decode @HqdmBinaryRelationPure NoHeader <$> BL.readFile inputRelationsFile
+    let relationsInputModel =  fromRight [] hqdmRelationSets
 
     hqdmTriples <- fmap V.toList . decode @HqdmTriple NoHeader <$> BL.readFile inputEntityTypeFile
     let hqdmInputModel = fromRight [] hqdmTriples
 
     let superBRPathToUniversal = superRelationPathsToUniversalRelation [[relId]] relationsInputModel
-    let subBRTree = findSubBinaryRelationTree' [[relId]] relationsInputModel
+    let subBRTree = findSubBinaryRelationTree [[relId]] relationsInputModel
     let speifiedRelationNotPresent = null (findBrelFromId relId relationsInputModel)
 
     if speifiedRelationNotPresent
@@ -84,10 +85,10 @@ main = do
 
     if Ascii `elem` fst args && not speifiedRelationNotPresent
         then do 
-            putStr ("\n\nASCII Relation Inheritance Path To Universal Binary Relation Set from (" ++ relId ++ "):\n\n\n")
+            putStr ("\n\nASCII Relation Inheritance Path To Universal Binary Relation Set from (" ++ (fromUuid relId) ++ "):\n\n\n")
             putStr ( printablePathFromTuplesWithDomainAndRange (relIdNameTupleLayers superBRPathToUniversal relationsInputModel) relationsInputModel hqdmInputModel)
             putStr ("\n\nNumber of super-Binary Relation Sets (including the specified the specified entity type): " ++ show (length (concat superBRPathToUniversal)))
-            putStr ("\n\nASCII (non-Strict) sub-Relation Inheritance Path From Specified Binary Relation Set (" ++ relId ++ "):\n\n\n")
+            putStr ("\n\nASCII (non-Strict) sub-Relation Inheritance Path From Specified Binary Relation Set (" ++ (fromUuid relId) ++ "):\n\n\n")
             putStr ( printablePathFromTuplesWithDomainAndRange (relIdNameTupleLayers (reverse subBRTree) relationsInputModel) relationsInputModel hqdmInputModel)
             putStr ("\n\nNumber of sub-Binary Relation Sets (including the specified the specified entity type): " ++ show (length (concat subBRTree)))
             putStr ( "\n\n\n" ++ printRelation (head $ findBrelFromId (head $ head superBRPathToUniversal) relationsInputModel) )
@@ -96,7 +97,7 @@ main = do
     if Mermaid `elem` fst args && not speifiedRelationNotPresent
         then do 
             putStr "\n\nMermaid TD graph of the supertypes:\n\n"
-            let mmGraph = mermaidAddTitle (mermaidTDTopAndTail (insertBRNodeName relId relationsInputModel ++ mermaidSuperRelationPathsToUniversalRelation [[relId]] relationsInputModel "")) ("Supertype graph for " ++ relId)
+            let mmGraph = mermaidAddTitle (mermaidTDTopAndTail (insertBRNodeName (relId) relationsInputModel ++ mermaidSuperRelationPathsToUniversalRelation [[relId]] relationsInputModel "")) ("Supertype graph for " ++ (fromUuid relId))
             putStr mmGraph
             putStr "\nMermaid graph can be rendered using this online tool: https://mermaid.live/edit\n\n"
         else putStr "\n\n"
@@ -137,3 +138,5 @@ parse argv = case getOpt Permute flags argv of
     where header = "Usage: relationPathUp [-am] [relFile] [entityTypeFile] [relUuid]"
           set f      = [f]
 
+fromUuid :: UUID -> String
+fromUuid = toString

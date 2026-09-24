@@ -74,6 +74,7 @@ module HqdmRelations
     printablePathFromTuplesWithDomainAndRange,
     RelationIndexNew,
     buildIndexDownFast',
+    findSubBinaryRelationTree,
     findSubBinaryRelationTreeFast',
     findSubBRelTreeWithCount,
     lookupSubBRelsOf,

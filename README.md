@@ -1,7 +1,7 @@
 # Haskell parser for HQDM notated in a functionally-compatible form
 
 :new: :star: :star:
-This is the final version before a major upgrade to migrate hqdmHaskell away from (notoriously slow) string data types for the ids to a more suitable, fundamental base type.
+Major upgrade to migrate hqdmHaskell away from (notoriously slow) string data types for the ids to a more suitable, fundamental Haskell `Data.UUID` base type.
 The status of this version is that it supports pure ids (albeit as strings) for Binary Relations in addition to the `subject` and `object` ids.  The examples below are now unrepresentative of this change but they are more meaningful to a human reader as they are.  I will make updates to this once the migration away from the Haskell string data types has been done. :star: :star: :new:
 
 :star:
@@ -74,7 +74,7 @@ Further documentation will soon be provided on the top level structure of Binary
         pureCardinalityMin :: Int,            -- 0,1,...
         pureCardinalityMax :: Int,            -- -1 (indicates no max!),0,1,2,...
         pureRedeclaredBR :: Bool,             -- True means this is redeclared from its SuperBR
-        pureRedeclaredFromRange :: HqdmLib.Id -- reserved
+        pureInverseBR :: HqdmLib.Id           -- Not fully used yet
       }
       deriving (Show, Eq, Generic)
 ```
@@ -164,6 +164,7 @@ Notes on relations, cardinalities, etc
     -- Add handling of pureRedeclaredFromRange
 - [x] compute all relations and their relation-supersubset relationships
 - [x] test mc datasets to see that they conform to cardinalities
+- [x] speed upgrade to address terribly slow `[String]` use and inefficient recursion.
 - [ ] calculate the inverse relations
 - [ ] perform predicate searches that include inverse relations
 - [x] dictionary for strings using uuid type5 and convert timestamps to uuid type 1

@@ -24,8 +24,10 @@ module HqdmLib
     HqdmHasSupertype,
     FromRecord,
     ToRecord,
+    HqdmRDFTriple(..),
     headIfUUIDPresent,
     lastIfUUIDPresent,
+    headIfUUIDPresentOrNil,
     getSubjects,
     getPredicates,
     uniqueIds,
@@ -71,29 +73,34 @@ import qualified Data.ByteString.Char8 as BC
 import Data.List (elemIndices)
 import GHC.Generics (Generic)
 import HqdmIds (thing)
-import Data.UUID (UUID, fromString, toString)
-import qualified Data.UUID as UUID
-
-import Data.Maybe (fromJust)
+import Data.UUID (UUID, fromString, toString, nil, toASCIIBytes)
+import Data.Maybe (fromJust, fromMaybe)
 
 data HqdmTriple = HqdmTriple
-  { subject :: !Id,
-    predicate :: !Id,
-    object :: !Id
+  { subject :: !Id,   -- domainElement
+    predicate :: !Id, -- binaryRelation
+    object :: !Id     -- rangeElement
   }
   deriving (Show, Eq, Generic)
 
 instance FromRecord HqdmTriple
 instance ToRecord HqdmTriple
 
-instance ToField UUID where
-    toField = UUID.toASCIIBytes
+-- | String version for import/export of pre-mapped triples (e.g. Linked Data RDF Triples)
+-- Note: Although "RDF" is used in the data type name, it expects that the URL part of RDF
+-- subject, predicate and object strings have been stripped out already.
+data HqdmRDFTriple = HqdmRDFTriple
+  { sub :: !String,
+    pred :: !String,
+    obj :: !String
+  }
+  deriving (Show, Eq, Generic)
 
--- | Parse a UUID from a CSV field (ByteString)
-{-instance FromField UUID where
-    parseField bs = case UUID.fromASCIIBytes bs of
-        Just uuid -> pure uuid
-        Nothing   -> fail "Invalid UUID format in CSV field"-}
+instance FromRecord HqdmRDFTriple
+instance ToRecord HqdmRDFTriple
+
+instance ToField UUID where
+    toField = Data.UUID.toASCIIBytes
 
 instance FromField UUID where
     parseField s = case fromString (BC.unpack s) of
@@ -129,9 +136,6 @@ hqdmHasSuperclassId = fromJust $ fromString "7d11b956-0014-43be-9a3e-f89e2b31ec4
 hqdmDataEntityName::UUID
 hqdmDataEntityName = fromJust $ fromString "fe987366-a8ad-48fa-8821-73f54f6df180"
 
-hqdmBeginningId::UUID
-hqdmBeginningId = fromJust $ fromString "96c965a9-ec3e-47f2-b18e-b67147bc0873"
-
 screenCharOffset :: Int
 screenCharOffset = 100
 
@@ -163,6 +167,11 @@ headIfUUIDPresent :: [UUID] -> Maybe UUID
 headIfUUIDPresent x
   | not (null x)   = Just (head x)
   | otherwise      = Nothing
+
+headIfUUIDPresentOrNil :: [UUID] -> UUID
+headIfUUIDPresentOrNil x
+  | not (null x)   = head x
+  | otherwise      = nil
 
 lastIfUUIDPresent :: [UUID] -> Maybe UUID
 lastIfUUIDPresent x
@@ -293,7 +302,7 @@ lookupSupertypesOf (id : ids) list = lookupSupertypeOf id list : lookupSupertype
 -- | findHqdmTypesInList
 -- Find the type names of the Node Ids supplied as a list of Strings.  Takes HQDM AllAsData as input.
 findHqdmTypesInList :: [Id] -> [HqdmTriple] -> [Id]
-findHqdmTypesInList xs hqdmIn = fmap (\ x -> fromJust $ lookupHqdmType (lookupHqdmOne x hqdmIn)) xs
+findHqdmTypesInList xs hqdmIn = fmap (\ x -> fromMaybe nil (lookupHqdmType (lookupHqdmOne x hqdmIn))) xs
 
 -- | findSupertypeTree
 -- From all the triples given by lookupSupertypes find all the supertypes of a given node Id

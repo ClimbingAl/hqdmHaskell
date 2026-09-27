@@ -66,7 +66,7 @@ import HqdmQueries (
 
 import HqdmRelations (
     RelationId,
-    HqdmBinaryRelationPure
+    HqdmBinaryRelation
     )
 import Data.Bool (Bool (False))
 import Data.UUID (UUID, nil, null)
@@ -178,7 +178,7 @@ data PointInTimeTemporalExtentCmp = Before | After | EqStart | EqEnd | During | 
 
 -- Expects [0:1] beginning and ending relations in the given Set. 
 -- Perhaps add a check that uid is indeed a v1 uuid and that the supplied list of triples is indeed for a single node
-pointInTimeCompareWithState :: HqdmLib.Id -> [HqdmLib.HqdmTriple] -> [HqdmLib.HqdmTriple] -> [HqdmRelations.HqdmBinaryRelationPure] -> PointInTimeTemporalExtentCmp
+pointInTimeCompareWithState :: HqdmLib.Id -> [HqdmLib.HqdmTriple] -> [HqdmLib.HqdmTriple] -> [HqdmRelations.HqdmBinaryRelation] -> PointInTimeTemporalExtentCmp
 pointInTimeCompareWithState uid relSet allRels brels = go uid
     where
         beginning = headObjectIfTriplePresent $ HqdmQueries.filterRelsByBeginning relSet brels
@@ -221,7 +221,7 @@ data TemporalExtentCmp =
     | AllenNull                 -- Some input condition is not met (e.g. no temporal bounds present or time format unresolvable)
     deriving (Eq, Enum, Show)
 
-getObjectAttribute :: HqdmLib.Id -> [HqdmLib.HqdmTriple] -> [HqdmRelations.HqdmBinaryRelationPure] -> HqdmLib.Id
+getObjectAttribute :: HqdmLib.Id -> [HqdmLib.HqdmTriple] -> [HqdmRelations.HqdmBinaryRelation] -> HqdmLib.Id
 getObjectAttribute obj tpls brels = headObjectIfTriplePresent $ HqdmQueries.filterRelsByAttribute (HqdmLib.lookupHqdmOne obj tpls) brels
 
 isUuidV1 :: UUID -> Bool
@@ -244,7 +244,7 @@ uuidV5Test uuid =
 -- | temporalOverlapTest
 -- Full state temporal-extent overlap test (based on Allen's Interval Agebra BUT also allowing for unbounded states)
 -- This is not a parthood test.  That is a relation-only query. 
-temporalOverlapTest :: [HqdmLib.HqdmTriple] -> [HqdmLib.HqdmTriple] -> [HqdmLib.HqdmTriple] -> [HqdmRelations.HqdmBinaryRelationPure] -> TemporalExtentCmp
+temporalOverlapTest :: [HqdmLib.HqdmTriple] -> [HqdmLib.HqdmTriple] -> [HqdmLib.HqdmTriple] -> [HqdmRelations.HqdmBinaryRelation] -> TemporalExtentCmp
 temporalOverlapTest [] _ _ _ = AllenNull
 temporalOverlapTest _ [] _ _ = AllenNull
 temporalOverlapTest _ _ [] _ = AllenNull

@@ -20,7 +20,7 @@ module Main (main) where
 
 import HqdmRelations (
     RelationId,
-    HqdmBinaryRelationPure(..),
+    HqdmBinaryRelation(..),
     getRelationNameFromRels,
     getPureRelationId,
     getBrelDomainFromRels,
@@ -52,7 +52,7 @@ hqdmInputFilename = "../HqdmTypes_v5Mapped.csv"  -- hqdmAllAsDataFormal1_NoExten
 exampleBrelId::UUID
 exampleBrelId = fromJust $ fromString "c037270e-801f-4957-ad79-239954cedc37" -- individual hqdm:member_of class_of_individual
 
-allSupertypeRels:: [HqdmLib.HqdmTriple] -> [HqdmRelations.HqdmBinaryRelationPure] -> [Maybe (HqdmRelations.RelationId, String)]
+allSupertypeRels:: [HqdmLib.HqdmTriple] -> [HqdmRelations.HqdmBinaryRelation] -> [Maybe (HqdmRelations.RelationId, String)]
 allSupertypeRels hqdmTriples pureBrels = fmap (\ x -> HqdmRelations.findSuperBinaryRelation' (HqdmRelations.getPureRelationId x) hqdmTriples pureBrels) pureBrels
 
 main :: IO ()
@@ -62,7 +62,7 @@ main = do
     csvData <- BL.readFile hqdmRelationsInputFilename
 
     -- Decode returns an Either String (V.Vector HqdmTriple)
-    let decodeResult = decode @HqdmRelations.HqdmBinaryRelationPure NoHeader csvData
+    let decodeResult = decode @HqdmRelations.HqdmBinaryRelation NoHeader csvData
 
     case decodeResult of
         Left err -> do
@@ -85,7 +85,7 @@ main = do
 
     putStr "\n\nLoaded HqdmAllAsData\n\n"
 
-    hqdmRelationSets <- fmap V.toList . decode @HqdmRelations.HqdmBinaryRelationPure NoHeader <$> BL.readFile hqdmRelationsInputFilename
+    hqdmRelationSets <- fmap V.toList . decode @HqdmRelations.HqdmBinaryRelation NoHeader <$> BL.readFile hqdmRelationsInputFilename
 
     let pureHqdmRelations = fromRight [] hqdmRelationSets
     -- print relationsInputModel

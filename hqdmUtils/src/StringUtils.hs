@@ -22,7 +22,9 @@ module StringUtils (
     stringToDateOrHashUuid,
     stringToDateOrHashUuid',
     uuidV5FromString,
-    uuidV5StringTest
+    uuidV5StringTest,
+    joinStringsFromMap,
+    stringTuplesFromTriples
     ) where
 
 import Data.List (nub, find)
@@ -36,8 +38,9 @@ import TimeUtils ( uuidFromUTCTime )
 import Text.Read ( readMaybe )
 import Data.Time.LocalTime (ZonedTime, zonedTimeToUTC) 
 import Data.Time.Format.ISO8601 ( iso8601ParseM )
+import Data.Time.Clock
 import Data.Time.Clock.POSIX ( posixSecondsToUTCTime )
-import qualified  HqdmLib ( nodeIdentityTest )
+import qualified  HqdmLib ( nodeIdentityTest, HqdmRDFTriple(..) )
 
 --unsafeFromString :: String -> UUID
 --unsafeFromString = fromJust . fromString
@@ -54,7 +57,7 @@ namespaceUuid = generateNamed nil (encode "https://github.com/ClimbingAl/hqdmHas
 addNewEntryIfNotInMap :: Map.Map UUID String -> (UUID, String) -> Map.Map UUID String
 addNewEntryIfNotInMap m t = if Map.member (fst t) m then m else uncurry Map.insert t m
 
--- Create two new Maps to hold uuidV1 and uuidV5 lookups
+-- Create Map to hold uuidV1 and uuidV5 lookups
 createEmptyUuidMap :: Map.Map k a
 createEmptyUuidMap = Map.empty
 
@@ -104,17 +107,21 @@ reverseLookupDateOrHashUuid val uidMap =
 
 
 -- Extract strings from s-p-o triples into list
-{-stringTuplesFromTriples :: [HqdmLib.HqdmTriple] -> [(String, String)] -> [(String, String)]
+stringTuplesFromTriples :: [HqdmLib.HqdmRDFTriple] -> Map.Map UUID String -> Map.Map UUID String
 stringTuplesFromTriples [] tupls = tupls
 stringTuplesFromTriples (tpl:tpls) tupls
-        | HqdmLib.nodeIdentityTest (HqdmLib.object tpl) = stringTuplesFromTriples tpls tupls
-        | isJust unixTimeInt = stringTuplesFromTriples tpls (tupls ++
-                [( TimeUtils.uuidFromUTCTime ( posixSecondsToUTCTime $ fromIntegral (fromJust unixTimeInt) ), HqdmLib.object tpl )])
-        | isNothing maybeTime = stringTuplesFromTriples tpls (tupls ++ [( uuidV5FromString (HqdmLib.object tpl), HqdmLib.object tpl )])
-        | otherwise = stringTuplesFromTriples tpls (tupls ++ [( TimeUtils.uuidFromUTCTime ( fromJust maybeTime ), HqdmLib.object tpl )])
-    where
-        maybeTime = iso8601ParseM (HqdmLib.object tpl) :: Maybe UTCTime
-        unixTimeInt = readMaybe (HqdmLib.object tpl)-}
+    | HqdmLib.nodeIdentityTest domainObj = stringTuplesFromTriples tpls tupls
+    | isJust unixTimeInt                 = stringTuplesFromTriples tpls (Map.insert uuidFromUnix domainObj tupls)
+    | isNothing maybeTime                = stringTuplesFromTriples tpls (Map.insert uuidFromStr domainObj tupls)
+    | otherwise                          = stringTuplesFromTriples tpls (Map.insert uuidFromTime domainObj tupls)
+  where
+    domainObj    = HqdmLib.obj tpl
+    maybeTime    = iso8601ParseM domainObj :: Maybe UTCTime
+    unixTimeInt  = readMaybe domainObj :: Maybe Int
+    
+    uuidFromUnix = TimeUtils.uuidFromUTCTime (posixSecondsToUTCTime $ fromIntegral (fromJust unixTimeInt))
+    uuidFromStr  = uuidV5FromString domainObj
+    uuidFromTime = TimeUtils.uuidFromUTCTime (fromJust maybeTime)
 
 listRemoveDuplicates :: (Eq a) => [(a,a)] -> [(a,a)]
 listRemoveDuplicates [] = []
@@ -123,14 +130,14 @@ listRemoveDuplicates (x:xs) = nub (if (fst x,snd x) `elem` xs then
         listRemoveDuplicates xs else [x] ++ listRemoveDuplicates xs)
 
 -- Replace strings in joinModel from Map
-{-joinStringsFromMap :: [HqdmLib.HqdmTriple] -> Map.Map UUID String -> [HqdmLib.HqdmTriple]
+joinStringsFromMap :: [HqdmLib.HqdmRDFTriple] -> Map.Map UUID String -> [HqdmLib.HqdmRDFTriple]
 joinStringsFromMap [] _ = []
 joinStringsFromMap (tpl:tpls) strMap
         | isUuid = tpl : joinStringsFromMap tpls strMap
-        | otherwise = HqdmLib.HqdmTriple (HqdmLib.subject tpl) (HqdmLib.predicate tpl) (head val) : joinStringsFromMap tpls strMap
+        | otherwise = HqdmLib.HqdmRDFTriple (HqdmLib.sub tpl) (HqdmLib.pred tpl) (toString $ head val) : joinStringsFromMap tpls strMap
     where
-        isUuid = HqdmLib.nodeIdentityTest (HqdmLib.object tpl)
-        val = lookupKey (HqdmLib.object tpl) strMap-}
+        isUuid = HqdmLib.nodeIdentityTest (HqdmLib.obj tpl)
+        val = lookupKey (HqdmLib.obj tpl) strMap
 
 -- Obtained from:
 -- https://stackoverflow.com/questions/58263235/find-a-key-by-having-its-value-using-data-map-in-haskell

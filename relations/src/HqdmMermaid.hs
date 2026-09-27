@@ -38,7 +38,7 @@ import HqdmLib
       lookupSupertypeOf,
       lookupSupertypesOf )
 import HqdmRelations
-    ( HqdmBinaryRelationPure,
+    ( HqdmBinaryRelation,
       RelationId,
       universalRelationSet,
       getPureRelationName,
@@ -133,7 +133,7 @@ insertBRsinString str = concatMap (++ " <br> ") (splitOn "_" str)
 insertEntityNodeName :: HqdmLib.Id -> [HqdmLib.HqdmTriple] -> String
 insertEntityNodeName id hqdm = "\t" ++ toString id ++ "[" ++ insertBRsinString ( toString $ fromJust $ HqdmLib.headIfUUIDPresent (HqdmLib.lookupHqdmTypeFromAll hqdm id)) ++ "]" ++ mermaidNodePaddingClassName ++ ";\n"
 
-insertBRNodeName :: HqdmRelations.RelationId -> [HqdmRelations.HqdmBinaryRelationPure] -> String
+insertBRNodeName :: HqdmRelations.RelationId -> [HqdmRelations.HqdmBinaryRelation] -> String
 insertBRNodeName id brels = "\t" ++ (toString id) ++ "[" ++ (toString id) ++ " <BR> " ++ HqdmRelations.getPureRelationName (head $ HqdmRelations.findBrelFromId id brels) ++ "]" ++ mermaidNodePaddingClassName ++ ";\n"
 
 -- | mermaidEntitySupertypeTree
@@ -182,7 +182,7 @@ mermaidEntityEulerTree ids hqdm mmNodes = go ids hqdm mmNodes
 -- (supplied as a [[RelationId]]). This takes only has_supertype statements as [HqdmTriple].
 -- The ouput is a list of mermaid nodes and connections between them.
 -- Scratch: HqdmRelations.getPureRelationId $ head (HqdmRelations.findBrelFromId y brels)
-mermaidSuperRelationPathsToUniversalRelation :: [[RelationId]] -> [HqdmBinaryRelationPure] -> String -> String
+mermaidSuperRelationPathsToUniversalRelation :: [[RelationId]] -> [HqdmBinaryRelation] -> String -> String
 mermaidSuperRelationPathsToUniversalRelation relIds brels mmNodes = go relIds brels mmNodes
   where
     nextLayer = last relIds
@@ -211,7 +211,7 @@ fromUuid = toString
 -- (supplied as a [[RelationId]]). This takes only has_supertype statements as [HqdmTriple].
 -- The ouput is a list of mermaid nodes and connections between them.
 -- Scratch: HqdmRelations.getPureRelationId $ head (HqdmRelations.findBrelFromId y brels)
-{-mermaidSubRelationPathsWithLayerCount :: [[RelationId]] -> [HqdmBinaryRelationPure] -> Int -> String -> String
+{-mermaidSubRelationPathsWithLayerCount :: [[RelationId]] -> [HqdmBinaryRelation] -> Int -> String -> String
 mermaidSubRelationPathsWithLayerCount relIds brels cnt mmNodes = go relIds brels cnt mmNodes
   where
     nextLayer = last relIds

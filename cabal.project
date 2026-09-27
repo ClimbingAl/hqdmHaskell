@@ -3,9 +3,7 @@ packages:
   relations/
   relationInheritance/
   hqdmUtils/
-  inheritance/ 
   entityTypeSpec/
   hqdmCardinalityChecker/
-  hqdmJoin/
   hqdmMapToPure/
   relationPathUp/

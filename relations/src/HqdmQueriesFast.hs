@@ -45,10 +45,10 @@ import Data.UUID ( UUID )
 
 type RelationIntIndex = IntMap.IntMap IntSet.IntSet
 
---buildIndexUp :: [HqdmBinaryRelationPure] -> RelationIndex
+--buildIndexUp :: [HqdmBinaryRelation] -> RelationIndex
 --buildIndexUp rels = Map.fromListWith (++) [ (pureBinaryRelationId r, pureHasSuperBR r) | r <- rels ]
 
-buildIndexDownFastest :: IdMapping -> [HqdmRelations.HqdmBinaryRelationPure] -> RelationIntIndex
+buildIndexDownFastest :: IdMapping -> [HqdmRelations.HqdmBinaryRelation] -> RelationIntIndex
 buildIndexDownFastest mapping rels = IntMap.fromListWith IntSet.union
   [ (superIntId, IntSet.singleton childIntId)
   | r <- rels
@@ -65,7 +65,7 @@ data IdMapping = IdMapping
   , intToUuid :: !(IntMap.IntMap Data.UUID.UUID)
   }
 
-buildIdMapping :: [HqdmRelations.HqdmBinaryRelationPure] -> IdMapping
+buildIdMapping :: [HqdmRelations.HqdmBinaryRelation] -> IdMapping
 buildIdMapping rels = IdMapping toInt toUuidFast
   where
     -- Gather every unique UUID present in both relation IDs and super lists

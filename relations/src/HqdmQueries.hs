@@ -94,33 +94,33 @@ memberOfKind = fromJust $ fromString "6e23c714-9241-4132-aa7b-82391c6a60b7"
 -- Filter the given HqdmAllAsData joined triples by a given set of relations (relSet)
 -- This filtering is done by finding the all the sub-binary relation sets of the given set
 -- and returning only the joined triples that are ordered pairs from those sets.
-filterRelsBy :: HqdmRelations.RelationId -> [HqdmLib.HqdmTriple] -> [HqdmRelations.HqdmBinaryRelationPure] -> [HqdmLib.HqdmTriple]
+filterRelsBy :: HqdmRelations.RelationId -> [HqdmLib.HqdmTriple] -> [HqdmRelations.HqdmBinaryRelation] -> [HqdmLib.HqdmTriple]
 filterRelsBy relSet tpls brels = go tpls
     where
         subBrels = concat $ HqdmRelations.findSubBinaryRelationTreeFast' [[relSet]] brels
 
         go tpls = [values | values <- tpls, HqdmLib.predicate values `elem` subBrels]
 
-filterRelsByPart::[HqdmLib.HqdmTriple] -> [HqdmRelations.HqdmBinaryRelationPure] -> [HqdmLib.HqdmTriple]
+filterRelsByPart::[HqdmLib.HqdmTriple] -> [HqdmRelations.HqdmBinaryRelation] -> [HqdmLib.HqdmTriple]
 filterRelsByPart = filterRelsBy part
 
-filterRelsBySet::[HqdmLib.HqdmTriple] -> [HqdmRelations.HqdmBinaryRelationPure] -> [HqdmLib.HqdmTriple]
+filterRelsBySet::[HqdmLib.HqdmTriple] -> [HqdmRelations.HqdmBinaryRelation] -> [HqdmLib.HqdmTriple]
 filterRelsBySet = filterRelsBy set
 
-filterRelsByBeginning::[HqdmLib.HqdmTriple] -> [HqdmRelations.HqdmBinaryRelationPure] -> [HqdmLib.HqdmTriple]
+filterRelsByBeginning::[HqdmLib.HqdmTriple] -> [HqdmRelations.HqdmBinaryRelation] -> [HqdmLib.HqdmTriple]
 filterRelsByBeginning = filterRelsBy beginning
 
-filterRelsByEnding::[HqdmLib.HqdmTriple] -> [HqdmRelations.HqdmBinaryRelationPure] -> [HqdmLib.HqdmTriple]
+filterRelsByEnding::[HqdmLib.HqdmTriple] -> [HqdmRelations.HqdmBinaryRelation] -> [HqdmLib.HqdmTriple]
 filterRelsByEnding = filterRelsBy ending
 
-filterRelsByAttribute::[HqdmLib.HqdmTriple] -> [HqdmRelations.HqdmBinaryRelationPure] -> [HqdmLib.HqdmTriple]
+filterRelsByAttribute::[HqdmLib.HqdmTriple] -> [HqdmRelations.HqdmBinaryRelation] -> [HqdmLib.HqdmTriple]
 filterRelsByAttribute = filterRelsBy attribute
 
-filterRelsByNameAttribute::[HqdmLib.HqdmTriple] -> [HqdmRelations.HqdmBinaryRelationPure] -> [HqdmLib.HqdmTriple]
+filterRelsByNameAttribute::[HqdmLib.HqdmTriple] -> [HqdmRelations.HqdmBinaryRelation] -> [HqdmLib.HqdmTriple]
 filterRelsByNameAttribute = filterRelsBy nameAttribute
 
 -- filterRelsBy BrelId and RangeId
-filterRelsByBrelAndRangeId :: HqdmRelations.RelationId -> HqdmLib.Id -> [HqdmLib.HqdmTriple] -> [HqdmRelations.HqdmBinaryRelationPure] -> [HqdmLib.HqdmTriple]
+filterRelsByBrelAndRangeId :: HqdmRelations.RelationId -> HqdmLib.Id -> [HqdmLib.HqdmTriple] -> [HqdmRelations.HqdmBinaryRelation] -> [HqdmLib.HqdmTriple]
 filterRelsByBrelAndRangeId relSet rangeId tpls brels = go tpls
     where
         subBrels = concat $ HqdmRelations.findSubBinaryRelationTreeFast' [[relSet]] brels

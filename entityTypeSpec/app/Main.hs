@@ -16,7 +16,7 @@
 module Main (main) where
 
 import HqdmRelations (
-    HqdmBinaryRelationPure,
+    HqdmBinaryRelation,
     printRelation,
     findBrelsFromDomain,
     findBrelFromId,
@@ -67,7 +67,7 @@ main = do
     let inputRelationsFile = head fileList
     let inputEntityTypeFile = fileList!!1
 
-    hqdmRelationSets <- fmap V.toList . decode @HqdmBinaryRelationPure NoHeader <$> BL.readFile inputRelationsFile
+    hqdmRelationSets <- fmap V.toList . decode @HqdmBinaryRelation NoHeader <$> BL.readFile inputRelationsFile
     let relationsInputModel =  fromRight [] hqdmRelationSets
 
     hqdmTriples <- fmap V.toList . decode @HqdmTriple NoHeader <$> BL.readFile inputEntityTypeFile

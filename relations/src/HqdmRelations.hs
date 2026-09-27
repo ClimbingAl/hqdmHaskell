@@ -912,7 +912,7 @@ cardinalityMetAllRels tpls (brel : brels) = relationSetAndIdCheck (cardinalityMe
 
 -- | cardinalityMet
 -- Tests whether the collection of triples for a single Hqdm Node (object) satisfies the cardinality constraints
--- supplied HqdmBinaryRelationPureheadIfStringPresent tpls
+-- supplied HqdmBinaryRelationheadIfStringPresent tpls
 -- Take the following arguments:
 --    tpls   : Triples for an object
 --    brel  : Binary relation set for checking object with
@@ -970,7 +970,7 @@ rangeMetAllRels tpls tplsAll hqdm (brel : brels) = relationSetAndIdCheck (rangeM
 
 -- | rangeMet
 -- Tests whether the collection of triples for a single Hqdm Node (object) satisfies the
--- supplied HqdmBinaryRelationPureheadIfStringPresent tpls
+-- supplied HqdmBinaryRelationheadIfStringPresent tpls
 -- Take the following arguments:
 --    tpls   : Triples for an object
 --    tplsAll: The dataset that contains the objects to be tested

@@ -24,6 +24,7 @@ module HqdmQueriesFast (
     buildIdMapping,
     buildIndexDownFastest,
     findSubBinaryRelationTreeFastest,
+    findSubBinaryRelationTreeUUID,
     fastFilterRelsBy,
     fastFilterRelsByAttribute,
     fastFilterRelsByNameAttribute,

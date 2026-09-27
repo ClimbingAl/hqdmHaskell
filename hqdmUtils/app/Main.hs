@@ -19,23 +19,22 @@ import qualified TimeUtils (
 import qualified StringUtils (
   addNewEntryIfNotInMap,
   createEmptyUuidMap,
-  joinStringsFromMap,
   listRemoveDuplicates,
   stringToDateOrHashUuid,
+  uuidV5FromString,
   stringTuplesFromTriples,
-  uuidV5FromString
+  createEmptyUuidMap,
+  joinStringsFromMap 
  )
 
 import qualified HqdmLib ( 
-  HqdmTriple(..),
-  HqdmTriple(subject, predicate, object),
+  HqdmRDFTriple(..),
   lookupHqdmOne,
   nodeIdentityTest )
 
 import HqdmRelations ( 
-    HqdmBinaryRelation,
-    csvRelationsToPure
-  )
+    HqdmBinaryRelation
+    )
 
 import HqdmQueries (
     filterRelsByAttribute,
@@ -57,25 +56,21 @@ import Data.Csv (HasHeader( NoHeader ), decode)
 import qualified Data.Vector as V
 import Data.Either
 
-joinModelFilename::String
-joinModelFilename = "../hqdmJoin/joinedAllRelsTestStrict.csv"
+hqdmTypesFilenameUnmapped::String
+hqdmTypesFilenameUnmapped = "../HqdmTypes_v5.csv"
 
 temporalAlgebraTestFilename::String 
 temporalAlgebraTestFilename = "./test/temporalAlgebraMapped.csv"
 
 hqdmRelationsInputFilename::String
-hqdmRelationsInputFilename = "../HqdmBinaryRelations_v4.csv"
+hqdmRelationsInputFilename = "../HqdmBinaryRelations_v7.csv"
 
 main :: IO ()
 main = do
   putStrLn "Experimental Time to uuid1 package."
 
   hqdmRelationSets <- fmap V.toList . decode @HqdmBinaryRelation NoHeader <$> BL.readFile hqdmRelationsInputFilename
-  let relationsInputModel =  csvRelationsToPure $ fromRight [] hqdmRelationSets
-
-  putStr "\n\nCreate a fixed MAC address to be used in the generated uuid V1s (0xBB 0x32 0x09 0xDE 0x79 0xC0):\n\n"
-  let myHqdmMac = MAC 0xBB 0x32 0x09 0xDE 0x79 0xC0
-  print myHqdmMac
+  let relationsInputModel = fromRight [] hqdmRelationSets
 
   putStr "\n\nCreate a valid ISO8601 dateTime to do round-trip test with: \n\n"
   let dateTime1 = fromJust $ (iso8601ParseM "2021-07-05T14:40:25.4368657Z" :: Maybe UTCTime) -- Only times to 100ns increments are supported.  This is a constraint of uuid Version1
@@ -89,6 +84,11 @@ main = do
   print (TimeUtils.between uuid2 uuid1 uuid3)
 
   {- Removed exports from TimeUtils.  This code block is left for reference only. 
+
+  putStr "\n\nCreate a fixed MAC address to be used in the generated uuid V1s (0xBB 0x32 0x09 0xDE 0x79 0xC0):\n\n"
+  let myHqdmMac = MAC 0xBB 0x32 0x09 0xDE 0x79 0xC0
+  print myHqdmMac
+
   putStr "\n\nCalculate the number of 100ns units singe Gregorian Refore time: \n\n"
   let hnsSinceGregorianReform = TimeUtils.hundredsOfNanosSinceGregorianReform (fromJust dateTime) 
   print hnsSinceGregorianReform
@@ -145,18 +145,16 @@ main = do
   print (Map.toList descentKofSC)
   
 
-  {--- Now test the conversion of a mapped dataset
-  joinModelTriples <- fmap V.toList . decode @HqdmLib.HqdmTriple NoHeader <$> BL.readFile joinModelFilename
+  -- Now test the conversion of a mapped dataset
+  joinModelTriples <- fmap V.toList . decode @HqdmLib.HqdmRDFTriple NoHeader <$> BL.readFile hqdmTypesFilenameUnmapped
   let joinInputModel = fromRight [] joinModelTriples
-  let convertedStrings = StringUtils.listRemoveDuplicates $ StringUtils.stringTuplesFromTriples joinInputModel []
-  -}
-  -- Add it to a Map
-  --let finalMap = Map.fromList convertedStrings
+  let finalMap = StringUtils.stringTuplesFromTriples joinInputModel (StringUtils.createEmptyUuidMap)
+  
 
   -- Now replace the original strings with their uuid keys
-  --let fullyJoinedInputModel = StringUtils.joinStringsFromMap joinInputModel finalMap
-  --putStr "\n\nWrite converted dataset to terminal\n\n"
-  --print fullyJoinedInputModel
+  let joinedInputModel = StringUtils.joinStringsFromMap joinInputModel finalMap
+  putStr "\n\nWrite converted dataset to terminal\n\n"
+  print joinedInputModel
 
   -- Fetch the relations for a single HQDM object
   --let testId = "9ffa0fc1-3365-4f63-801d-63ef72bda8e1" 
@@ -223,4 +221,7 @@ main = do
   print ("18 " ++ show (TimeUtils.temporalOverlapTest testTAObjectK testTAObjectK fullyJoinedTAInputModel relationsInputModel))
   print ("19 " ++ show (TimeUtils.temporalOverlapTest testTAObjectA testTAObjectA fullyJoinedTAInputModel relationsInputModel))
  -}
+
+  putStr "\n\n**DONE**\n\n"
+
   

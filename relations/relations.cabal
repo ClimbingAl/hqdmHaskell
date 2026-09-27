@@ -66,11 +66,13 @@ library
     exposed-modules:  
         HqdmRelations
         HqdmQueries
+        HqdmQueriesFast
         HqdmMermaid
 
     -- Modules included in this library but not exported.
     other-modules: 
         StringUtils
+        TimeUtils
 
     -- LANGUAGE extensions used by modules in this package.
     -- other-extensions:
@@ -110,8 +112,10 @@ executable relations
     other-modules:
         HqdmRelations
         HqdmQueries
+        HqdmQueriesFast
         HqdmMermaid
         StringUtils
+        TimeUtils
 
     -- LANGUAGE extensions used by modules in this package.
     -- other-extensions:

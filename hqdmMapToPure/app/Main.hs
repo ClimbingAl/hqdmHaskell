@@ -28,16 +28,17 @@ module Main (main) where
 
 import HqdmRelations (
     HqdmBinaryRelation,
-    csvRelationsToPure,
     getRelationNameFromRels,
     hqdmSwapAnyRelationNamesForIdsStrict,
     sortOnUuid,
-    subtypesOfFilter
+    subtypesOfFilter,
+    sortOnStringUuid
     )
 
 import HqdmLib (
     HqdmTriple (..),
     HqdmTriple (subject, predicate, object),
+    HqdmRDFTriple (sub, pred, obj, HqdmRDFTriple),
     csvTriplesFromHqdmTriples,
     getSubjects,
     lookupHqdmIdsFromTypePredicates,
@@ -51,12 +52,15 @@ import HqdmIds
 import StringUtils (
     joinStringsFromMap,
     listRemoveDuplicates,
-    stringTuplesFromTriples
+    stringTuplesFromTriples,
+    createEmptyUuidMap
     )
 
-import qualified Data.Map as Map 
+import System.FilePath (takeFileName, splitFileName, replaceFileName)
+import qualified Data.Map as Map
 import qualified Data.ByteString.Lazy as BL
 import Data.Csv (HasHeader( NoHeader ), decode)
+import Data.UUID ( UUID, nil, fromString, toString )
 import qualified Data.Vector as V
 import System.Console.GetOpt
 import System.Directory
@@ -66,12 +70,14 @@ import System.Environment
 import Data.List
 import Data.List.Split
 import Data.Either
+import Data.Maybe
+import qualified Data.IntMap as IntMap
 
-elementOfType::String
-elementOfType = "8130458f-ae96-4ab3-89b9-21f06a2aac78"
+elementOfType::UUID
+elementOfType = fromJust $ fromString "8130458f-ae96-4ab3-89b9-21f06a2aac78"
 
-hasSuperclass::String
-hasSuperclass = "7d11b956-0014-43be-9a3e-f89e2b31ec4f"
+hasSuperclassId::UUID
+hasSuperclassId = fromJust $ fromString "7d11b956-0014-43be-9a3e-f89e2b31ec4f"
 
 main :: IO ()
 main = do
@@ -93,19 +99,22 @@ main = do
 
     putStr "**hqdmMapToPure**\n\nLoading model files and the supplied input file of processed Triples.\n"
 
-    let inputRelationsFile = head fileList
-    let inputEntityTypeFile = fileList!!1
+    let inputRelationsFilePath = head fileList
+    let inputEntityTypeFilePath = fileList!!1
     let inputFile = fileList!!2
     let outputFile = fileList!!3
 
     -- Load HqdmAllAsData
-    hqdmTriples <- fmap V.toList . decode @HqdmTriple NoHeader <$> BL.readFile inputEntityTypeFile
+    hqdmTriples <- fmap V.toList . decode @HqdmTriple NoHeader <$> BL.readFile inputEntityTypeFilePath
     let hqdmInputModel = fromRight [] hqdmTriples
 
-    hqdmRelationSets <- fmap V.toList . decode @HqdmBinaryRelation NoHeader <$> BL.readFile inputRelationsFile
-    let relationsInputModel =  csvRelationsToPure $ fromRight [] hqdmRelationSets
+    hqdmTypeNames <- fmap V.toList . decode @(UUID, String) NoHeader <$> BL.readFile (replaceFileName inputEntityTypeFilePath ("stringMap_" ++ (takeFileName (inputEntityTypeFilePath))))
+    let hqdmStringMap = Map.fromList (fromRight [] hqdmTypeNames)
 
-    triplesToMap <- fmap V.toList . decode @HqdmTriple NoHeader <$> BL.readFile inputFile
+    hqdmRelationSets <- fmap V.toList . decode @HqdmBinaryRelation NoHeader <$> BL.readFile inputRelationsFilePath
+    let relationsInputModel = fromRight [] hqdmRelationSets
+
+    triplesToMap <- fmap V.toList . decode @HqdmRDFTriple NoHeader <$> BL.readFile inputFile
     let hqdmModelToMap = fromRight [] triplesToMap
 
     -- This allows a Master Map to be submitted and added to.  This file is added to (by overwriting it 
@@ -113,68 +122,67 @@ main = do
     inputStringsMap <- openStringMapIfFileExists stringMapFile
 
     putStr "Now strip IRI path parts and map to pure ids.\n"
+
+    let joinInputModel = removeIriPathsFromAll hqdmModelToMap -- Still [HqdmRDFTriple]
+
+    let nodeTypeStatements = [values | values <- joinInputModel, HqdmLib.pred values == "type"]
+    let typeUUIDTuplesOfJoinObjects = map (\x -> (fromJust (fromString $ HqdmLib.sub x), head $ lookupHqdmIdsFromTypePredicates hqdmInputModel (fromJust $ lookupUUID (HqdmLib.obj x) hqdmStringMap))) nodeTypeStatements
     
-    let joinInputModel = removeIriPathsFromAll hqdmModelToMap
-
-    let uniqueJoinNodes = uniqueIds $ getSubjects joinInputModel
-    let nodeTypeStatements = fmap (\ x -> head $ lookupHqdmOne x joinInputModel) uniqueJoinNodes
-    let typeIdsOfJoinObjects = 
-            zip uniqueJoinNodes (fmap (head . lookupHqdmIdsFromTypePredicates hqdmInputModel . object)  nodeTypeStatements)
-
     let subtypes = lookupSubtypes hqdmInputModel
-    let onlySubtypesOfSte = subtypesOfFilter typeIdsOfJoinObjects spatio_temporal_extent subtypes
+    let onlySubtypesOfSte = subtypesOfFilter typeUUIDTuplesOfJoinObjects spatio_temporal_extent subtypes
     let elementOfTypeName = getRelationNameFromRels elementOfType relationsInputModel
-    let elementOfTypeTriples = fmap (\ x -> HqdmTriple (fst x) elementOfTypeName (snd x)) onlySubtypesOfSte
+    let elementOfTypeTriples = fmap (\ x -> HqdmRDFTriple (toString $ fst x) elementOfTypeName (toString $ snd x)) onlySubtypesOfSte
+
+    let onlySubtypesOfClass = subtypesOfFilter typeUUIDTuplesOfJoinObjects hqdmClass subtypes
+    let hasSuperClassName = getRelationNameFromRels hasSuperclassId relationsInputModel
+    let hasSuperclassTriples = fmap (\ x -> HqdmRDFTriple (toString $ fst x) hasSuperClassName (toString $ snd x)) onlySubtypesOfClass
+
+    let stringMapForOutput = Map.union (Map.fromList inputStringsMap) (StringUtils.stringTuplesFromTriples joinInputModel createEmptyUuidMap)
+    let combinedStringMaps = Map.union hqdmStringMap stringMapForOutput
+
+    let joinedResults = sortOnStringUuid (joinInputModel ++ hasSuperclassTriples ++ elementOfTypeTriples)
+    let mappedPredicatestoUuids = StringUtils.joinStringsFromMap joinedResults combinedStringMaps 
     
-    let onlySubtypesOfClass = subtypesOfFilter typeIdsOfJoinObjects hqdmClass subtypes
-    let hasSuperClassName = getRelationNameFromRels hasSuperclass relationsInputModel
-    let hasSuperclassTriples = fmap (\ x -> HqdmTriple (fst x) hasSuperClassName (snd x)) onlySubtypesOfClass
-    
-    let joinedResults = sortOnUuid $ joinInputModel ++ hasSuperclassTriples ++ elementOfTypeTriples
-    
-    let joinedResultsAllIds =  
-            hqdmSwapAnyRelationNamesForIdsStrict joinedResults hqdmInputModel relationsInputModel
+    let joinedResultsAllIds =
+            hqdmSwapAnyRelationNamesForIdsStrict mappedPredicatestoUuids hqdmInputModel relationsInputModel
 
-    let finalMap = (StringUtils.listRemoveDuplicates $ 
-            (inputStringsMap ++ StringUtils.stringTuplesFromTriples joinedResultsAllIds []))
-    let fullyJoinedInputModel = StringUtils.joinStringsFromMap joinedResultsAllIds (Map.fromList finalMap)
+    writeFile outputFile (concat $ csvTriplesFromHqdmTriples joinedResultsAllIds)
+    writeFile stringMapFile (concatMap (\(uuid, val) -> show uuid ++ "," ++ val ++ "\n") (Map.toList stringMapForOutput))
 
-    writeFile outputFile ( concat $ csvTriplesFromHqdmTriples fullyJoinedInputModel )
-    writeFile ( stringMapFile ) ( concatMap (\ x -> (fst x) ++ "," ++ (snd x) ++ "\n") finalMap ) 
-       
-    putStr "\n\nExport to file output file complete.\n\n**DONE**\n\n"
+    putStr "\n\nExport to output files complete.\n\n**DONE**\n\n"
 
-removeIriPathsFromAll :: [HqdmTriple] -> [HqdmTriple]
-removeIriPathsFromAll tpls = 
-    [ HqdmTriple (removeIriPathIfPresent (subject values)) (removeIriPathIfPresent (predicate values)) 
-        (removeIriPathIfPresent (object values)) | values <- tpls ]
+removeIriPathsFromAll :: [HqdmRDFTriple] -> [HqdmRDFTriple]
+removeIriPathsFromAll tpls =
+    [ HqdmRDFTriple (removeIriPathIfPresent (HqdmLib.sub values)) (removeIriPathIfPresent (HqdmLib.pred values))
+        (removeIriPathIfPresent (HqdmLib.obj values)) | values <- tpls ]
 
-removeIriPathIfPresent :: String -> String 
-removeIriPathIfPresent str 
+removeIriPathIfPresent :: String -> String
+removeIriPathIfPresent str
     | elem '#' str && isInfixOf "://" str = last (splitOn "#" str)
     | otherwise = str
 
-constructStringMapFilename :: [String] -> String 
-constructStringMapFilename args 
-    | length args == 4 = "stringMap_" ++ args!!3
+constructStringMapFilename :: [String] -> String
+constructStringMapFilename args
+    | length args == 4 = "stringMap_" ++ takeFileName (args !! 3)
     | otherwise = args!!4
 
-openStringMapIfFileExists :: String -> IO [(String, String)]
+openStringMapIfFileExists :: String -> IO [(UUID, String)]
 openStringMapIfFileExists fileName = do
     x <- doesFileExist fileName
     if not x
-        then error ("String Map file named: " ++ fileName ++ ", was not found. \
-            \Please create an empty instance with that name if you wish to start \
-            \with a clean file.")
+        then return []
         else do loadTupleMap fileName
-        
-loadTupleMap :: String -> IO [(String, String)]
+
+loadTupleMap :: String -> IO [(UUID, String)]
 loadTupleMap fileName =
-    do 
-        inputMap <- fmap V.toList . decode @(String, String) NoHeader <$> BL.readFile fileName 
+    do
+        inputMap <- fmap V.toList . decode @(UUID, String) NoHeader <$> BL.readFile fileName
         let tupleMap = fromRight [] inputMap
         return tupleMap
 
+lookupUUID :: String -> Map.Map UUID String -> Maybe UUID
+lookupUUID targetVal m =
+    fmap fst $ find (\(_, val) -> val == targetVal) (Map.toList m)
 ------------------------------------------------------------------------------------
 -- Argument handling functions
 ------------------------------------------------------------------------------------
@@ -188,9 +196,10 @@ flags =
    [Option []    ["help"] (NoArg Help)
         "The command should have the general form: hqdmMapToPure hqdmRelations.csv \
         \hqdmEntityTypes.csv inputTriples.csv outputTriplesFilename.csv \
-        \[OPTIONAL]masterUuidStringMap.csv\nNote: [OPTIONAL] means that that \
+        \[OPTIONAL]stringMap_outputTriplesFilename.csv\n\nNote: [OPTIONAL] means that that \
         \argument doesn't need to be supplied.  It allows a master [uuid, \
-        \string] map to be added to."
+        \string] map to be added to, as long as it has the prescribed filename form.\n\n\
+        \It is also expected that the stringMap of the hqdmEntityTypes.csv is also present."
    ]
 
 parse :: [String] -> IO ([Flag], [String])

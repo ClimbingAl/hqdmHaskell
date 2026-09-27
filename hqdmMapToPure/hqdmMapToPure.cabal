@@ -92,6 +92,7 @@ executable hqdmMapToPure
         , uuid-types
         , utf8-string
         , containers
+        , filepath
 
     -- Directories containing source files.
     hs-source-dirs:   app, ../hqdm/src, ../relations/src, ../hqdmUtils/src

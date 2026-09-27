@@ -20,16 +20,13 @@ import HqdmRelations (
     RelationId,
     HqdmRelationSet,
     RelationPair,
-    HqdmBinaryRelation,
     HqdmBinaryRelationSet,
-    HqdmBinaryRelationPure,
+    HqdmBinaryRelation,
     RelationCheck (Valid, Invalid),
     relationSetCheck,
     relationSetAndIdCheck,
     universalRelationSet,
     getRelationNameFromRels,
-    hqdmRelationsToPure,
-    csvRelationsToPure,
     getPureDomain,
     getPureRelationId,
     getPureRelationName,
@@ -107,7 +104,6 @@ import HqdmLib (
     lookupSubtypesOf,
     lookupSupertypeOf,
     lookupSupertypesOf,
-    findHqdmTypesInList,
     findHqdmTypeNamesInList,
     findHqdmNamesInList,
     findSupertypeTree,
@@ -169,35 +165,35 @@ import qualified Control.Monad as Map
 
 -- Constants
 hqdmRelationsInputFilename::String
-hqdmRelationsInputFilename = "../HqdmBinaryRelations_v4.csv"
+hqdmRelationsInputFilename = "../HqdmBinaryRelations_v7.csv"
 
 hqdmInputFilename::String
-hqdmInputFilename = "../HqdmTypes_v4Mapped.csv"
+hqdmInputFilename = "../HqdmTypes_v5Mapped.csv"
 
 joinModelFilename::String
 joinModelFilename = "./input/routersWithConnectionsMapped.csv"
 
 elementOfType::HqdmRelations.RelationId
-elementOfType = "8130458f-ae96-4ab3-89b9-21f06a2aac78"
+elementOfType = fromJust $ fromString "8130458f-ae96-4ab3-89b9-21f06a2aac78"
 
 hasSuperclass::HqdmRelations.RelationId
-hasSuperclass = "7d11b956-0014-43be-9a3e-f89e2b31ec4f"
+hasSuperclass = fromJust $ fromString "7d11b956-0014-43be-9a3e-f89e2b31ec4f"
 
 partOf::HqdmRelations.RelationId
-partOf = "be900942-8601-4254-9a12-d87a5bfa05d3"
+partOf = fromJust $ fromString "be900942-8601-4254-9a12-d87a5bfa05d3"
 
 successor::HqdmRelations.RelationId 
-successor = "53bac663-f7b4-4357-99ff-d5b41fa7e1bc"
+successor = fromJust $ fromString "53bac663-f7b4-4357-99ff-d5b41fa7e1bc"
 
 predecessor::HqdmRelations.RelationId 
-predecessor = "a39eb5aa-dacc-4477-9562-bf329f5df34d"
+predecessor = fromJust $ fromString "a39eb5aa-dacc-4477-9562-bf329f5df34d"
 
 main :: IO ()
 main = do
     --putStrLn ("Start HqdmJoin, load relations from " ++ hqdmRelationsInputFilename)
 
     hqdmRelationSets <- fmap V.toList . decode @HqdmRelations.HqdmBinaryRelation NoHeader <$> BL.readFile hqdmRelationsInputFilename
-    let relationsInputModel =  HqdmRelations.csvRelationsToPure $ fromRight [] hqdmRelationSets
+    let relationsInputModel = fromRight [] hqdmRelationSets
     -- print relationsInputModel
 
     --putStr ("\nLoaded Relation SET Data.  Now load HQDM types and their relations all as data from " ++ hqdmInputFilename)

@@ -16,56 +16,53 @@
 module StringUtils (
     addNewEntryIfNotInMap,
     createEmptyUuidMap,
-    joinStringsFromMap,
     listRemoveDuplicates,
     lookupValueFromDateOrHashUuid,
     reverseLookupDateOrHashUuid,
     stringToDateOrHashUuid,
     stringToDateOrHashUuid',
-    stringTuplesFromTriples,
-    uuidV5FromString
+    uuidV5FromString,
+    uuidV5StringTest,
+    joinStringsFromMap,
+    stringTuplesFromTriples
     ) where
 
 import Data.List (nub, find)
 import Data.Maybe
 import qualified Data.Map as Map -- Perhaps use StringMap in the future
-import Data.UUID.Types ( toString )
 import Data.UUID.V5 ( generateNamed )
-import Data.UUID.V4 ( nextRandom )
 import Codec.Binary.UTF8.String ( encode )
-import Data.UUID ( nil )
+import Data.UUID ( UUID, nil, fromString, toString )
+import Data.UUID.Util (version)
 import TimeUtils ( uuidFromUTCTime )
 import Text.Read ( readMaybe )
 import Data.Time.LocalTime (ZonedTime, zonedTimeToUTC) 
 import Data.Time.Format.ISO8601 ( iso8601ParseM )
 import Data.Time.Clock
-import Data.Time.Clock.POSIX ( posixSecondsToUTCTime, POSIXTime )
-import qualified  HqdmLib (
-    HqdmTriple(..),
-    HqdmTriple(subject, predicate, object),
-    nodeIdentityTest )
+import Data.Time.Clock.POSIX ( posixSecondsToUTCTime )
+import qualified  HqdmLib ( nodeIdentityTest, HqdmRDFTriple(..) )
 
 --unsafeFromString :: String -> UUID
 --unsafeFromString = fromJust . fromString
 
 -- Add acknowledgements to the source for these functions
 
-uuidV5FromString :: String -> String
-uuidV5FromString str = toString $ generateNamed namespaceUuid (encode str)
+uuidV5FromString :: String -> UUID
+uuidV5FromString str = generateNamed namespaceUuid (encode str)
 
 -- HQDM Haskell
 namespaceUuid = generateNamed nil (encode "https://github.com/ClimbingAl/hqdmHaskell#")
 
 -- Tuple from uuidV1 and uuidV5 and original Strings into a Map
-addNewEntryIfNotInMap :: Map.Map String String -> (String, String) -> Map.Map String String
+addNewEntryIfNotInMap :: Map.Map UUID String -> (UUID, String) -> Map.Map UUID String
 addNewEntryIfNotInMap m t = if Map.member (fst t) m then m else uncurry Map.insert t m
 
--- Create two new Maps to hold uuidV1 and uuidV5 lookups
+-- Create Map to hold uuidV1 and uuidV5 lookups
 createEmptyUuidMap :: Map.Map k a
 createEmptyUuidMap = Map.empty
 
 -- If ISO 8601 dateTime string then process as uuidV1, or if an Int treat as a POSIX time, else uuidV5
-stringToDateOrHashUuid :: String -> (Map.Map String String, Map.Map String String) -> (Map.Map String String, Map.Map String String)
+stringToDateOrHashUuid :: String -> (Map.Map UUID String, Map.Map UUID String) -> (Map.Map UUID String, Map.Map UUID String)
 stringToDateOrHashUuid str uidMaps = go str uidMaps
     where
         -- Parse to ZonedTime first, which supports both 'Z' and '+01:00' offsets safely
@@ -81,7 +78,7 @@ stringToDateOrHashUuid str uidMaps = go str uidMaps
          | isNothing dateTime = ( fst uidMaps, addNewEntryIfNotInMap (snd uidMaps) ( uuidV5FromString str, str ))
          | otherwise = ( addNewEntryIfNotInMap (fst uidMaps) ( TimeUtils.uuidFromUTCTime ( fromJust dateTime ), str ), snd uidMaps )
 
-stringToDateOrHashUuid' :: String -> Map.Map String String -> Map.Map String String
+stringToDateOrHashUuid' :: String -> Map.Map UUID String -> Map.Map UUID String
 stringToDateOrHashUuid' str uidMap = go str uidMap
     where
         -- Parse to ZonedTime first, which supports both 'Z' and '+01:00' offsets safely
@@ -96,31 +93,35 @@ stringToDateOrHashUuid' str uidMap = go str uidMap
          | isNothing dateTime = addNewEntryIfNotInMap uidMap (uuidV5FromString str, str )
          | otherwise = addNewEntryIfNotInMap uidMap ( TimeUtils.uuidFromUTCTime ( fromJust dateTime ), str )
 
-lookupValueFromDateOrHashUuid :: String -> Map.Map String String -> String
+lookupValueFromDateOrHashUuid :: UUID -> Map.Map UUID String -> String
 lookupValueFromDateOrHashUuid key uidMap =
     case Map.lookup key uidMap of
         Just val -> fromMaybe "" (Just val)
         Nothing  -> ""
 
-reverseLookupDateOrHashUuid :: String -> Map.Map String String -> String
+reverseLookupDateOrHashUuid :: String -> Map.Map UUID String -> UUID
 reverseLookupDateOrHashUuid val uidMap =
-    fromMaybe "" (findKey val uidMap)
+    fromMaybe nil (findKey val uidMap)
   where
     findKey target m = fst <$> find (\(_, v) -> v == target) (Map.toList m)
 
 
 -- Extract strings from s-p-o triples into list
-stringTuplesFromTriples :: [HqdmLib.HqdmTriple] -> [(String, String)] -> [(String, String)]
+stringTuplesFromTriples :: [HqdmLib.HqdmRDFTriple] -> Map.Map UUID String -> Map.Map UUID String
 stringTuplesFromTriples [] tupls = tupls
 stringTuplesFromTriples (tpl:tpls) tupls
-        | HqdmLib.nodeIdentityTest (HqdmLib.object tpl) = stringTuplesFromTriples tpls tupls
-        | isJust unixTimeInt = stringTuplesFromTriples tpls (tupls ++
-                [( TimeUtils.uuidFromUTCTime ( posixSecondsToUTCTime $ fromIntegral (fromJust unixTimeInt) ), HqdmLib.object tpl )])
-        | isNothing maybeTime = stringTuplesFromTriples tpls (tupls ++ [( uuidV5FromString (HqdmLib.object tpl), HqdmLib.object tpl )])
-        | otherwise = stringTuplesFromTriples tpls (tupls ++ [( TimeUtils.uuidFromUTCTime ( fromJust maybeTime ), HqdmLib.object tpl )])
-    where
-        maybeTime = iso8601ParseM (HqdmLib.object tpl) :: Maybe UTCTime
-        unixTimeInt = readMaybe (HqdmLib.object tpl)
+    | HqdmLib.nodeIdentityTest domainObj = stringTuplesFromTriples tpls tupls
+    | isJust unixTimeInt                 = stringTuplesFromTriples tpls (Map.insert uuidFromUnix domainObj tupls)
+    | isNothing maybeTime                = stringTuplesFromTriples tpls (Map.insert uuidFromStr domainObj tupls)
+    | otherwise                          = stringTuplesFromTriples tpls (Map.insert uuidFromTime domainObj tupls)
+  where
+    domainObj    = HqdmLib.obj tpl
+    maybeTime    = iso8601ParseM domainObj :: Maybe UTCTime
+    unixTimeInt  = readMaybe domainObj :: Maybe Int
+    
+    uuidFromUnix = TimeUtils.uuidFromUTCTime (posixSecondsToUTCTime $ fromIntegral (fromJust unixTimeInt))
+    uuidFromStr  = uuidV5FromString domainObj
+    uuidFromTime = TimeUtils.uuidFromUTCTime (fromJust maybeTime)
 
 listRemoveDuplicates :: (Eq a) => [(a,a)] -> [(a,a)]
 listRemoveDuplicates [] = []
@@ -129,14 +130,14 @@ listRemoveDuplicates (x:xs) = nub (if (fst x,snd x) `elem` xs then
         listRemoveDuplicates xs else [x] ++ listRemoveDuplicates xs)
 
 -- Replace strings in joinModel from Map
-joinStringsFromMap :: [HqdmLib.HqdmTriple] -> Map.Map String String -> [HqdmLib.HqdmTriple]
+joinStringsFromMap :: [HqdmLib.HqdmRDFTriple] -> Map.Map UUID String -> [HqdmLib.HqdmRDFTriple]
 joinStringsFromMap [] _ = []
 joinStringsFromMap (tpl:tpls) strMap
         | isUuid = tpl : joinStringsFromMap tpls strMap
-        | otherwise = HqdmLib.HqdmTriple (HqdmLib.subject tpl) (HqdmLib.predicate tpl) (head val) : joinStringsFromMap tpls strMap
+        | otherwise = HqdmLib.HqdmRDFTriple (HqdmLib.sub tpl) (HqdmLib.pred tpl) (toString $ head val) : joinStringsFromMap tpls strMap
     where
-        isUuid = HqdmLib.nodeIdentityTest (HqdmLib.object tpl)
-        val = lookupKey (HqdmLib.object tpl) strMap
+        isUuid = HqdmLib.nodeIdentityTest (HqdmLib.obj tpl)
+        val = lookupKey (HqdmLib.obj tpl) strMap
 
 -- Obtained from:
 -- https://stackoverflow.com/questions/58263235/find-a-key-by-having-its-value-using-data-map-in-haskell
@@ -146,3 +147,12 @@ lookupKey val = Map.foldrWithKey go [] where
     if value == val
     then key:found
     else found
+
+uuidV5StringTest :: String -> Bool
+uuidV5StringTest "" = False
+uuidV5StringTest str = go
+    where
+        uuid = Data.UUID.fromString str
+        go
+            | isNothing uuid = False
+            | otherwise = Data.UUID.Util.version (fromJust uuid) == 5

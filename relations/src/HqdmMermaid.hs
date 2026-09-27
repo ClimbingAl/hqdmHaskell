@@ -21,7 +21,7 @@ module HqdmMermaid (
   insertEntityNodeName,
   insertBRsinString,
   insertBRNodeName,
-  mermaidSubRelationPathsWithLayerCount,
+  --mermaidSubRelationPathsWithLayerCount,
   mermaidEulerCentralClassDef,
   mermaidEntityEulerTree,
   mermaidAddEulerTitle,
@@ -31,14 +31,14 @@ module HqdmMermaid (
 import HqdmLib
     ( Id,
       HqdmTriple,
+      headIfUUIDPresent,
       uniqueIds,
-      headIfStringPresent,
       deleteItemsFromList,
       lookupHqdmTypeFromAll,
       lookupSupertypeOf,
       lookupSupertypesOf )
 import HqdmRelations
-    ( HqdmBinaryRelationPure,
+    ( HqdmBinaryRelation,
       RelationId,
       universalRelationSet,
       getPureRelationName,
@@ -49,6 +49,8 @@ import HqdmRelations
       lookupSubBRelsOf )
 import Data.List.Split ( splitOn )
 import HqdmIds (thing)
+import Data.UUID (UUID, toString)
+import Data.Maybe (fromJust)
 
 mermaidMkdnStart :: String
 mermaidMkdnStart = "``` mermaid\n"
@@ -129,10 +131,10 @@ insertBRsinString :: String -> String
 insertBRsinString str = concatMap (++ " <br> ") (splitOn "_" str)
 
 insertEntityNodeName :: HqdmLib.Id -> [HqdmLib.HqdmTriple] -> String
-insertEntityNodeName id hqdm = "\t" ++ id ++ "[" ++ insertBRsinString ( HqdmLib.headIfStringPresent (HqdmLib.lookupHqdmTypeFromAll hqdm id)) ++ "]" ++ mermaidNodePaddingClassName ++ ";\n"
+insertEntityNodeName id hqdm = "\t" ++ toString id ++ "[" ++ insertBRsinString ( toString $ fromJust $ HqdmLib.headIfUUIDPresent (HqdmLib.lookupHqdmTypeFromAll hqdm id)) ++ "]" ++ mermaidNodePaddingClassName ++ ";\n"
 
-insertBRNodeName :: HqdmRelations.RelationId -> [HqdmRelations.HqdmBinaryRelationPure] -> String
-insertBRNodeName id brels = "\t" ++ id ++ "[" ++ id ++ " <BR> " ++ HqdmRelations.getPureRelationName (head $ HqdmRelations.findBrelFromId id brels) ++ "]" ++ mermaidNodePaddingClassName ++ ";\n"
+insertBRNodeName :: HqdmRelations.RelationId -> [HqdmRelations.HqdmBinaryRelation] -> String
+insertBRNodeName id brels = "\t" ++ (toString id) ++ "[" ++ (toString id) ++ " <BR> " ++ HqdmRelations.getPureRelationName (head $ HqdmRelations.findBrelFromId id brels) ++ "]" ++ mermaidNodePaddingClassName ++ ";\n"
 
 -- | mermaidEntitySupertypeTree
 -- From all the triples given by lookupSupertypes find all the supertypes of a given node Id
@@ -146,8 +148,8 @@ mermaidEntitySupertypeTree ids hqdm mmNodes= go ids hqdm mmNodes
     newLayer = [HqdmLib.deleteItemsFromList possibleNewLayer (take 1 nextLayer)]
     nextMmNodes = concat $ concatMap (\ x ->
         fmap (\ y ->
-            "\t" ++ y ++ "[" ++ insertBRsinString ( HqdmLib.headIfStringPresent (HqdmLib.lookupHqdmTypeFromAll hqdm y)) ++ "]" ++ mermaidNodePaddingClassName ++ ";\n"
-                ++ "\t" ++ y ++ "-->|supertype_of|" ++ x ++ ";\n"
+            "\t" ++ (toString y) ++ "[" ++ insertBRsinString ( toString $ fromJust $ HqdmLib.headIfUUIDPresent (HqdmLib.lookupHqdmTypeFromAll hqdm y)) ++ "]" ++ mermaidNodePaddingClassName ++ ";\n"
+                ++ "\t" ++ (toString y) ++ "-->|supertype_of|" ++ (toString x) ++ ";\n"
             ) (HqdmLib.lookupSupertypeOf x hqdm)) nextLayer
 
     go ids hqdm mmNodes
@@ -166,8 +168,8 @@ mermaidEntityEulerTree ids hqdm mmNodes = go ids hqdm mmNodes
     nextLayer = last ids
     possibleNewLayer = HqdmLib.uniqueIds $ concat (HqdmLib.lookupSupertypesOf nextLayer hqdm)
     newLayer = [HqdmLib.deleteItemsFromList possibleNewLayer (take 1 nextLayer)]
-    nextMmNodes = concatMap (\ x -> HqdmLib.headIfStringPresent (HqdmLib.lookupHqdmTypeFromAll hqdm x) ++ " ") (concat newLayer)
-    mmLayer =  "subgraph " ++ concat (concat newLayer) ++ "[\"" ++ nextMmNodes ++ "\"];\n" ++ mmNodes ++ "\tend\n"
+    nextMmNodes = concatMap (\ x -> toString (fromJust $ HqdmLib.headIfUUIDPresent (HqdmLib.lookupHqdmTypeFromAll hqdm x)) ++ " ") (concat newLayer)
+    mmLayer =  "subgraph " ++ concatMap toString (concat newLayer) ++ "[\"" ++ nextMmNodes ++ "\"];\n" ++ mmNodes ++ "\tend\n"
 
     go ids hqdm mmNodes
       | null newLayer = mmNodes
@@ -180,16 +182,18 @@ mermaidEntityEulerTree ids hqdm mmNodes = go ids hqdm mmNodes
 -- (supplied as a [[RelationId]]). This takes only has_supertype statements as [HqdmTriple].
 -- The ouput is a list of mermaid nodes and connections between them.
 -- Scratch: HqdmRelations.getPureRelationId $ head (HqdmRelations.findBrelFromId y brels)
-mermaidSuperRelationPathsToUniversalRelation :: [[RelationId]] -> [HqdmBinaryRelationPure] -> String -> String
+mermaidSuperRelationPathsToUniversalRelation :: [[RelationId]] -> [HqdmBinaryRelation] -> String -> String
 mermaidSuperRelationPathsToUniversalRelation relIds brels mmNodes = go relIds brels mmNodes
   where
     nextLayer = last relIds
     superBRs = HqdmRelations.getPureSuperRelations $ HqdmRelations.findBrelsFromIds nextLayer brels
-    newLayer = [ HqdmLib.uniqueIds $ HqdmLib.deleteItemsFromList superBRs nextLayer]
+    newLayer = [HqdmLib.uniqueIds $ HqdmLib.deleteItemsFromList superBRs nextLayer]
     nextMmNodes = concat $ concatMap (\ x ->
         fmap (\ y ->
-            "\t" ++ y ++ "[" ++ y ++ " <BR> " ++ HqdmRelations.getPureRelationName (head $ HqdmRelations.findBrelFromId y brels) ++ "]" ++ mermaidNodePaddingClassName ++ ";\n"
-                ++ "\t" ++ y ++ "-->|superBinaryRel_of|" ++ x ++ ";\n"
+            let xStr = fromUuid x -- Or your custom UUID-to-String function
+                yStr = fromUuid y
+            in "\t" ++ yStr ++ "[" ++ yStr ++ " <BR> " ++ HqdmRelations.getPureRelationName (head $ HqdmRelations.findBrelFromId y brels) ++ "]" ++ mermaidNodePaddingClassName ++ ";\n"
+                ++ "\t" ++ yStr ++ "-->|superBinaryRel_of|" ++ xStr ++ ";\n"
             ) (HqdmRelations.getPureSuperRelation (head $ HqdmRelations.findBrelFromId x brels))) nextLayer
     -- newLayer is formed from a defence against circularity.  Remove elements of newLayer that are in nextLayer.
 
@@ -199,12 +203,15 @@ mermaidSuperRelationPathsToUniversalRelation relIds brels mmNodes = go relIds br
       | sum [length $ filter (== HqdmRelations.universalRelationSet) yl | yl <- newLayer] > 0 = nextMmNodes ++ mmNodes
       | otherwise = mermaidSuperRelationPathsToUniversalRelation (relIds ++ newLayer) brels ( nextMmNodes ++ mmNodes )
 
+fromUuid :: UUID -> String
+fromUuid = toString
+
 -- | mermaidSubRelationPathsWithLayerCount
 -- From all the Binary Relations given find all the BR supertypes of a given RelationId
 -- (supplied as a [[RelationId]]). This takes only has_supertype statements as [HqdmTriple].
 -- The ouput is a list of mermaid nodes and connections between them.
 -- Scratch: HqdmRelations.getPureRelationId $ head (HqdmRelations.findBrelFromId y brels)
-mermaidSubRelationPathsWithLayerCount :: [[RelationId]] -> [HqdmBinaryRelationPure] -> Int -> String -> String
+{-mermaidSubRelationPathsWithLayerCount :: [[RelationId]] -> [HqdmBinaryRelation] -> Int -> String -> String
 mermaidSubRelationPathsWithLayerCount relIds brels cnt mmNodes = go relIds brels cnt mmNodes
   where
     nextLayer = last relIds
@@ -221,7 +228,7 @@ mermaidSubRelationPathsWithLayerCount relIds brels cnt mmNodes = go relIds brels
       | cnt == 0 = mmNodes
       | null newLayer = init mmNodes
       | newLayer == [[]] = mmNodes
-      | otherwise = mermaidSubRelationPathsWithLayerCount (relIds ++ newLayer) brels (subtract 1 cnt) ( nextMmNodes ++ mmNodes )
+      | otherwise = mermaidSubRelationPathsWithLayerCount (relIds ++ newLayer) brels (subtract 1 cnt) ( nextMmNodes ++ mmNodes )-}
 
 {-/*
     * EXAMPLE TYPE HIERARCHY

@@ -4,6 +4,8 @@ module HqdmInspection
     howmanyNodes
 ) where
 
-howmanyNodes :: (String -> Bool) -> [String] -> Int
+import Data.UUID (UUID)
+
+howmanyNodes :: (UUID -> Bool) -> [UUID] -> Int
 howmanyNodes p xs = sum [ 1 | x <- xs, p x ]
 

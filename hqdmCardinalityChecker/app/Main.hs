@@ -18,7 +18,6 @@ module Main (main) where
 import HqdmRelations (
     HqdmBinaryRelation,
     cardinalityTestAllObjects,
-    csvRelationsToPure,
     filterErrorsBy,
     findBrelFromId,
     printableErrorResults,
@@ -34,6 +33,7 @@ import HqdmLib (
 
 import qualified Data.ByteString.Lazy as BL
 import Data.Csv (HasHeader( NoHeader ), decode)
+import Data.UUID (UUID, fromString, toString, nil, toASCIIBytes)
 import qualified Data.Vector as V
 import System.Console.GetOpt
 import System.IO
@@ -41,27 +41,28 @@ import System.Exit
 import System.Environment
 import Data.List
 import Data.Either
+import Data.Maybe (fromJust, fromMaybe)
 
-universalPartBrel::String
-universalPartBrel = "7b3caec7-7e9d-47cd-bb19-19d2872c326f"
+universalPartBrel::UUID
+universalPartBrel = fromJust $ fromString "7b3caec7-7e9d-47cd-bb19-19d2872c326f"
 
-universalSetBrel::String
-universalSetBrel = "2db5490e-01d0-491e-bd64-67ac616f65a0"
+universalSetBrel::UUID
+universalSetBrel = fromJust $ fromString "2db5490e-01d0-491e-bd64-67ac616f65a0"
 
-universalOrderBrel::String
-universalOrderBrel = "cfb37186-d2d6-48de-a418-6197bdf0a7b0"
+universalOrderBrel::UUID
+universalOrderBrel = fromJust $ fromString "cfb37186-d2d6-48de-a418-6197bdf0a7b0"
 
-universalEmergentBrel::String
-universalEmergentBrel = "f533fac8-d228-4c10-8799-a26fe6ea16a4"
+universalEmergentBrel::UUID
+universalEmergentBrel = fromJust $ fromString "f533fac8-d228-4c10-8799-a26fe6ea16a4"
 
-universalReifiedBrel::String
-universalReifiedBrel = "37584690-bff0-493f-80bc-f007af0217fc"
+universalReifiedBrel::UUID
+universalReifiedBrel = fromJust $ fromString "37584690-bff0-493f-80bc-f007af0217fc"
 
-possibleWorldSuperBR::String 
-possibleWorldSuperBR = "ac3fd9bd-a64d-4e87-8da6-1ce76451fde5"
+possibleWorldSuperBR::UUID 
+possibleWorldSuperBR = fromJust $ fromString "ac3fd9bd-a64d-4e87-8da6-1ce76451fde5"
 
-possibleWorldBrel::String
-possibleWorldBrel = "d2bd9e45-948f-4570-91c2-b0693cd81363"
+possibleWorldBrel::UUID
+possibleWorldBrel = fromJust $ fromString "d2bd9e45-948f-4570-91c2-b0693cd81363"
 
 main :: IO ()
 main = do
@@ -88,7 +89,7 @@ main = do
     let hqdmInputModel = fromRight [] hqdmTriples
 
     hqdmRelationSets <- fmap V.toList . decode @HqdmBinaryRelation NoHeader <$> BL.readFile inputRelationsFile
-    let relationsInputModel =  csvRelationsToPure $ fromRight [] hqdmRelationSets
+    let relationsInputModel =  fromRight [] hqdmRelationSets
 
     modelData <- fmap V.toList . decode @HqdmTriple NoHeader <$> BL.readFile inputFile
     let pureModelData = fromRight [] modelData

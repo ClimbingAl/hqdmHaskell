@@ -18,7 +18,6 @@ module Main (main) where
 import HqdmRelations (
     HqdmBinaryRelation,
     correctAllCardinalities,
-    csvRelationsToPure,
     getPureRelationId,
     printablePathFromTuplesWithDomainAndRange,
     relIdNameTupleLayers,
@@ -35,14 +34,15 @@ import qualified Data.ByteString.Lazy as BL
 import Data.Csv (HasHeader( NoHeader ), decode)
 import qualified Data.Vector as V
 import Data.Either
-
+import Data.UUID ( UUID, nil, fromString, toString )
+import Data.Maybe
 
 -- Constants
 hqdmRelationsInputFilename::String
-hqdmRelationsInputFilename = "../PureHqdmRelations_v9.csv" -- allHqdmRels or exportedPureBinaryRelationsModded2 or PureHqdmRelations_v0 or ...
+hqdmRelationsInputFilename = "../HqdmBinaryRelations_v7.csv" -- allHqdmRels or exportedPureBinaryRelationsModded2 or PureHqdmRelations_v0 or ...
 
 hqdmInputFilename::String
-hqdmInputFilename = "../HqdmTypes_v4.csv"  -- hqdmAllAsDataFormal1_NoExtensions or hqdmAllAsDataFormal1 or hqdmAllAsDataFormal4 or ...
+hqdmInputFilename = "../HqdmTypes_v5Mapped.csv"  -- hqdmAllAsDataFormal1_NoExtensions or hqdmAllAsDataFormal1 or hqdmAllAsDataFormal4 or ...
 
 maybePrint :: Show a => Maybe a -> IO ()
 maybePrint (Just x) = print x
@@ -52,7 +52,7 @@ main :: IO ()
 main = do
 
     hqdmRelationSets <- fmap V.toList . decode @HqdmBinaryRelation NoHeader <$> BL.readFile hqdmRelationsInputFilename
-    let relationsInputModel =  csvRelationsToPure $ fromRight [] hqdmRelationSets
+    let relationsInputModel =  fromRight [] hqdmRelationSets
 
     -- Load HqdmAllAsData
     hqdmTriples <- fmap V.toList . decode @HqdmTriple NoHeader <$> BL.readFile hqdmInputFilename
@@ -60,7 +60,7 @@ main = do
 
     -- Query the superRelationPath to the Universal Relation Set (Test will be False if this doesn't always resolve in a path to the Universal Relation Set)
     let superBRPaths = fmap (\ x -> superRelationPathsToUniversalRelation [[getPureRelationId x]] relationsInputModel ) relationsInputModel
-    let testForPathTerminationAtUniversal = fmap (elem "85e78ac0-ec72-478f-9aac-cacb520290a0" . last) superBRPaths
+    let testForPathTerminationAtUniversal = fmap (elem (fromJust $ fromString "85e78ac0-ec72-478f-9aac-cacb520290a0") . last) superBRPaths
     putStrLn ("\n\nDo all SuperBR paths terminate at the Universal BRel Set?  " ++ show (allTrue testForPathTerminationAtUniversal))
 
     -- Correct inherited cardinalities

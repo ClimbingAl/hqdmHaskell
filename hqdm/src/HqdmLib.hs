@@ -32,6 +32,7 @@ module HqdmLib
     getPredicates,
     uniqueIds,
     uniqueTriples,
+    uniqueTriplesOrd,
     uuidListSort,
     lookupHqdmOne,
     lookupHqdmName,
@@ -75,13 +76,14 @@ import GHC.Generics (Generic)
 import HqdmIds (thing)
 import Data.UUID (UUID, fromString, toString, nil, toASCIIBytes)
 import Data.Maybe (fromJust, fromMaybe)
+import Data.Containers.ListUtils (nubOrd)
 
 data HqdmTriple = HqdmTriple
   { subject :: !Id,   -- domainElement
     predicate :: !Id, -- binaryRelation
     object :: !Id     -- rangeElement
   }
-  deriving (Show, Eq, Generic)
+  deriving (Show, Eq, Ord, Generic)
 
 instance FromRecord HqdmTriple
 instance ToRecord HqdmTriple
@@ -159,6 +161,9 @@ uniqueIds xs = [x | (x, y) <- zip xs [0 ..], x `notElem` take y xs]
 
 uniqueTriples :: [HqdmTriple] -> [HqdmTriple]
 uniqueTriples xs = [x | (x, y) <- zip xs [0 ..], x `notElem` take y xs]
+
+uniqueTriplesOrd :: [HqdmTriple] -> [HqdmTriple]
+uniqueTriplesOrd = nubOrd
 
 -----------------------------------------------------------------------------------
 -- Utils to move to another Lib
@@ -240,7 +245,7 @@ lookupHqdmType :: [HqdmTriple] -> Maybe UUID
 lookupHqdmType obj = headIfUUIDPresent ([object values | values <- obj, hqdmTypeId == predicate values])
 
 -- | lookupHqdmName
--- From the triples with a given node Id (subject), from lookupHqdmOne, find the object with the predicate type.
+-- From the triples with a given node Id (subject), from lookupHqdmOne, find the object with the predicate dataEntityName.
 lookupHqdmName :: [HqdmTriple] -> Maybe UUID
 lookupHqdmName obj = headIfUUIDPresent $ [object values | values <- obj, hqdmDataEntityName == predicate values]
 
@@ -277,7 +282,7 @@ lookupSubtypes list =
 -- From all the triples given by lookupSubtypes find the subtypes of a given node Id.
 -- This takes only has_supertype statements as [HqdmTriple]
 lookupSubtypeOf :: Id -> [HqdmHasSupertype] -> [Id]
-lookupSubtypeOf x list = [subject values | values <- list, x == object values]  -- PERHAPS ADD PREDICATE CHECK IN CASE HqdmHasSupertype LIST CONTAINS OTHER BRELS
+lookupSubtypeOf x list = [subject values | values <- list, x == object values && ((hqdmHasSupertypeId == predicate values) || (hqdmHasSuperclassId == predicate values))]
 
 -- | lookupSubtypesOf
 -- Same as lookupSubtypeOf but takes a list of Ids and finds a list of subtypes for each.
